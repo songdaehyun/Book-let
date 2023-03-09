@@ -92,3 +92,118 @@ open_local = Image.open("./test.jpg")   # open_local을 실행하면 이미지�
 ### 3. 클래스(class) 정의
 
 - data 폴더의 predefined_classes에서 분류 기준을 임의로 설정할 수 있다.
+
+# 3. 이미지 분류하기
+
+- 오픈소스 모델(YOLOv5)을 사용한다.
+
+# 환경설정
+
+- 이미지 원본, 이미지 라벨링 데이터(YOLO 등으로 만든 텍스트 파일), 분류 속성(종류) 정보가 필요하다.
+
+## pyyaml
+
+- yaml은 python처럼 작성하는 텍스트 파일이다.
+- yaml을 이용하면 이미지 원본 주소, 라벨링 데이터 주소, 분류 속성 등을 저장한 뒤 python에서 불러올 수 있다.
+
+1. pyyaml 설치
+
+```
+pip install pyyaml
+```
+
+2. .yaml 파일 읽기/쓰기
+
+```py
+import yaml
+
+# with open(파일경로) as f
+with open('C:/Users/SSAFY/LabeledSample/data.yaml') as f:
+    # yaml.load(파일경로, Loader=yaml.FullLoader)
+    bookcovers = yaml.load(f, Loader=yaml.FullLoader)
+```
+
+## ultralytics yolov
+
+- YOLO로 만든 레이블을 이용한 분류 모델을 만드려면 ultralytics yolov를 사용해야 한다.
+  - 배포 버전은 5, 6, 7, 8(최신) 이 있다.
+
+### 설치 순서
+
+1. ultralytics 설치
+
+```
+pip install ultralytics
+```
+
+2. yolov5 github(https://github.com/ultralytics/yolov5) 저장소 클론
+
+3. 복제한 저장소의 requirements.txt 설치
+
+```
+pip install -r requirements.txt
+```
+
+### 데이터 디렉토리 설정
+
+- 메인 디렉토리를 기준으로 이미지 디렉토리와 레이블 디렉토리가 같은 레벨에 위치해야 한다.
+- 이미지와 레이블, 훈련용과 테스트용(검증용) 데어터는 이진 트리 형식으로 배치되어야 한다.
+
+```
+Data
+ㄴimages
+|   |- train
+|   ㄴ val
+ㄴlabels
+    |- train
+    ㄴ val
+```
+
+## 모델 훈련
+
+### 파라미터 입력
+
+> - 이하 코드들은 clone한 yolo5 디렉토리에서 실행한다.
+
+1. 이미지 크기 지정
+
+- 이미지의 크기를 재조정(resize)한다. 640의 배수 값으로 입력하면 된다.
+- 이미지가 클수록 정확도가 올라가지만 연산 속도가 감소한다(시간이 오래 걸린다).
+
+2. batch 크기 지정
+
+- batch(분리된 데이터 셋)의 표본 데이터 크기를 설정한다.
+- 데이터를 여러 iteratinon 동안 나누어 줄 때 한 iteration에 주는 데이터의 크기가 batch의 크기이다.
+
+3. epoch 지정
+
+- 학습 반복 횟수를 설정한다.
+- 너무 적으면 정확도가 떨어지고, 너무 많으면 과적합(overfitting) 현상이 발생할 수 있다.
+
+4. yaml 파일 경로 지정
+
+- 데이터 원본 디렉토리에 작성한 .yaml 파일의 경로를 입력한다.
+
+5. pretained weights 설정
+
+- YOLO에서 제공하는 모델 중 어떤 모델을 사용할지 결정한다.
+- 가벼운 모델부터 고성능 모델까지 다양한 바리에이션이 있다.
+  - yolov5n, yolov5x, yolov5n6, yolov5l6 등등...
+- 모델 .pt 파일이 없는 경우 다운로드 작업이 추가로 진행된다.
+
+6. 학습 완료 파일 및 성능 기록 저장 위치
+
+- 학습 후 weight 파일과 모델 성능 평가 데이터 저장 위치를 설정한다.
+- --project는 상위 폴더, --name은 파일을 저장할 하위 폴더이다.
+- --name을 설정하지 않으면 exp라는 이름의 폴더가 생성된다.
+- 파일 위치를 설정할 때 마지막에 --exist-ok를 적어주지 않으면 코드를 실행할 때마다 새로운 파일이 생성된다.
+
+  - --exist-ok를 설정하면 동일한 이름을 가진 최신 파일이 기존 파일을 덮어쓴다.
+
+- 파일은 최고 성능(best.pt), 마지막 성능(last.pt)가 저장된다.
+
+### 코드 예시
+
+```
+!cd yolo5; python train.py --img 1280 --batch 8 -- epochs 100 -- data C:\Users\SSAFY\LabeledSample\data.yaml --weights yolov5x.pt --project ../ultra_workdir3 --name defects --exist-ok
+```
