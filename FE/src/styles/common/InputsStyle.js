@@ -16,7 +16,7 @@ export const DefaultInput = styled.input`
 		color: var(--gray-500);
 	}
 
-	& focus {
-		border: 1px solid var(--gray-500);
+	:focus {
+		outline: 1px solid var(--gray-500);
 	}
 `;
