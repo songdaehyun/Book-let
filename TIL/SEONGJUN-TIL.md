@@ -533,3 +533,12 @@ m밖*:웅[m{삐떠[융|릉109[ㅁ픔면눈8[이8{윤훈스응6루느ㅇ는혼
 
 # 노션을 통해서 API Docs를 구체화 하였습니다
 - https://www.notion.so/API-7770b14069104c49b07a072babe34a96
+
+# Spring Security
+### Spring Security
+
+- [스프링 시큐리티 샘플 코드(springboot 2.57 & java 11)](https://github.com/codingspecialist/-Springboot-Security-OAuth2.0-V3)
+- [스프링 시큐리티 기본](https://catsbi.oopy.io/c0a4f395-24b2-44e5-8eeb-275d19e2a536)
+- [스프링 시큐리티 변경 점(springboot 2.x → 3.x)](https://nahwasa.com/entry/스프링-부트-20에서-30-스프링-시큐리티-마이그레이션-변경점)
+- [스프링 시큐리티 springboot 3.0 사용법](https://www.notion.so/399535bca5fc47a19080e295d3fa32a3)
+- [스프링 시큐리티 공식문서](https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html)
