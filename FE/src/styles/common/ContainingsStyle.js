@@ -5,8 +5,17 @@ export const Container = styled.div`
 	padding-bottom: ${(props) => props.paddingBottom}px;
 	padding-left: ${(props) => props.paddingLeft}px;
 	padding-right: ${(props) => props.paddingRight}px;
+
+	margin-top: ${(props) => props.marginTop}px;
+	margin-bottom: ${(props) => props.marginBottom}px;
+	margin-left: ${(props) => props.marginLeft}px;
+	margin-right: ${(props) => props.marginRight}px;
 `;
 
 export const ValidWrapper = styled.div`
 	margin-top: 4px;
+`;
+
+export const ValidLabelContainer = styled.div`
+	display: flex;
 `;
