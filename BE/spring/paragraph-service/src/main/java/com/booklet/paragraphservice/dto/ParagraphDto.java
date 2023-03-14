@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class ParagraphDto {
     private String paragraphContent;
     private String paragraphColor;
     private int paragraphPage;
-    private String date;
+    private LocalDateTime date;
     private Long userId;
 //    private Long bookId;
     private String bookIsbn;

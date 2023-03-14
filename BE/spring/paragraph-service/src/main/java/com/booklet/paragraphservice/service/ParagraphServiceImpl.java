@@ -20,9 +20,7 @@ import java.util.ArrayList;
 @Slf4j
 @Transactional(readOnly = true)
 public class ParagraphServiceImpl implements ParagraphService{
-
     private final ParagraphRepository paragraphRepository;
-
 
     @Transactional
     @Override
@@ -43,7 +41,16 @@ public class ParagraphServiceImpl implements ParagraphService{
     }
 
     @Override
-    public ParagraphDto findParagraph(Long paragraphId) {
+    public ParagraphDto findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
+        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        if(paragraph!=null){
+            ParagraphDto paragraphDto = ParagraphDto.builder()
+                    .paragraphContent(paragraph.getParagraphContent())
+                    .paragraphColor(paragraph.getParagraphColor())
+                    .paragraphPage(paragraph.getParagraphPage())
+                    .date(paragraph.getCreatedDate())
+                    .build();
+        }
         return null;
     }
 
