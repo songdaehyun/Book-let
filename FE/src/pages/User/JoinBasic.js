@@ -168,7 +168,7 @@ function JoinBasic() {
 			pwValidTest() &&
 			pwConfirmValidTest()
 		) {
-			navigate("/login");
+			navigate("/join/2");
 		}
 	};
 
