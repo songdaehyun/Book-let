@@ -6,11 +6,18 @@ export const ValidLabel = styled.div`
 	display: flex;
 	align-items: center;
 
-	img {
+	svg {
 		width: 12px;
 		height: 12px;
 
 		margin-right: 4px;
+
+		fill: ${(props) =>
+			props.state === "success"
+				? "var(--primary-600)"
+				: props.state === "fail"
+				? "var(--red)"
+				: "var(--gray-500)"};
 	}
 
 	span {
