@@ -74,7 +74,12 @@ export const CoversContainer = styled.div`
 
 export const CoverWrapper = styled.div`
 	height: fit-content;
+
+	position: relative;
 	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	margin-bottom: 8px;
 
 	filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2));
@@ -84,5 +89,28 @@ export const CoverWrapper = styled.div`
 	> img {
 		filter: ${(props) => (props.isSelected ? "blur(2px)" : "none")};
 		width: 100%;
+	}
+`;
+
+export const CricleCheckWrapper = styled.div`
+	height: fit-content;
+
+	padding: 2px;
+
+	display: flex;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+
+	background-color: white;
+
+	border-radius: 50%;
+	border: 0.5px solid var(--primary-600);
+
+	svg {
+		width: 16px;
+		height: 16px;
+
+		fill: var(--primary-600);
 	}
 `;

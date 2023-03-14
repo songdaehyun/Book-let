@@ -4,7 +4,7 @@ import ActionsNavigationBar from "../../components/common/ActionsNavigationBar";
 
 import { Container } from "../../styles/common/ContainingsStyle";
 import { Text, Span } from "../../styles/common/TextsStyle";
-import { CoversContainer, CoverWrapper } from "../../styles/User/JoinStyle";
+import { CoversContainer, CoverWrapper, CricleCheckWrapper } from "../../styles/User/JoinStyle";
 
 import cover1 from "../../assets/images/dummyCover/cover-img (1).png";
 import cover2 from "../../assets/images/dummyCover/cover-img (2).png";
@@ -17,6 +17,7 @@ import cover8 from "../../assets/images/dummyCover/cover-img (8).png";
 import cover9 from "../../assets/images/dummyCover/cover-img (9).png";
 import cover10 from "../../assets/images/dummyCover/cover-img (10).png";
 import { useNavigate } from "react-router-dom";
+import CricleCheck from "../../components/common/CricleCheck";
 
 function JoinCover(props) {
 	// 더미 데이터
@@ -139,6 +140,11 @@ function JoinCover(props) {
 								isSelected={selectedCover.includes(cover.id) ? true : false}
 							>
 								<img src={cover.img} />
+								{selectedCover.includes(cover.id) && (
+									<CricleCheckWrapper>
+										<CricleCheck />
+									</CricleCheckWrapper>
+								)}
 							</CoverWrapper>
 						);
 					})}
