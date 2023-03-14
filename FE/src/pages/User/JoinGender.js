@@ -1,0 +1,83 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import ActionsNavigationBar from "../../components/common/ActionsNavigationBar";
+
+import { Text, ValidFailText } from "../../styles/common/TextsStyle";
+import {
+	JoinAgeContainer,
+	GendersContainer,
+	GenderContainer,
+	GenderImgWrapper,
+} from "../../styles/User/JoinStyle";
+
+import maleImg from "../../assets/images/gender_male_img.svg";
+import femaleImg from "../../assets/images/gender_female_img.svg";
+
+function JoinAge(props) {
+	const navagate = useNavigate();
+
+	// 남성: 1, 여성: 2;
+	const [gender, setGender] = useState(0);
+	const [isValidConfirmed, setIsValidConfirmed] = useState(true);
+
+	const handleClickGender = (gender) => {
+		setGender(gender);
+	};
+
+	const preAction = () => {
+		navagate("/join/1");
+	};
+
+	const nextAction = () => {
+		if (gender === 0) {
+			setIsValidConfirmed(false);
+		} else {
+			setIsValidConfirmed(true);
+			navagate("/join/3");
+		}
+	};
+
+	return (
+		<>
+			<ActionsNavigationBar
+				pre="취소"
+				title="회원가입"
+				next="다음"
+				preAction={preAction}
+				nextAction={nextAction}
+			/>
+			<JoinAgeContainer paddingTop="56" paddingLeft="16" paddingRight="16">
+				<Text size="20" weight="bold" marginBottom="16">
+					성별을 선택해주세요
+				</Text>
+				<Text size="14" color="var(--gray-500)" marginBottom="4">
+					도서와 문장 추천에 사용될거예요.
+				</Text>
+				{!isValidConfirmed && <ValidFailText>성별을 선택해주세요</ValidFailText>}
+				<GendersContainer>
+					<GenderContainer>
+						<GenderImgWrapper
+							onClick={() => handleClickGender(1)}
+							isSelected={gender === 1 ? true : false}
+						>
+							<img src={maleImg} alt="male image" />
+						</GenderImgWrapper>
+						<Text marginTop="16">남성</Text>
+					</GenderContainer>
+					<GenderContainer>
+						<GenderImgWrapper
+							onClick={() => handleClickGender(2)}
+							isSelected={gender === 2 ? true : false}
+						>
+							<img src={femaleImg} alt="female image" />
+						</GenderImgWrapper>
+						<Text marginTop="16">여성</Text>
+					</GenderContainer>
+				</GendersContainer>
+			</JoinAgeContainer>
+		</>
+	);
+}
+
+export default JoinAge;
