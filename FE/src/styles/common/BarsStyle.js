@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ActionsNavigationBar = styled.div`
+export const ActionsNavigationBarWrapper = styled.div`
 	width: 100%;
 	height: 56px;
 
