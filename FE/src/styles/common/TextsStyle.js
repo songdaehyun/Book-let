@@ -11,6 +11,17 @@ export const Text = styled.div`
 	color: ${(props) => props.color};
 `;
 
+export const Span = styled.span`
+	margin-top: ${(props) => props.marginTop}px;
+	margin-bottom: ${(props) => props.marginBottom}px;
+	margin-left: ${(props) => props.marginLeft}px;
+	margin-right: ${(props) => props.marginRight}px;
+
+	font-size: ${(props) => props.size}px;
+	font-weight: ${(props) => props.weight};
+	color: ${(props) => props.color};
+`;
+
 export const ValidFailText = styled.span`
 	font-size: 14px;
 	color: var(--red);
