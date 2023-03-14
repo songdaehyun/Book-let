@@ -7,6 +7,7 @@ import JoinBasic from "./pages/User/JoinBasic";
 import JoinGender from "./pages/User/JoinGender";
 import JoinAge from "./pages/User/JoinAge";
 import JoinCover from "./pages/User/JoinCover";
+import JoinTag from "./pages/User/JoinTag";
 
 function AppRouter(props) {
 	return (
@@ -18,6 +19,7 @@ function AppRouter(props) {
 				<Route path="/join/2" element={<JoinGender />} />
 				<Route path="/join/3" element={<JoinAge />} />
 				<Route path="/join/4" element={<JoinCover />} />
+				<Route path="/join/5" element={<JoinTag />} />
 			</Routes>
 		</BrowserRouter>
 	);
