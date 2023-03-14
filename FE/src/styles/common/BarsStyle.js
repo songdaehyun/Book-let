@@ -13,6 +13,8 @@ export const ActionsNavigationBarWrapper = styled.div`
 
 	background-color: white;
 
+	z-index: 50;
+
 	> button {
 		border: none;
 		background: none;
@@ -30,7 +32,9 @@ export const ActionsNavigationBarWrapper = styled.div`
 	> button:last-child {
 		margin-left: auto;
 		float: right;
-		color: var(--primary-600);
+
+		color: ${(props) => (props.nextColor ? props.nextColor : "var(--primary-600)")};
+
 		font-weight: bold;
 	}
 `;
