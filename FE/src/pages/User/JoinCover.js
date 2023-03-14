@@ -18,6 +18,7 @@ import cover9 from "../../assets/images/dummyCover/cover-img (9).png";
 import cover10 from "../../assets/images/dummyCover/cover-img (10).png";
 import { useNavigate } from "react-router-dom";
 import CricleCheck from "../../components/common/CricleCheck";
+import JoinProgressBar from "../../components/user/JoinProgressBar";
 
 function JoinCover(props) {
 	// 더미 데이터
@@ -105,6 +106,10 @@ function JoinCover(props) {
 		}
 	};
 
+	const handleClickPre = () => {
+		navagate("/join/3");
+	};
+
 	useEffect(() => {
 		coverValidTest();
 		console.log(selectedCover);
@@ -116,10 +121,12 @@ function JoinCover(props) {
 				pre="취소"
 				title="회원가입"
 				next={next}
-				nextAction={handleClickNext}
+				handleClickPre={handleClickPre}
+				handleClickNext={handleClickNext}
 				nextColor={nextColor()}
 			/>
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
+				<JoinProgressBar step="4" />
 				<Container marginBottom="24">
 					<Text size="20" weight="bold" marginBottom="16" height="32">
 						좋아하는 책이나

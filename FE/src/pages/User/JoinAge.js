@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ActionsNavigationBar from "../../components/common/ActionsNavigationBar";
+import JoinProgressBar from "../../components/user/JoinProgressBar";
 
 import { Text, ValidFailText } from "../../styles/common/TextsStyle";
 import {
@@ -33,11 +34,11 @@ function JoinAge(props) {
 		}
 	};
 
-	const preAction = () => {
+	const handleClickPre = () => {
 		navigate("/join/2");
 	};
 
-	const nextAction = () => {
+	const handleClickNext = () => {
 		if (ageValidTest()) {
 			navigate("/join/4");
 		}
@@ -49,10 +50,11 @@ function JoinAge(props) {
 				pre="취소"
 				title="회원가입"
 				next="다음"
-				preAction={preAction}
-				nextAction={nextAction}
+				handleClickPre={handleClickPre}
+				handleClickNext={handleClickNext}
 			/>
 			<JoinFullHeightContainer>
+				<JoinProgressBar step="3" />
 				<Text size="20" weight="bold" marginBottom="16">
 					나이를 입력해주세요
 				</Text>

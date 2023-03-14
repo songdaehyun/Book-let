@@ -9,6 +9,7 @@ import { ValidLabel } from "../../styles/common/CommonStyle";
 import { Container, ValidLabelContainer } from "../../styles/common/ContainingsStyle";
 import { Text, Label } from "../../styles/common/TextsStyle";
 import { DefaultInput } from "../../styles/common/InputsStyle";
+import JoinProgressBar from "../../components/user/JoinProgressBar";
 
 function JoinBasic() {
 	const navigate = useNavigate();
@@ -178,10 +179,11 @@ function JoinBasic() {
 				pre="취소"
 				title="회원가입"
 				next="다음"
-				preAction={handleClickPre}
-				nextAction={handleClickNext}
+				handleClickPre={handleClickPre}
+				handleClickNext={handleClickNext}
 			/>
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
+				<JoinProgressBar step="1" />
 				<Text size="20" weight="bold">
 					기본 정보를 입력해주세요
 				</Text>

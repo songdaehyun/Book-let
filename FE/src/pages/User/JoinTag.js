@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ActionsNavigationBar from "../../components/common/ActionsNavigationBar";
 import EmotionTag from "../../components/user/EmotionTag";
+import JoinProgressBar from "../../components/user/JoinProgressBar";
 import { Container } from "../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../styles/common/TextsStyle";
 
@@ -50,6 +51,10 @@ function JoinTag(props) {
 		}
 	};
 
+	const handleClickPre = () => {
+		navagate("/join/4");
+	};
+
 	const handleClickNext = () => {
 		if (isTargetValidConfirmed) {
 			// 회원가입 완료
@@ -68,10 +73,12 @@ function JoinTag(props) {
 				pre="취소"
 				title="회원가입"
 				next={next}
-				nextAction={handleClickNext}
+				handleClickPre={handleClickPre}
+				handleClickNext={handleClickNext}
 				nextColor={nextColor()}
 			/>
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
+				<JoinProgressBar step="5" />
 				<Container marginBottom="24">
 					<Text size="20" weight="bold" marginBottom="16" height="32">
 						당신을 표현할 수 있는

@@ -13,6 +13,7 @@ import {
 
 import maleImg from "../../assets/images/gender_male_img.svg";
 import femaleImg from "../../assets/images/gender_female_img.svg";
+import JoinProgressBar from "../../components/user/JoinProgressBar";
 
 function JoinAge(props) {
 	const navagate = useNavigate();
@@ -25,11 +26,11 @@ function JoinAge(props) {
 		setGender(gender);
 	};
 
-	const preAction = () => {
+	const handleClickPre = () => {
 		navagate("/join/1");
 	};
 
-	const nextAction = () => {
+	const handleClickNext = () => {
 		if (gender === 0) {
 			setIsValidConfirmed(false);
 		} else {
@@ -44,10 +45,11 @@ function JoinAge(props) {
 				pre="취소"
 				title="회원가입"
 				next="다음"
-				preAction={preAction}
-				nextAction={nextAction}
+				handleClickPre={handleClickPre}
+				handleClickNext={handleClickNext}
 			/>
 			<JoinFullHeightContainer paddingTop="56" paddingLeft="16" paddingRight="16">
+				<JoinProgressBar step="2" />
 				<Text size="20" weight="bold" marginBottom="16">
 					성별을 선택해주세요
 				</Text>
