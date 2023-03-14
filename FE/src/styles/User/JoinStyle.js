@@ -1,5 +1,23 @@
 import styled from "styled-components";
 
+export const JoinProgressBarWrapper = styled.div`
+	width: 100%;
+	height: 8px;
+
+	background-color: var(--gray-200);
+	border-radius: 5px;
+
+	margin-bottom: 24px;
+
+	> div {
+		height: 100%;
+		width: calc(${(props) => props.step / 5} * 100%);
+
+		background-color: var(--primary-600);
+		border-radius: 5px;
+	}
+`;
+
 export const JoinFullHeightContainer = styled.div`
 	height: 100vh;
 
