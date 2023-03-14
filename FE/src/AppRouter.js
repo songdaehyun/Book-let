@@ -9,6 +9,9 @@ import JoinAge from "./pages/User/JoinAge";
 import JoinCover from "./pages/User/JoinCover";
 import JoinTag from "./pages/User/JoinTag";
 
+// 피드
+import Feed from "./pages/Feed";
+
 function AppRouter(props) {
 	return (
 		<BrowserRouter>
@@ -20,6 +23,8 @@ function AppRouter(props) {
 				<Route path="/join/3" element={<JoinAge />} />
 				<Route path="/join/4" element={<JoinCover />} />
 				<Route path="/join/5" element={<JoinTag />} />
+				{/* 피드 */}
+				<Route path="/" element={<Feed />} />
 			</Routes>
 		</BrowserRouter>
 	);
