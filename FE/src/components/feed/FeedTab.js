@@ -1,11 +1,28 @@
-import React from 'react';
+import React from "react";
 
-function FeedTab(props) {
-    return (
-        <div>
-            
-        </div>
-    );
+import { TabItem, TabWrapper } from "../../styles/feed/FeedTabStyle";
+
+function FeedTab({ selectedItem, setSelectedItem }) {
+	const handleClickItem = (item) => {
+		setSelectedItem(item);
+	};
+
+	return (
+		<TabWrapper>
+			<TabItem
+				onClick={() => handleClickItem(1)}
+				isSelected={selectedItem === 1 ? true : false}
+			>
+				내 문장
+			</TabItem>
+			<TabItem
+				onClick={() => handleClickItem(2)}
+				isSelected={selectedItem === 2 ? true : false}
+			>
+				탐색 문장
+			</TabItem>
+		</TabWrapper>
+	);
 }
 
 export default FeedTab;
