@@ -66,3 +66,23 @@ export const AgeInput = styled.input`
 		color: var(--gray-400);
 	}
 `;
+
+export const CoversContainer = styled.div`
+	column-count: 3;
+	column-gap: 8px;
+`;
+
+export const CoverWrapper = styled.div`
+	height: fit-content;
+	display: flex;
+	margin-bottom: 8px;
+
+	filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2));
+
+	overflow: hidden;
+
+	> img {
+		filter: ${(props) => (props.isSelected ? "blur(2px)" : "none")};
+		width: 100%;
+	}
+`;
