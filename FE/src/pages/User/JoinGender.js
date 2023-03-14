@@ -5,8 +5,8 @@ import ActionsNavigationBar from "../../components/common/ActionsNavigationBar";
 
 import { Text, ValidFailText } from "../../styles/common/TextsStyle";
 import {
-	JoinAgeContainer,
-	GendersContainer,
+	JoinFullHeightContainer,
+	JoinCenterContainer,
 	GenderContainer,
 	GenderImgWrapper,
 } from "../../styles/User/JoinStyle";
@@ -47,7 +47,7 @@ function JoinAge(props) {
 				preAction={preAction}
 				nextAction={nextAction}
 			/>
-			<JoinAgeContainer paddingTop="56" paddingLeft="16" paddingRight="16">
+			<JoinFullHeightContainer paddingTop="56" paddingLeft="16" paddingRight="16">
 				<Text size="20" weight="bold" marginBottom="16">
 					성별을 선택해주세요
 				</Text>
@@ -55,7 +55,7 @@ function JoinAge(props) {
 					도서와 문장 추천에 사용될거예요.
 				</Text>
 				{!isValidConfirmed && <ValidFailText>성별을 선택해주세요</ValidFailText>}
-				<GendersContainer>
+				<JoinCenterContainer>
 					<GenderContainer>
 						<GenderImgWrapper
 							onClick={() => handleClickGender(1)}
@@ -74,8 +74,8 @@ function JoinAge(props) {
 						</GenderImgWrapper>
 						<Text marginTop="16">여성</Text>
 					</GenderContainer>
-				</GendersContainer>
-			</JoinAgeContainer>
+				</JoinCenterContainer>
+			</JoinFullHeightContainer>
 		</>
 	);
 }
