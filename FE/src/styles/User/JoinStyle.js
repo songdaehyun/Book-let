@@ -34,9 +34,10 @@ export const GenderImgWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 
-	background: var(--gray-50);
+	background: ${(props) => (props.isSelected ? " var(--primary-500)" : "var(--gray-50)")};
 
-	border: 0.8px solid var(--gray-300);
+	border: ${(props) => (props.isSelected ? "3" : "0.8")}px solid
+		${(props) => (props.isSelected ? " var(--primary-700)" : "var(--gray-300)")};
 	border-radius: 50%;
 
 	:active {
