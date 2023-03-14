@@ -9,6 +9,8 @@ export const Text = styled.div`
 	font-size: ${(props) => props.size}px;
 	font-weight: ${(props) => props.weight};
 	color: ${(props) => props.color};
+
+	line-height: ${(props) => props.height}px;
 `;
 
 export const Span = styled.span`
