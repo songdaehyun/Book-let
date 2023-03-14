@@ -207,3 +207,14 @@ Data
 ```
 !cd yolo5; python train.py --img 1280 --batch 8 -- epochs 100 -- data C:\Users\SSAFY\LabeledSample\data.yaml --weights yolov5x.pt --project ../ultra_workdir3 --name defects --exist-ok
 ```
+
+# 환경설정 정보(버전 정보)
+
+- 사용 모델 : YOLOv5(yolov5l)
+- 시스템 : CUDA GPU(NVIDIA GeForce RTX 3050 Ti Laptop GPU, 4096MiB)
+
+# 모델 파라미터 설정 정보
+
+- batch : 2
+- 이미지 사이즈 : 640
+- epochs : 20
