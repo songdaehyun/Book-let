@@ -114,3 +114,28 @@ export const CricleCheckWrapper = styled.div`
 		fill: var(--primary-600);
 	}
 `;
+
+export const TagsContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+
+	column-count: 3;
+	column-gap: 16px;
+	row-gap: 16px;
+
+	align-items: center;
+	justify-content: center;
+`;
+
+export const TagWrapper = styled.div`
+	width: fit-content;
+
+	display: flex;
+
+	padding: 8px 16px;
+
+	background-color: ${(props) => (props.isSelected ? "var(--primary-600)" : "var(--gray-50)")};
+
+	border: 0.5px solid var(--gray-300);
+	border-radius: 20px;
+`;
