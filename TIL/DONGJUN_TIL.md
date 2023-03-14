@@ -218,3 +218,13 @@ Data
 - batch : 2
 - 이미지 사이즈 : 640
 - epochs : 20
+
+# 훈련한 커스텀 모델 응용하기(pytorch, django 환경에서 사용하기)
+
+- Yolov5에서 훈련한 커스텀 모델은 pytorch(.pt) 파일로 저장된다.
+- torch 라이브러리를 이용해 불러오는 경우 'custom' 파라미터를 추가하면 된다.
+- 커스텀 모델을 불러올 경우 force_reload=True로 설정해야 한다.
+
+```
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='C:/Users/SSAFY/Desktop/test_300/model/weights/best.pt', force_reload=True)
+```
