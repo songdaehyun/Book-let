@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
 import JoinBasic from "./pages/User/JoinBasic";
 import JoinGender from "./pages/User/JoinGender";
-import JoinAge from "./pages/User/JoinGender";
+import JoinAge from "./pages/User/JoinAge";
 
 function AppRouter(props) {
 	return (
