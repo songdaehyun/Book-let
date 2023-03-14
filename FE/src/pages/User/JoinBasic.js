@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
+import CricleCheck from "../../components/common/CricleCheck";
+
 import { ValidLabel } from "../../styles/common/CommonStyle";
 import { Container, ValidLabelContainer } from "../../styles/common/ContainingsStyle";
 import { ActionsNavigationBar } from "../../styles/common/BarsStyle";
 import { Text, Label } from "../../styles/common/TextsStyle";
 import { DefaultInput } from "../../styles/common/InputsStyle";
-
-import checkIcon from "../../assets/icons/check-circle-icon.svg";
 
 function JoinBasic() {
 	// 아이디
@@ -34,10 +34,6 @@ function JoinBasic() {
 	const [pwConfirm, setPwConfirm] = useState("");
 	const [pwSameValid, setPwSameValid] = useState("default");
 
-	const check = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6 0C2.688 0 0 2.688 0 6C0 9.312 2.688 12 6 12C9.312 12 12 9.312 12 6C12 2.688 9.312 0 6 0ZM4.8 9L1.8 6L2.646 5.154L4.8 7.302L9.354 2.748L10.2 3.6L4.8 9Z" style="fill:#CED4DA"/>
-    </svg>`;
-
 	const hadleChangeId = (e) => {
 		setId(e.target.value);
 	};
@@ -59,7 +55,8 @@ function JoinBasic() {
 	const idValidTest = (e) => {
 		var regId = /[a-zA-Z]/g;
 
-		if (id.length <= 12) {
+		if (0 < id.length && id.length <= 12) {
+			console.log(id.length);
 			setIdCntValid("success");
 		} else {
 			setIdCntValid("fail");
@@ -76,7 +73,7 @@ function JoinBasic() {
 	};
 
 	const nicknameValidTest = (e) => {
-		if (nickname.length <= 12) {
+		if (0 < nickname.length && nickname.length <= 12) {
 			setNicknameCntValid("success");
 		} else {
 			setNicknameCntValid("fail");
@@ -104,7 +101,7 @@ function JoinBasic() {
 	const pwValidTest = (e) => {
 		var regPw = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
 
-		if (8 <= pw.length <= 16) {
+		if (8 <= pw.length && pw.length <= 16) {
 			setPwCntValid("success");
 		} else {
 			setPwCntValid("fail");
@@ -151,27 +148,15 @@ function JoinBasic() {
 						</Label>
 						<ValidLabelContainer>
 							<ValidLabel state={idCntValid}>
-								{/* <img src={checkIcon} /> */}
-								{/* <svg
-									width="12"
-									height="12"
-									viewBox="0 0 12 12"
-									fill="none"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										d="M6 0C2.688 0 0 2.688 0 6C0 9.312 2.688 12 6 12C9.312 12 12 9.312 12 6C12 2.688 9.312 0 6 0ZM4.8 9L1.8 6L2.646 5.154L4.8 7.302L9.354 2.748L10.2 3.6L4.8 9Z"
-									/>
-								</svg> */}
-								dangerouslySetInnerHTML={{ __html: check }}
+								<CricleCheck />
 								<span>12자 이내</span>
 							</ValidLabel>
 							<ValidLabel state={idIncludeValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>영문 포함</span>
 							</ValidLabel>
 							<ValidLabel state={idDuplicationValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>중복 확인</span>
 							</ValidLabel>
 						</ValidLabelContainer>
@@ -191,11 +176,11 @@ function JoinBasic() {
 						</Label>
 						<ValidLabelContainer>
 							<ValidLabel state={nicknameCntValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>12자 이내</span>
 							</ValidLabel>
 							<ValidLabel state={nicknameDuplicationValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>중복 확인</span>
 							</ValidLabel>
 						</ValidLabelContainer>
@@ -215,11 +200,11 @@ function JoinBasic() {
 						</Label>
 						<ValidLabelContainer>
 							<ValidLabel state={emailFormValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>이메일 형식</span>
 							</ValidLabel>
 							<ValidLabel state={emailDuplicationValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>중복 확인</span>
 							</ValidLabel>
 						</ValidLabelContainer>
@@ -229,6 +214,7 @@ function JoinBasic() {
 						<Label size="14" weight="600">
 							비밀번호
 							<DefaultInput
+								type="password"
 								placeholder="비밀번호를 입력해주세요"
 								value={pw}
 								onChange={hadleChangePw}
@@ -239,11 +225,11 @@ function JoinBasic() {
 						</Label>
 						<ValidLabelContainer>
 							<ValidLabel state={pwCntValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>8-16자 이내</span>
 							</ValidLabel>
 							<ValidLabel state={pwIncludeValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>특수문자 포함</span>
 							</ValidLabel>
 						</ValidLabelContainer>
@@ -263,7 +249,7 @@ function JoinBasic() {
 						</Label>
 						<ValidLabelContainer>
 							<ValidLabel state={pwSameValid}>
-								<img src={checkIcon} />
+								<CricleCheck />
 								<span>비밀번호 일치</span>
 							</ValidLabel>
 						</ValidLabelContainer>
