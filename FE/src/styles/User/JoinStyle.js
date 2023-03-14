@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const JoinAgeContainer = styled.div`
+export const JoinFullHeightContainer = styled.div`
 	height: 100vh;
 
 	display: flex;
@@ -11,12 +11,13 @@ export const JoinAgeContainer = styled.div`
 	padding-top: 56px;
 `;
 
-export const GendersContainer = styled.div`
+export const JoinCenterContainer = styled.div`
 	display: flex;
 
 	flex: 1;
 	flex-direction: column;
 	justify-content: center;
+	align-self: center;
 `;
 export const GenderContainer = styled.div`
 	text-align: center;
@@ -42,5 +43,26 @@ export const GenderImgWrapper = styled.div`
 
 	:active {
 		background: var(--gray-100);
+	}
+`;
+
+export const AgeInput = styled.input`
+	padding: 8px 24px;
+
+	text-align: center;
+
+	font-size: 40px;
+
+	border: none;
+	border-bottom: 1px solid var(--gray-400);
+
+	outline: none;
+
+	:focus {
+		border-bottom: 1px solid black;
+	}
+
+	::placeholder {
+		color: var(--gray-400);
 	}
 `;
