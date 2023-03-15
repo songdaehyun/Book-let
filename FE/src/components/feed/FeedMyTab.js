@@ -46,7 +46,7 @@ function FeedMyTab(props) {
 	return (
 		<Container paddingTop="32">
 			{posts.map((post) => (
-				<PostPreview key={post.id} post={post} />
+				<PostPreview key={post.id} post={post} isMy={true} />
 			))}
 		</Container>
 	);
