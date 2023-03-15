@@ -1,11 +1,17 @@
-import React from 'react';
+import React from "react";
 
-function PreviewProfile(props) {
-    return (
-        <div>
-            
-        </div>
-    );
+import { Span } from "../../../styles/common/TextsStyle";
+import { ProfileContainer } from "../../../styles/feed/PostPreviewStyle";
+
+function PreviewProfile({ nickname, profileImg }) {
+	return (
+		<ProfileContainer>
+			<img src={profileImg} />
+			<Span weight="600" marginLeft="16">
+				{nickname}
+			</Span>
+		</ProfileContainer>
+	);
 }
 
 export default PreviewProfile;
