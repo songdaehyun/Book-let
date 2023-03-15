@@ -29,3 +29,7 @@ export const TextBtn = styled.button`
 	border: none;
 	background: none;
 `;
+
+export const ScrapBtn = styled.svg`
+	fill: ${(props) => (props.isScraped ? "var(--primary-600)" : "var(--gray-400)")};
+`;
