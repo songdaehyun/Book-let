@@ -106,8 +106,24 @@ export const PreviewPostInfo = styled.div`
 
 export const PreviewCommentContainer = styled.div`
 	display: flex;
+	justify-content: space-between;
+
+	> div {
+		display: flex;
+	}
+
+	img {
+		margin-right: 8px;
+	}
+`;
+
+export const ProfileContainer = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 16px;
 
 	> img {
-		margin-right: 8px;
+		width: 40px;
+		height: 40px;
 	}
 `;
