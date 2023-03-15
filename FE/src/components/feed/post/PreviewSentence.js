@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Text } from "../../../styles/common/TextsStyle";
 import {
 	PreviewSentenceBottonContent,
@@ -7,8 +8,14 @@ import {
 } from "../../../styles/feed/PostPreviewStyle";
 
 function PreviewSentence({ post }) {
+	const navigate = useNavigate();
+
+	const handleClickSentence = () => {
+		navigate(`/feed/${post.paragraphId}`);
+	};
+
 	return (
-		<PreviewSentenceContainer color={post.paragraphColor}>
+		<PreviewSentenceContainer onClick={handleClickSentence} color={post.paragraphColor}>
 			<PreviewSentenceContent>
 				<Text font="jeju" height="28">
 					{post.content}
