@@ -1,6 +1,6 @@
 import React from "react";
 
-import PostPreview from "./PostPreview";
+import PostPreview from "./post/PostPreview";
 
 import { Container } from "../../styles/common/ContainingsStyle";
 

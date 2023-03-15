@@ -1,10 +1,10 @@
 import React from "react";
 
-import PreviewSentence from "./post/PreviewSentence";
-import PreviewComment from "./post/PreviewComment";
-import PreivewScrap from "./post/PreivewScrap";
+import PreviewSentence from "./PreviewSentence";
+import PreviewComment from "./PreviewComment";
+import PreivewScrap from "./PreivewScrap";
 
-import { Container } from "../../styles/common/ContainingsStyle";
+import { Container } from "../../../styles/common/ContainingsStyle";
 
 function PostPreview({ post }) {
 	return (
