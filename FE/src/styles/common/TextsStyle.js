@@ -6,6 +6,7 @@ export const Text = styled.div`
 	margin-left: ${(props) => props.marginLeft}px;
 	margin-right: ${(props) => props.marginRight}px;
 
+	font-family: ${(props) => props.font === "jeju" && "JejuMyeongjo"};
 	font-size: ${(props) => props.size}px;
 	font-weight: ${(props) => props.weight};
 	color: ${(props) => props.color};
