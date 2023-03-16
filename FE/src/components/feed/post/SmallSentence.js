@@ -1,13 +1,18 @@
 import React from "react";
 import { Text } from "../../../styles/common/TextsStyle";
-import { SmallSentenceContainer } from "../../../styles/feed/PreviewRecoStyle";
+import {
+	SmallSentenceContainer,
+	SmallSentenceContent,
+} from "../../../styles/feed/post/SmallSentenceStyle";
 
 function SmallSentence({ sentence }) {
 	return (
 		<SmallSentenceContainer color={sentence.paragraphColor}>
-			<Text font="jeju" height="22">
-				{sentence.content}
-			</Text>
+			<SmallSentenceContent>
+				<Text font="jeju" height="22">
+					{sentence.content}
+				</Text>
+			</SmallSentenceContent>
 		</SmallSentenceContainer>
 	);
 }
