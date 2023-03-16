@@ -70,8 +70,6 @@ export const ReturnNavigationBarContainer = styled.div`
 
 	> div:last-child {
 		margin: auto;
-		position: absolute;
-		transition: transform(-50%, -50%);
-		left: 50%;
+		padding-right: 10px;
 	}
 `;
