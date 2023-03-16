@@ -11,7 +11,7 @@ function PreviewSentence({ post }) {
 	const navigate = useNavigate();
 
 	const handleClickSentence = () => {
-		navigate(`/feed/${post.paragraphId}`);
+		navigate(`/sentence/${post.paragraphId}`);
 	};
 
 	return (
