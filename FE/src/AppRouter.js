@@ -12,6 +12,7 @@ import JoinTag from "./pages/User/JoinTag";
 // 피드
 import Feed from "./pages/Feed";
 import Scrap from "./pages/sentence/Scrap";
+import Reco from "./pages/sentence/Reco";
 
 function AppRouter(props) {
 	return (
@@ -27,6 +28,7 @@ function AppRouter(props) {
 				{/* 피드 */}
 				<Route path="/" element={<Feed />} />
 				<Route path="/sentence/scrap" element={<Scrap />} />
+				<Route path="/sentence/recommand" element={<Reco />} />
 			</Routes>
 		</BrowserRouter>
 	);
