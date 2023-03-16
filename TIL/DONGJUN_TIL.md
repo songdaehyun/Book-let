@@ -228,3 +228,14 @@ Data
 ```
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='C:/Users/SSAFY/Desktop/test_300/model/weights/best.pt', force_reload=True)
 ```
+
+# DataFrame 형태의 정보를 Excel(csv) 파일로 저장하기
+
+- pd.DataFrame()으로 데이터프레임 형태로 저장
+- df.to_excel(저장 경로, index=True/False)를 입력하면 csv 파일로 저장
+  - index=True 설정 시 csv 파일에 인덱스 번호도 함께 저장
+
+```py
+df = pd.DataFrame(datasrc)
+df.to_excel("custompath", index=False)
+```
