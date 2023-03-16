@@ -30,3 +30,16 @@ export const ValidLabel = styled.div`
 				: "var(--gray-500)"};
 	}
 `;
+
+export const ArrowButtonContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	flex-wrap: wrap;
+
+	margin-bottom: ${(props) => props.bottom}px;
+
+	> svg {
+		align-self: center;
+	}
+`;
