@@ -207,3 +207,24 @@ Data
 ```
 !cd yolo5; python train.py --img 1280 --batch 8 -- epochs 100 -- data C:\Users\SSAFY\LabeledSample\data.yaml --weights yolov5x.pt --project ../ultra_workdir3 --name defects --exist-ok
 ```
+
+# 환경설정 정보(버전 정보)
+
+- 사용 모델 : YOLOv5(yolov5l)
+- 시스템 : CUDA GPU(NVIDIA GeForce RTX 3050 Ti Laptop GPU, 4096MiB)
+
+# 모델 파라미터 설정 정보
+
+- batch : 2
+- 이미지 사이즈 : 640
+- epochs : 20
+
+# 훈련한 커스텀 모델 응용하기(pytorch, django 환경에서 사용하기)
+
+- Yolov5에서 훈련한 커스텀 모델은 pytorch(.pt) 파일로 저장된다.
+- torch 라이브러리를 이용해 불러오는 경우 'custom' 파라미터를 추가하면 된다.
+- 커스텀 모델을 불러올 경우 force_reload=True로 설정해야 한다.
+
+```
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='C:/Users/SSAFY/Desktop/test_300/model/weights/best.pt', force_reload=True)
+```
