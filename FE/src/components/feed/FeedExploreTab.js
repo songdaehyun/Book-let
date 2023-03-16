@@ -5,6 +5,7 @@ import { Container } from "../../styles/common/ContainingsStyle";
 import PostPreview from "./post/PostPreview";
 import PreviewProfile from "./post/PreviewProfile";
 import PreviewRecoSentence from "./post/PreviewRecoSentence";
+import PreviewScrapSentence from "./post/PreviewScrapSentence";
 
 function FeedExplore(props) {
 	// 더미 데이터
@@ -46,6 +47,7 @@ function FeedExplore(props) {
 	return (
 		<Container paddingTop="32">
 			<PreviewRecoSentence />
+			<PreviewScrapSentence />
 			{posts.map((post) => (
 				<>
 					<PreviewProfile nickname={post.nickname} profileImg={post.profileImg} />
