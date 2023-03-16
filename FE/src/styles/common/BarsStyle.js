@@ -38,3 +38,40 @@ export const ActionsNavigationBarWrapper = styled.div`
 		font-weight: bold;
 	}
 `;
+
+export const ReturnNavigationBarContainer = styled.div`
+	width: 100%;
+
+	display: flex;
+
+	// align-items: center;
+	// justify-content: center;
+
+	padding: 16px;
+
+	display: flex;
+	position: fixed;
+	// justify-content: center;
+	// text-align: center;
+
+	background-color: white;
+
+	z-index: 50;
+
+	> div:first-child {
+		width: auto;
+		height: 16px;
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+
+	> div:last-child {
+		margin: auto;
+		position: absolute;
+		transition: transform(-50%, -50%);
+		left: 50%;
+	}
+`;
