@@ -4,6 +4,7 @@ import LoopyImg from "../../assets/images/dummy/loopy-img.png";
 import { Container } from "../../styles/common/ContainingsStyle";
 import PostPreview from "./post/PostPreview";
 import PreviewProfile from "./post/PreviewProfile";
+import PreviewRecoSentence from "./post/PreviewRecoSentence";
 
 function FeedExplore(props) {
 	// 더미 데이터
@@ -44,6 +45,7 @@ function FeedExplore(props) {
 
 	return (
 		<Container paddingTop="32">
+			<PreviewRecoSentence />
 			{posts.map((post) => (
 				<>
 					<PreviewProfile nickname={post.nickname} profileImg={post.profileImg} />
