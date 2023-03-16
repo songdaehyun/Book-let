@@ -9,6 +9,7 @@ export const SmallSentenceContainer = styled.div`
 	border-radius: 8px;
 
 	background-color: ${(props) => props.color};
+	color: ${(props) => props.color !== "#FEEB60" && "white"};
 
 	::after {
 		content: "";
