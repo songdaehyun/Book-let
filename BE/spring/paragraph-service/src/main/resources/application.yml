@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetchRegistry: false
+
+spring:
+  application:
+    name: booklet-paragraph-service
+  jpa:
+    hibernate:
+      ddl-auto:  update
+    properties:
+      hibernate:
+        # show_sql: true
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
+    username: ssafy
+    password: ssafy
