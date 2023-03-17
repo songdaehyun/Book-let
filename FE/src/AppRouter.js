@@ -1,19 +1,19 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // 로그인 / 회원가입
-import Login from "./components/pages/Login/Login";
-import JoinBasic from "./components/pages/Join/JoinBasic";
-import JoinGender from "./components/pages/Join/JoinGender";
 import JoinAge from "./components/pages/Join/JoinAge";
+import JoinBasic from "./components/pages/Join/JoinBasic";
 import JoinCover from "./components/pages/Join/JoinCover";
+import JoinGender from "./components/pages/Join/JoinGender";
 import JoinTag from "./components/pages/Join/JoinTag";
+import Login from "./components/pages/Login/Login";
 
 // 문장
-import Feed from './components/pages/Sentence/Feed'
-import Scrap from "./components/pages/Sentence/Scrap";
+import DetailPost from "./components/pages/Sentence/DetailPost";
+import Feed from "./components/pages/Sentence/Feed";
 import Reco from "./components/pages/Sentence/Reco";
-import DetailSentence from "./components/pages/Sentence/DetailSentence";
+import Scrap from "./components/pages/Sentence/Scrap";
 
 function AppRouter(props) {
 	return (
@@ -30,7 +30,7 @@ function AppRouter(props) {
 				<Route path="/" element={<Feed />} />
 				<Route path="/sentence/scrap" element={<Scrap />} />
 				<Route path="/sentence/recommand" element={<Reco />} />
-				<Route path="/sentence/:sId" element={<DetailSentence />} />
+				<Route path="/sentence/:sId" element={<DetailPost />} />
 			</Routes>
 		</BrowserRouter>
 	);
