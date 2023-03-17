@@ -5,8 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 # import yolov5
 
 # .pt로 저장된 모델 불러오기
-# 실제 배포 환경에서는 상대 경로로 변경해야 함
-modelpath = 'C:/Users/SSAFY/Desktop/S08P22B306/BE/django/static/test300.pt'
+modelpath = "static/test300.pt"
 model = torch.hub.load('ultralytics/yolov5', 'custom',
                        path=modelpath, force_reload=True)
 model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비활성화

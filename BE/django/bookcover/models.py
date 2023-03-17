@@ -3,6 +3,11 @@ from django.db import models
 # Create your models here.
 
 
+# book_id 삭제
+# isdn을 book_isbn으로 바꾸기, 기본 키로 설정
+# imgsrc를 book_img로, max_length=500으로 수정
+
+# book_title 추가 여부 검토
 class BookInfoModel(models.Model):
     book_id = models.AutoField(primary_key=True)    # 책 id
     isdn = models.CharField(max_length=13)  # ISDN(13자리)
