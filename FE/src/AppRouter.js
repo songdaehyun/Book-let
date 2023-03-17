@@ -2,17 +2,17 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // 로그인 / 회원가입
-import Login from "./pages/User/Login";
-import JoinBasic from "./pages/User/JoinBasic";
-import JoinGender from "./pages/User/JoinGender";
-import JoinAge from "./pages/User/JoinAge";
-import JoinCover from "./pages/User/JoinCover";
-import JoinTag from "./pages/User/JoinTag";
+import Login from "./components/pages/Login/Login";
+import JoinBasic from "./components/pages/Join/JoinBasic";
+import JoinGender from "./components/pages/Join/JoinGender";
+import JoinAge from "./components/pages/Join/JoinAge";
+import JoinCover from "./components/pages/Join/JoinCover";
+import JoinTag from "./components/pages/Join/JoinTag";
 
 // 피드
-import Feed from "./pages/Feed";
-import Scrap from "./pages/sentence/Scrap";
-import Reco from "./pages/sentence/Reco";
+import Feed from './components/pages/Sentence/Feed'
+import Scrap from "./components/pages/Sentence/Scrap";
+import Reco from "./components/pages/Sentence/Reco";
 
 function AppRouter(props) {
 	return (
