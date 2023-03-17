@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # .pt로 저장된 모델 불러오기
 model = torch.load('../model/test300.pt')
-model.eval()
+model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비활성화
 
 
 @csrf_exempt
@@ -21,7 +21,7 @@ def image_recommend(request):   # 예측 기능 수행
         output = model(input_data)
 
         # Format the output as JSON
-        response = {'output': output.tolist()}
+        response = {'output': output}
 
         # Return the response as a JSON object
         return JsonResponse(response)
