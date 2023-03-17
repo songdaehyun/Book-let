@@ -1,0 +1,36 @@
+import styled from "styled-components";
+
+export const DetailSentenceContainer = styled.div`
+	min-height: 500px;
+
+	display: flex;
+	flex-direction: column;
+
+	padding: 0 40px;
+	padding-top: 75px;
+	padding-bottom: 16px;
+
+	justify-content: space-between;
+
+	background-color: ${(props) => props.color};
+	color: ${(props) => props.color !== "#FEEB60" && "white"};
+`;
+
+export const DetailSentenceBottomInfo = styled.div`
+	hr {
+		margin: 16px 0;
+		border: 0;
+		height: 0.5px;
+		background-color: ${(props) => props.color !== "#FEEB60" && "white"};
+	}
+
+	> div:nth-child(2) {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	> div:nth-child(2) > div:last-child {
+		margin-top: auto;
+	}
+`;
