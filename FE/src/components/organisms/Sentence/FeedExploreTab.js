@@ -1,13 +1,12 @@
 import React from "react";
 
-import PreviewProfile from "../../molecules/Sentence/PreviewProfile";
-import PreviewPost from "./PreviewPost";
 import PreviewRecoSentence from "./PreviewRecoSentence";
 import PreviewScrapSentence from "./PreviewScrapSentence";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
+import PreviewPostWithProfile from "./PreviewPostWithProfile";
 
 function FeedExploreTab(props) {
 	// 더미 데이터
@@ -50,11 +49,8 @@ function FeedExploreTab(props) {
 		<Container paddingTop="32">
 			<PreviewRecoSentence />
 			<PreviewScrapSentence />
-			{posts.map((post) => (
-				<>
-					<PreviewProfile nickname={post.nickname} profileImg={post.profileImg} />
-					<PreviewPost key={post.id} post={post} isMy={false} />
-				</>
+			{posts.map((post, idx) => (
+				<PreviewPostWithProfile key={idx} post={post} />
 			))}
 		</Container>
 	);
