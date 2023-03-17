@@ -1,5 +1,6 @@
 import React from "react";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
+import DetailSentence from "../../molecules/Sentence/DetailSentence";
 
 function DetailPost(props) {
 	// 더미
@@ -7,7 +8,7 @@ function DetailPost(props) {
 		paragraphId: 1,
 		content:
 			"이제는 안다. 우리가 계속 지는 한이 있더라도 선택해야만 하는 건 이토록 평범한 미래라는 것을. 그리고 포기하지 않는 한 그 미래가 다가올 확률은 100퍼센트에 수렴한다는 것을.",
-		paragraphColor: "000000",
+		paragraphColor: "#B88962",
 		paragraphPage: 145,
 		createdDate: "",
 		bookTitle: "이토록 평범한 미래",
@@ -22,7 +23,14 @@ function DetailPost(props) {
 
 	return (
 		<div>
-			<ReturnNavigationBar title={post.bookTitle} />  
+			<ReturnNavigationBar title={post.bookTitle} />
+			<DetailSentence
+				title={post.bookTitle}
+				author={post.bookAuthor}
+				content={post.content}
+				page={post.paragraphPage}
+				color={post.paragraphColor}
+			/>
 		</div>
 	);
 }
