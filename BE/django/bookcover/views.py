@@ -13,14 +13,13 @@ model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비�
 # model = yolov5.load(modelpath)
 
 
-@csrf_exempt
+@csrf_exempt    # API를 만드는 경우 csrf 인증을 끄는 게 좋다.(대신 API 키 등의 방식을 사용)
 def image_recommend(request):   # 예측 기능 수행
     if request.method == 'POST':
         # Get input data from POST request
         input_data = request.POST.get('input_data')
 
-        # Prepare the input data for the model
-        # ...
+        # 추천 알고리즘을 바탕으로 비슷한 유사도 가진 삽화 N개 반환
 
         # Pass the input data to the model
         output = model(input_data)
