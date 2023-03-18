@@ -45,11 +45,17 @@ export const PrimarySmBtn = styled.button`
 `;
 
 export const TextBtn = styled.button`
+	padding: 0;
+
 	font-size: ${(props) => props.size}px;
 	color: var(--gray-500);
 
 	border: none;
 	background: none;
+
+	:active {
+		color: var(--gray-600);
+	}
 `;
 
 export const ScrapBtn = styled.svg`
@@ -83,6 +89,6 @@ export const CommentUploadBtn = styled.button`
 	background-color: white;
 
 	:active {
-		background-color: var(--gray-50);
+		background-color: var(--gray-100);
 	}
 `;
