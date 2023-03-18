@@ -1,26 +1,15 @@
 import React from "react";
 
-import TopBanner from "../../molecules/Banner/TopBanner";
+import ScrapHeading from "../../atoms/Sentence/ScrapHeading";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
-import PreviewPostWithProfile from "../../organisms/Sentence/PreviewPostWithProfile";
+import SentenceProfile from "../../molecules/Sentence/SentenceProfile";
+import PreviewPost from "../../organisms/Sentence/PreviewPost";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
-import BannerImg from "../../../assets/images/Banner/reco-sentence-banner.png";
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
-function Reco(props) {
-	const bannerInfo = {
-		title: "추천 문장",
-		subTitle: (
-			<>
-				올리신 문장과 스크랩한 문장을 기반으로
-				<br /> 문장을 추천해드려요.
-			</>
-		),
-		img: BannerImg,
-	};
-
+function ScrapSentence(props) {
 	// 더미 데이터
 	const posts = [
 		{
@@ -40,7 +29,7 @@ function Reco(props) {
 			paragraphPage: 145,
 		},
 		{
-			id: 2,
+			paragraphId: 2,
 			profileImg: LoopyImg,
 			nickname: "루피는 책이 좋아",
 			content:
@@ -58,22 +47,23 @@ function Reco(props) {
 	];
 
 	return (
-		<div>
-			<ReturnNavigationBar />
-			<Container paddingTop="48">
-				<TopBanner
-					title={bannerInfo.title}
-					subTitle={bannerInfo.subTitle}
-					img={bannerInfo.img}
-				/>
-			</Container>
-			<Container marginTop="24" marginLeft="16" marginRight="16">
-				{posts.map((post, idx) => (
-					<PreviewPostWithProfile key={idx} post={post} />
+		<>
+			<ReturnNavigationBar title="스크랩한 문장" />
+			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
+				<ScrapHeading posts={posts} />
+				{posts.map((post) => (
+					<>
+						<SentenceProfile
+							file
+							nickname={post.nickname}
+							profileImg={post.profileImg}
+						/>
+						<PreviewPost key={post.id} post={post} isMy={false} />
+					</>
 				))}
 			</Container>
-		</div>
+		</>
 	);
 }
 
-export default Reco;
+export default ScrapSentence;

@@ -12,8 +12,8 @@ import Login from "./components/pages/Login/Login";
 // 문장
 import DetailPost from "./components/pages/Sentence/DetailPost";
 import Feed from "./components/pages/Sentence/Feed";
-import Reco from "./components/pages/Sentence/Reco";
-import Scrap from "./components/pages/Sentence/Scrap";
+import RecomSentence from "./components/pages/Sentence/RecomSentence";
+import ScrapSentence from "./components/pages/Sentence/ScrapSentence";
 
 function AppRouter(props) {
 	return (
@@ -28,8 +28,8 @@ function AppRouter(props) {
 				<Route path="/join/5" element={<JoinTag />} />
 				{/* 문장 */}
 				<Route path="/" element={<Feed />} />
-				<Route path="/sentence/scrap" element={<Scrap />} />
-				<Route path="/sentence/recommand" element={<Reco />} />
+				<Route path="/sentence/scrap" element={<ScrapSentence />} />
+				<Route path="/sentence/recommand" element={<RecomSentence />} />
 				<Route path="/sentence/:sId" element={<DetailPost />} />
 			</Routes>
 		</BrowserRouter>

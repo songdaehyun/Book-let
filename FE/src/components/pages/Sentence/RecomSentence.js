@@ -1,15 +1,26 @@
 import React from "react";
 
-import ScrapHeading from "../../atoms/Sentence/ScrapHeading";
+import TopBanner from "../../molecules/Banner/TopBanner";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
-import SentenceProfile from "../../molecules/Sentence/SentenceProfile";
-import PreviewPost from "../../organisms/Sentence/PreviewPost";
+import PreviewPostWithProfile from "../../organisms/Sentence/PreviewPostWithProfile";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
+import BannerImg from "../../../assets/images/Banner/reco-sentence-banner.png";
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
-function Scrap(props) {
+function RecomSentence(props) {
+	const bannerInfo = {
+		title: "추천 문장",
+		subTitle: (
+			<>
+				올리신 문장과 스크랩한 문장을 기반으로
+				<br /> 문장을 추천해드려요.
+			</>
+		),
+		img: BannerImg,
+	};
+
 	// 더미 데이터
 	const posts = [
 		{
@@ -29,7 +40,7 @@ function Scrap(props) {
 			paragraphPage: 145,
 		},
 		{
-			paragraphId: 2,
+			id: 2,
 			profileImg: LoopyImg,
 			nickname: "루피는 책이 좋아",
 			content:
@@ -47,23 +58,22 @@ function Scrap(props) {
 	];
 
 	return (
-		<>
-			<ReturnNavigationBar title="스크랩한 문장" />
-			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
-				<ScrapHeading posts={posts} />
-				{posts.map((post) => (
-					<>
-						<SentenceProfile
-							file
-							nickname={post.nickname}
-							profileImg={post.profileImg}
-						/>
-						<PreviewPost key={post.id} post={post} isMy={false} />
-					</>
+		<div>
+			<ReturnNavigationBar />
+			<Container paddingTop="48">
+				<TopBanner
+					title={bannerInfo.title}
+					subTitle={bannerInfo.subTitle}
+					img={bannerInfo.img}
+				/>
+			</Container>
+			<Container marginTop="24" marginLeft="16" marginRight="16">
+				{posts.map((post, idx) => (
+					<PreviewPostWithProfile key={idx} post={post} />
 				))}
 			</Container>
-		</>
+		</div>
 	);
 }
 
-export default Scrap;
+export default RecomSentence;
