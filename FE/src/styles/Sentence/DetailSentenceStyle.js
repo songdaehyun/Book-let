@@ -21,7 +21,7 @@ export const SentenceContentBox = styled.div`
 
 export const DetailSentenceBottomInfo = styled.div`
 	padding: 0 16px;
-	
+
 	hr {
 		margin: 16px 0;
 		border: 0;
@@ -47,4 +47,16 @@ export const DetailSentenceBottomInfoContainer = styled.div`
 	> div:last-child {
 		margin-top: auto;
 	}
+`;
+
+export const SentenceProfileBox = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+
+export const DetailPostDateBox = styled.div`
+	margin-bottom: 16px;
+
+	display: flex;
+	justify-content: right;
 `;
