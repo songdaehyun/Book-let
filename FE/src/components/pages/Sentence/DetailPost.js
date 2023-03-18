@@ -2,6 +2,12 @@ import React from "react";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import DetailSentence from "../../molecules/Sentence/DetailSentence";
 
+import cover from "../../../assets/images/dummy/cover/cover-img (1).png";
+import Scrap from "../../molecules/Sentence/Scrap";
+
+import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
+import { Container } from "../../../styles/common/ContainingsStyle";
+
 function DetailPost(props) {
 	// 더미
 	const post = {
@@ -16,9 +22,10 @@ function DetailPost(props) {
 		userId: 1,
 		nickname: "루피는 행복해",
 		commentCnt: 10,
-		scrapUserImgs: ["imagePath1", "imagePath2", "imagePath3"],
+		scrapUserImgs: [LoopyImg, LoopyImg, LoopyImg],
 		scrapCnt: 10,
 		userScrapted: 1, // 1 이면 스크랩 함. 0이면 안 함.
+		cover: cover
 	};
 
 	return (
@@ -30,7 +37,11 @@ function DetailPost(props) {
 				content={post.content}
 				page={post.paragraphPage}
 				color={post.paragraphColor}
+				cover={post.cover}
 			/>
+			<Container marginTop="16" paddingLeft="16" paddingRight="16">
+				<Scrap post={post} isMy={false} />
+			</Container>
 		</div>
 	);
 }
