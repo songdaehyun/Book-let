@@ -3,7 +3,7 @@ import React from "react";
 import { Span } from "../../../styles/common/TextsStyle";
 import { ProfileContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
-function PreviewProfile({ nickname, profileImg }) {
+function SentenceProfile({ nickname, profileImg }) {
 	return (
 		<ProfileContainer>
 			<img src={profileImg} />
@@ -14,4 +14,4 @@ function PreviewProfile({ nickname, profileImg }) {
 	);
 }
 
-export default PreviewProfile;
+export default SentenceProfile;
