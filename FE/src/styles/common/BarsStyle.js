@@ -73,3 +73,10 @@ export const ReturnNavigationBarContainer = styled.div`
 		padding-right: 10px;
 	}
 `;
+
+export const SeparationBar = styled.div`
+	width: 100%;
+	height: 8px;
+
+	background-color: var(--gray-100);
+`;
