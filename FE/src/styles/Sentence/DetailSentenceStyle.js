@@ -24,13 +24,22 @@ export const DetailSentenceBottomInfo = styled.div`
 		background-color: ${(props) => props.color !== "#FEEB60" && "white"};
 	}
 
-	> div:nth-child(2) {
+	img {
+		height: 58px;
+		margin-right: 16px;
+	}
+`;
+
+export const DetailSentenceBottomInfoContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+
+	> div:first-child {
 		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
 	}
 
-	> div:nth-child(2) > div:last-child {
+	> div:last-child {
 		margin-top: auto;
 	}
 `;

@@ -2,10 +2,11 @@ import React from "react";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	DetailSentenceBottomInfo,
-	DetailSentenceContainer,
+	DetailSentenceBottomInfoContainer,
+	DetailSentenceContainer
 } from "../../../styles/Sentence/DetailSentenceStyle";
 
-function DetailSentence({ title, author, content, page, color }) {
+function DetailSentence({ title, author, content, page, color, cover }) {
 	return (
 		<DetailSentenceContainer color={color}>
 			<Text font="jeju" size="18" height="32">
@@ -13,20 +14,20 @@ function DetailSentence({ title, author, content, page, color }) {
 			</Text>
 			<DetailSentenceBottomInfo>
 				<hr />
-				<div>
+				<DetailSentenceBottomInfoContainer>
 					<div>
+						<img src={cover} alt="book cover" />
 						<div>
-							<img />
+							<Text marginBottom="8">
+								<Span font="jeju">『 </Span>
+								{title}
+								<Span font="jeju"> 』</Span>
+							</Text>
+							<Text>{author}</Text>
 						</div>
-						<Text marginBottom="8">
-							<Span font="jeju">『 </Span>
-							{title}
-							<Span font="jeju"> 』</Span>
-						</Text>
-						<Text>{author}</Text>
 					</div>
 					<Text>P. {page}</Text>
-				</div>
+				</DetailSentenceBottomInfoContainer>
 			</DetailSentenceBottomInfo>
 		</DetailSentenceContainer>
 	);
