@@ -49,7 +49,7 @@ export const CommentInputBox = styled.div`
 
 	margin-top: ${(props) => props.marginTop}px;
 	margin-bottom: ${(props) => props.marginBottom}px;
-	padding: 12px 16px;
+	padding: 8px 16px;
 
 	display: flex;
 	justify-content: space-between;
