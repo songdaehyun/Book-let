@@ -6,7 +6,7 @@ import ScrapInfo from '../ScrapInfo';
 import { Text } from '../../../styles/common/TextsStyle';
 import { PreviewPostInfoContainer } from '../../../styles/Sentence/PostPreviewStyle';
 
-function PreivewScrap({ post, isMy }) {
+function ScrapToolbar({ post, isMy }) {
 	return (
 		<PreviewPostInfoContainer>
 			<ScrapInfo post={post} />
@@ -21,4 +21,4 @@ function PreivewScrap({ post, isMy }) {
 	);
 }
 
-export default PreivewScrap;
+export default ScrapToolbar;

@@ -2,7 +2,7 @@ import React from "react";
 
 import ScrapHeading from "../../atoms/Sentence/ScrapHeading";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
-import PreviewProfile from "../../molecules/Sentence/PreviewProfile";
+import Profile from "../../molecules/Sentence/Profile";
 import PreviewPost from "../../organisms/Sentence/PreviewPost";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
@@ -53,7 +53,7 @@ function Scrap(props) {
 				<ScrapHeading posts={posts} />
 				{posts.map((post) => (
 					<>
-						<PreviewProfile
+						<Profile
 							file
 							nickname={post.nickname}
 							profileImg={post.profileImg}

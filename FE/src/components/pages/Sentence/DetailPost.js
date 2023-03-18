@@ -3,7 +3,7 @@ import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import DetailSentence from "../../molecules/Sentence/DetailSentence";
 
 import cover from "../../../assets/images/dummy/cover/cover-img (1).png";
-import Scrap from "../../molecules/Sentence/Scrap";
+import ScrapToolbar from "../../molecules/Bar/ScrapToolbar";
 
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 import { Container } from "../../../styles/common/ContainingsStyle";
@@ -40,7 +40,7 @@ function DetailPost(props) {
 				cover={post.cover}
 			/>
 			<Container marginTop="16" paddingLeft="16" paddingRight="16">
-				<Scrap post={post} isMy={false} />
+				<ScrapToolbar post={post} isMy={false} />
 			</Container>
 		</div>
 	);
