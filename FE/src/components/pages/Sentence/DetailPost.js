@@ -30,44 +30,48 @@ function DetailPost(props) {
 		userImg: LoopyImg
 	};
 
-	const comment = [
+	const comments = [
 		{
-			commentId : 1,
-			nickname : "루피는 행복해",
-			commentContent : "좋은 문장 감사합니다.",
-			createdDate: "",
+			commentId: 1,
+			nickname: "루피는 행복해",
+			commentContent: "좋은 문장 감사합니다.",
+			createdDate: "2023.03.19",
 			updatedDate: "",
-			commentDepth : 0, 
-			commentGroup : 1,
+			commentDepth: 0,
+			commentGroup: 1,
+			img: LoopyImg
 		},
 		{
-			commentId : 4,
-			nickname : "루피는 책이 좋습니다요",
-			commentContent : "좋은 문장 감사합니다.",
-			createdDate: "",
+			commentId: 4,
+			nickname: "루피는 책이 좋습니다요",
+			commentContent: "좋은 문장 감사합니다.",
+			createdDate: "2023.03.19",
 			updatedDate: "",
-			commentDepth : 1, 
-			commentGroup : 1,
+			commentDepth: 1,
+			commentGroup: 1,
+			img: LoopyImg
 		},
 		{
 			commentId: 2,
-			nickname : "안녕 나는 루피야",
-			commentContent : "",
-			createdDate: "",
+			nickname: "안녕 나는 루피야",
+			commentContent: "",
+			createdDate: "2023.03.19",
 			updatedDate: "",
-			commentDepth : 0,
-			commentGroup : 2,
+			commentDepth: 0,
+			commentGroup: 2,
+			img: LoopyImg
 		},
 		{
 			commentId: 3,
-			nickname : "루피는 책이 좋습니다요",
-			commentContent : "좋은 문장 감사합니다.",
-			createdDate: "",
+			nickname: "루피는 책이 좋습니다요",
+			commentContent: "좋은 문장 감사합니다.",
+			createdDate: "2023.03.19",
 			updatedDate: "",
-			commentDepth : 1,
-			commentGroup : 2,
-		},
-	]
+			commentDepth: 1,
+			commentGroup: 2,
+			img: LoopyImg
+		}
+	];
 
 	const [isFollowed, setIsFollowed] = useState(false);
 
@@ -76,7 +80,7 @@ function DetailPost(props) {
 			<ReturnNavigationBar title={post.bookTitle} />
 			<DetailPostOverview post={post} isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
 			<SeparationBar />
-			<DetailComment comment={comment} />
+			<DetailComment comments={comments} />
 		</>
 	);
 }

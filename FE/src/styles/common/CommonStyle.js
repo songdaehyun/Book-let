@@ -74,3 +74,20 @@ export const CommentInputBox = styled.div`
 		}
 	}
 `;
+
+export const CommentBox = styled.div`
+	display: flex;
+
+	margin-bottom: 24px;
+
+	img {
+		width: 48px;
+		height: 48px;
+
+		margin-right: 24px;
+	}
+
+	> div:last-child {
+		margin-left: auto;
+	}
+`;
