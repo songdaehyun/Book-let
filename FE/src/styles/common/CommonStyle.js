@@ -43,3 +43,34 @@ export const ArrowButtonContainer = styled.div`
 		align-self: center;
 	}
 `;
+
+export const CommentInputBox = styled.div`
+	width: 100%;
+
+	margin-top: ${(props) => props.marginTop}px;
+	margin-bottom: ${(props) => props.marginBottom}px;
+	padding: 12px 16px;
+
+	display: flex;
+	justify-content: space-between;
+
+	background-color: var(--gray-50);
+
+	border: 1px solid var(--gray-200);
+	border-radius: 16px;
+
+	:focus {
+		outline: 1px solid var(--gray-500);
+	}
+
+	> input {
+		border: none;
+		background-color: transparent;
+		outline: none;
+		width: 100%;
+
+		::placeholder {
+			color: var(--gray-500);
+		}
+	}
+`;
