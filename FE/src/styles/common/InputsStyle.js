@@ -12,7 +12,7 @@ export const DefaultInput = styled.input`
 	border: 1px solid var(--gray-200);
 	border-radius: 4px;
 
-	:: placeholder {
+	::placeholder {
 		color: var(--gray-500);
 	}
 
