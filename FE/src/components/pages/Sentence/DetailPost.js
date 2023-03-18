@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
-import DetailSentence from "../../molecules/Sentence/DetailSentence";
+import DetailPostOverview from "../../organisms/Sentence/DetailPostOverview";
+
+import { SeparationBar } from "../../../styles/common/BarsStyle";
 
 import cover from "../../../assets/images/dummy/cover/cover-img (1).png";
-import ScrapToolbar from "../../molecules/Bar/ScrapToolbar";
-
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
-import { Container } from "../../../styles/common/ContainingsStyle";
+import DetailComment from "../../organisms/Sentence/DetailComment";
 
 function DetailPost(props) {
 	// 더미
@@ -16,7 +17,7 @@ function DetailPost(props) {
 			"이제는 안다. 우리가 계속 지는 한이 있더라도 선택해야만 하는 건 이토록 평범한 미래라는 것을. 그리고 포기하지 않는 한 그 미래가 다가올 확률은 100퍼센트에 수렴한다는 것을.",
 		paragraphColor: "#B88962",
 		paragraphPage: 145,
-		createdDate: "",
+		createdDate: "2023.03.18",
 		bookTitle: "이토록 평범한 미래",
 		bookAuthor: "김연수",
 		userId: 1,
@@ -25,24 +26,58 @@ function DetailPost(props) {
 		scrapUserImgs: [LoopyImg, LoopyImg, LoopyImg],
 		scrapCnt: 10,
 		userScrapted: 1, // 1 이면 스크랩 함. 0이면 안 함.
-		cover: cover
+		cover: cover,
+		userImg: LoopyImg
 	};
 
+	const comment = [
+		{
+			commentId : 1,
+			nickname : "루피는 행복해",
+			commentContent : "좋은 문장 감사합니다.",
+			createdDate: "",
+			updatedDate: "",
+			commentDepth : 0, 
+			commentGroup : 1,
+		},
+		{
+			commentId : 4,
+			nickname : "루피는 책이 좋습니다요",
+			commentContent : "좋은 문장 감사합니다.",
+			createdDate: "",
+			updatedDate: "",
+			commentDepth : 1, 
+			commentGroup : 1,
+		},
+		{
+			commentId: 2,
+			nickname : "안녕 나는 루피야",
+			commentContent : "",
+			createdDate: "",
+			updatedDate: "",
+			commentDepth : 0,
+			commentGroup : 2,
+		},
+		{
+			commentId: 3,
+			nickname : "루피는 책이 좋습니다요",
+			commentContent : "좋은 문장 감사합니다.",
+			createdDate: "",
+			updatedDate: "",
+			commentDepth : 1,
+			commentGroup : 2,
+		},
+	]
+
+	const [isFollowed, setIsFollowed] = useState(false);
+
 	return (
-		<div>
+		<>
 			<ReturnNavigationBar title={post.bookTitle} />
-			<DetailSentence
-				title={post.bookTitle}
-				author={post.bookAuthor}
-				content={post.content}
-				page={post.paragraphPage}
-				color={post.paragraphColor}
-				cover={post.cover}
-			/>
-			<Container marginTop="16" paddingLeft="16" paddingRight="16">
-				<ScrapToolbar post={post} isMy={false} />
-			</Container>
-		</div>
+			<DetailPostOverview post={post} isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
+			<SeparationBar />
+			<DetailComment comment={comment} />
+		</>
 	);
 }
 
