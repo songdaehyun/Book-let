@@ -1,2 +1,4 @@
 # Django 가상 환경 폴더 제외
 BE/django/venv
+
+.DS_Store
