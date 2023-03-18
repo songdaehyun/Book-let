@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import ScrapButton from "../../atoms/Button/ScrapButton";
-import ScrapInfo from "../ScrapInfo";
+import ScrapButton from '../../atoms/Button/ScrapButton';
+import ScrapInfo from '../ScrapInfo';
 
-import { Text } from "../../../styles/common/TextsStyle";
-import { PreviewPostInfoContainer } from "../../../styles/Sentence/PostPreviewStyle";
+import { Text } from '../../../styles/common/TextsStyle';
+import { PreviewPostInfoContainer } from '../../../styles/Sentence/PostPreviewStyle';
 
 function PreivewScrap({ post, isMy }) {
 	return (
