@@ -1,6 +1,6 @@
 import React from "react";
 
-import PreivewScrap from "../../molecules/Sentence/PreivewScrap";
+import Scrap from "../../molecules/Sentence/Scrap";
 import PreviewComment from "../../molecules/Sentence/PreviewComment";
 import PreviewSentence from "../../molecules/Sentence/PreviewSentence";
 
@@ -10,7 +10,7 @@ function PreviewPost({ post, isMy }) {
 	return (
 		<Container marginBottom="40">
 			<PreviewSentence post={post} />
-			<PreivewScrap post={post} isMy={isMy} />
+			<Scrap post={post} isMy={isMy} />
 			<PreviewComment post={post} isMy={isMy} />
 		</Container>
 	);
