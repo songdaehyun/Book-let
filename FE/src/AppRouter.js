@@ -14,6 +14,7 @@ import DetailPost from "./components/pages/Sentence/DetailPost";
 import Feed from "./components/pages/Sentence/Feed";
 import RecomSentence from "./components/pages/Sentence/RecomSentence";
 import ScrapSentence from "./components/pages/Sentence/ScrapSentence";
+import WriteSentence from "./components/pages/Sentence/WriteSentence";
 
 function AppRouter(props) {
 	return (
@@ -31,6 +32,7 @@ function AppRouter(props) {
 				<Route path="/sentence/scrap" element={<ScrapSentence />} />
 				<Route path="/sentence/recommand" element={<RecomSentence />} />
 				<Route path="/sentence/:sId" element={<DetailPost />} />
+				<Route path="/sentence/write" element={<WriteSentence />} />
 			</Routes>
 		</BrowserRouter>
 	);
