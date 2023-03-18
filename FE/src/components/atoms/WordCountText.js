@@ -3,7 +3,7 @@ import { Text } from "../../styles/common/TextsStyle";
 
 function WordCountText({ limit, length }) {
 	return (
-		<Text marginTop="8" color="var(--gray-500)">
+		<Text size="14" marginTop="8" color="var(--gray-500)">
 			{length} / {limit}자
 		</Text>
 	);
