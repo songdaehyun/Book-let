@@ -6,7 +6,6 @@ export const DetailSentenceContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	padding: 0 40px;
 	padding-top: 75px;
 	padding-bottom: 16px;
 
@@ -16,7 +15,13 @@ export const DetailSentenceContainer = styled.div`
 	color: ${(props) => props.color !== "#FEEB60" && "white"};
 `;
 
+export const SentenceContentBox = styled.div`
+	padding: 0 40px;
+`;
+
 export const DetailSentenceBottomInfo = styled.div`
+	padding: 0 16px;
+	
 	hr {
 		margin: 16px 0;
 		border: 0;

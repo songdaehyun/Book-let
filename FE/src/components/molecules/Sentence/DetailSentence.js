@@ -3,15 +3,18 @@ import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	DetailSentenceBottomInfo,
 	DetailSentenceBottomInfoContainer,
-	DetailSentenceContainer
+	DetailSentenceContainer,
+	SentenceContentBox
 } from "../../../styles/Sentence/DetailSentenceStyle";
 
 function DetailSentence({ title, author, content, page, color, cover }) {
 	return (
 		<DetailSentenceContainer color={color}>
-			<Text font="jeju" size="18" height="32">
-				{content}
-			</Text>
+			<SentenceContentBox>
+				<Text font="jeju" size="18" height="32">
+					{content}
+				</Text>
+			</SentenceContentBox>
 			<DetailSentenceBottomInfo>
 				<hr />
 				<DetailSentenceBottomInfoContainer>
