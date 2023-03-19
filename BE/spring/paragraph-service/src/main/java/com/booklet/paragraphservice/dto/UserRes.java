@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRes {
+    private Long userId;
+    private String nickname;
+//    private String userImage; // 보류
 }
