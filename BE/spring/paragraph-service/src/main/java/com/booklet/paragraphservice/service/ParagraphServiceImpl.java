@@ -80,7 +80,6 @@ public class ParagraphServiceImpl implements ParagraphService{
 
             return result;
         }
-
         return null;
     }
 
@@ -99,8 +98,15 @@ public class ParagraphServiceImpl implements ParagraphService{
         return null;
     }
 
-    @Override
-    public boolean deleteParagraph(Long paragraphId) {
+    
+    @Override 
+    public boolean deleteParagraph(Long paragraphId) { // 등록된 문장 삭제
+        try{
+            paragraphRepository.deleteById(paragraphId);
+        }catch (Exception e){
+//            log.info("error : {}", e.getStackTrace());
+            return false;
+        }
         return false;
     }
 }
