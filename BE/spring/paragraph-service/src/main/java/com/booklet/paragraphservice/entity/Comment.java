@@ -2,6 +2,7 @@ package com.booklet.paragraphservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
@@ -36,6 +37,13 @@ public class Comment extends BaseTimeEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-
-
+    @Builder
+    public Comment( int commentGroup, int commentDepth, String commentContent, Paragraph paragraph, User user) {
+//        this.commentId = commentId;
+        this.commentGroup = commentGroup;
+        this.commentDepth = commentDepth;
+        this.commentContent = commentContent;
+        this.paragraph = paragraph;
+        this.user = user;
+    }
 }
