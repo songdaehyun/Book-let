@@ -35,12 +35,14 @@ public class Paragraph extends BaseTimeEntity{
     private String bookIsbn;
 
     @Builder
-    public Paragraph(Long userId, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
+    public Paragraph(Long paragraphId, Long userId, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
+        this.paragraphId = paragraphId;
         this.userId = userId;
         this.paragraphContent = paragraphContent;
         this.paragraphColor = paragraphColor;
-        this.bookIsbn = bookIsbn;
         this.paragraphPage = paragraphPage;
+
+        this.bookIsbn = bookIsbn;
     }
 
 }

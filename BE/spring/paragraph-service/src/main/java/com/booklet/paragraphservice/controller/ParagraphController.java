@@ -31,9 +31,11 @@ public class ParagraphController {
         if (resultId != null) {
             map.put("message", "success");
             map.put("id", resultId);
+            return new ResponseEntity<>(map, HttpStatus.CREATED);
+
         } else {
             map.put("message", "fail");
+            return new ResponseEntity<>(map, HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(map, HttpStatus.ACCEPTED);
     }
 }
