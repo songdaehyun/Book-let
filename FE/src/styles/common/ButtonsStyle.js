@@ -92,3 +92,38 @@ export const CommentUploadBtn = styled.button`
 		background-color: var(--gray-100);
 	}
 `;
+
+export const SentenceColorRadioBtn = styled.input`
+	vertical-align: middle;
+	appearance: none;
+	/* border: max(2px, 0.1em) solid gray; */
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+
+	background: #ffffff;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+	display: inline-block;
+	position: relative;
+
+	:after {
+		content: "";
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		width: 28px;
+		height: 28px;
+		background: ${(props) => props.color};
+		border-radius: 100%;
+	}
+
+	:checked {
+		border: 0.5px solid #000000;
+	}
+
+	:checked:after {
+		top: 1.5px;
+		left: 1.5px;
+	}
+`;
