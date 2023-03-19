@@ -22,7 +22,7 @@ public class Paragraph extends BaseTimeEntity{
 
     @Column(length = 301, nullable = false)
     private String paragraphContent;
-    @Column(length = 30, nullable = false)
+    @Column
     private String paragraphColor;
 
     @Column
@@ -34,9 +34,10 @@ public class Paragraph extends BaseTimeEntity{
     @Column
     private String bookIsbn;
 
+
     @Builder
-    public Paragraph(Long paragraphId, Long userId, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
-        this.paragraphId = paragraphId;
+    public Paragraph( Long userId, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
+
         this.userId = userId;
         this.paragraphContent = paragraphContent;
         this.paragraphColor = paragraphColor;

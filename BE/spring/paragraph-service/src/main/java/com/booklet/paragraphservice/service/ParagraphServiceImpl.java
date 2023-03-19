@@ -34,17 +34,22 @@ public class ParagraphServiceImpl implements ParagraphService{
     @Transactional
     @Override
     public Long saveParagraph(ParagraphCreateReq req) { // 문장 id 리턴
-        Paragraph paragraph = new Paragraph();
-        paragraph = Paragraph.builder()
-                .paragraphContent(req.getParagraphContent())
-                .paragraphPage(req.getParagraphPage())
-                .paragraphColor(req.getParagraphColor())
-                .bookIsbn(req.getBookIsbn())
-                .userId(req.getUserId())
-                .build();
-        log.info("paragraph: {}", paragraph);
+        Long result = 0L;
+        try{
+            Paragraph paragraph = Paragraph.builder()
+                    .paragraphContent(req.getParagraphContent())
+                    .paragraphPage(req.getParagraphPage())
+                    .paragraphColor(req.getParagraphColor())
+                    .bookIsbn(req.getBookIsbn())
+                    .userId(req.getUserId())
+                    .build();
+            log.info("paragraph: {}", paragraph);
 
-        Long result = paragraphRepository.save(paragraph).getParagraphId();
+            result = paragraphRepository.save(paragraph).getParagraphId();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
 
         return result;
     }
@@ -54,14 +59,17 @@ public class ParagraphServiceImpl implements ParagraphService{
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
         Book book = bookRepository.findById(paragraph.getBookIsbn()).orElse(null);
         User user = userRepository.findById(paragraph.getUserId()).orElse(null);
-        if(paragraph!=null && book != null){
+        try{
             Map<String, Object> result = new HashMap<>();
-            ParagraphDto paragraphDto = ParagraphDto.builder()
-                    .paragraphContent(paragraph.getParagraphContent())
-                    .paragraphColor(paragraph.getParagraphColor())
-                    .paragraphPage(paragraph.getParagraphPage())
-                    .date(paragraph.getCreatedDate())
-                    .build();
+//            ParagraphDto paragraphDto = ParagraphDto.builder()
+//                    .paragraphContent(paragraph.getParagraphContent())
+//                    .paragraphColor(paragraph.getParagraphColor())
+//                    .paragraphPage(paragraph.getParagraphPage())
+//                    .date(paragraph.getCreatedDate())
+//                    .build();
+            ModelMapper mapper = new ModelMapper();
+            mapper.getConfiguration().setAmbiguityIgnored(true);
+            ParagraphDto paragraphDto = new ModelMapper().map(paragraph, ParagraphDto.class);
             // 책 정보
             BookDto bookDto = BookDto.builder()
                     .bookAuthor(book.getBookAuthor())
@@ -79,6 +87,8 @@ public class ParagraphServiceImpl implements ParagraphService{
             result.put("user", userDto);
 
             return result;
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return null;
     }

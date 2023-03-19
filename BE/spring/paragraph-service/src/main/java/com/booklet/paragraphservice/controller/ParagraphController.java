@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("api/v1/paragraph")
 @RequiredArgsConstructor
 @Component
-//@Api(value = "장바구니 관련 API")
 public class ParagraphController {
     private final ParagraphServiceImpl paragraphService;
 
