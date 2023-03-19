@@ -7,12 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -37,5 +36,42 @@ public class ParagraphController {
             map.put("message", "fail");
             return new ResponseEntity<>(map, HttpStatus.ACCEPTED);
         }
+    }
+
+    @GetMapping("/{paragraphId}")
+    public ResponseEntity getOneParagraph(@PathVariable("paragraphId") Long paragraphId){
+        try{
+            Map<String, Object> result = paragraphService.findParagraph(paragraphId);
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            Map<String, Object> result = new HashMap<>();
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        }
+    }
+
+    @GetMapping("/mylist/{userId}")
+    public ResponseEntity getListParagraph(@PathVariable("userId") Long userId){
+
+        return null;
+    }
+
+    @GetMapping("/following/{userId}")
+    public ResponseEntity getFollowingParagraph(@PathVariable("userId") Long userId){
+
+        return null;
+    }
+
+    @PutMapping("/{paragraphId}")
+    public ResponseEntity modifyParagraph(@PathVariable("paragraphId") Long paragraphId){
+
+        return null;
+    }
+
+    @DeleteMapping("/{paragraphId}")
+    public ResponseEntity deleteParagraph(@PathVariable("paragraphId") Long paragraphId){
+
+        return null;
     }
 }

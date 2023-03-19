@@ -6,6 +6,7 @@ import com.booklet.paragraphservice.dto.ParagraphSetReq;
 import com.booklet.paragraphservice.entity.Paragraph;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface ParagraphService {
     /** find,save, delete, update */
@@ -13,7 +14,7 @@ public interface ParagraphService {
     // 문장 저장
     public Long saveParagraph(ParagraphCreateReq req);
     // 문장 1개 조회
-    public ParagraphDto findParagraph(Long paragraphId);
+    public Map<String, Object> findParagraph(Long paragraphId);
     // user 본인이 등록한 문장 목록 조회
     public ArrayList<Paragraph> findParagraphs(Long userId);
     // user가 팔로잉한 회원들의 문장 목록 조회

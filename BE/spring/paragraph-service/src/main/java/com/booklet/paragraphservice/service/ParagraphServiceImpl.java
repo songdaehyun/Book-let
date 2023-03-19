@@ -1,10 +1,13 @@
 package com.booklet.paragraphservice.service;
 
-import com.booklet.paragraphservice.dto.ParagraphCreateReq;
-import com.booklet.paragraphservice.dto.ParagraphDto;
-import com.booklet.paragraphservice.dto.ParagraphSetReq;
+import com.booklet.paragraphservice.dto.*;
+import com.booklet.paragraphservice.entity.Book;
 import com.booklet.paragraphservice.entity.Paragraph;
+import com.booklet.paragraphservice.entity.User;
+import com.booklet.paragraphservice.repository.BookRepository;
+import com.booklet.paragraphservice.repository.CommentRepository;
 import com.booklet.paragraphservice.repository.ParagraphRepository;
+import com.booklet.paragraphservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +27,9 @@ import java.util.ArrayList;
 @Transactional(readOnly = true)
 public class ParagraphServiceImpl implements ParagraphService{
     private final ParagraphRepository paragraphRepository;
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     @Override
@@ -41,16 +50,37 @@ public class ParagraphServiceImpl implements ParagraphService{
     }
 
     @Override
-    public ParagraphDto findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
+    public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
-        if(paragraph!=null){
+        Book book = bookRepository.findById(paragraph.getBookIsbn()).orElse(null);
+        User user = userRepository.findById(paragraph.getUserId()).orElse(null);
+        if(paragraph!=null && book != null){
+            Map<String, Object> result = new HashMap<>();
             ParagraphDto paragraphDto = ParagraphDto.builder()
                     .paragraphContent(paragraph.getParagraphContent())
                     .paragraphColor(paragraph.getParagraphColor())
                     .paragraphPage(paragraph.getParagraphPage())
                     .date(paragraph.getCreatedDate())
                     .build();
+            // 책 정보
+            BookDto bookDto = BookDto.builder()
+                    .bookAuthor(book.getBookAuthor())
+                    .bookTitle(book.getBookTitle())
+                    .bookImage(book.getBookImage())
+                    .bookIsbn(book.getBookIsbn())
+                    .build();
+            // 작성자 정보
+            UserDto userDto = UserDto.builder()
+                    .userId(paragraph.getUserId())
+                    .nickname(user.getNickname())
+                    .build();
+            result.put("paragraph", paragraphDto);
+            result.put("book", bookDto);
+            result.put("user", userDto);
+
+            return result;
         }
+
         return null;
     }
 
