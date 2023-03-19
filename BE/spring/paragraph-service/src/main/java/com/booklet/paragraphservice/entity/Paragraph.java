@@ -28,17 +28,18 @@ public class Paragraph extends BaseTimeEntity{
     @Column
     private int paragraphPage;
 
-    @Column
-    private Long userId;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Column
     private String bookIsbn;
 
 
     @Builder
-    public Paragraph( Long userId, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
+    public Paragraph( User user, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
 
-        this.userId = userId;
+        this.user = user;
         this.paragraphContent = paragraphContent;
         this.paragraphColor = paragraphColor;
         this.paragraphPage = paragraphPage;

@@ -41,16 +41,13 @@ public class ParagraphServiceImpl implements ParagraphService{
                     .paragraphPage(req.getParagraphPage())
                     .paragraphColor(req.getParagraphColor())
                     .bookIsbn(req.getBookIsbn())
-                    .userId(req.getUserId())
+                    .user(userRepository.findById(req.getUserId()).orElse(null))
                     .build();
-            log.info("paragraph: {}", paragraph);
-
             result = paragraphRepository.save(paragraph).getParagraphId();
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
-
         return result;
     }
 
@@ -58,11 +55,12 @@ public class ParagraphServiceImpl implements ParagraphService{
     public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
         Book book = bookRepository.findById(paragraph.getBookIsbn()).orElse(null);
-        User user = userRepository.findById(paragraph.getUserId()).orElse(null);
+        User user = paragraph.getUser();
         try{
             Map<String, Object> result = new HashMap<>();
             ModelMapper mapper = new ModelMapper();
             mapper.getConfiguration().setAmbiguityIgnored(true);
+            // 문장 정보
             ParagraphDto paragraphDto = new ModelMapper().map(paragraph, ParagraphDto.class);
             // 책 정보
             BookDto bookDto = new ModelMapper().map(book, BookDto.class);
@@ -71,7 +69,6 @@ public class ParagraphServiceImpl implements ParagraphService{
             result.put("paragraph", paragraphDto);
             result.put("book", bookDto);
             result.put("user", userDto);
-
             return result;
         }catch (Exception e){
             e.printStackTrace();
@@ -80,7 +77,7 @@ public class ParagraphServiceImpl implements ParagraphService{
     }
 
     @Override
-    public ArrayList<Paragraph> findParagraphs(Long userId) {
+    public ArrayList<Paragraph> findParagraphs(Long userId) { // 내 문장 목록 조회
         return null;
     }
 
