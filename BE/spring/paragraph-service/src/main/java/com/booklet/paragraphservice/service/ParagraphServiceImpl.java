@@ -61,27 +61,13 @@ public class ParagraphServiceImpl implements ParagraphService{
         User user = userRepository.findById(paragraph.getUserId()).orElse(null);
         try{
             Map<String, Object> result = new HashMap<>();
-//            ParagraphDto paragraphDto = ParagraphDto.builder()
-//                    .paragraphContent(paragraph.getParagraphContent())
-//                    .paragraphColor(paragraph.getParagraphColor())
-//                    .paragraphPage(paragraph.getParagraphPage())
-//                    .date(paragraph.getCreatedDate())
-//                    .build();
             ModelMapper mapper = new ModelMapper();
             mapper.getConfiguration().setAmbiguityIgnored(true);
             ParagraphDto paragraphDto = new ModelMapper().map(paragraph, ParagraphDto.class);
             // 책 정보
-            BookDto bookDto = BookDto.builder()
-                    .bookAuthor(book.getBookAuthor())
-                    .bookTitle(book.getBookTitle())
-                    .bookImage(book.getBookImage())
-                    .bookIsbn(book.getBookIsbn())
-                    .build();
+            BookDto bookDto = new ModelMapper().map(book, BookDto.class);
             // 작성자 정보
-            UserDto userDto = UserDto.builder()
-                    .userId(paragraph.getUserId())
-                    .nickname(user.getNickname())
-                    .build();
+            UserDto userDto = new ModelMapper().map(user, UserDto.class);
             result.put("paragraph", paragraphDto);
             result.put("book", bookDto);
             result.put("user", userDto);
