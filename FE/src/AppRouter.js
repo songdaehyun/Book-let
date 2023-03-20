@@ -18,6 +18,7 @@ import WriteSentence from "./components/pages/Sentence/WriteSentence";
 
 // 책
 import Book from "./components/pages/Book/Book";
+import UserRecomBook from "./components/pages/Book/UserRecomBook";
 
 function AppRouter(props) {
 	return (
@@ -38,6 +39,7 @@ function AppRouter(props) {
 				<Route path="/sentence/write" element={<WriteSentence />} />
 				{/* 도서 */}
 				<Route path="/book" element={<Book />} />
+				<Route path="/book/recom/user" element={<UserRecomBook />} />
 			</Routes>
 		</BrowserRouter>
 	);
