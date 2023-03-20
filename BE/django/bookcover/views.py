@@ -4,9 +4,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from PIL import Image
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-from surprise import Dataset, Reader, KNNWithMeans, KNNBasic
+from .connections import bookcover_recommendation
+
 # import yolov5
 
 # .pt로 저장된 모델 불러오기
@@ -69,7 +68,8 @@ def image_recommend(request):   # 예측 기능 수행
 
         # output = 추천 이미지 리스트
         output = []
-        # 여기에 output image를 추천하는 알고리즘 작성
+        # 유사 책 표지 추천(유사한 그림 상위 N개)
+        bookcover_recommendation()
 
         # Format the output as JSON
         response = {'book_image': output}
