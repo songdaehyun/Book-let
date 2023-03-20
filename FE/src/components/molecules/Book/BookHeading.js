@@ -1,9 +1,9 @@
 import React from "react";
 
+import { BookHeadingBox } from "../../../styles/Book/BookStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 
 import SearchIcon from "../../../assets/icons/search-icon.png";
-import { BookHeadingBox } from "../../../styles/Book/BookStyle";
 
 function BookHeading(props) {
 	return (
