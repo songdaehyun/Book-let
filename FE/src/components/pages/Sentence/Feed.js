@@ -4,17 +4,30 @@ import FeedMyTab from "../../organisms/Sentence/FeedMyTab";
 
 import FeedTab from "../../molecules/Tab/FeedTab";
 
+import { useNavigate } from "react-router-dom";
+import { TextBtn } from "../../../styles/common/ButtonsStyle";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Text } from "../../../styles/common/TextsStyle";
+import { FeedHeadingBox } from "../../../styles/Sentence/FeedTabStyle";
 
 function Feed(props) {
+	const navigate = useNavigate();
+
 	const [selectedItem, setSelectedItem] = useState(1);
+
+	const handleClickWrite = () => {
+		navigate("/sentence/write");
+	};
+
 	return (
 		<Container paddingTop="24" paddingLeft="16" paddingRight="16">
 			<Text size="24" weight="bold" marginBottom="24">
 				Feed
 			</Text>
-			<FeedTab selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+			<FeedHeadingBox>
+				<FeedTab selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+				<TextBtn onClick={handleClickWrite}>문장 쓰기</TextBtn>
+			</FeedHeadingBox>
 			{selectedItem === 1 ? <FeedMyTab /> : <FeedExplore />}
 		</Container>
 	);
