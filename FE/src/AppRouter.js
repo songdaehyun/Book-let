@@ -16,6 +16,9 @@ import RecomSentence from "./components/pages/Sentence/RecomSentence";
 import ScrapSentence from "./components/pages/Sentence/ScrapSentence";
 import WriteSentence from "./components/pages/Sentence/WriteSentence";
 
+// 책
+import Book from "./components/pages/Book/Book";
+
 function AppRouter(props) {
 	return (
 		<BrowserRouter>
@@ -33,6 +36,8 @@ function AppRouter(props) {
 				<Route path="/sentence/recommand" element={<RecomSentence />} />
 				<Route path="/sentence/:sId" element={<DetailPost />} />
 				<Route path="/sentence/write" element={<WriteSentence />} />
+				{/* 도서 */}
+				<Route path="/book" element={<Book />} />
 			</Routes>
 		</BrowserRouter>
 	);
