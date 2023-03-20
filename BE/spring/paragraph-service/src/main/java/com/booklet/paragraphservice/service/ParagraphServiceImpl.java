@@ -4,10 +4,8 @@ import com.booklet.paragraphservice.dto.*;
 import com.booklet.paragraphservice.entity.Book;
 import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
-import com.booklet.paragraphservice.repository.BookRepository;
-import com.booklet.paragraphservice.repository.CommentRepository;
-import com.booklet.paragraphservice.repository.ParagraphRepository;
-import com.booklet.paragraphservice.repository.UserRepository;
+import com.booklet.paragraphservice.entity.UserImage;
+import com.booklet.paragraphservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,6 +28,8 @@ public class ParagraphServiceImpl implements ParagraphService{
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final ScrapRepository scrapRepository;
+    private final UserImageRepository userImageRepository;
 
     @Transactional
     @Override
@@ -40,7 +40,7 @@ public class ParagraphServiceImpl implements ParagraphService{
                     .paragraphContent(req.getParagraphContent())
                     .paragraphPage(req.getParagraphPage())
                     .paragraphColor(req.getParagraphColor())
-                    .bookIsbn(req.getBookIsbn())
+                    .book(bookRepository.findById(req.getBookIsbn()).orElse(null))
                     .user(userRepository.findById(req.getUserId()).orElse(null))
                     .build();
             result = paragraphRepository.save(paragraph).getParagraphId();
@@ -54,7 +54,7 @@ public class ParagraphServiceImpl implements ParagraphService{
     @Override
     public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
-        Book book = bookRepository.findById(paragraph.getBookIsbn()).orElse(null);
+        Book book = paragraph.getBook();
         User user = paragraph.getUser();
         try{
             Map<String, Object> result = new HashMap<>();
@@ -66,9 +66,40 @@ public class ParagraphServiceImpl implements ParagraphService{
             BookDto bookDto = new ModelMapper().map(book, BookDto.class);
             // 작성자 정보
             UserDto userDto = new ModelMapper().map(user, UserDto.class);
+            // 댓글 수
+            int commentCnt  = commentRepository.countByParagraphId(paragraphId);
+            // 스크랩 정보
+            ParagraphScrapDto paragraphScrapDto;
+            // 1. 스크랩한 사람들의 이미지 3개
+            ArrayList<User> userList= scrapRepository.findTop3ScrapUserImages(paragraphId);
+            ArrayList<String> userImageList = new ArrayList<>();
+            for(User u : userList){
+                userImageList.add(userImageRepository.findUserImageByUser(u));
+            }
+
+            // 2. 스크랩 count
+            int scrapCount = scrapRepository.countByParagraphId(paragraphId);
+            // 3. 해당 유저가 스크랩을 했는지 안 헀는지...
+
+            if(!scrapRepository.findByUserAndParagraph(user, paragraph).isPresent()){
+                paragraphScrapDto = ParagraphScrapDto.builder()
+                        .scrapUserImages(userImageList)
+                        .scrapCount(scrapCount)
+                        .userScrape(0)
+                        .build();
+            }else{
+                paragraphScrapDto = ParagraphScrapDto.builder()
+                        .scrapUserImages(userImageList)
+                        .scrapCount(scrapCount)
+                        .userScrape(1)
+                        .build();
+            }
+
             result.put("paragraph", paragraphDto);
             result.put("book", bookDto);
             result.put("user", userDto);
+            result.put("commentCnt", commentCnt);
+            result.put("scrapInfo", paragraphScrapDto);
             return result;
         }catch (Exception e){
             e.printStackTrace();
