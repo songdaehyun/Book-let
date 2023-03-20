@@ -22,3 +22,10 @@ export const BookCoverMasonryBox = styled.div`
 		min-height: 100px;
 	}
 `;
+
+export const BookListBox = styled.div`
+	// display: flex;
+	column-count: 3;
+	column-gap: 16px;
+	justify-content: space-between;
+`;
