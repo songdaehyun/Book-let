@@ -7,10 +7,10 @@ function TopBanner({ title, subTitle, img }) {
 	return (
 		<TopBannerContainer>
 			<div>
-				<Text size="20" color="var(--primary-600)" weight="bold" marginBottom="16">
+				<Text size="20" weight="bold" marginBottom="16" height="28">
 					{title}
 				</Text>
-				<Text size="12" color="var(--gray-500)">
+				<Text size="14" color="var(--gray-500)" height="20">
 					{subTitle}
 				</Text>
 			</div>
