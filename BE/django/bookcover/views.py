@@ -16,17 +16,9 @@ model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비�
 
 @csrf_exempt    # API를 만드는 경우 csrf 인증을 끄는 게 좋다.(대신 API 키 등의 방식을 사용)
 def image_recommend(request):   # 예측 기능 수행
-    if request.method == 'POST':
+    if request.method == 'GET':
         # Get input data from POST request
-        input_data = request.POST.get('input_data')
-
-        # input_pixel = Image 함수로 이미지 값 읽어오기
-        input_pixel = Image.open(input_data[0])
-        # 추천 알고리즘을 바탕으로 비슷한 유사도 가진 삽화 N개 반환
-
-        # input_info = 모델 기반 특정 테마의 유사도를 df 형식으로 표시
-        input_info = model(input_pixel)
-        input_info = input_info.pandas().xyxy[0]
+        input_data = request.GET.get('book_image')
 
         # image_spec = 이미지의 confidence 값을 df로 요약한 형태
         image_spec = pd.DataFrame(columns=[
@@ -42,21 +34,31 @@ def image_recommend(request):   # 예측 기능 수행
 
         # image_value = 이미지 keyword의 confidence 값을 딕셔너리 형태로 정리
         image_value = dict()
-        # input_info 값을 하나씩 조회
-        for col in range(input_info.shape[0]):
-            # 딕셔너리에 {분류: 유사도} 형태로 저장
-            image_value[input_info.name[col]] = input_info.confidence[col]
 
-        # imave_value 값 합치기
-        # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
-        image_spec = image_spec.fillna(0)
+        # 요청한 값의 이미지 URL을 하나씩 조회
+        for imgurl in input_data:
+            input_pixel = Image.open(imgurl)    # 각 URL 별 Image 데이터 불러오기
 
-        # 여기에 output image를 추천하는 알고리즘 작성
+            # 모델로 카테고리 분류한 후 pandas DF로 전환
+            input_info = model(input_pixel)
+            input_info = input_info.pandas().xyxy[0]
+
+            # input_info 값을 하나씩 조회
+            for col in range(input_info.shape[0]):
+                # 딕셔너리에 {분류: 유사도} 형태로 저장
+                image_value[input_info.name[col]] = input_info.confidence[col]
+
+                # image_value 값 합치기
+
+                # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
+                image_spec = image_spec.fillna(0)
 
         # output = 추천 이미지 리스트
-        output = 0
+        output = []
+        # 여기에 output image를 추천하는 알고리즘 작성
+
         # Format the output as JSON
-        response = {'output': output}
+        response = {'book_image': output}
 
         # Return the response as a JSON object
         return JsonResponse(response)
