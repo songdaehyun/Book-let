@@ -12,5 +12,5 @@ import java.util.ArrayList;
 public class ParagraphScrapDto {
     private ArrayList<String> scrapUserImages;
     private int scrapCount;
-    private int userScrape;
+    private int userScrape; // 사용자가 스크랩한지 안한지 여부
 }

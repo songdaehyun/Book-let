@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,32 +68,7 @@ public class ParagraphServiceImpl implements ParagraphService{
             UserDto userDto = new ModelMapper().map(user, UserDto.class);
             // 댓글 수
             int commentCnt  = commentRepository.countByParagraphId(paragraphId);
-            // 스크랩 정보
-            ParagraphScrapDto paragraphScrapDto;
-            // 1. 스크랩한 사람들의 이미지 3개
-            ArrayList<User> userList= scrapRepository.findTop3ScrapUserImages(paragraphId);
-            ArrayList<String> userImageList = new ArrayList<>();
-            for(User u : userList){
-                userImageList.add(userImageRepository.findUserImageByUser(u));
-            }
-
-            // 2. 스크랩 count
-            int scrapCount = scrapRepository.countByParagraphId(paragraphId);
-            // 3. 해당 유저가 스크랩을 했는지 안 헀는지...
-
-            if(!scrapRepository.findByUserAndParagraph(user, paragraph).isPresent()){
-                paragraphScrapDto = ParagraphScrapDto.builder()
-                        .scrapUserImages(userImageList)
-                        .scrapCount(scrapCount)
-                        .userScrape(0)
-                        .build();
-            }else{
-                paragraphScrapDto = ParagraphScrapDto.builder()
-                        .scrapUserImages(userImageList)
-                        .scrapCount(scrapCount)
-                        .userScrape(1)
-                        .build();
-            }
+            ParagraphScrapDto paragraphScrapDto = getParagraphScrapDto(paragraphId, paragraph, user);
 
             result.put("paragraph", paragraphDto);
             result.put("book", bookDto);
@@ -107,9 +82,53 @@ public class ParagraphServiceImpl implements ParagraphService{
         return null;
     }
 
+    private ParagraphScrapDto getParagraphScrapDto(Long paragraphId, Paragraph paragraph, User user) {
+        // 스크랩 정보
+        ParagraphScrapDto paragraphScrapDto;
+        // 1. 스크랩한 사람들의 이미지 3개
+        ArrayList<User> userList= scrapRepository.findTop3ScrapUserImages(paragraphId);
+        ArrayList<String> userImageList = new ArrayList<>();
+        for(User u : userList){
+            userImageList.add(userImageRepository.findUserImageByUser(u));
+        }
+
+        // 2. 스크랩 count
+        int scrapCount = scrapRepository.countByParagraphId(paragraphId);
+        // 3. 해당 유저가 스크랩을 했는지 안 헀는지...
+
+        if(!scrapRepository.findByUserAndParagraph(user, paragraph).isPresent()){
+            paragraphScrapDto = ParagraphScrapDto.builder()
+                    .scrapUserImages(userImageList)
+                    .scrapCount(scrapCount)
+                    .userScrape(0)
+                    .build();
+        }else{
+            paragraphScrapDto = ParagraphScrapDto.builder()
+                    .scrapUserImages(userImageList)
+                    .scrapCount(scrapCount)
+                    .userScrape(1)
+                    .build();
+        }
+        return paragraphScrapDto;
+    }
+
     @Override
-    public ArrayList<Paragraph> findParagraphs(Long userId) { // 내 문장 목록 조회
-        return null;
+    public HashMap<String, Object> findParagraphs(Long userId, Pageable pageable) { // 내 문장 목록 조회
+        User user = userRepository.findById(userId).orElse(null);
+        try {
+            Slice<Paragraph> paragraphs = paragraphRepository.findParagraphByUser(user, pageable);
+
+            List<ParagraphListDto> listDto = paragraphs.getContent().stream()
+                    .map(i->new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()),commentRepository.countByParagraphId(i.getParagraphId())))
+                    .collect(Collectors.toList());
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("paragraphs",listDto);
+            result.put("hasNextPage", paragraphs.hasNext());
+            return result;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

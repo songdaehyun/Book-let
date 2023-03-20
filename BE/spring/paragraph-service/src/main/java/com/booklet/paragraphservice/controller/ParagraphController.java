@@ -4,12 +4,14 @@ import com.booklet.paragraphservice.dto.ParagraphCreateReq;
 import com.booklet.paragraphservice.service.ParagraphServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.Response;
+import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,9 +53,12 @@ public class ParagraphController {
     }
 
     @GetMapping("/mylist/{userId}")
-    public ResponseEntity getListParagraph(@PathVariable("userId") Long userId){
+    public ResponseEntity getListParagraphs(@PathVariable("userId") Long userId, int page, int size){
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+        PageRequest pageRequest = PageRequest.of(page, size);
+        HashMap<String, Object> result = paragraphService.findParagraphs(userId, pageRequest);
 
-        return null;
+        return new ResponseEntity(result, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/following/{userId}")
