@@ -548,3 +548,147 @@ https://stackoverflow.com/questions/57836100/this-may-be-the-result-of-an-unspec
 https://github.com/spring-projects/spring-security/issues/10822
 - Spring security의 경우 Spring 3 버전대와 2번전대도 다르고
 - 2.7버전과 그 아래 버전에서도 depreciate된 기능들이 있어서 학습하고 적용하는데 어려움을 겪고 있습니다.
+
+# DB 파싱을 위한 Django
+- models.py
+```python
+from django.db import models
+
+# Create your models here.
+class Author(models.Model):
+    author_id = models.BigIntegerField(primary_key=True)
+    author_name = models.CharField(max_length=16)
+
+
+class Genre(models.Model):
+    genre_id = models.BigIntegerField(primary_key=True)
+    genre_name = models.CharField(max_length=16)
+
+
+class Book(models.Model):
+    book_isbn = models.CharField(max_length=32, primary_key=True)
+    book_title = models.CharField(max_length=32)
+    book_publisher = models.CharField(max_length=16)
+    book_price = models.IntegerField(null=True)
+    book_description = models.TextField(null=True)
+    book_score = models.FloatField(null=True)
+    book_grade = models.FloatField(null=True)
+    book_image = models.TextField(null=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    genres = models.ManyToManyField(Genre, related_name='books')
+
+
+class BookGenre(models.Model):
+    book_isbn = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_genre_book_id')
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='book_genre_genre_id')
+
+```
+
+- views.py
+```python
+import requests
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import JsonResponse
+
+from .models import *
+# Create your views here.
+
+
+# 알라딘 키
+ALA_API_KEY = 'ttbjoyksj940955001'
+# ttbgoflwla921118001
+BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
+MAIN = 'ItemList.aspx'
+DETAIL = 'ItemLookUp.aspx'
+
+def book_detail(book_isbn):
+    print('책 세부내용 가지러 왔습니다!', book_isbn)
+    response = requests.get(
+     BASE_URL + DETAIL,
+     params={
+        'ttbkey' : ALA_API_KEY,
+        'itemIdType' : 'ISBN',
+        'ItemId' : book_isbn,
+        'output' : 'js',
+        'Version' : 20131101,
+        'OptResult' : 'ratingInfo,reviewList'
+     }
+    ).json()
+    print(response.get('item'))
+    book = response.get('item')[0]
+    reivewList = book.get('reviewList')
+    ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
+
+    print('책 이름 : ',book.get('title'))
+    
+
+    book_info = {
+         'grade' : ratingScore
+    }
+    print()
+     
+    return book_info
+
+
+def author_info(name, isbn):
+    if not Author.objects.filter(author_name=name).exists():
+        author = Author.objects.create(
+              author_id = isbn
+              author_name = name,
+         )
+    return author
+
+
+@api_view(['GET'])
+def insert_db(request):
+    print('DB 저장하러 왔습니다.')
+    context = {
+        'result' : 'ㅇㅅㅇ' 
+    }
+
+    response = requests.get(
+        BASE_URL + MAIN,
+        params={
+            'ttbkey' : ALA_API_KEY,
+            'QueryType' : 'Bestseller',
+            'MaxResults' : 100,
+            'start' : 1,
+            'SearchTarget' : 'Book',
+            'output' : 'js',
+            'Version' : 20131101,
+            'cover' : 'Big',
+            'Year' : 2023,
+            'Month' : 2,
+            'Week' : 1
+        }
+    ).json()
+    print(response)
+    book_list = response.get('item')
+    for book in book_list:
+        print('작업 중 인 도서 : ',book.get('title'))
+
+        # 책 데이터 저장
+        if not Book.objects.filter(pk=book.get('isbn13')).exists():
+                # 책 디테일 불러오기
+                book_info = book_detail(book.get('isbn13'))
+
+                # 저자 저장
+                author = author_info(book.get('author'), book.get('isbn13'))
+
+                # 책 저장
+                book = Book.objects.create(
+                    book_isbn = book.get('isbn13'),
+                    book_title = book.get('title'),
+                    book_publisher = book.get('publisher'),
+                    book_price = book.get('priceStandard'),
+                    book_description = book.get('description'),
+                    # book_score = None,
+                    book_grade = book.get(book_info.get('grade')),
+                    book_image = book.get('cover')
+                )
+
+    return JsonResponse(context)
+
+```
