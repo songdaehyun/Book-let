@@ -3,10 +3,7 @@ package com.booklet.paragraphservice.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -20,8 +17,9 @@ public class Book {
     @Column
     String bookTitle;
 
-    @Column
-    String bookAuthor;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="author_id")
+    private Author author;
     @Column
     String bookImage;
 

@@ -3,7 +3,6 @@ package com.booklet.paragraphservice.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,14 +10,9 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name="user")
-public class User {
-
+@Table(name="author")
+public class Author {
     @Id
-    @Column(name="user_id")
-    Long userId;
-
-    @Column
-    String nickname;
-
+    private Long authorId;
+    private String author_name;
 }

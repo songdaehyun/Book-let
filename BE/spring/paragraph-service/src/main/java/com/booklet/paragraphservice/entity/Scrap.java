@@ -1,5 +1,6 @@
 package com.booklet.paragraphservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,13 @@ public class Scrap {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scrapId;
-    @Column
-    private Long userId;
-    @Column
-    private Long paragraph_id;
 
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paragraph_id")
+    private Paragraph paragraph;
 }
