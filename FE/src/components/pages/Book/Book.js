@@ -142,7 +142,7 @@ function Book(props) {
 	const userRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{userBooks.age}살 {userBooks.sex === 1 ? "남성" : "여성"}
+				{userBooks.age}세 {userBooks.sex === 1 ? "남성" : "여성"}
 			</Span>
 			이 많이 읽고 있어요
 		</>
