@@ -1,6 +1,6 @@
 import React from "react";
 
-import SectionTitleBar from "../../molecules/Bar/SectionTitleBar";
+import MoreBar from "../../molecules/Bar/MoreBar";
 import PreviewSlideSentence from "../../molecules/Sentence/PreviewSlideSentence";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
@@ -31,7 +31,7 @@ function PreviewScrapSentence(props) {
 	return (
 		<div>
 			<Container marginBottom="32">
-				<SectionTitleBar title="스크랩한 문장" path="/sentence/scrap" />
+				<MoreBar title="스크랩한 문장" path="/sentence/scrap" />
 				<PreviewSlideSentence sentences={sentences} />
 			</Container>
 		</div>
