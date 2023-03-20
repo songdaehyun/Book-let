@@ -597,8 +597,7 @@ from .models import *
 
 
 # 알라딘 키
-ALA_API_KEY = 'ttbjoyksj940955001'
-# ttbgoflwla921118001
+ALA_API_KEY = ''
 BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
 MAIN = 'ItemList.aspx'
 DETAIL = 'ItemLookUp.aspx'
