@@ -24,8 +24,12 @@ export const BookCoverMasonryBox = styled.div`
 `;
 
 export const BookListBox = styled.div`
-	// display: flex;
-	column-count: 3;
+	display: grid;
+
+	margin: 24px 0;
+	padding: 0 16px;
+
+	grid-template-columns: 1fr 1fr 1fr;
 	column-gap: 16px;
-	justify-content: space-between;
+	row-gap: 24px;
 `;

@@ -6,11 +6,17 @@ export const PreviewSwiperBookBox = styled.div`
 	column-gap: 16px;
 	margin-top: 24px;
 
-	align-items: flex-end;
+	justify-content: space-between;
+
+	> div {
+		width: 30%;
+	}
 `;
 
 export const PreviewBookOverviewBox = styled.div`
-	width: 30%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 
 	img {
 		width: 100%;
