@@ -91,3 +91,55 @@ export const CommentBox = styled.div`
 		margin-left: auto;
 	}
 `;
+
+export const ReactionContainer = styled.div`
+	// display: flex;
+	align-items: center;
+
+	> div:last-child {
+		// position: absolute;
+	}
+`;
+
+export const ReactionImgContainer = styled.div`
+	display: flex;
+	margin-right: 8px;
+	position: relative;
+
+	img {
+		border-radius: 50%;
+	}
+
+	> div:nth-child(1) {
+		left: 16;
+	}
+
+	// 두번째 프사 이미지
+	> div:nth-child(2) {
+		left: 38px;
+	}
+
+	// 세번째 프사 이미지
+	> div:nth-child(3) {
+		left: 60px;
+	}
+`;
+
+export const ReactionImgWrapper = styled.div`
+	padding: 2px;
+
+	display: flex;
+	position: absolute;
+
+	background-color: white;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+	border-radius: 50%;
+
+	transform: translate(-60%, -50%);
+	left: 16px;
+
+	> img {
+		width: 24px;
+		height: 24px;
+	}
+`;
