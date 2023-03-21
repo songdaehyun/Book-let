@@ -18,7 +18,7 @@ model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비�
 
 @csrf_exempt    # API를 만드는 경우 csrf 인증을 끄는 게 좋다.(대신 API 키 등의 방식을 사용)
 def image_recommend(request):   # 예측 기능 수행
-    if request.method == 'GET':
+    if request.method == 'POST':
         # isbn이나 image 정보가 없는 경우 오류 반환
 
         # Get 요청에서 입력 데이터 추출
@@ -65,6 +65,8 @@ def image_recommend(request):   # 예측 기능 수행
 
             # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
             image_spec = image_spec.fillna(0)
+
+            # DB에 해당 값 주입
 
         # output = 추천 이미지 리스트
         output = []
