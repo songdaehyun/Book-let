@@ -1,15 +1,13 @@
 import React from "react";
-import { Container } from "../../../styles/common/ContainingsStyle";
+
+import RecomBookListTemplates from "../../templates/Book/RecomBookListTemplates";
+
 import { Span } from "../../../styles/common/TextsStyle";
 
-import TopBanner from "../../molecules/Banner/TopBanner";
-import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
-
 import BannerImg from "../../../assets/images/Banner/user-recom-book-banner.png";
-import BookList from "../../organisms/Book/BookList";
 
 function UserRecomBook(props) {
-	const userBooks = {
+	const books = {
 		recommendType: "user",
 		// 1: 남, 2: 여
 		sex: 1,
@@ -66,26 +64,19 @@ function UserRecomBook(props) {
 		subTitle: (
 			<>
 				등록해주신 연령과 성별을 기반으로
-				<br /> 도서를 추천해드려요.
+				<br /> 도서를 추천해드려요
 			</>
 		),
 		img: BannerImg,
 	};
 
 	return (
-		<div>
-			<ReturnNavigationBar />
-			<Container paddingTop="48">
-				<TopBanner
-					title={bannerInfo.title}
-					subTitle={bannerInfo.subTitle}
-					img={bannerInfo.img}
-				/>
-			</Container>
-			{/* <Container paddingLeft="16" paddingRight="16"> */}
-				<BookList books={userBooks.recommend} />
-			{/* </Container> */}
-		</div>
+		<RecomBookListTemplates
+			title={bannerInfo.title}
+			subTitle={bannerInfo.subTitle}
+			img={bannerInfo.img}
+			books={books.recommend}
+		/>
 	);
 }
 
