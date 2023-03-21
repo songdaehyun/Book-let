@@ -78,5 +78,8 @@ export const SeparationBar = styled.div`
 	width: 100%;
 	height: 8px;
 
+	margin-top: ${(props) => props.top}px;
+	margin-bottom: ${(props) => props.bottom}px;
+
 	background-color: var(--gray-100);
 `;
