@@ -9,5 +9,5 @@ import lombok.*;
 public class UserDto {
     private Long userId;
     private String nickname;
-//    private String userImage; // 보류
+    private String userImage; // 보류
 }

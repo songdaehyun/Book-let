@@ -6,6 +6,7 @@ import com.booklet.paragraphservice.service.ParagraphServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -54,7 +55,7 @@ public class ParagraphController {
     @GetMapping("/mylist/{userId}")
     public ResponseEntity getListParagraphs(@PathVariable("userId") Long userId, int page, int size){
         // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paragraphId"));
         HashMap<String, Object> result = paragraphService.findParagraphs(userId, pageRequest);
 
         return new ResponseEntity(result, HttpStatus.ACCEPTED);

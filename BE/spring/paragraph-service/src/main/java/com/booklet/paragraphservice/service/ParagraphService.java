@@ -18,7 +18,7 @@ public interface ParagraphService {
 
     public HashMap<String, Object> findParagraphs(Long userId, Pageable pageable);    // user 본인이 등록한 문장 목록 조회
 
-    public ArrayList<Paragraph> findFollowParagraph(Long userId);    // user가 팔로잉한 회원들의 문장 목록 조회
+    public HashMap<String, Object>  findFollowParagraph(Long userId, Pageable pageable) ;  // user가 팔로잉한 회원들의 문장 목록 조회
 
     public Long updateParagraph(ParagraphSetReq req);    // 문장 수정
 

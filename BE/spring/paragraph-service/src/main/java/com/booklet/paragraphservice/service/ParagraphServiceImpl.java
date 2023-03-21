@@ -28,6 +28,7 @@ public class ParagraphServiceImpl implements ParagraphService{
     private final CommentRepository commentRepository;
     private final ScrapRepository scrapRepository;
     private final UserImageRepository userImageRepository;
+    private final FollowRepository followRepository;
 
     @Transactional
     @Override
@@ -64,6 +65,7 @@ public class ParagraphServiceImpl implements ParagraphService{
             BookDto bookDto = new ModelMapper().map(book, BookDto.class);
             // 작성자 정보
             UserDto userDto = new ModelMapper().map(user, UserDto.class);
+            userDto.setUserImage(userImageRepository.findUserImageByUser(user));
             // 댓글 수
             int commentCnt  = commentRepository.countByParagraphId(paragraphId);
             ParagraphScrapDto paragraphScrapDto = getParagraphScrapDto(paragraphId, paragraph, user);
@@ -80,6 +82,58 @@ public class ParagraphServiceImpl implements ParagraphService{
         return null;
     }
 
+    @Override
+    public HashMap<String, Object> findParagraphs(Long userId, Pageable pageable) { // 내 문장 목록 조회
+        User user = userRepository.findById(userId).orElse(null);
+        try {
+            Slice<Paragraph> paragraphs = paragraphRepository.findParagraphByUser(user, pageable);
+
+            List<ParagraphListDto> listDto = paragraphs.getContent().stream()
+                    .map(i->new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()),commentRepository.countByParagraphId(i.getParagraphId())))
+                    .collect(Collectors.toList());
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("paragraphs",listDto);
+            result.put("hasNextPage", paragraphs.hasNext());
+            return result;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public HashMap<String, Object>  findFollowParagraph(Long userId, Pageable pageable) {
+        User user = userRepository.findById(userId).orElse(null);
+        try {
+            // 1. 해당 user가 following한 userlist를 가져옴.
+            Slice<User> followingList = followRepository.findFollowByUser(user, pageable);
+            // 2. 그 user들의 paragraph와 scrap 정보, 댓글 정보, 해당 user 정보
+//            List<ParagraphListDto> listDto = paragraphs.getContent().stream()
+//                    .map(i->new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()),commentRepository.countByParagraphId(i.getParagraphId())))
+//                    .collect(Collectors.toList());
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Long updateParagraph(ParagraphSetReq req) {
+        return null;
+    }
+
+    
+    @Override 
+    public boolean deleteParagraph(Long paragraphId) { // 등록된 문장 삭제
+        try{
+            paragraphRepository.deleteById(paragraphId);
+        }catch (Exception e){
+//            log.info("error : {}", e.getStackTrace());
+            return false;
+        }
+        return false;
+    }
     private ParagraphScrapDto getParagraphScrapDto(Long paragraphId, Paragraph paragraph, User user) {
         // 스크랩 정보
         ParagraphScrapDto scrapInfo;
@@ -108,46 +162,5 @@ public class ParagraphServiceImpl implements ParagraphService{
                     .build();
         }
         return scrapInfo;
-    }
-
-    @Override
-    public HashMap<String, Object> findParagraphs(Long userId, Pageable pageable) { // 내 문장 목록 조회
-        User user = userRepository.findById(userId).orElse(null);
-        try {
-            Slice<Paragraph> paragraphs = paragraphRepository.findParagraphByUser(user, pageable);
-
-            List<ParagraphListDto> listDto = paragraphs.getContent().stream()
-                    .map(i->new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()),commentRepository.countByParagraphId(i.getParagraphId())))
-                    .collect(Collectors.toList());
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("paragraphs",listDto);
-            result.put("hasNextPage", paragraphs.hasNext());
-            return result;
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public ArrayList<Paragraph> findFollowParagraph(Long userId) {
-        return null;
-    }
-
-    @Override
-    public Long updateParagraph(ParagraphSetReq req) {
-        return null;
-    }
-
-    
-    @Override 
-    public boolean deleteParagraph(Long paragraphId) { // 등록된 문장 삭제
-        try{
-            paragraphRepository.deleteById(paragraphId);
-        }catch (Exception e){
-//            log.info("error : {}", e.getStackTrace());
-            return false;
-        }
-        return false;
     }
 }
