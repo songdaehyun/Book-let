@@ -691,3 +691,155 @@ def insert_db(request):
     return JsonResponse(context)
 
 ```
+- views.py 업데이트
+```python
+import requests
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import JsonResponse
+
+from .models import *
+# Create your views here.
+
+
+# 알라딘 키
+ALA_API_KEY = 'ttbjoyksj940955001'
+# ttbgoflwla921118001
+BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
+MAIN = 'ItemList.aspx'
+DETAIL = 'ItemLookUp.aspx'
+
+@api_view(['GET'])
+def test(request):
+    context = {
+         'content' : '잘 도착했음'
+    }
+    return JsonResponse(context)
+
+
+def book_detail(book_isbn):
+    print('책 세부내용 가지러 왔습니다!', book_isbn)
+    response = requests.get(
+     BASE_URL + DETAIL,
+     params={
+        'ttbkey' : ALA_API_KEY,
+        'itemIdType' : 'ISBN',
+        'ItemId' : book_isbn,
+        'output' : 'js',
+        'Version' : 20131101,
+        'OptResult' : 'ratingInfo,reviewList'
+     }
+    ).json()
+    book = response.get('item')[0]
+    # reivewList = book.get('reviewList')
+    ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
+
+    print('책 이름 : ',book.get('title'))
+
+    book_info = {
+         'grade' : ratingScore,
+         'genre_id' : book.get('categoryId'),
+         'genre_name' : book.get('categoryName')
+    }
+     
+    return book_info
+
+
+def author_info(name, bookEntity):
+    print('원래이름',name)
+    if '(지은이)' in name :
+        idx = name.index('(')
+        name = name[:idx]
+    print('수정이름',name)
+
+    if not Author.objects.filter(author_name = name).exists():
+        author = Author.objects.create(
+            author_name = name 
+        )
+        
+        bookEntity.author.add(author.author_id)
+        print("최종확인 : ", bookEntity)
+    return
+
+
+def genre_save(book_info, bookEntity):
+    raw_name = book_info.get('categoryName')
+    print(book_info)
+    print('@'*50)
+    print(raw_name)
+    genre_name = raw_name
+    if '<' in raw_name :
+        idx = raw_name.index('<')
+        idx2 = raw_name.index('<', 2)
+        if idx == idx2:
+            idx2 = -1
+        genre_name = raw_name[idx:idx2]
+    print("t수정한 장르 이름 : ", genre_name)
+    print('@'*50)
+
+    if not Genre.objects.filter(genre_name=genre_name).exists():
+        # 장르 생성
+        genre = Genre.objects.create(
+            # genre_id = book_info.get('genre_id'),
+            genre_name = genre_name
+        )
+
+        # 장르와 책 연결
+        bookEntity.genres.add(genre.genre_id)
+        print("최종확인 : ", bookEntity)
+    return
+
+
+@api_view(['GET'])
+def insert_db(request):
+    print('DB 저장하러 왔습니다.')
+    context = {
+        'result' : 'ㅇㅅㅇ' 
+    }
+
+    response = requests.get(
+        BASE_URL + MAIN,
+        params={
+            'ttbkey' : ALA_API_KEY,
+            'QueryType' : 'Bestseller',
+            'MaxResults' : 100,
+            'start' : 1,
+            'SearchTarget' : 'Book',
+            'output' : 'js',
+            'Version' : 20131101,
+            'cover' : 'Big',
+            'Year' : 2023,
+            'Month' : 2,
+            'Week' : 1
+        }
+    ).json()
+    # print(response)
+    book_list = response.get('item')
+    for book in book_list:
+        print('작업 중 인 도서 : ',book.get('title'))
+
+        # 책 데이터 저장
+        if not Book.objects.filter(pk=book.get('isbn13')).exists():
+                # 책 디테일 불러오기
+            book_info = book_detail(book.get('isbn13'))
+            # 책 저장
+            bookEntity = Book.objects.create(
+                book_isbn = book.get('isbn13'),
+                book_title = book.get('title'),
+                book_publisher = book.get('publisher'),
+                book_price = book.get('priceStandard'),
+                book_description = book.get('description'),
+                # book_score = None,
+                book_grade = book_info.get('grade'),
+                book_image = book.get('cover'),
+                # book_author = author_info(book.get('author'))
+            )
+            # 장르저장
+            print('장르 세이브할 차례임!!!!!!!!')
+            genre_save(book_info, bookEntity)
+
+        
+    return JsonResponse(context)
+
+```
