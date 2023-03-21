@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { BookCoverMasonryBox } from "../../../styles/Book/BookStyle";
+import { PreviewBookCoverMasonryBox } from "../../../styles/Book/BookStyle";
 import { BookCoverMoreBox } from "../../../styles/Book/PreviewBookRecomStyle";
 
 import { CoverWrapper } from "../../../styles/User/JoinStyle";
@@ -17,10 +17,10 @@ function PreviewBookCoverList({ books }) {
 	};
 
 	return (
-		<BookCoverMasonryBox>
+		<PreviewBookCoverMasonryBox>
 			{books.map((book) => {
 				return (
-					<CoverWrapper key={book.bookIsbn}>
+					<CoverWrapper key={book.bookIsbn} bottom="16">
 						<img
 							src={book.bookImgPath}
 							onClick={() => handleClickCover(book.bookIsbn)}
@@ -29,7 +29,7 @@ function PreviewBookCoverList({ books }) {
 				);
 			})}
 			<BookCoverMoreBox onClick={handleClickMoreCover}>전체 보기</BookCoverMoreBox>
-		</BookCoverMasonryBox>
+		</PreviewBookCoverMasonryBox>
 	);
 }
 
