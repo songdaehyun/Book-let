@@ -1,6 +1,6 @@
 package com.booklet.paragraphservice.controller;
 
-import com.booklet.paragraphservice.dto.ParagraphCreateReq;
+import com.booklet.paragraphservice.dto.paragraph.ParagraphCreateReq;
 import com.booklet.paragraphservice.service.ParagraphServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.Response;
-import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.Map;
 

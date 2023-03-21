@@ -1,4 +1,4 @@
-package com.booklet.paragraphservice.dto;
+package com.booklet.paragraphservice.dto.paragraph;
 
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.booklet.paragraphservice.dto;
+package com.booklet.paragraphservice.dto.paragraph;
 
 import com.booklet.paragraphservice.entity.BaseTimeEntity;
 import com.booklet.paragraphservice.entity.Paragraph;

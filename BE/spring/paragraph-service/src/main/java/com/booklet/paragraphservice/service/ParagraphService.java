@@ -1,8 +1,7 @@
 package com.booklet.paragraphservice.service;
 
-import com.booklet.paragraphservice.dto.ParagraphCreateReq;
-import com.booklet.paragraphservice.dto.ParagraphDto;
-import com.booklet.paragraphservice.dto.ParagraphSetReq;
+import com.booklet.paragraphservice.dto.paragraph.ParagraphCreateReq;
+import com.booklet.paragraphservice.dto.paragraph.ParagraphSetReq;
 import com.booklet.paragraphservice.entity.Paragraph;
 import org.springframework.data.domain.Pageable;
 

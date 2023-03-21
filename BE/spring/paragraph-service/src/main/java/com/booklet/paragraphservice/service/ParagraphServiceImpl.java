@@ -1,16 +1,14 @@
 package com.booklet.paragraphservice.service;
 
 import com.booklet.paragraphservice.dto.*;
+import com.booklet.paragraphservice.dto.paragraph.*;
 import com.booklet.paragraphservice.entity.Book;
 import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
-import com.booklet.paragraphservice.entity.UserImage;
 import com.booklet.paragraphservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -84,7 +82,7 @@ public class ParagraphServiceImpl implements ParagraphService{
 
     private ParagraphScrapDto getParagraphScrapDto(Long paragraphId, Paragraph paragraph, User user) {
         // 스크랩 정보
-        ParagraphScrapDto paragraphScrapDto;
+        ParagraphScrapDto scrapInfo;
         // 1. 스크랩한 사람들의 이미지 3개
         ArrayList<User> userList= scrapRepository.findTop3ScrapUserImages(paragraphId);
         ArrayList<String> userImageList = new ArrayList<>();
@@ -97,19 +95,19 @@ public class ParagraphServiceImpl implements ParagraphService{
         // 3. 해당 유저가 스크랩을 했는지 안 헀는지...
 
         if(!scrapRepository.findByUserAndParagraph(user, paragraph).isPresent()){
-            paragraphScrapDto = ParagraphScrapDto.builder()
+            scrapInfo = ParagraphScrapDto.builder()
                     .scrapUserImages(userImageList)
                     .scrapCount(scrapCount)
                     .userScrape(0)
                     .build();
         }else{
-            paragraphScrapDto = ParagraphScrapDto.builder()
+            scrapInfo = ParagraphScrapDto.builder()
                     .scrapUserImages(userImageList)
                     .scrapCount(scrapCount)
                     .userScrape(1)
                     .build();
         }
-        return paragraphScrapDto;
+        return scrapInfo;
     }
 
     @Override

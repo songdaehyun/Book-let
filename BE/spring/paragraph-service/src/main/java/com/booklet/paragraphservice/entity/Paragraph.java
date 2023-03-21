@@ -36,6 +36,8 @@ public class Paragraph extends BaseTimeEntity{
     @JoinColumn(name="book_isbn")
     private Book book;
 
+    @OneToMany(mappedBy = "paragraph") //FK 없는 쪽에 mapped by 리더
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Paragraph( User user,Book book,String paragraphColor,int paragraphPage, String paragraphContent){

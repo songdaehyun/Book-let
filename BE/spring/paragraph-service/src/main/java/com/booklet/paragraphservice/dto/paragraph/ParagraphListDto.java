@@ -1,10 +1,9 @@
-package com.booklet.paragraphservice.dto;
+package com.booklet.paragraphservice.dto.paragraph;
 
 import com.booklet.paragraphservice.entity.Paragraph;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Getter
 @Setter
