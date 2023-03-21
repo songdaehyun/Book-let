@@ -17,7 +17,7 @@ function PreviewBookOverview({ book }) {
 				{book.bookTitle}
 			</Text>
 			<Text size="14" color="var(--gray-500)">
-				{book.authorNames}
+				{book.authorName}
 			</Text>
 		</PreviewBookOverviewBox>
 	);
