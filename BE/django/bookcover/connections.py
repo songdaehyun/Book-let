@@ -18,4 +18,4 @@ def bookcover_recommendation(result_dataframe):
     similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
 
     # pkl 파일로 static 디렉토리에 저장
-    return
+    return similarity_matrix
