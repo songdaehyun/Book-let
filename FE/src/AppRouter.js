@@ -18,6 +18,10 @@ import WriteSentence from "./components/pages/Sentence/WriteSentence";
 
 // 책
 import Book from "./components/pages/Book/Book";
+import CoverRecomBook from "./components/pages/Book/CoverRecomBook";
+import GenreRecomBook from "./components/pages/Book/GenreRecomBook";
+import LikeRecomBook from "./components/pages/Book/LikeRecomBook";
+import RatingRecomBook from "./components/pages/Book/RatingRecomBook";
 import UserRecomBook from "./components/pages/Book/UserRecomBook";
 
 function AppRouter(props) {
@@ -40,6 +44,10 @@ function AppRouter(props) {
 				{/* 도서 */}
 				<Route path="/book" element={<Book />} />
 				<Route path="/book/recom/user" element={<UserRecomBook />} />
+				<Route path="/book/recom/rating" element={<RatingRecomBook />} />
+				<Route path="/book/recom/like" element={<LikeRecomBook />} />
+				<Route path="/book/recom/genre" element={<GenreRecomBook />} />
+				<Route path="/book/recom/cover" element={<CoverRecomBook />} />
 			</Routes>
 		</BrowserRouter>
 	);
