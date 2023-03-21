@@ -1,6 +1,6 @@
 import React from "react";
 
-import RecomBookListTemplates from "../../templates/Book/RecomBookListTemplates";
+import BookListTemplates from "../../templates/Book/BookListTemplates";
 
 import { Span } from "../../../styles/common/TextsStyle";
 
@@ -53,7 +53,7 @@ function GenreRecomBook(props) {
 	};
 
 	return (
-		<RecomBookListTemplates
+		<BookListTemplates
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}

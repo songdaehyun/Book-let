@@ -1,6 +1,6 @@
 import React from "react";
 
-import RecomBookListTemplates from "../../templates/Book/RecomBookListTemplates";
+import BookListTemplates from "../../templates/Book/BookListTemplates";
 
 import BannerImg from "../../../assets/images/Banner/cover-recom-book-banner.png";
 
@@ -59,7 +59,7 @@ function CoverRecomBook(props) {
 	};
 
 	return (
-		<RecomBookListTemplates
+		<BookListTemplates
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}

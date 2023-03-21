@@ -7,7 +7,7 @@ import MasonryBookList from "../../organisms/Book/MasonryBookList";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
-function RecomBookListTemplates({ title, subTitle, img, books, type }) {
+function BookListTemplates({ title, subTitle, img, books, type }) {
 	return (
 		<div>
 			<ReturnNavigationBar />
@@ -16,7 +16,8 @@ function RecomBookListTemplates({ title, subTitle, img, books, type }) {
 			</Container>
 			{type !== "bookCover" ? <BookList books={books} /> : <MasonryBookList books={books} />}
 		</div>
+		
 	);
 }
 
-export default RecomBookListTemplates;
+export default BookListTemplates;
