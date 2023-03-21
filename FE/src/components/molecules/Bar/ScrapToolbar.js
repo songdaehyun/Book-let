@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import ScrapButton from '../../atoms/Button/ScrapButton';
-import ScrapInfo from '../ScrapInfo';
+import ScrapButton from "../../atoms/Button/ScrapButton";
+import ReactionInfo from "../ReactionInfo";
 
-import { Text } from '../../../styles/common/TextsStyle';
-import { PreviewPostInfoContainer } from '../../../styles/Sentence/PostPreviewStyle';
+import { Text } from "../../../styles/common/TextsStyle";
+import { ReactionInfoContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
 function ScrapToolbar({ post, isMy }) {
 	return (
-		<PreviewPostInfoContainer>
-			<ScrapInfo post={post} />
+		<ReactionInfoContainer>
+			<ReactionInfo info={post} type="scrap" />
 			{isMy ? (
 				<Text size="14" color="var(--gray-500)">
 					{post.createdDate}
@@ -17,7 +17,7 @@ function ScrapToolbar({ post, isMy }) {
 			) : (
 				<ScrapButton isScraped={post.userScrapted} />
 			)}
-		</PreviewPostInfoContainer>
+		</ReactionInfoContainer>
 	);
 }
 
