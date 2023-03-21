@@ -62,9 +62,13 @@ public class ParagraphController {
     }
 
     @GetMapping("/following/{userId}")
-    public ResponseEntity getFollowingParagraph(@PathVariable("userId") Long userId){
+    public ResponseEntity getFollowingParagraph(@PathVariable("userId") Long userId, int page, int size){
 
-        return null;
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paragraphId"));
+        HashMap<String, Object> result = paragraphService.findFollowParagraph(userId, pageRequest);
+
+        return new ResponseEntity(result, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{paragraphId}")

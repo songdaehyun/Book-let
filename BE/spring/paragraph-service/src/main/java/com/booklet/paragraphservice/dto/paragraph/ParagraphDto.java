@@ -19,7 +19,6 @@ public class ParagraphDto extends BaseTimeEntity{
     private String paragraphColor;
     private int paragraphPage;
     private Long userId;
-//    private Long bookId;
     private String bookIsbn;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;

@@ -1,5 +1,8 @@
 package com.booklet.paragraphservice.dto.paragraph;
 
+import com.booklet.paragraphservice.dto.UserDto;
+import com.booklet.paragraphservice.entity.Paragraph;
+import com.booklet.paragraphservice.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,9 +15,8 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class ParagraphFollowListDto {
     //user
-    private String nickname;
-    private Long userId;
-    private String user_image;
+    private UserDto userInfo;
+
     // Paragraph
     private Long paragraphId;
     private String paragraphContent;
@@ -22,10 +24,28 @@ public class ParagraphFollowListDto {
     private String paragraphColor;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+
     //scrap
-    private ArrayList<String> scrapUserImages;
-    private int scrapCnt;
-    private int userScrap; // 스크랩 여부
+    private ParagraphScrapDto scrapInfo;
     // comment
     private int commentCnt;
+
+    public ParagraphFollowListDto(UserDto user, Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt){
+        this.userInfo = user;
+        this.paragraphId = paragraph.getParagraphId();
+        this.paragraphContent = paragraph.getParagraphContent();
+        this.paragraphPage = paragraph.getParagraphPage();
+        this.paragraphColor = paragraph.getParagraphColor();
+        this.createdDate = paragraph.getCreatedDate();
+        this.modifiedDate = paragraph.getModifiedDate();
+        this.scrapInfo = scrapInfo;
+        this.commentCnt = commentCnt;
+    }
+
+
+    private class ScrapInfo {
+        private ArrayList<String> scrapUserImages;
+        private int scrapCount;
+        private int userScrape; // 사용자가 스크랩한지 안한지 여부
+    }
 }
