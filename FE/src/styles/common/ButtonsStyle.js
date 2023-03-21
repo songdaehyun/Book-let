@@ -153,3 +153,17 @@ export const BookBuyBtn = styled.button`
 		height: 24px;
 	}
 `;
+
+export const RatingBtn = styled.svg`
+	width: auto;
+	height: ${(props) => props.height}px;
+
+	fill: ${(props) => (props.isSelected ? "var(--yellow)" : "var(--gray-300)")};
+
+	:active {
+		fill: #fff7bc;
+	}
+
+	path {
+	}
+`;

@@ -17,3 +17,17 @@ export const BookDetailOverviewBox = styled.div`
 		border-radius: 0px;
 	}
 `;
+
+export const InputRatingSectionBox = styled.div`
+	margin-top: 8px;
+	margin-bottom: 24px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+export const RatingBox = styled.div`
+	column-gap: ${props => props.gap};
+	display: flex;
+`;
