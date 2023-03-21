@@ -25,3 +25,7 @@ spring:
     url: jdbc:mysql://localhost:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
     username: ssafy
     password: ssafy
+  # swagger
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
