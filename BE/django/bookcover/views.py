@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from PIL import Image
 import pandas as pd
-from .connections import bookcover_recommendation
+from .train import bookcover_recommendation
 
 
 # import yolov5
@@ -78,3 +78,6 @@ def image_recommend(request):   # 예측 기능 수행
 
         # Return the response as a JSON object
         return JsonResponse(response)
+
+    # 유효하지 않은 요청에 대해서는 오류 처리
+    return JsonResponse()

@@ -57,12 +57,12 @@ MIDDLEWARE = [
 ]
 
 # CORS 허용하는 호스트 목록(아래에서 수정)
-CORS_ORIGIN_WHITELIST = (
+CORS_ORIGIN_WHITELIST = [
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:8080",
     "http://127.0.0.1:9000"
-)
+]
 
 
 ROOT_URLCONF = 'recommend.urls'
