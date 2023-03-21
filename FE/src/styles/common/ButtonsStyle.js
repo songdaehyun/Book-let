@@ -62,6 +62,10 @@ export const ScrapBtn = styled.svg`
 	fill: ${(props) => (props.isScraped ? "var(--primary-600)" : "var(--gray-400)")};
 `;
 
+export const LikeBtn = styled.svg`
+	fill: ${(props) => (props.isLiked ? "var(--red)" : "var(--gray-400)")};
+`;
+
 export const FollowBtn = styled(PrimarySmBtn)`
 	background-color: ${(props) => (props.isFollowed ? "var(--gray-100)" : "var(--secondary-200)")};
 	color: ${(props) => (props.isFollowed ? "black" : "var(--primary-700)")};
@@ -125,5 +129,27 @@ export const SentenceColorRadioBtn = styled.input`
 	:checked:after {
 		top: 1.5px;
 		left: 1.5px;
+	}
+`;
+
+export const BookBuyBtn = styled.button`
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 20px;
+
+	background-color: var(--gray-50);
+	border: 0.5px solid var(--gray-300);
+	border-radius: 4px;
+
+	:active {
+		background-color: var(--gray-100);
+	}
+
+	img {
+		width: auto;
+		height: 24px;
 	}
 `;
