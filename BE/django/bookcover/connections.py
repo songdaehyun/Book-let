@@ -1,21 +1,21 @@
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from surprise import Dataset, Reader, KNNWithMeans, KNNBasic
 from .serializers import BookInfoSerializer
-
-# 연관 이미지 추천해 주는 함수
-# 이미지의 유사도 계산 결과 저장(DB)
+from sklearn.metrics.pairwise import euclidean_distances
 
 
-def bookcover_recommendation():
+# 유클리드 거리를 기준으로 연관 이미지 추천해 주는 함수
+
+
+def bookcover_recommendation(result_dataframe):
     serializer = BookInfoSerializer(many=True)
 
-    cv = TfidfVectorizer()
-    # 책 표시 속성 별 유사도 검사
-    count_matrix = cv.fit_transform()
-    # 이미지 간 코사인 유사도 검사
-    cosine_sim = cosine_similarity(count_matrix)
+    # DB에서 표지 별 분류 데이터 가져오기
+    db_dataframe = []
+
+    # 이미지 간 유클리드 거리 검사
+    similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
 
     # pkl 파일로 static 디렉토리에 저장
     return

@@ -6,6 +6,7 @@ from PIL import Image
 import pandas as pd
 from .connections import bookcover_recommendation
 
+
 # import yolov5
 
 # .pt로 저장된 모델 불러오기
@@ -53,8 +54,9 @@ def image_recommend(request):   # 예측 기능 수행
 
             # input_info를 구성하는 행렬을 종류별로 조회
             for col in range(input_info.shape[0]):
+                feature_col = input_info.iloc[col]
                 # 딕셔너리에 {분류: 유사도} 형태로 저장
-                if not image_value.get(input_info.name):
+                if not feature_col.get(feature_col):
                     image_value[input_info.name[col]
                                 ] = input_info.confidence[col]
 
@@ -63,15 +65,13 @@ def image_recommend(request):   # 예측 기능 수행
             # image_value 값을 image_spec에 합치기
             image_spec = pd.concat([image_spec, image_value])
 
-            # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
-            image_spec = image_spec.fillna(0)
+        # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
+        image_spec = image_spec.fillna(0)
 
-            # DB에 해당 값 주입
+        # DB에 해당 값 주입
 
         # output = 추천 이미지 리스트
-        output = []
-        # 유사 책 표지 추천(유사한 그림 상위 N개)
-        bookcover_recommendation()
+        output = bookcover_recommendation(image_spec)
 
         # Format the output as JSON
         response = {'book_image': output}
