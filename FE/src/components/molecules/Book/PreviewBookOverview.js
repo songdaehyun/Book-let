@@ -4,14 +4,14 @@ import { PreviewBookOverviewBox } from "../../../styles/Book/PreviewBookRecomSty
 import { Text } from "../../../styles/common/TextsStyle";
 
 function PreviewBookOverview({ book }) {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    const handleClick = () => {
-        navigate(`/book/${book.bookIsbn}`)
-    }
+	const handleClick = () => {
+		navigate(`/book/${book.bookIsbn}`);
+	};
 
 	return (
-		<PreviewBookOverviewBox onClick={handleClick}>
+		<PreviewBookOverviewBox>
 			<img src={book.bookImgPath} alt="book" onClick={handleClick} />
 			<Text weight="600" marginBottom="4" onClick={handleClick}>
 				{book.bookTitle}
