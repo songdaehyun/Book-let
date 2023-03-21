@@ -12,14 +12,40 @@ export const BookHeadingBox = styled.div`
 	}
 `;
 
-export const BookCoverMasonryBox = styled.div`
+export const PreviewBookCoverMasonryBox = styled.div`
 	column-count: 2;
-	column-gap: 8px;
+	column-gap: 16px;
 
 	> div:last-child {
 		align-items: center;
 		display: grid;
 		min-height: 100px;
+	}
+`;
+
+export const ListBookCoverMasonryBox = styled.div`
+	column-count: 2;
+	column-gap: 16px;
+
+	margin: 24px 0;
+	padding: 0 16px;
+`;
+
+export const PreviewBookMasonryOverviewBox = styled.div`
+	display: inline-flex;
+	flex-direction: column;
+	width: 100%;
+	margin-bottom: 16px;
+	// overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+
+		margin-bottom: 16px;
+
+		object-fit: cover;
+		filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2));
 	}
 `;
 
