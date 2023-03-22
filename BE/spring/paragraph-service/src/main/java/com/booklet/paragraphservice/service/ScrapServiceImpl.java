@@ -1,8 +1,10 @@
 package com.booklet.paragraphservice.service;
 
 import com.booklet.paragraphservice.dto.ScrapReq;
+import com.booklet.paragraphservice.dto.UserDto;
 import com.booklet.paragraphservice.dto.paragraph.ParagraphDto;
 import com.booklet.paragraphservice.entity.Scrap;
+import com.booklet.paragraphservice.entity.User;
 import com.booklet.paragraphservice.repository.ParagraphRepository;
 import com.booklet.paragraphservice.repository.ScrapRepository;
 import com.booklet.paragraphservice.repository.UserRepository;
@@ -60,6 +62,13 @@ public class ScrapServiceImpl implements ScrapService{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int countScrap(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null) return 0;
+        return scrapRepository.countByUser(user);
     }
 
 }

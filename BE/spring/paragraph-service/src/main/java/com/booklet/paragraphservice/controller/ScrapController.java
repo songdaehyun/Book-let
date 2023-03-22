@@ -63,9 +63,14 @@ public class ScrapController {
         }
     }
 
-    @GetMapping("/count/{paragraphId}")
-    public ResponseEntity getScrapCount(@PathVariable Long paragraphId){
+    @GetMapping("/count/{userId}")
+    public ResponseEntity getScrapCount(@PathVariable Long userId){
+        try{
+            int count = scrapService.countScrap(userId);
+            return new ResponseEntity(count, HttpStatus.ACCEPTED);
 
-        return null;
+        }catch (Exception e){
+            return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
+        }
     }
 }

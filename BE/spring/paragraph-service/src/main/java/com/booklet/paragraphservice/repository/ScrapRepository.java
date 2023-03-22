@@ -20,4 +20,6 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
     public Optional<Scrap> findByUserAndParagraph(User user, Paragraph paragraph);
     @Query("select s from Scrap s where s.paragraph.paragraphId=:paragraphId and s.user.userId=:userId")
     public Optional<Scrap> findByUserIdAndParagraphId(Long userId, Long paragraphId);
+
+    public int countByUser(User user);
 }
