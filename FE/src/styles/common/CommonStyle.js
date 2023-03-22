@@ -145,6 +145,8 @@ export const ReactionImgWrapper = styled.div`
 `;
 
 export const RatingLabelBox = styled.div`
+	width: fit-content;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -154,4 +156,14 @@ export const RatingLabelBox = styled.div`
 	background: #fffdf1;
 	border: 0.5px solid #ffe04b;
 	border-radius: 2px;
+`;
+
+export const Hr = styled.hr`
+	margin: 0;
+	margin-top: ${(props) => props.top}px;
+	margin-bottom: ${(props) => props.bottom}px;
+
+	border: 0;
+	height: 0.5px;
+	background-color: var(--gray-100);
 `;
