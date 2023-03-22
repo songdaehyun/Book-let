@@ -20,11 +20,11 @@ export default function useDate() {
 
 		const today = year + "." + month + "." + day;
 
-		// 오늘 날짜라면 시간을, 오늘 날짜가 아니라면 시간을 리턴
+		// 오늘 날짜라면 시간을, 오늘 날짜가 아니라면 날짜를 리턴
 		if (seperatedDate[0] === today) {
 			return seperatedDate[1];
 		} else {
-			return seperatedDate[0];
+			return seperatedDate[0].replaceAll('-', '.');
 		}
 	};
 
