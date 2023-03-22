@@ -691,7 +691,7 @@ def insert_db(request):
     return JsonResponse(context)
 
 ```
-- views.py 업데이트
+- views.py 업데이트, 완성
 ```python
 import requests
 
@@ -704,8 +704,8 @@ from .models import *
 
 
 # 알라딘 키
-ALA_API_KEY = 'ttbjoyksj940955001'
-# ttbgoflwla921118001
+ALA_API_KEY = ['ttbjoyksj940955001', 'ttbgoflwla921118001', 'ttbcjg050341002001']
+KEY_NUM = 0
 BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
 MAIN = 'ItemList.aspx'
 DETAIL = 'ItemLookUp.aspx'
@@ -719,11 +719,11 @@ def test(request):
 
 
 def book_detail(book_isbn):
-    print('책 세부내용 가지러 왔습니다!', book_isbn)
+    # print('책 세부내용 가지러 왔습니다!', book_isbn)
     response = requests.get(
      BASE_URL + DETAIL,
      params={
-        'ttbkey' : ALA_API_KEY,
+        'ttbkey' : ALA_API_KEY[KEY_NUM],
         'itemIdType' : 'ISBN',
         'ItemId' : book_isbn,
         'output' : 'js',
@@ -733,9 +733,12 @@ def book_detail(book_isbn):
     ).json()
     book = response.get('item')[0]
     # reivewList = book.get('reviewList')
-    ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
+    try:
+        ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
+    except :
+        ratingScore = None 
 
-    print('책 이름 : ',book.get('title'))
+    print('책 세부내용 조회 책 이름 : ',book.get('title'))
 
     book_info = {
          'grade' : ratingScore,
@@ -747,11 +750,18 @@ def book_detail(book_isbn):
 
 
 def author_info(name, bookEntity):
-    print('원래이름',name)
+    # print('원래 이름 : ',name)
     if '(지은이)' in name :
         idx = name.index('(')
         name = name[:idx]
-    print('수정이름',name)
+    
+
+    # 여러명일 경우 제일 앞만 적용
+    if ',' in name:
+        idx = name.index(',')
+        name = name[:idx]
+
+    # print('수정 이름 : ',name)
 
     if not Author.objects.filter(author_name = name).exists():
         author = Author.objects.create(
@@ -759,25 +769,43 @@ def author_info(name, bookEntity):
         )
         
         bookEntity.author.add(author.author_id)
-        print("최종확인 : ", bookEntity)
     return
 
 
 def genre_save(book_info, bookEntity):
-    raw_name = book_info.get('categoryName')
-    print(book_info)
-    print('@'*50)
-    print(raw_name)
+    raw_name = book_info.get('genre_name')
     genre_name = raw_name
-    if '<' in raw_name :
-        idx = raw_name.index('<')
-        idx2 = raw_name.index('<', 2)
+    # print('변경 전 장르이름', genre_name)
+    if '>' in raw_name :
+        idx = raw_name.index('>')
+        # print('idx', idx)
+        idx2 = raw_name.index('>', idx+1)
+        # print('idx2', idx2)
         if idx == idx2:
             idx2 = -1
-        genre_name = raw_name[idx:idx2]
-    print("t수정한 장르 이름 : ", genre_name)
-    print('@'*50)
-
+        genre_name = raw_name[idx+1:idx2]
+        # 소설 시 희곡 분리
+        if genre_name == '소설/시/희곡':
+            if raw_name.count('>') == 2:
+                if raw_name[-2:len(raw_name)] == '소설':
+                    genre_name = '소설'
+                elif raw_name[-2:len(raw_name)] == '희곡':
+                    genre_name = '희곡'
+                elif raw_name[-1] == '시':
+                    genre_name = '시'
+                else:
+                    genre_name = raw_name[idx2 + 1:]
+            else:
+                idx3 = raw_name.index('>', idx2+1)
+                if raw_name[idx3-2 : idx3] == '소설':
+                    genre_name = '소설'
+                elif raw_name[idx3-2 : idx3] == '희곡':
+                    genre_name = '희곡'
+                elif raw_name[idx3-1] == '시':
+                    genre_name = '시'
+                else:
+                    genre_name = raw_name[idx2 + 1 : idx3]
+        
     if not Genre.objects.filter(genre_name=genre_name).exists():
         # 장르 생성
         genre = Genre.objects.create(
@@ -787,7 +815,6 @@ def genre_save(book_info, bookEntity):
 
         # 장르와 책 연결
         bookEntity.genres.add(genre.genre_id)
-        print("최종확인 : ", bookEntity)
     return
 
 
@@ -795,49 +822,73 @@ def genre_save(book_info, bookEntity):
 def insert_db(request):
     print('DB 저장하러 왔습니다.')
     context = {
-        'result' : 'ㅇㅅㅇ' 
+        'result' : '완료' 
     }
+    # start = 0
+    start = 15
+    end = 100
+    for i in range(start, end):
+        for j in range(4): # 분기마다 처리
+            year = 2022-i
+            month = 12-3*j
+            print('#'*50)
+            print(f'{year}-{month} 베스트셀러 들어갑니다!')
+            print('#'*50)
+            
+            response = requests.get(
+                BASE_URL + MAIN,
+                params={
+                    'ttbkey' : ALA_API_KEY[KEY_NUM],
+                    'QueryType' : 'Bestseller',
+                    'MaxResults' : 100,
+                    'start' : 1,
+                    'SearchTarget' : 'Book',
+                    'output' : 'js',
+                    'Version' : 20131101,
+                    'cover' : 'Big',
+                    'Year' : year,
+                    'Month' : month,
+                    'Week' : 1
+                }
+            ).json()
 
-    response = requests.get(
-        BASE_URL + MAIN,
-        params={
-            'ttbkey' : ALA_API_KEY,
-            'QueryType' : 'Bestseller',
-            'MaxResults' : 100,
-            'start' : 1,
-            'SearchTarget' : 'Book',
-            'output' : 'js',
-            'Version' : 20131101,
-            'cover' : 'Big',
-            'Year' : 2023,
-            'Month' : 2,
-            'Week' : 1
-        }
-    ).json()
-    # print(response)
-    book_list = response.get('item')
-    for book in book_list:
-        print('작업 중 인 도서 : ',book.get('title'))
-
-        # 책 데이터 저장
-        if not Book.objects.filter(pk=book.get('isbn13')).exists():
-                # 책 디테일 불러오기
-            book_info = book_detail(book.get('isbn13'))
-            # 책 저장
-            bookEntity = Book.objects.create(
-                book_isbn = book.get('isbn13'),
-                book_title = book.get('title'),
-                book_publisher = book.get('publisher'),
-                book_price = book.get('priceStandard'),
-                book_description = book.get('description'),
-                # book_score = None,
-                book_grade = book_info.get('grade'),
-                book_image = book.get('cover'),
-                # book_author = author_info(book.get('author'))
-            )
-            # 장르저장
-            print('장르 세이브할 차례임!!!!!!!!')
-            genre_save(book_info, bookEntity)
+            book_list = response.get('item')
+            for book in book_list:
+                isbn = 'isbn13'
+                if book.get(isbn) == '':
+                    isbn = 'isbn'
+                    print('isbn13없으므로 패스합니다 : ', book.get('title'))
+                    continue
+                elif len(book.get(isbn)) < 13 or book.get(isbn)[0]=='G':
+                    print('isbn이상으로인해 패스합니다.', book.get(isbn), book.get('title'))
+                    continue
+                print(f'작업 중 인 도서 : {book.get("isbn13")}, {book.get("title")}')
+                # 책 데이터 저장
+                if not Book.objects.filter(pk=book.get(isbn)).exists():
+                        # 책 디테일 불러오기
+                    book_info = book_detail(book.get(isbn))
+                    # 책 세부 요소 확인
+                    try : 
+                        grade = book_info.get('grade')/2
+                    except :
+                        grade = None
+                    # 책 저장
+                    bookEntity = Book.objects.create(
+                        book_isbn = book.get(isbn),
+                        book_title = book.get('title'),
+                        book_publisher = book.get('publisher'),
+                        book_price = book.get('priceStandard'),
+                        book_description = book.get('description'),
+                        # book_score = None,
+                        book_grade = grade,  # 5점 만점으로 변경
+                        book_image = book.get('cover'),
+                        # book_author = author_info(book.get('author'))
+                    )
+                    # 저자 및 장르 저장
+                    # print('저자 세이브')
+                    author_info(book.get('author'), bookEntity)
+                    # print('장르 세이브')
+                    genre_save(book_info, bookEntity)
 
         
     return JsonResponse(context)
