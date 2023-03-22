@@ -23,8 +23,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
-    username: jihee
-    password: jihee
+    username: ssafy
+    password: ssafy
   # swagger
   mvc:
     pathmatch:

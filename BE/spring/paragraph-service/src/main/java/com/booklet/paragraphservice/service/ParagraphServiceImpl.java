@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class ParagraphServiceImpl implements ParagraphService{
+public class ParagraphServiceImpl implements ParagraphService {
     private final ParagraphRepository paragraphRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
@@ -30,11 +30,12 @@ public class ParagraphServiceImpl implements ParagraphService{
     private final UserImageRepository userImageRepository;
     private final FollowRepository followRepository;
 
+
     @Transactional
     @Override
     public Long saveParagraph(ParagraphCreateReq req) { // 문장 id 리턴
         Long result = 0L;
-        try{
+        try {
             Paragraph paragraph = Paragraph.builder()
                     .paragraphContent(req.getParagraphContent())
                     .paragraphPage(req.getParagraphPage())
@@ -43,7 +44,7 @@ public class ParagraphServiceImpl implements ParagraphService{
                     .user(userRepository.findById(req.getUserId()).orElse(null))
                     .build();
             result = paragraphRepository.save(paragraph).getParagraphId();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -51,11 +52,19 @@ public class ParagraphServiceImpl implements ParagraphService{
     }
 
     @Override
+    public boolean isExist(Long paragraphId) {
+        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        if (paragraph == null) return false;
+        return true;
+    }
+
+    @Override
     public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        if (paragraph == null) return null;
         Book book = paragraph.getBook();
         User user = paragraph.getUser();
-        try{
+        try {
             Map<String, Object> result = new HashMap<>();
             ModelMapper mapper = new ModelMapper();
             mapper.getConfiguration().setAmbiguityIgnored(true);
@@ -67,7 +76,7 @@ public class ParagraphServiceImpl implements ParagraphService{
             UserDto userDto = new ModelMapper().map(user, UserDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(user));
             // 댓글 수
-            int commentCnt  = commentRepository.countByParagraphId(paragraphId);
+            int commentCnt = commentRepository.countByParagraphId(paragraphId);
             ParagraphScrapDto paragraphScrapDto = getParagraphScrapDto(paragraphId, paragraph, user);
 
             result.put("paragraph", paragraphDto);
@@ -76,34 +85,33 @@ public class ParagraphServiceImpl implements ParagraphService{
             result.put("commentCnt", commentCnt);
             result.put("scrapInfo", paragraphScrapDto);
             return result;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public HashMap<String, Object> findParagraphs(Long userId, Pageable pageable) { // 내 문장 목록 조회
-        User user = userRepository.findById(userId).orElse(null);
+    public HashMap<String, Object> findParagraphs(User user, Pageable pageable) { // 내 문장 목록 조회
         try {
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphByUser(user, pageable);
 
             List<ParagraphListDto> listDto = paragraphs.getContent().stream()
-                    .map(i->new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()),commentRepository.countByParagraphId(i.getParagraphId())))
+                    .map(i -> new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()), commentRepository.countByParagraphId(i.getParagraphId())))
                     .collect(Collectors.toList());
             HashMap<String, Object> result = new HashMap<>();
-            result.put("paragraphs",listDto);
+            result.put("paragraphs", listDto);
             result.put("hasNextPage", paragraphs.hasNext());
             return result;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Override
-    public HashMap<String, Object>  findFollowParagraph(Long userId, Pageable pageable) {
-        User user = userRepository.findById(userId).orElse(null);
+    public HashMap<String, Object> findFollowParagraph(User user, Pageable pageable) {
+
         try {
             // 1. 해당 user가 following한 user들의 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinFollow(user, pageable);
@@ -113,7 +121,7 @@ public class ParagraphServiceImpl implements ParagraphService{
             mapper.getConfiguration().setAmbiguityIgnored(true);
             // 문장 정보
 
-            for(Paragraph p : paragraphs){
+            for (Paragraph p : paragraphs) {
                 // 1. 해당 paragraph user Info
                 UserDto userDto = new ModelMapper().map(p.getUser(), UserDto.class);
                 userDto.setUserImage(userImageRepository.findUserImageByUser(p.getUser()));
@@ -124,11 +132,11 @@ public class ParagraphServiceImpl implements ParagraphService{
                 listDto.add(new ParagraphFollowListDto(userDto, p, scrapInfo, commentCnt));
             }
             HashMap<String, Object> result = new HashMap<>();
-            result.put("paragraphs",listDto);
+            result.put("paragraphs", listDto);
             result.put("hasNextPage", paragraphs.hasNext());
             return result;
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -139,24 +147,25 @@ public class ParagraphServiceImpl implements ParagraphService{
         return null;
     }
 
-    
-    @Override 
+
+    @Override
     public boolean deleteParagraph(Long paragraphId) { // 등록된 문장 삭제
-        try{
+        try {
             paragraphRepository.deleteById(paragraphId);
-        }catch (Exception e){
+        } catch (Exception e) {
 //            log.info("error : {}", e.getStackTrace());
             return false;
         }
-        return false;
+        return true;
     }
+
     private ParagraphScrapDto getParagraphScrapDto(Long paragraphId, Paragraph paragraph, User user) {
         // 스크랩 정보
         ParagraphScrapDto scrapInfo;
         // 1. 스크랩한 사람들의 이미지 3개
-        ArrayList<User> userList= scrapRepository.findTop3ScrapUserImages(paragraphId);
+        ArrayList<User> userList = scrapRepository.findTop3ScrapUserImages(paragraphId);
         ArrayList<String> userImageList = new ArrayList<>();
-        for(User u : userList){
+        for (User u : userList) {
             userImageList.add(userImageRepository.findUserImageByUser(u));
         }
 
@@ -164,13 +173,13 @@ public class ParagraphServiceImpl implements ParagraphService{
         int scrapCount = scrapRepository.countByParagraphId(paragraphId);
         // 3. 해당 유저가 스크랩을 했는지 안 헀는지...
 
-        if(!scrapRepository.findByUserAndParagraph(user, paragraph).isPresent()){
+        if (!scrapRepository.findByUserAndParagraph(user, paragraph).isPresent()) {
             scrapInfo = ParagraphScrapDto.builder()
                     .scrapUserImages(userImageList)
                     .scrapCount(scrapCount)
                     .userScrape(0)
                     .build();
-        }else{
+        } else {
             scrapInfo = ParagraphScrapDto.builder()
                     .scrapUserImages(userImageList)
                     .scrapCount(scrapCount)

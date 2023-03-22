@@ -1,8 +1,11 @@
 package com.booklet.paragraphservice.controller;
 
 import com.booklet.paragraphservice.dto.paragraph.ParagraphCreateReq;
+import com.booklet.paragraphservice.entity.User;
 import com.booklet.paragraphservice.service.ParagraphService;
 import com.booklet.paragraphservice.service.ParagraphServiceImpl;
+import com.booklet.paragraphservice.service.UserService;
+import com.booklet.paragraphservice.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,7 @@ import java.util.Map;
 @Component
 public class ParagraphController {
     private final ParagraphService paragraphService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity createParagraph(@RequestBody ParagraphCreateReq request) throws Exception {
@@ -40,46 +44,69 @@ public class ParagraphController {
     }
 
     @GetMapping("/{paragraphId}")
-    public ResponseEntity getOneParagraph(@PathVariable("paragraphId") Long paragraphId){
-        try{
-            Map<String, Object> result = paragraphService.findParagraph(paragraphId);
+    public ResponseEntity getOneParagraph(@PathVariable("paragraphId") Long paragraphId) {
+        try {
+            Map<String, Object> result = new HashMap<>();
+            result = paragraphService.findParagraph(paragraphId);
+            if (result == null) {
+                String message = "not found";
+//                result.put("message", "not found");
+                return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+            }
             result.put("message", "success");
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-        }catch (Exception e){
+
+        } catch (Exception e) {
+            e.printStackTrace();
             Map<String, Object> result = new HashMap<>();
             result.put("message", "fail");
-            return new ResponseEntity(result, HttpStatus.ACCEPTED);
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/mylist/{userId}")
-    public ResponseEntity getListParagraphs(@PathVariable("userId") Long userId, int page, int size){
-        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paragraphId"));
-        HashMap<String, Object> result = paragraphService.findParagraphs(userId, pageRequest);
+    public ResponseEntity getListParagraphs(@PathVariable("userId") Long userId, int page, int size) {
+        User user = userService.getUser(userId);
+        if (user == null) return new ResponseEntity("not found", HttpStatus.NOT_FOUND);
+        HashMap<String, Object> result = new HashMap<>();
+        try {
+            // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+            PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paragraphId"));
+            result = paragraphService.findParagraphs(user, pageRequest);
+            return new ResponseEntity(result, HttpStatus.ACCEPTED);
 
-        return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/following/{userId}")
-    public ResponseEntity getFollowingParagraph(@PathVariable("userId") Long userId, int page, int size){
+    public ResponseEntity getFollowingParagraph(@PathVariable("userId") Long userId, int page, int size) {
+        User user = userService.getUser(userId);
+        if (user == null) return new ResponseEntity("not found", HttpStatus.NOT_FOUND);
+        try {
+            // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+            PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paragraphId"));
+            HashMap<String, Object> result = paragraphService.findFollowParagraph(user, pageRequest);
+            return new ResponseEntity(result, HttpStatus.ACCEPTED);
 
-        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "paragraphId"));
-        HashMap<String, Object> result = paragraphService.findFollowParagraph(userId, pageRequest);
+        } catch (Exception e) {
+            return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        }
     }
 
     @PutMapping("/{paragraphId}")
-    public ResponseEntity modifyParagraph(@PathVariable("paragraphId") Long paragraphId){
+    public ResponseEntity modifyParagraph(@PathVariable("paragraphId") Long paragraphId) {
 
         return null;
     }
 
     @DeleteMapping("/{paragraphId}")
-    public ResponseEntity deleteParagraph(@PathVariable("paragraphId") Long paragraphId){
+    public ResponseEntity deleteParagraph(@PathVariable("paragraphId") Long paragraphId) {
+        if(paragraphService.deleteParagraph(paragraphId))  return new ResponseEntity("success", HttpStatus.ACCEPTED);
 
-        return null;
+        return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
     }
 }
