@@ -10,7 +10,7 @@ import BookBuyButton from "../../atoms/Button/BookBuyButton";
 import LikeToolbar from "../../molecules/Bar/LikeToolbar";
 import AuthorOthreBookPreview from "../../organisms/Book/AuthorOtherBookPreview";
 import BookDescription from "../../organisms/Book/BookDescription";
-import BookRating from "../../organisms/Book/BookRatingInfo";
+import BookRatingInfo from "../../organisms/Book/BookRatingInfo";
 import BookReview from "../../organisms/Book/BookReview";
 
 function BookDetail(props) {
@@ -87,7 +87,7 @@ function BookDetail(props) {
 			<SeparationBar top="40" bottom="40" />
 
 			<Container paddingLeft="16" paddingRight="16">
-				<BookRating rating={book.bookScore} />
+				<BookRatingInfo rating={parseInt(book.bookScore)} />
 				<BookReview isbn={book.isbn} />
 			</Container>
 		</>

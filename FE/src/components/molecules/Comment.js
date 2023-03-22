@@ -9,8 +9,6 @@ import RatingLabel from "../atoms/RatingLabel";
 function Comment({ comment, type }) {
 	const dateTimeSeparation = useDate();
 
-	dateTimeSeparation(comment.createdDate);
-
 	return (
 		<CommentBox>
 			<img src={comment.img} alt="Profile of the user who commented" />
@@ -18,7 +16,7 @@ function Comment({ comment, type }) {
 				<CommentHeadingBox>
 					<Text weight="600">{comment.nickname}</Text>
 					{type === "review" ? (
-						<RatingLabel rating={comment.reviewGrade} />
+						<RatingLabel rating={parseInt(comment.reviewGrade)} />
 					) : (
 						<CommentDateBox>
 							<Text size="14" color="var(--gray-500)">
