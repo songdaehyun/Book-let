@@ -4,7 +4,7 @@ import { CommentInputBox } from "../../../styles/common/CommonStyle";
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
-function CommentInput(props) {
+function CommentInput({ type }) {
 	const [comment, setComment] = useState("");
 	const limit = 100;
 
@@ -21,7 +21,11 @@ function CommentInput(props) {
 					value={comment}
 					onChange={handleChange}
 					maxLength={limit}
-					placeholder="댓글을 작성해주세요"
+					placeholder={
+						type === "댓글"
+							? "댓글을 작성해주세요"
+							: type === "리뷰" && "리뷰를 작성해주세요"
+					}
 				></input>
 				<CommentUploadButton />
 			</CommentInputBox>

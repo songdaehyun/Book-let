@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "../../../styles/common/ContainingsStyle";
-import { Span, Text } from "../../../styles/common/TextsStyle";
+import { Span } from "../../../styles/common/TextsStyle";
 import CommentInput from "../../molecules/Input/CommentInput";
 import CommentList from "../../molecules/Sentence/CommentList";
 
@@ -16,7 +16,7 @@ function DetailComment({ comments }) {
 				</Span>
 				<Span size="19">{comments.length}</Span>
 			</Container>
-			<CommentInput />
+			<CommentInput type="댓글" />
 			<CommentList comments={comments} />
 		</Container>
 	);
