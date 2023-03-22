@@ -24,6 +24,7 @@ import LikeRecomBook from "./components/pages/Book/LikeRecomBook";
 import RatingRecomBook from "./components/pages/Book/RatingRecomBook";
 import UserRecomBook from "./components/pages/Book/UserRecomBook";
 import BookDetail from "./components/pages/Book/BookDetail";
+import AuthorBook from "./components/pages/Book/AuthorBook";
 
 function AppRouter(props) {
 	return (
@@ -50,6 +51,7 @@ function AppRouter(props) {
 				<Route path="/book/recom/genre" element={<GenreRecomBook />} />
 				<Route path="/book/recom/cover" element={<CoverRecomBook />} />
 				<Route path="/book/:bId" element={<BookDetail />} />
+				<Route path="/author/:aId" element={<AuthorBook />} />
 			</Routes>
 		</BrowserRouter>
 	);
