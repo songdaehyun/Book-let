@@ -16,4 +16,9 @@ public interface ParagraphRepository extends JpaRepository<Paragraph, Long> {
             "on p.user.userId=f.following.userId " +
             "where f.follower=:user")
     Slice<Paragraph> findParagraphJoinFollow(User user, Pageable pageable);
+
+    @Query("select p from Paragraph p inner join Scrap sc " +
+            "on p.paragraphId=sc.paragraph.paragraphId " +
+            "where sc.user=:user order by sc.scrapId desc ")
+    Slice<Paragraph> findParagraphJoinScrap(User user, Pageable pageable);
 }

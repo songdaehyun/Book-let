@@ -2,7 +2,6 @@ package com.booklet.paragraphservice.dto.paragraph;
 
 import com.booklet.paragraphservice.dto.UserDto;
 import com.booklet.paragraphservice.entity.Paragraph;
-import com.booklet.paragraphservice.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParagraphFollowListDto {
+public class ParagraphCommonListDto {
     //user
     private UserDto userInfo;
 
@@ -30,7 +29,7 @@ public class ParagraphFollowListDto {
     // comment
     private int commentCnt;
 
-    public ParagraphFollowListDto(UserDto user, Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt){
+    public ParagraphCommonListDto(UserDto user, Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt){
         this.userInfo = user;
         this.paragraphId = paragraph.getParagraphId();
         this.paragraphContent = paragraph.getParagraphContent();

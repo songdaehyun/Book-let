@@ -22,8 +22,10 @@ public interface ParagraphService {
     public HashMap<String, Object> findParagraphs(User user, Pageable pageable);    // user 본인이 등록한 문장 목록 조회
 
     public HashMap<String, Object>  findFollowParagraph(User user, Pageable pageable) ;  // user가 팔로잉한 회원들의 문장 목록 조회
+    public HashMap<String, Object> findScrapParagraph(User user, Pageable pageable) ; // user가 스크랩한 문장 목록 조회
 
-    public Long updateParagraph(Paragraph paragraph);    // 문장 수정
+
+        public Long updateParagraph(Paragraph paragraph);    // 문장 수정
 
     public boolean deleteParagraph(Long paragraphId);    // 문장 삭제
 

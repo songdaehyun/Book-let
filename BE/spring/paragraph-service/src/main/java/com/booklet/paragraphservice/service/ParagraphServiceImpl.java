@@ -119,30 +119,48 @@ public class ParagraphServiceImpl implements ParagraphService {
             // 1. 해당 user가 following한 user들의 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinFollow(user, pageable);
             // 2. scrap 정보, 댓글 수, 해당 user 정보
-            List<ParagraphFollowListDto> listDto = new ArrayList<>();
-            ModelMapper mapper = new ModelMapper();
-            mapper.getConfiguration().setAmbiguityIgnored(true);
-            // 문장 정보
-
-            for (Paragraph p : paragraphs) {
-                // 1. 해당 paragraph user Info
-                UserDto userDto = new ModelMapper().map(p.getUser(), UserDto.class);
-                userDto.setUserImage(userImageRepository.findUserImageByUser(p.getUser()));
-                // 2. 해당 paragraph scrap 정보
-                ParagraphScrapDto scrapInfo = getParagraphScrapDto(p.getParagraphId(), p, p.getUser());
-                // 3. 해당 paragraph comment 수
-                int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
-                listDto.add(new ParagraphFollowListDto(userDto, p, scrapInfo, commentCnt));
-            }
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("paragraphs", listDto);
-            result.put("hasNextPage", paragraphs.hasNext());
-            return result;
+            return getStringObjectHashMap(paragraphs);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public HashMap<String, Object> findScrapParagraph(User user, Pageable pageable) {
+        try {
+            // 1. 해당 user가 scrap한 paragraph
+            Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinScrap(user, pageable);
+            // 2. scrap 정보, 댓글 수, 해당 user 정보
+            return getStringObjectHashMap(paragraphs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private HashMap<String, Object> getStringObjectHashMap(Slice<Paragraph> paragraphs) {
+        List<ParagraphCommonListDto> listDto = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setAmbiguityIgnored(true);
+        // 문장 정보
+
+        for (Paragraph p : paragraphs) {
+            // 1. 해당 paragraph user Info
+            UserDto userDto = new ModelMapper().map(p.getUser(), UserDto.class);
+            userDto.setUserImage(userImageRepository.findUserImageByUser(p.getUser()));
+            // 2. 해당 paragraph scrap 정보
+            ParagraphScrapDto scrapInfo = getParagraphScrapDto(p.getParagraphId(), p, p.getUser());
+            // 3. 해당 paragraph comment 수
+            int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
+            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt));
+        }
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("paragraphs", listDto);
+        result.put("hasNextPage", paragraphs.hasNext());
+        return result;
     }
 
     @Override
