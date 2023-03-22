@@ -10,7 +10,7 @@ function PreviewBookSection({ title, books, path }) {
 		<Container marginTop="40" marginBottom="48">
 			<MoreBar title={title} path={path} />
 			{books.recommendType !== "bookCover" ? (
-				<PreviewSwiperBook books={books.recommend || books} />
+				<PreviewSwiperBook books={books.recommend} />
 			) : (
 				<PreviewBookCoverList books={books.recommend}></PreviewBookCoverList>
 			)}
