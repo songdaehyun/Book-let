@@ -57,7 +57,10 @@ public class ParagraphServiceImpl implements ParagraphService {
         if (paragraph == null) return false;
         return true;
     }
-
+    public Paragraph findParagraphEntity(Long paragraphId){
+        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        return paragraph;
+    }
     @Override
     public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
@@ -143,8 +146,9 @@ public class ParagraphServiceImpl implements ParagraphService {
     }
 
     @Override
-    public Long updateParagraph(ParagraphSetReq req) {
-        return null;
+    @Transactional
+    public Long updateParagraph(Paragraph paragraph) {
+        return paragraphRepository.save(paragraph).getParagraphId();
     }
 
 

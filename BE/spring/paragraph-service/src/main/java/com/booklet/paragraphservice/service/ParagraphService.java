@@ -15,6 +15,7 @@ public interface ParagraphService {
 
     public Long saveParagraph(ParagraphCreateReq req);    // 문장 저장
     public boolean isExist(Long paragraphId);
+    public Paragraph findParagraphEntity(Long paragraphId);  // 문장 entity 자체
 
     public Map<String, Object> findParagraph(Long paragraphId);    // 문장 1개 조회
 
@@ -22,7 +23,7 @@ public interface ParagraphService {
 
     public HashMap<String, Object>  findFollowParagraph(User user, Pageable pageable) ;  // user가 팔로잉한 회원들의 문장 목록 조회
 
-    public Long updateParagraph(ParagraphSetReq req);    // 문장 수정
+    public Long updateParagraph(Paragraph paragraph);    // 문장 수정
 
     public boolean deleteParagraph(Long paragraphId);    // 문장 삭제
 

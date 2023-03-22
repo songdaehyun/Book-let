@@ -50,4 +50,9 @@ public class Paragraph extends BaseTimeEntity{
         this.book = book;
     }
 
+    public void updateParagraph(String paragraphContent, String paragraphColor, int paragraphPage){
+        this.paragraphPage = paragraphPage;
+        this.paragraphColor= paragraphColor;
+        this.paragraphContent = paragraphContent;
+    }
 }

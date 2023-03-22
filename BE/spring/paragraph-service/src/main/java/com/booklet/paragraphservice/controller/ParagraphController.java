@@ -1,6 +1,8 @@
 package com.booklet.paragraphservice.controller;
 
 import com.booklet.paragraphservice.dto.paragraph.ParagraphCreateReq;
+import com.booklet.paragraphservice.dto.paragraph.ParagraphUpdateReq;
+import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
 import com.booklet.paragraphservice.service.ParagraphService;
 import com.booklet.paragraphservice.service.ParagraphServiceImpl;
@@ -97,10 +99,19 @@ public class ParagraphController {
         }
     }
 
-    @PutMapping("/{paragraphId}")
-    public ResponseEntity modifyParagraph(@PathVariable("paragraphId") Long paragraphId) {
+    @PutMapping
+    public ResponseEntity modifyParagraph(ParagraphUpdateReq req) {
+        Paragraph paragraph = paragraphService.findParagraphEntity(req.getParagraphId());
+        HashMap<String, Object> result = new HashMap<>();
+        if (paragraph == null) return new ResponseEntity("not found", HttpStatus.NOT_FOUND);
+        try {
+            paragraph.updateParagraph(req.getParagraphContent(), req.getParagraphColor(), req.getParagraphPage());
+            result.put("paragraphId", paragraphService.updateParagraph(paragraph));
+            return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
 
-        return null;
+        }
     }
 
     @DeleteMapping("/{paragraphId}")
