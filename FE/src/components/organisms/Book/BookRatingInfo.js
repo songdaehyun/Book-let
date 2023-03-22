@@ -1,12 +1,12 @@
 import React from "react";
 import { RatingBox } from "../../../styles/Book/BookDetailStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
-import RatingButton from "../../atoms/Button/RatingButton";
+import RatingStar from "../../atoms/Icon/RatingStar";
 
 function BookRatingInfo({ rating }) {
 	return (
 		<div>
-			<Text>
+			<Text marginBottom="8">
 				평균 평점
 				<Span weight="bold" marginLeft="8">
 					{rating}
@@ -15,7 +15,7 @@ function BookRatingInfo({ rating }) {
 			<RatingBox gap="4">
 				{[1, 2, 3, 4, 5].map((num, idx) => (
 					<div>
-						<RatingButton
+						<RatingStar
 							key={idx}
 							isSelected={num <= rating ? true : false}
 							height="20"
