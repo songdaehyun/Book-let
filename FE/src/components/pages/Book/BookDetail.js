@@ -21,6 +21,7 @@ function BookDetail(props) {
 		bookImgPath: "http://image.yes24.com/goods/74589337/XL",
 		bookTitle: "얼음과 불의 세계",
 		bookAuthor: "조지 R. R. 마틴",
+		bookAuthorId: 111,
 		bookPublisher: "메롱 출판사",
 		genreNames: ["판타지", "테마소설", "영미 장편소설"],
 		description:
@@ -87,7 +88,7 @@ function BookDetail(props) {
 
 			<Container paddingLeft="16" paddingRight="16">
 				<BookRating rating={book.bookScore} />
-                <BookReview isbn={book.isbn}/>
+				<BookReview isbn={book.isbn} />
 			</Container>
 		</>
 	);
