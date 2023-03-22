@@ -1,5 +1,6 @@
 import React from "react";
 import { SeparationBar } from "../../../styles/common/BarsStyle";
+import MyLikePreviewSection from "../../organisms/Mypage/MyLikePreviewSection";
 import MyReviewPreviewSection from "../../organisms/Mypage/MyReviewPreviewSection";
 import UserInfoOverview from "../../organisms/Mypage/UserInfoOverview";
 
@@ -9,6 +10,7 @@ function Mypage(props) {
 			<UserInfoOverview />
 			<SeparationBar />
 			<MyReviewPreviewSection />
+            <MyLikePreviewSection />
 		</div>
 	);
 }
