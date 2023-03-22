@@ -13,7 +13,7 @@ export const BookDetailOverviewBox = styled.div`
 		margin-top: 16px;
 		margin-bottom: 40px;
 
-		filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.25));
+		filter: drop-shadow(rgba(0, 0, 0, 0.35) 0px 0px 10px);
 		border-radius: 0px;
 	}
 `;
@@ -28,6 +28,19 @@ export const InputRatingSectionBox = styled.div`
 `;
 
 export const RatingBox = styled.div`
-	column-gap: ${props => props.gap};
+	column-gap: ${(props) => props.gap}px;
 	display: flex;
+`;
+
+export const CommentHeadingBox = styled.div`
+	margin-bottom: 4px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+export const CommentDateBox = styled.div`
+	margin-left: auto;
+	float: right;
 `;
