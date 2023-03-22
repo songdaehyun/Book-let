@@ -100,7 +100,7 @@ public class ParagraphController {
     }
 
     @PutMapping
-    public ResponseEntity modifyParagraph(ParagraphUpdateReq req) {
+    public ResponseEntity modifyParagraph(@RequestBody ParagraphUpdateReq req) {
         Paragraph paragraph = paragraphService.findParagraphEntity(req.getParagraphId());
         HashMap<String, Object> result = new HashMap<>();
         if (paragraph == null) return new ResponseEntity("not found", HttpStatus.NOT_FOUND);
