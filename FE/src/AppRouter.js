@@ -26,6 +26,9 @@ import UserRecomBook from "./components/pages/Book/UserRecomBook";
 import BookDetail from "./components/pages/Book/BookDetail";
 import AuthorBook from "./components/pages/Book/AuthorBook";
 
+// 마이 페이지
+import Mypage from "./components/pages/Mypage/Mypage";
+
 function AppRouter(props) {
 	return (
 		<BrowserRouter>
@@ -52,6 +55,8 @@ function AppRouter(props) {
 				<Route path="/book/recom/cover" element={<CoverRecomBook />} />
 				<Route path="/book/:bId" element={<BookDetail />} />
 				<Route path="/author/:aId" element={<AuthorBook />} />
+				{/* 마이 페이지 */}
+				<Route path="/mypage" element={<Mypage />} />
 			</Routes>
 		</BrowserRouter>
 	);
