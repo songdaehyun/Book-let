@@ -158,10 +158,14 @@ export const RatingBtn = styled.svg`
 	width: auto;
 	height: ${(props) => props.height}px;
 
-	fill: ${(props) => (props.isSelected ? "var(--yellow)" : "var(--gray-300)")};
+	fill: ${(props) => props.isSelected && "var(--yellow)"};
+	stroke: ${(props) => !props.isSelected && "var(--yellow)"};
+	stroke-width: ${(props) => props.height <= 10 && 2}px;
+	/* fill: ${(props) => (props.isSelected ? "var(--yellow)" : "var(--gray-300)")}; */
 
 	:active {
-		fill: #fff7bc;
+		fill: ${(props) => props.type === "button" && "#fff7bc"};
+		stroke: none;
 	}
 
 	path {

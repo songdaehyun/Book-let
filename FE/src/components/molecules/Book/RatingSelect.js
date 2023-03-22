@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
 import { RatingBox } from "../../../styles/Book/BookDetailStyle";
-import RatingButton from "../../atoms/Button/RatingButton";
+import RatingStar from "../../atoms/Icon/RatingStar";
 
-function RatingSelect(props) {
-	const [selected, setSelected] = useState(0);
+function RatingSelect({ selectedRating, setSelectedRating }) {
 	const [isSelected, setIsSelected] = useState([false, false, false, false, false]);
 
 	const handleClickRating = (rating) => {
@@ -12,32 +11,24 @@ function RatingSelect(props) {
 	};
 
 	const selecteRating = (rating) => {
-		let star = [...isSelected];
+		let stars = [...isSelected];
 		for (let i = 0; i < 5; i++) {
 			if (i <= rating - 1) {
-				star[i] = true;
+				stars[i] = true;
 			} else {
-				star[i] = false;
+				stars[i] = false;
 			}
-			// star[i] = i <= index ? true : false;
-		}
-		setSelected(rating);
-		setIsSelected(star);
-		console.log(rating);
-
-		// 선택된 점수보다 높은 점수라면 노란색이 됨
-		if (rating >= selected) {
-			return true;
 		}
 
-		return false;
+		setSelectedRating(rating);
+		setIsSelected(stars);
 	};
 
 	return (
 		<RatingBox gap="8">
 			{[1, 2, 3, 4, 5].map((rating, idx) => (
 				<div onClick={() => selecteRating(rating)}>
-					<RatingButton key={idx} isSelected={isSelected[idx]} height="32" />
+					<RatingStar key={idx} isSelected={isSelected[idx]} height="32" type="button" />
 				</div>
 			))}
 		</RatingBox>

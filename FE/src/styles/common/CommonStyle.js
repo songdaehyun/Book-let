@@ -87,8 +87,8 @@ export const CommentBox = styled.div`
 		margin-right: 24px;
 	}
 
-	> div:last-child {
-		margin-left: auto;
+	> div:nth-child(2) {
+		width: 100%;
 	}
 `;
 
@@ -142,4 +142,16 @@ export const ReactionImgWrapper = styled.div`
 		width: 24px;
 		height: 24px;
 	}
+`;
+
+export const RatingLabelBox = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1px 8px;
+	gap: 8px;
+
+	background: #fffdf1;
+	border: 0.5px solid #ffe04b;
+	border-radius: 2px;
 `;
