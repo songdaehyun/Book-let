@@ -60,7 +60,7 @@ export const ModalTextGroupBox = styled.div`
 	display: flex;
 	justify-content: space-between;
 
-	border-top: 0.5px solid var(--gray-300);
+	/* border-top: 0.5px solid var(--gray-300); */
 
 	> div {
 		width: 50%;
@@ -69,13 +69,14 @@ export const ModalTextGroupBox = styled.div`
 	}
 
 	> div:first-child {
-		border-right: 0.5px solid var(--gray-300);
+		/* border-right: 0.5px solid var(--gray-300); */
 	}
 `;
 
 export const ModalTextBtn = styled(TextBtn)`
 	color: ${(props) => (props.color ? props.color : "black")};
 	font-size: 16px !important;
+	font-weight: bold;
 `;
 
 export const ModalTitleBox = styled.div`

@@ -9,7 +9,7 @@ function Modal({ title, subTitle, leftLabel, rightLabel, action, closePopup }) {
 	return (
 		<ModalBox onClick={stopEventBubbling}>
 			<ModalTitleBox>
-				<Text>{title}</Text>
+				<Text weight="bold">{title}</Text>
 				{subTitle && <Text>{subTitle}</Text>}
 			</ModalTitleBox>
 			<ModalTextGroupBox>
