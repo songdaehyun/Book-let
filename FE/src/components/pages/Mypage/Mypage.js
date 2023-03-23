@@ -1,5 +1,7 @@
 import React from "react";
 import { SeparationBar } from "../../../styles/common/BarsStyle";
+import { Container } from "../../../styles/common/ContainingsStyle";
+import TabBar from "../../molecules/Bar/TabBar";
 import MyAccountSetSection from "../../organisms/Mypage/MyAccountSetSection";
 import MyInfoSetSection from "../../organisms/Mypage/MyInfoSetSection";
 import MyLikePreviewSection from "../../organisms/Mypage/MyLikePreviewSection";
@@ -9,15 +11,18 @@ import UserInfoOverview from "../../organisms/Mypage/UserInfoOverview";
 
 function Mypage(props) {
 	return (
-		<div>
-			<UserInfoOverview />
-			<SeparationBar />
-			<MyReviewPreviewSection />
-			<MyLikePreviewSection />
-			<MyInfoSetSection />
-			<MyAccountSetSection />
-            <MypageFooter />
-		</div>
+		<>
+			<Container paddingBottom="67">
+				<UserInfoOverview />
+				<SeparationBar />
+				<MyReviewPreviewSection />
+				<MyLikePreviewSection />
+				<MyInfoSetSection />
+				<MyAccountSetSection />
+				<MypageFooter />
+			</Container>
+			<TabBar selected={3} />
+		</>
 	);
 }
 

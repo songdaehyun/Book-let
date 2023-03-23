@@ -22,7 +22,7 @@ function Feed(props) {
 
 	return (
 		<>
-			<Container paddingTop="24" paddingLeft="16" paddingRight="16">
+			<Container paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
 				<Text size="24" weight="bold" marginBottom="24">
 					Feed
 				</Text>

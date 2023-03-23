@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { TabBarBox, TabBarItemBox } from "../../../styles/common/BarsStyle";
 
 import { Text } from "../../../styles/common/TextsStyle";
@@ -7,25 +8,38 @@ import FeedIcon from "../../atoms/Icon/TabBar/TabbarFeed";
 import MyIcon from "../../atoms/Icon/TabBar/TabbarMy";
 
 function TabBar({ selected }) {
+	const navigate = useNavigate();
+
 	const feedItems = [
 		{
 			icon: <FeedIcon />,
 			label: "피드",
+			path: "/"
 		},
 		{
 			icon: <BookIcon />,
 			label: "도서",
+			path: "/book"
 		},
 		{
 			icon: <MyIcon />,
 			label: "My",
-		},
+			path: "/mypage"
+		}
 	];
+
+	const handleClickItem = (path) => {
+		navigate(path);
+	};
 
 	return (
 		<TabBarBox>
 			{feedItems.map((feedItem, idx) => (
-				<TabBarItemBox isSelected={selected === idx + 1 ? true : false}>
+				<TabBarItemBox
+					key={idx}
+					onClick={() => handleClickItem(feedItem.path)}
+					isSelected={selected === idx + 1 ? true : false}
+				>
 					{feedItem.icon}
 					<Text size="12" color={selected === idx + 1 ? true : false}>
 						{feedItem.label}

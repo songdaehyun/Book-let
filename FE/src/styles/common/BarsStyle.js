@@ -85,8 +85,18 @@ export const SeparationBar = styled.div`
 `;
 
 export const TabBarBox = styled.div`
+	padding-top: 12px;
+	padding-bottom: 8px;
+
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	border-top: 0.5px solid var(--gray-300);
+	background-color: white;
 
 	> div {
 		display: flex;
