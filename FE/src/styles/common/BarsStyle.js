@@ -83,3 +83,25 @@ export const SeparationBar = styled.div`
 
 	background-color: var(--gray-100);
 `;
+
+export const TabBarBox = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+
+	> div {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+	}
+`;
+
+export const TabBarItemBox = styled.div`
+	svg {
+		fill: ${(props) => (props.isSelected ? "var(--primary-600)" : "var(--gray-500)")};
+	}
+
+	div:last-child {
+		color: ${(props) => (props.isSelected ? "var(--primary-600)" : "var(--gray-500)")};
+	}
+`;
