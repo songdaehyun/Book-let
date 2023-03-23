@@ -172,6 +172,7 @@ export const EmptyBox = styled.div`
 	width: fit-content;
 
 	margin: auto;
+	margin-top: ${(props) => (props.top ? props.top : 80)}px;
 
 	display: flex;
 	flex-direction: column;
