@@ -29,6 +29,7 @@ import UserRecomBook from "./components/pages/Book/UserRecomBook";
 // 마이 페이지
 import MyFollow from "./components/pages/Mypage/MyFollow";
 import Mypage from "./components/pages/Mypage/Mypage";
+import MyReview from "./components/pages/Mypage/MyReview";
 
 function AppRouter(props) {
 	return (
@@ -59,6 +60,7 @@ function AppRouter(props) {
 				{/* 마이 페이지 */}
 				<Route path="/mypage" element={<Mypage />} />
 				<Route path="/mypage/follow" element={<MyFollow />} />
+				<Route path="/mypage/review" element={<MyReview />} />
 			</Routes>
 		</BrowserRouter>
 	);
