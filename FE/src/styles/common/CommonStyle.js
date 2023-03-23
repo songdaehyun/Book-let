@@ -204,3 +204,21 @@ export const EmptyBox = styled.div`
 		fill: var(--gray-500);
 	}
 `;
+
+export const UserImageBox = styled.div`
+	width: ${(props) => (props.size === "sm" ? "40" : props.size === "lg" && "80")}px;
+	height: ${(props) => (props.size === "sm" ? "40" : props.size === "lg" && "80")}px;
+
+	border-radius: 50%;
+	border: ${(props) => props.isDefault && "0.8px solid var(--gray-500)"};
+
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+
+	div {
+	}
+`;
