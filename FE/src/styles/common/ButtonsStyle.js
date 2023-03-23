@@ -35,6 +35,7 @@ export const PrimarySmBtn = styled.button`
 	background-color: var(--primary-600);
 	color: white;
 	font-weight: bold;
+	font-size: ${(props) => props.size}px;
 
 	border-radius: 4px;
 	border: none;

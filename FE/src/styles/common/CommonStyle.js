@@ -167,3 +167,39 @@ export const Hr = styled.hr`
 	height: 0.5px;
 	background-color: var(--gray-100);
 `;
+
+export const EmptyBox = styled.div`
+	width: fit-content;
+
+	margin: auto;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+
+	> div {
+		margin-top: 32px;
+		margin-bottom: 24px;
+	}
+
+	> svg {
+		width: 90%;
+	}
+
+	path:first-child {
+		fill: var(--gray-100);
+	}
+
+	path:nth-child(2) {
+		fill: var(--gray-500);
+	}
+
+	path:nth-child(3) {
+		fill: var(--gray-500);
+	}
+
+	path:nth-child(4) {
+		fill: var(--gray-500);
+	}
+`;
