@@ -83,23 +83,29 @@ export const SentenceBookSearchBarBox = styled.div`
 
 		::placeholder {
 			color: var(--gray-500);
+			font-weight: bold;
 		}
 	}
 `;
 
 export const SentenceBookAutoSearchBox = styled.div`
 	width: 100%;
-	height: 50vh;
 
 	padding: 15px;
-	
+
+	display: ${(props) => (props.isOpen ? "flex" : "none")};
 	position: absolute;
 	z-index: 3;
-	
+
 	top: 88px;
 	left: 0;
 	right: 0;
-	
+
 	border: 2px solid;
 	background-color: #fff;
+
+	background: #ffffff;
+	border: 0.5px solid var(--gray-300);
+	border-radius: 8px;
+	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
 `;
