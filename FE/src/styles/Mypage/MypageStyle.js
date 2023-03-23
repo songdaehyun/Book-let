@@ -107,8 +107,8 @@ export const MyReviewDetailBox = styled.div`
 	> div:first-child {
 		margin-bottom: 8px;
 	}
-	
-	> div:first-child > div{
+
+	> div:first-child > div {
 		width: 100%;
 	}
 `;
@@ -116,4 +116,62 @@ export const MyReviewDetailBox = styled.div`
 export const MyReviewDetailHeadingBox = styled.div`
 	display: flex;
 	justify-content: space-between;
+`;
+
+export const DeleteAccountGuideContentBox = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 24px;
+
+	svg {
+		margin-right: 16px;
+	}
+`;
+
+export const DeleteAccountCheckBox = styled.div`
+	margin-bottom: 24px;
+
+	display: flex;
+	align-items: center;
+
+	> div {
+		display: flex;
+	}
+
+	svg {
+		width: auto;
+		height: 16px;
+
+		margin-right: 16px;
+
+		fill: ${(props) => (props.isChecked ? "var(--primary-600)" : "var(--gray-300)")};
+	}
+`;
+
+export const DeleteMyAccountBox = styled.div`
+	height: calc(100vh);
+
+	padding: 51px 16px;
+	padding-bottom: 0;
+
+	position: relative;
+
+	> svg {
+		width: 60%;
+		height: auto;
+
+		margin: auto;
+		margin-top: 64px;
+		margin-bottom: 72px;
+
+		display: flex;
+	}
+`;
+
+export const DeleteAccounBottomBox = styled.div`
+	position: absolute;
+
+	bottom: 24px;
+	left: 16px;
+	right: 16px;
 `;

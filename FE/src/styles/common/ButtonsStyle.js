@@ -175,3 +175,13 @@ export const RatingBtn = styled.svg`
 	path {
 	}
 `;
+
+export const DeleteAccountBtn = styled(PrimaryLargeBtn)`
+	background-color: ${(props) => !props.isChecked && " var(--primary-100)"};
+
+	color: ${(props) => !props.isChecked && " var(--primary-500)"};
+
+	:active {
+		background-color: ${(props) => !props.isChecked && " var(--primary-200)"};
+	}
+`;
