@@ -2,7 +2,7 @@ import React from "react";
 
 import DetailSentence from "../../molecules/Sentence/DetailSentence";
 import ScrapToolbar from "../../molecules/Bar/ScrapToolbar";
-import ProfileWithFollw from "../../molecules/Sentence/ProfileWithFollow";
+import ProfileWithFollow from "../../molecules/Sentence/ProfileWithFollow";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
@@ -22,7 +22,7 @@ function DetailPostOverview({ post, isFollowed, setIsFollowed }) {
 			<Container marginTop="16" paddingLeft="16" paddingRight="16">
 				<ScrapToolbar post={post} isMy={false} />
 				<Container marginTop="24">
-					<ProfileWithFollw
+					<ProfileWithFollow
 						nickname={post.nickname}
 						profileImg={post.userImg}
 						isFollowed={isFollowed}
