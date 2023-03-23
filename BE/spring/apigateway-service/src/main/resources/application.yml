@@ -28,7 +28,7 @@ spring:
         - id: booklet-paragraph-service
           uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
           predicates:
-            - Path=/api/*/paragraph/**
+            - Path=/api/v1/paragraph/**
 #          filters:
 #            - CustomFilter
         - id: booklet-book-service
