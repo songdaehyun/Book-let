@@ -20,13 +20,17 @@ function Empty({ title, subTitle, buttonLabel, path, top }) {
 				<Text weight="bold" color="var(--gray-600)" marginBottom="8">
 					{title}
 				</Text>
-				<Text color="var(--gray-500)" height="22">
-					{subTitle}
-				</Text>
+				{subTitle && (
+					<Text color="var(--gray-500)" height="22">
+						{subTitle}
+					</Text>
+				)}
 			</div>
-			<PrimarySmBtn size="14" onClick={handleClickButton}>
-				{buttonLabel}
-			</PrimarySmBtn>
+			{buttonLabel && (
+				<PrimarySmBtn size="14" onClick={handleClickButton}>
+					{buttonLabel}
+				</PrimarySmBtn>
+			)}
 		</EmptyBox>
 	);
 }
