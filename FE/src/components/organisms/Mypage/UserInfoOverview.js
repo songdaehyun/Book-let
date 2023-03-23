@@ -5,6 +5,8 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 import { FollowLabelsBox } from "../../../styles/Mypage/MypageStyle";
 import FollowLabel from "../../atoms/Mypage/FollowLabel";
+import UserProfileImage from "../../atoms/UserProfileImage";
+
 
 function UserInfoOverview(props) {
 	const navigate = useNavigate();
@@ -14,7 +16,7 @@ function UserInfoOverview(props) {
 			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShQWztVKOhIT1WX5TmfhJCviOe1QTXIj_vOA&usqp=CAU",
 		nickname: "만두킬러",
 		follower: 15,
-		following: 31,
+		following: 31
 	};
 
 	const handleClickFollowLabel = () => {
@@ -24,7 +26,8 @@ function UserInfoOverview(props) {
 	return (
 		<>
 			<Container paddingTop="56" paddingBottom="32" paddingLeft="16" paddingRight="16">
-				<Text weight="bold" marginBottom="16">
+				<UserProfileImage img={user.img_path} size="lg"/>
+				<Text weight="bold" marginTop="24" marginBottom="16">
 					{user.nickname}
 				</Text>
 				<FollowLabelsBox>
