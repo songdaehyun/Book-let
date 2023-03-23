@@ -175,3 +175,74 @@ export const DeleteAccounBottomBox = styled.div`
 	left: 16px;
 	right: 16px;
 `;
+
+export const UploadProfileImage = styled.div``;
+
+export const UploadPictureSection = styled.div`
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	position: relative;
+`;
+
+export const ImageInput = styled.input`
+	display: none;
+`;
+
+export const PictureSection = styled.div`
+	cursor: pointer;
+	width: 100px;
+	height: 100px;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+`;
+
+export const PicturePreview = styled.img`
+	width: 100%;
+	height: 100%;
+
+	/* width: 100px;
+	height: 100px;
+	border-radius: 50px;
+
+	position: relative; */
+`;
+
+export const UploadButton = styled.img`
+	position: absolute;
+	top: 80%;
+	left: 90%;
+	transform: translate(-50%, -50%);
+	width: 40px;
+	height: 40px;
+`;
+
+export const UploadPictureBox = styled.div`
+	width: 100px;
+	height: 100px;
+
+	position: relative;
+
+	border: 1px solid var(--gray-300);
+	border-radius: 50%;
+	overflow: hidden;
+`;
+
+export const UploadPictureEmptyBox = styled.div`
+	width: 100%;
+	height: 100%;
+
+	background-color: var(--gray-100);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	img {
+		width: 32px;
+		height: auto;
+	}
+`;
