@@ -549,348 +549,234 @@ https://github.com/spring-projects/spring-security/issues/10822
 - Spring security의 경우 Spring 3 버전대와 2번전대도 다르고
 - 2.7버전과 그 아래 버전에서도 depreciate된 기능들이 있어서 학습하고 적용하는데 어려움을 겪고 있습니다.
 
-# DB 파싱을 위한 Django
-- models.py
-```python
-from django.db import models
+- 실습 중이나 기간차이가 있어 어려움에 있습니다.
+```java
+package com.example.jwtsecure.config;
 
-# Create your models here.
-class Author(models.Model):
-    author_id = models.BigIntegerField(primary_key=True)
-    author_name = models.CharField(max_length=16)
+import com.example.jwtsecure.filter.MyFilter3;
+import com.example.jwtsecure.jwt.JwtAuthenticationFilter;
+import com.example.jwtsecure.jwt.JwtAuthorizationFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
 
-class Genre(models.Model):
-    genre_id = models.BigIntegerField(primary_key=True)
-    genre_name = models.CharField(max_length=16)
+    private final CorsFilter corsFilter;
 
-
-class Book(models.Model):
-    book_isbn = models.CharField(max_length=32, primary_key=True)
-    book_title = models.CharField(max_length=32)
-    book_publisher = models.CharField(max_length=16)
-    book_price = models.IntegerField(null=True)
-    book_description = models.TextField(null=True)
-    book_score = models.FloatField(null=True)
-    book_grade = models.FloatField(null=True)
-    book_image = models.TextField(null=True)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    genres = models.ManyToManyField(Genre, related_name='books')
-
-
-class BookGenre(models.Model):
-    book_isbn = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_genre_book_id')
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='book_genre_genre_id')
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                // 완전 앞에 넣어주고 싶으면 BasicAuthenticationFilter보다 빠른 녀석을 넣어주면 됨
+//                .addFilterAfter(new MyFilter4(), BasicAuthenticationFilter.class) // 이런식으로 넣어줄 수 있음
+                .addFilterBefore(new MyFilter3(), BasicAuthenticationFilter.class) // 이런식으로 넣어줄 수 있음
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(corsFilter)  // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증의 경우도 O)
+                .formLogin().disable()
+                .httpBasic().disable()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))  // Authentication Manager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager()))  // Authentication Manager
+//                .apply(new MyCustomDsl()) // 커스텀 필터 등록
+//                .and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/user/**")
+                .access("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+                .antMatchers("/api/v1/manager/**")
+                .access("hasRole('MANAGER') or hasRole('ADMIN')")
+                .antMatchers("/api/v1/admin/**")
+                .access("hasRole('ADMIN')")
+                .anyRequest().permitAll()
+                .and().build();
+    }
+}
 
 ```
 
-- views.py
-```python
-import requests
+```java
+package com.example.jwtsecure.jwt;
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.http import JsonResponse
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.example.jwtsecure.config.auth.PrincipalDetails;
+import com.example.jwtsecure.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-from .models import *
-# Create your views here.
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Date;
 
+// 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter가 있음
+// /login 요청해서 username, password 전송하면 (post)
+// UsernamePasswordAuthenticationFilter 동작함
+// loginForm을 안사용하기 떄문에 활성화가 안되는데 그래서 security filter에 새로 등록해줘야됨
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-# 알라딘 키
-ALA_API_KEY = ''
-BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
-MAIN = 'ItemList.aspx'
-DETAIL = 'ItemLookUp.aspx'
+    private final AuthenticationManager authenticationManager;
 
-def book_detail(book_isbn):
-    print('책 세부내용 가지러 왔습니다!', book_isbn)
-    response = requests.get(
-     BASE_URL + DETAIL,
-     params={
-        'ttbkey' : ALA_API_KEY,
-        'itemIdType' : 'ISBN',
-        'ItemId' : book_isbn,
-        'output' : 'js',
-        'Version' : 20131101,
-        'OptResult' : 'ratingInfo,reviewList'
-     }
-    ).json()
-    print(response.get('item'))
-    book = response.get('item')[0]
-    reivewList = book.get('reviewList')
-    ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
+    // /login 요청을 하면 로그인 시도를 위해서 실행되는 함수
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+        throws AuthenticationException {
+        System.out.println("JwtAuthenticationFilter : 로그인 시도중");
 
-    print('책 이름 : ',book.get('title'))
-    
+        // 1. username, password 받아서
+        try {
+//            BufferedReader br = request.getReader(); // 이거는 formdata 사용시
+//
+//            String input = null;
+//            while((input = br.readLine()) != null) {
+//                System.out.println(input);
+//            }
+            ObjectMapper om = new ObjectMapper();
+            User user = om.readValue(request.getInputStream(), User.class);
+            System.out.println(user);
 
-    book_info = {
-         'grade' : ratingScore
-    }
-    print()
-     
-    return book_info
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 
+            // PrincipalDetailsService의 loadUserByUsername() 함수가 실행된 후 정상이라면 authentication이 리턴됨
+            // DB에 있는 username과 password가 일치한다.
+            Authentication authentication =
+                    authenticationManager.authenticate(authenticationToken);
 
-def author_info(name, isbn):
-    if not Author.objects.filter(author_name=name).exists():
-        author = Author.objects.create(
-              author_id = isbn
-              author_name = name,
-         )
-    return author
+            // => 로그인 되었다는 뜻
+            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            System.out.println("로그인 완료 됨 : " + principalDetails.getUser().getUsername());
+            // authentication 객체가 session영역에 저장 해야하고 그 방법이 return 해주면 됨.
+            // 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 근데 단지 권한 처리때문에 session을 넣어줌
+            return authentication;
 
-
-@api_view(['GET'])
-def insert_db(request):
-    print('DB 저장하러 왔습니다.')
-    context = {
-        'result' : 'ㅇㅅㅇ' 
-    }
-
-    response = requests.get(
-        BASE_URL + MAIN,
-        params={
-            'ttbkey' : ALA_API_KEY,
-            'QueryType' : 'Bestseller',
-            'MaxResults' : 100,
-            'start' : 1,
-            'SearchTarget' : 'Book',
-            'output' : 'js',
-            'Version' : 20131101,
-            'cover' : 'Big',
-            'Year' : 2023,
-            'Month' : 2,
-            'Week' : 1
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    ).json()
-    print(response)
-    book_list = response.get('item')
-    for book in book_list:
-        print('작업 중 인 도서 : ',book.get('title'))
+        return null;
+    }
+    // attemptAuthentication 실행 후 인증이 정상적으로 되었으면 successfulAuthentication 함수가 실행
+    // JWT 토큰을 만들어서 request요청한 사용자에게 JWT토큰을 response해주면됨.
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
+        System.out.println("successfulAuthentication 실행됨 : 인증이 완료되었다는 뜻임");
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
-        # 책 데이터 저장
-        if not Book.objects.filter(pk=book.get('isbn13')).exists():
-                # 책 디테일 불러오기
-                book_info = book_detail(book.get('isbn13'))
+        String jwtToken = JWT.create()
+                .withSubject("cos토큰")// 토큰이름
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10)))  // 60000 = 1분
+                .withClaim("id", principalDetails.getUser().getId())  // jwt에 넣고싶은거 넣는거
+                .withClaim("username", principalDetails.getUser().getUsername())
+                .sign(Algorithm.HMAC512("cos"));
 
-                # 저자 저장
-                author = author_info(book.get('author'), book.get('isbn13'))
+        response.addHeader("Authorization", "Bearer" + jwtToken);
+        super.successfulAuthentication(request, response, chain, authResult);
+    }
+}
+// 2. 정상인지 로그인 시도를 해보는 것 authenticationManager로 로그인을 시도하면
+// PrincipalDetailsService가 호출 loadUserByUsername() 함수 실행됨.
+// 3. PrincipalDetails를 세션에 담고 (권한 관리를 위해서, 권한 설정을 할 경우에만 사용하면 됨)
+// 4. JWT토큰을 만들어서 응답해주면 됨
 
-                # 책 저장
-                book = Book.objects.create(
-                    book_isbn = book.get('isbn13'),
-                    book_title = book.get('title'),
-                    book_publisher = book.get('publisher'),
-                    book_price = book.get('priceStandard'),
-                    book_description = book.get('description'),
-                    # book_score = None,
-                    book_grade = book.get(book_info.get('grade')),
-                    book_image = book.get('cover')
-                )
+// 세션을 통한 로그인
+// 유저네임, 패스워드 로그인 정상
+// 서버쪽 세션ID생성
+// 클라이언트 쿠키 세션ID를 응답
+// 요청할 때마다 쿠키값 세션ID를 항상 들고 서버쪽으로 요청하기 때문에
+// session.getAttribute("세션값 확인");
+// 서버는 세션ID가 유효한지 판단해서 유효하면 인증이 필요한 페이지로 접근하게 하면됨
 
-    return JsonResponse(context)
+// jwt 토큰을 통한 로그인
+// 유저네임, 패스워드 로그인 정상
+// JWT토큰을 생성
+// 클라이언트 쪽으로 JWT토큰을 응답
+// 요청할 떄마다 JWT토큰을 응답
+// 서버는 JWT토큰이 유효한지를 판단(필터를 만들어야 함)
+```
+```java
+package com.example.jwtsecure.jwt;
+
+// 시큐리티가 filter가지고 있는데 그 필터중에 BasicAuthenticationFilter 라는 것이 있음.
+// 권한이나 인증이 필요한 특정 주소를 요청했을 때 위 필터를 무조건 타게 되어있음.
+// 만약에 권한이 인증이 필요한 주소가 아니라면 이 필터를 안탐
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
+
+    // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        super.doFilterInternal(request, response, chain);
+        System.out.println("인증이나 권한이 필요한 주소 요청이 됨");
+
+        String jwtHeader = request.getHeader("Authorization");
+        System.out.println("jwtHeader : " + jwtHeader);
+
+        // JWT 토큰을 검증을 해서 정상적인 사용자인지 확인
+        if
+    }
+}
 
 ```
-- views.py 업데이트, 완성
-```python
-import requests
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.http import JsonResponse
+```java
+package com.example.jwtsecure.config.auth;
 
-from .models import *
-# Create your views here.
+import com.example.jwtsecure.model.User;
+import com.example.jwtsecure.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+// http://localhost:8080/login -> loginForm을 안쓰기 때문에 동작을 안함
+@Service
+@RequiredArgsConstructor
+public class PrincipalDetailsService implements UserDetailsService {
 
-# 알라딘 키
-ALA_API_KEY = ['ttbjoyksj940955001', 'ttbgoflwla921118001', 'ttbcjg050341002001']
-KEY_NUM = 0
-BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
-MAIN = 'ItemList.aspx'
-DETAIL = 'ItemLookUp.aspx'
+    private final UserRepository userRepository;
 
-@api_view(['GET'])
-def test(request):
-    context = {
-         'content' : '잘 도착했음'
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("PrincipalDetailsService의 loadUserByUsername()");
+        User userEntity = userRepository.findByUsername(username);
+        System.out.println("userEntity : " + userEntity);
+        return new PrincipalDetails(userEntity);
     }
-    return JsonResponse(context)
-
-
-def book_detail(book_isbn):
-    # print('책 세부내용 가지러 왔습니다!', book_isbn)
-    response = requests.get(
-     BASE_URL + DETAIL,
-     params={
-        'ttbkey' : ALA_API_KEY[KEY_NUM],
-        'itemIdType' : 'ISBN',
-        'ItemId' : book_isbn,
-        'output' : 'js',
-        'Version' : 20131101,
-        'OptResult' : 'ratingInfo,reviewList'
-     }
-    ).json()
-    book = response.get('item')[0]
-    # reivewList = book.get('reviewList')
-    try:
-        ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
-    except :
-        ratingScore = None 
-
-    print('책 세부내용 조회 책 이름 : ',book.get('title'))
-
-    book_info = {
-         'grade' : ratingScore,
-         'genre_id' : book.get('categoryId'),
-         'genre_name' : book.get('categoryName')
-    }
-     
-    return book_info
-
-
-def author_info(name, bookEntity):
-    # print('원래 이름 : ',name)
-    if '(지은이)' in name :
-        idx = name.index('(')
-        name = name[:idx]
-    
-
-    # 여러명일 경우 제일 앞만 적용
-    if ',' in name:
-        idx = name.index(',')
-        name = name[:idx]
-
-    # print('수정 이름 : ',name)
-
-    if not Author.objects.filter(author_name = name).exists():
-        author = Author.objects.create(
-            author_name = name 
-        )
-        
-        bookEntity.author.add(author.author_id)
-    return
-
-
-def genre_save(book_info, bookEntity):
-    raw_name = book_info.get('genre_name')
-    genre_name = raw_name
-    # print('변경 전 장르이름', genre_name)
-    if '>' in raw_name :
-        idx = raw_name.index('>')
-        # print('idx', idx)
-        idx2 = raw_name.index('>', idx+1)
-        # print('idx2', idx2)
-        if idx == idx2:
-            idx2 = -1
-        genre_name = raw_name[idx+1:idx2]
-        # 소설 시 희곡 분리
-        if genre_name == '소설/시/희곡':
-            if raw_name.count('>') == 2:
-                if raw_name[-2:len(raw_name)] == '소설':
-                    genre_name = '소설'
-                elif raw_name[-2:len(raw_name)] == '희곡':
-                    genre_name = '희곡'
-                elif raw_name[-1] == '시':
-                    genre_name = '시'
-                else:
-                    genre_name = raw_name[idx2 + 1:]
-            else:
-                idx3 = raw_name.index('>', idx2+1)
-                if raw_name[idx3-2 : idx3] == '소설':
-                    genre_name = '소설'
-                elif raw_name[idx3-2 : idx3] == '희곡':
-                    genre_name = '희곡'
-                elif raw_name[idx3-1] == '시':
-                    genre_name = '시'
-                else:
-                    genre_name = raw_name[idx2 + 1 : idx3]
-        
-    if not Genre.objects.filter(genre_name=genre_name).exists():
-        # 장르 생성
-        genre = Genre.objects.create(
-            # genre_id = book_info.get('genre_id'),
-            genre_name = genre_name
-        )
-
-        # 장르와 책 연결
-        bookEntity.genres.add(genre.genre_id)
-    return
-
-
-@api_view(['GET'])
-def insert_db(request):
-    print('DB 저장하러 왔습니다.')
-    context = {
-        'result' : '완료' 
-    }
-    # start = 0
-    start = 15
-    end = 100
-    for i in range(start, end):
-        for j in range(4): # 분기마다 처리
-            year = 2022-i
-            month = 12-3*j
-            print('#'*50)
-            print(f'{year}-{month} 베스트셀러 들어갑니다!')
-            print('#'*50)
-            
-            response = requests.get(
-                BASE_URL + MAIN,
-                params={
-                    'ttbkey' : ALA_API_KEY[KEY_NUM],
-                    'QueryType' : 'Bestseller',
-                    'MaxResults' : 100,
-                    'start' : 1,
-                    'SearchTarget' : 'Book',
-                    'output' : 'js',
-                    'Version' : 20131101,
-                    'cover' : 'Big',
-                    'Year' : year,
-                    'Month' : month,
-                    'Week' : 1
-                }
-            ).json()
-
-            book_list = response.get('item')
-            for book in book_list:
-                isbn = 'isbn13'
-                if book.get(isbn) == '':
-                    isbn = 'isbn'
-                    print('isbn13없으므로 패스합니다 : ', book.get('title'))
-                    continue
-                elif len(book.get(isbn)) < 13 or book.get(isbn)[0]=='G':
-                    print('isbn이상으로인해 패스합니다.', book.get(isbn), book.get('title'))
-                    continue
-                print(f'작업 중 인 도서 : {book.get("isbn13")}, {book.get("title")}')
-                # 책 데이터 저장
-                if not Book.objects.filter(pk=book.get(isbn)).exists():
-                        # 책 디테일 불러오기
-                    book_info = book_detail(book.get(isbn))
-                    # 책 세부 요소 확인
-                    try : 
-                        grade = book_info.get('grade')/2
-                    except :
-                        grade = None
-                    # 책 저장
-                    bookEntity = Book.objects.create(
-                        book_isbn = book.get(isbn),
-                        book_title = book.get('title'),
-                        book_publisher = book.get('publisher'),
-                        book_price = book.get('priceStandard'),
-                        book_description = book.get('description'),
-                        # book_score = None,
-                        book_grade = grade,  # 5점 만점으로 변경
-                        book_image = book.get('cover'),
-                        # book_author = author_info(book.get('author'))
-                    )
-                    # 저자 및 장르 저장
-                    # print('저자 세이브')
-                    author_info(book.get('author'), bookEntity)
-                    # print('장르 세이브')
-                    genre_save(book_info, bookEntity)
-
-        
-    return JsonResponse(context)
+}
 
 ```
