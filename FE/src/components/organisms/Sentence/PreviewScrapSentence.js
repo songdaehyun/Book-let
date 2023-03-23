@@ -56,6 +56,7 @@ function PreviewScrapSentence(props) {
 						subTitle={emptyInfo.subTitle}
 						buttonLabel={emptyInfo.buttonLabel}
 						path={emptyInfo.path}
+						top="24"
 					/>
 				) : (
 					<PreviewSlideSentence sentences={sentences} />
