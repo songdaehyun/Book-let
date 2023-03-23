@@ -67,12 +67,16 @@ export const LikeBtn = styled.svg`
 `;
 
 export const FollowBtn = styled(PrimarySmBtn)`
-	background-color: ${(props) => (props.isFollowed ? "var(--gray-100)" : "var(--secondary-200)")};
-	color: ${(props) => (props.isFollowed ? "black" : "var(--primary-700)")};
+	background-color: var(--secondary-200);
+	color: var(--primary-700);
+	/* background-color: ${(props) =>
+		props.isFollowed ? "var(--gray-100)" : "var(--secondary-200)"};
+	color: ${(props) => (props.isFollowed ? "black" : "var(--primary-700)")}; */
+	font-size: 14px;
 
 	:active {
-		background-color: ${(props) =>
-			props.isFollowed ? "var(--gray-200)" : "var(--secondary-300)"};
+		background-color: var(--secondary-300);
+		/* props.isFollowed ? "var(--gray-200)" : "var(--secondary-300)"}; */
 	}
 `;
 
