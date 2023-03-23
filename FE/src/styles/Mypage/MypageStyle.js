@@ -62,7 +62,7 @@ export const MyReviewPreviewBookInfoBox = styled.div`
 
 export const MyReviewPreviewReviewInfoBox = styled.div`
 	display: flex;
-    flex: 1;
+	flex: 1;
 	flex-direction: column;
 	justify-content: space-between;
 
@@ -73,5 +73,22 @@ export const MyReviewPreviewReviewInfoBox = styled.div`
 		float: right;
 		justify-content: flex-end;
 		align-items: flex-end;
+	}
+`;
+
+export const MypageFooterBox = styled.div`
+	margin-top: 88px;
+	padding: 0 16px;
+
+	display: flex;
+
+	div {
+		align-items: center;
+		display: flex;
+	}
+
+	img {
+		height: 14px;
+		align-self: center;
 	}
 `;
