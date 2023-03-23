@@ -49,7 +49,7 @@ export const DetailSentenceBottomInfoContainer = styled.div`
 	}
 `;
 
-export const SentenceProfileBox = styled.div`
+export const UserProfileBox = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;

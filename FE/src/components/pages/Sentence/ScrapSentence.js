@@ -2,7 +2,7 @@ import React from "react";
 
 import ScrapHeading from "../../atoms/Sentence/ScrapHeading";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
-import SentenceProfile from "../../molecules/Sentence/SentenceProfile";
+import UserProfile from "../../molecules/UserProfile";
 import PreviewPost from "../../organisms/Sentence/PreviewPost";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
@@ -53,11 +53,7 @@ function ScrapSentence(props) {
 				<ScrapHeading posts={posts} />
 				{posts.map((post) => (
 					<>
-						<SentenceProfile
-							file
-							nickname={post.nickname}
-							profileImg={post.profileImg}
-						/>
+						<UserProfile file nickname={post.nickname} profileImg={post.profileImg} />
 						<PreviewPost key={post.id} post={post} isMy={false} />
 					</>
 				))}
