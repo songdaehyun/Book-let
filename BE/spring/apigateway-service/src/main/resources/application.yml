@@ -1,0 +1,47 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://j8b306.p.ssafy.io:8761/eureka
+spring:
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: booklet-user-service
+          uri: lb://USER-SERVICE # user-service의 name
+          predicates:
+            - Path=/api/*/user/**
+#          filters:
+#            - CustomFilter
+        - id: booklet-paragraph-service
+          uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
+          predicates:
+            - Path=/api/*/paragraph/**
+#          filters:
+#            - CustomFilter
+        - id: booklet-book-service
+          uri: lb://BOOK-SERVICE # book-service의 name
+          predicates:
+            - Path=/api/*/book/**
+#          filters:
+#            - CustomFilter
+        - id: booklet-recommand-service
+          uri: lb://RECOMMAND-SERVICE # recom-service의 name
+          predicates:
+            - Path=/api/*/paragraph-service/**
+#          filters:
+#            - CustomFilter
+
+
