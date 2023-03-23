@@ -32,6 +32,7 @@ import Mypage from "./components/pages/Mypage/Mypage";
 import MyReview from "./components/pages/Mypage/MyReview";
 import MyLike from "./components/pages/Mypage/MyLike";
 import DeleteMyAccount from "./components/pages/Mypage/DeleteMyAccount";
+import MyInfoEdit from "./components/pages/Mypage/MyInfoEdit";
 
 function AppRouter(props) {
 	return (
@@ -65,6 +66,7 @@ function AppRouter(props) {
 				<Route path="/mypage/review" element={<MyReview />} />
 				<Route path="/mypage/like" element={<MyLike />} />
 				<Route path="/mypage/delete-account" element={<DeleteMyAccount />} />
+				<Route path="/mypage/info/edit" element={<MyInfoEdit />} />
 			</Routes>
 		</BrowserRouter>
 	);
