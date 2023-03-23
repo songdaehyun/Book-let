@@ -30,6 +30,7 @@ import UserRecomBook from "./components/pages/Book/UserRecomBook";
 import MyFollow from "./components/pages/Mypage/MyFollow";
 import Mypage from "./components/pages/Mypage/Mypage";
 import MyReview from "./components/pages/Mypage/MyReview";
+import MyLike from "./components/pages/Mypage/MyLike";
 
 function AppRouter(props) {
 	return (
@@ -61,6 +62,7 @@ function AppRouter(props) {
 				<Route path="/mypage" element={<Mypage />} />
 				<Route path="/mypage/follow" element={<MyFollow />} />
 				<Route path="/mypage/review" element={<MyReview />} />
+				<Route path="/mypage/like" element={<MyLike />} />
 			</Routes>
 		</BrowserRouter>
 	);
