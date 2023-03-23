@@ -43,7 +43,7 @@ export const MyReviewPreviewCardBox = styled.div`
 		margin-right: 16px;
 
 		filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.15));
-		border-radius: 0px 5px 5px 0px;
+		/* border-radius: 0px 5px 5px 0px; */
 	}
 `;
 
@@ -91,4 +91,29 @@ export const MypageFooterBox = styled.div`
 		height: 14px;
 		align-self: center;
 	}
+`;
+
+export const MyReviewDetailBox = styled.div`
+	img {
+		width: auto;
+		height: 64px;
+
+		margin-right: 16px;
+
+		filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.15));
+		/* border-radius: 0px 5px 5px 0px; */
+	}
+
+	> div:first-child {
+		margin-bottom: 8px;
+	}
+	
+	> div:first-child > div{
+		width: 100%;
+	}
+`;
+
+export const MyReviewDetailHeadingBox = styled.div`
+	display: flex;
+	justify-content: space-between;
 `;
