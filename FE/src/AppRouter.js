@@ -17,16 +17,17 @@ import ScrapSentence from "./components/pages/Sentence/ScrapSentence";
 import WriteSentence from "./components/pages/Sentence/WriteSentence";
 
 // 책
+import AuthorBook from "./components/pages/Book/AuthorBook";
 import Book from "./components/pages/Book/Book";
+import BookDetail from "./components/pages/Book/BookDetail";
 import CoverRecomBook from "./components/pages/Book/CoverRecomBook";
 import GenreRecomBook from "./components/pages/Book/GenreRecomBook";
 import LikeRecomBook from "./components/pages/Book/LikeRecomBook";
 import RatingRecomBook from "./components/pages/Book/RatingRecomBook";
 import UserRecomBook from "./components/pages/Book/UserRecomBook";
-import BookDetail from "./components/pages/Book/BookDetail";
-import AuthorBook from "./components/pages/Book/AuthorBook";
 
 // 마이 페이지
+import MyFollow from "./components/pages/Mypage/MyFollow";
 import Mypage from "./components/pages/Mypage/Mypage";
 
 function AppRouter(props) {
@@ -57,6 +58,7 @@ function AppRouter(props) {
 				<Route path="/author/:aId" element={<AuthorBook />} />
 				{/* 마이 페이지 */}
 				<Route path="/mypage" element={<Mypage />} />
+				<Route path="/mypage/follow" element={<MyFollow />} />
 			</Routes>
 		</BrowserRouter>
 	);
