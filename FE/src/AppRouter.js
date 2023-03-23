@@ -27,12 +27,13 @@ import RatingRecomBook from "./components/pages/Book/RatingRecomBook";
 import UserRecomBook from "./components/pages/Book/UserRecomBook";
 
 // 마이 페이지
+import DeleteMyAccount from "./components/pages/Mypage/DeleteMyAccount";
 import MyFollow from "./components/pages/Mypage/MyFollow";
+import MyInfoEdit from "./components/pages/Mypage/MyInfoEdit";
+import MyLike from "./components/pages/Mypage/MyLike";
 import Mypage from "./components/pages/Mypage/Mypage";
 import MyReview from "./components/pages/Mypage/MyReview";
-import MyLike from "./components/pages/Mypage/MyLike";
-import DeleteMyAccount from "./components/pages/Mypage/DeleteMyAccount";
-import MyInfoEdit from "./components/pages/Mypage/MyInfoEdit";
+import MyTagEdit from "./components/pages/Mypage/MyTagEdit";
 
 function AppRouter(props) {
 	return (
@@ -67,6 +68,7 @@ function AppRouter(props) {
 				<Route path="/mypage/like" element={<MyLike />} />
 				<Route path="/mypage/delete-account" element={<DeleteMyAccount />} />
 				<Route path="/mypage/info/edit" element={<MyInfoEdit />} />
+				<Route path="/mypage/tag/edit" element={<MyTagEdit />} />
 			</Routes>
 		</BrowserRouter>
 	);
