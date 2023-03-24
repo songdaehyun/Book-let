@@ -4,6 +4,9 @@ import PreviewPost from "./PreviewPost";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
+import useArr from "../../../hooks/useArr";
+import Empty from "../../molecules/Empty";
+
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
 function FeedMyTab(props) {
@@ -22,7 +25,7 @@ function FeedMyTab(props) {
 			// nickname: "루피는 행복해",
 			commentCnt: 10,
 			scrapUserImgs: [LoopyImg, LoopyImg, LoopyImg],
-			scrapCnt: 10,
+			scrapCnt: 10
 			// userScrapted: 1, // 1 이면 스크랩 함. 0이면 안 함.
 		},
 		{
@@ -38,16 +41,37 @@ function FeedMyTab(props) {
 			// nickname: "루피는 행복해",
 			commentCnt: 10,
 			scrapUserImgs: [LoopyImg, LoopyImg, LoopyImg],
-			scrapCnt: 10,
+			scrapCnt: 10
 			// userScrapted: 1, // 1 이면 스크랩 함. 0이면 안 함.
-		},
+		}
 	];
+
+	const isArrEmpty = useArr();
+
+	const emptyInfo = {
+		title: "올리신 문장이 없어요",
+		subTitle: (
+			<>
+				좋은 문장을 올려서 수집하고, <br />
+				다른 분들과 공유해보세요!
+			</>
+		),
+		buttonLabel: "문장 쓰러 가기",
+		path: "/sentence/write"
+	};
 
 	return (
 		<Container paddingTop="32">
-			{posts.map((post) => (
-				<PreviewPost key={post.id} post={post} isMy={true} />
-			))}
+			{isArrEmpty(posts) ? (
+				<Empty
+					title={emptyInfo.title}
+					subTitle={emptyInfo.subTitle}
+					buttonLabel={emptyInfo.buttonLabel}
+					path={emptyInfo.path}
+				/>
+			) : (
+				posts.map((post) => <PreviewPost key={post.id} post={post} isMy={true} />)
+			)}
 		</Container>
 	);
 }

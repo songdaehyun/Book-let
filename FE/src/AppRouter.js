@@ -1,18 +1,39 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // 로그인 / 회원가입
-import Login from "./components/pages/Login/Login";
-import JoinBasic from "./components/pages/Join/JoinBasic";
-import JoinGender from "./components/pages/Join/JoinGender";
 import JoinAge from "./components/pages/Join/JoinAge";
+import JoinBasic from "./components/pages/Join/JoinBasic";
 import JoinCover from "./components/pages/Join/JoinCover";
+import JoinGender from "./components/pages/Join/JoinGender";
 import JoinTag from "./components/pages/Join/JoinTag";
+import Login from "./components/pages/Login/Login";
 
-// 피드
-import Feed from './components/pages/Sentence/Feed'
-import Scrap from "./components/pages/Sentence/Scrap";
-import Reco from "./components/pages/Sentence/Reco";
+// 문장
+import DetailPost from "./components/pages/Sentence/DetailPost";
+import Feed from "./components/pages/Sentence/Feed";
+import RecomSentence from "./components/pages/Sentence/RecomSentence";
+import ScrapSentence from "./components/pages/Sentence/ScrapSentence";
+import WriteSentence from "./components/pages/Sentence/WriteSentence";
+
+// 책
+import AuthorBook from "./components/pages/Book/AuthorBook";
+import Book from "./components/pages/Book/Book";
+import BookDetail from "./components/pages/Book/BookDetail";
+import CoverRecomBook from "./components/pages/Book/CoverRecomBook";
+import GenreRecomBook from "./components/pages/Book/GenreRecomBook";
+import LikeRecomBook from "./components/pages/Book/LikeRecomBook";
+import RatingRecomBook from "./components/pages/Book/RatingRecomBook";
+import UserRecomBook from "./components/pages/Book/UserRecomBook";
+
+// 마이 페이지
+import DeleteMyAccount from "./components/pages/Mypage/DeleteMyAccount";
+import MyFollow from "./components/pages/Mypage/MyFollow";
+import MyInfoEdit from "./components/pages/Mypage/MyInfoEdit";
+import MyLike from "./components/pages/Mypage/MyLike";
+import Mypage from "./components/pages/Mypage/Mypage";
+import MyReview from "./components/pages/Mypage/MyReview";
+import MyTagEdit from "./components/pages/Mypage/MyTagEdit";
 
 function AppRouter(props) {
 	return (
@@ -25,10 +46,29 @@ function AppRouter(props) {
 				<Route path="/join/3" element={<JoinAge />} />
 				<Route path="/join/4" element={<JoinCover />} />
 				<Route path="/join/5" element={<JoinTag />} />
-				{/* 피드 */}
+				{/* 문장 */}
 				<Route path="/" element={<Feed />} />
-				<Route path="/sentence/scrap" element={<Scrap />} />
-				<Route path="/sentence/recommand" element={<Reco />} />
+				<Route path="/sentence/scrap" element={<ScrapSentence />} />
+				<Route path="/sentence/recommand" element={<RecomSentence />} />
+				<Route path="/sentence/:sId" element={<DetailPost />} />
+				<Route path="/sentence/write" element={<WriteSentence />} />
+				{/* 도서 */}
+				<Route path="/book" element={<Book />} />
+				<Route path="/book/recom/user" element={<UserRecomBook />} />
+				<Route path="/book/recom/rating" element={<RatingRecomBook />} />
+				<Route path="/book/recom/like" element={<LikeRecomBook />} />
+				<Route path="/book/recom/genre" element={<GenreRecomBook />} />
+				<Route path="/book/recom/cover" element={<CoverRecomBook />} />
+				<Route path="/book/:bId" element={<BookDetail />} />
+				<Route path="/author/:aId" element={<AuthorBook />} />
+				{/* 마이 페이지 */}
+				<Route path="/mypage" element={<Mypage />} />
+				<Route path="/mypage/follow" element={<MyFollow />} />
+				<Route path="/mypage/review" element={<MyReview />} />
+				<Route path="/mypage/like" element={<MyLike />} />
+				<Route path="/mypage/delete-account" element={<DeleteMyAccount />} />
+				<Route path="/mypage/info/edit" element={<MyInfoEdit />} />
+				<Route path="/mypage/tag/edit" element={<MyTagEdit />} />
 			</Routes>
 		</BrowserRouter>
 	);

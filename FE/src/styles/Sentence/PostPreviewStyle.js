@@ -48,55 +48,7 @@ export const PreviewSentenceBottonContent = styled.div`
 	}
 `;
 
-export const ScrapContainer = styled.div`
-	// display: flex;
-	align-items: center;
-
-	> div:last-child {
-		// position: absolute;
-	}
-`;
-
-export const ScrapImgContainer = styled.div`
-	display: flex;
-	margin-right: 8px;
-	position: relative;
-
-	>div: nth-child(1) {
-		left: 16;
-	}
-
-	// 두번째 프사 이미지
-	> div:nth-child(2) {
-		left: 38px;
-	}
-
-	// 세번째 프사 이미지
-	> div:nth-child(3) {
-		left: 60px;
-	}
-`;
-
-export const ScrapImgWrapper = styled.div`
-	padding: 2px;
-
-	display: flex;
-	position: absolute;
-
-	background-color: white;
-	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
-	border-radius: 50%;
-
-	transform: translate(-60%, -50%);
-	left: 16px;
-
-	> img {
-		width: 24px;
-		height: 24px;
-	}
-`;
-
-export const PreviewPostInfoContainer = styled.div`
+export const ReactionInfoContainer = styled.div`
 	display: flex;
 	align-items: center;
 	// justify-content: space-around;

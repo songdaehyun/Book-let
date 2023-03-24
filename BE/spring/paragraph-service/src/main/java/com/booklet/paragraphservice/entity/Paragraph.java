@@ -22,25 +22,37 @@ public class Paragraph extends BaseTimeEntity{
 
     @Column(length = 301, nullable = false)
     private String paragraphContent;
-    @Column(length = 30, nullable = false)
+    @Column
     private String paragraphColor;
 
     @Column
     private int paragraphPage;
 
-    @Column
-    private Long userId;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 
-    @Column
-    private String bookIsbn;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="book_isbn")
+    private Book book;
+
+    @OneToMany(mappedBy = "paragraph") //FK 없는 쪽에 mapped by 리더
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Paragraph(Long userId, String bookIsbn,String paragraphColor,int paragraphPage, String paragraphContent){
-        this.userId = userId;
+    public Paragraph( User user,Book book,String paragraphColor,int paragraphPage, String paragraphContent){
+
+        this.user = user;
         this.paragraphContent = paragraphContent;
         this.paragraphColor = paragraphColor;
-        this.bookIsbn = bookIsbn;
         this.paragraphPage = paragraphPage;
+
+        this.book = book;
     }
 
+    public void updateParagraph(String paragraphContent, String paragraphColor, int paragraphPage){
+        this.paragraphPage = paragraphPage;
+        this.paragraphColor= paragraphColor;
+        this.paragraphContent = paragraphContent;
+    }
 }
