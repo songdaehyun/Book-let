@@ -3,7 +3,7 @@ package com.booklet.authservice.dto;
 import lombok.Data;
 
 @Data
-public class LoginRequestDto {
+public class LoginReqDto {
     private String username;
     private String password;
 }

@@ -1,6 +1,7 @@
 package com.booklet.authservice.config;
 
 import com.booklet.authservice.config.jwt.JwtAuthenticationFilter;
+import com.booklet.authservice.config.jwt.JwtAuthorizationFilter;
 import com.booklet.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,14 +31,11 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .apply(new MyCustomDsl())
+                .apply(new MyCustomDsl()) // 커스텀 필터 등록
                 .and()
                 .authorizeRequests()
-                // 권한 설정
-                .antMatchers("api/v1/user/**")
-                .access("hasRole('USER') or hasRole('ADMIN')")
-                .antMatchers("api/v1/admin/**")
-                .access("hasRole('ADMIN')")
+                .antMatchers("/api/v1/user/**")
+                .access("hasRole('USER')")
                 .anyRequest().permitAll()
                 .and().build();
     }
@@ -49,7 +47,7 @@ public class SecurityConfig {
             http
                     .addFilter(corsConfig.corsFilter())
                     .addFilter(new JwtAuthenticationFilter(authenticationManager))
-//                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
                     ;
         }
     }
