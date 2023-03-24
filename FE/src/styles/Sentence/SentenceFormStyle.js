@@ -73,7 +73,13 @@ export const SentenceBookSearchBarBox = styled.div`
 		margin-top: 4px;
 	}
 
+	> div {
+		width: 100%;
+	}
+
 	input {
+		width: 100%;
+
 		padding: 0;
 		margin-bottom: 8px;
 
