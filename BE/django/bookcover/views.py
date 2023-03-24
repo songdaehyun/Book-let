@@ -23,13 +23,13 @@ def image_recommend(request):   # 예측 기능 수행
         # isbn이나 image 정보가 없는 경우 오류 반환
 
         # Get 요청에서 입력 데이터 추출
-        input_data = request.GET.get('book_image')
+        # input_data 처리 결과가 유효하지 않으면 오류가 반환해야 함
+        input_data = request.POST.get('book_image')
 
         # image_spec = 이미지의 confidence 값을 df로 요약한 형태
         image_spec = pd.DataFrame(columns=[
-            "book_id",
-            "isdn",
-            "imgsrc",
+            "book_isbn",
+            "book_image",
             "cartoon",
             "solid",
             "infographic",
