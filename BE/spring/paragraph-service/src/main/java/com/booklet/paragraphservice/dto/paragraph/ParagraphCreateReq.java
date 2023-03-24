@@ -1,11 +1,8 @@
-package com.booklet.paragraphservice.dto;
+package com.booklet.paragraphservice.dto.paragraph;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
+@Getter @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
