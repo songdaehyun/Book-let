@@ -50,7 +50,7 @@ def ml_progress(df):
 
         # URL에서 이미지 요청
         image_nparray = np.asarray(
-            bytearray(requests.get(url).content), dtype=np.uint8)
+            bytearray(requests.get(column_case["image"]).content), dtype=np.uint8)
         origin_image = cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
 
         # 이미지 사이즈 조절
