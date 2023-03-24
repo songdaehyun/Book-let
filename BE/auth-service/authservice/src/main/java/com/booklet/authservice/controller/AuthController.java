@@ -39,11 +39,11 @@ public class AuthController {
         return "<h1>user</h1>";
     }
 
-    // 매니저 혹은 어드민이 접근 가능
-    @GetMapping("manager/reports")
-    public String reports() {
-        return "<h1>reports</h1>";
-    }
+//    // 매니저 혹은 어드민이 접근 가능
+//    @GetMapping("manager/reports")
+//    public String reports() {
+//        return "<h1>reports</h1>";
+//    }
 
     // 어드민이 접근 가능
     @GetMapping("admin/users")
