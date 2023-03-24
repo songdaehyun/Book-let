@@ -14,18 +14,18 @@ function TabBar({ selected }) {
 		{
 			icon: <FeedIcon />,
 			label: "피드",
-			path: "/"
+			path: "/",
 		},
 		{
 			icon: <BookIcon />,
 			label: "도서",
-			path: "/book"
+			path: "/book",
 		},
 		{
 			icon: <MyIcon />,
 			label: "My",
-			path: "/mypage"
-		}
+			path: "/mypage",
+		},
 	];
 
 	const handleClickItem = (path) => {
@@ -35,13 +35,13 @@ function TabBar({ selected }) {
 	return (
 		<TabBarBox>
 			{feedItems.map((feedItem, idx) => (
-				<TabBarItemBox
-					key={idx}
-					onClick={() => handleClickItem(feedItem.path)}
-					isSelected={selected === idx + 1 ? true : false}
-				>
-					{feedItem.icon}
-					<Text size="12" color={selected === idx + 1 ? true : false}>
+				<TabBarItemBox key={idx} isSelected={selected === idx + 1 ? true : false}>
+					<div onClick={() => handleClickItem(feedItem.path)}>{feedItem.icon}</div>
+					<Text
+						size="12"
+						color={selected === idx + 1 ? true : false}
+						onClick={() => handleClickItem(feedItem.path)}
+					>
 						{feedItem.label}
 					</Text>
 				</TabBarItemBox>
