@@ -22,13 +22,13 @@ spring:
         - id: booklet-user-service
           uri: lb://USER-SERVICE # user-service의 name
           predicates:
-            - Path=/api/*/user/**
+            - Path=/api/*/auth/**
 #          filters:
 #            - CustomFilter
         - id: booklet-paragraph-service
           uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
           predicates:
-            - Path=/api/v1/paragraph/**
+            - Path=/api/v1/sns/**
 #          filters:
 #            - CustomFilter
         - id: booklet-book-service
@@ -40,7 +40,7 @@ spring:
         - id: booklet-recommand-service
           uri: lb://RECOMMAND-SERVICE # recom-service의 name
           predicates:
-            - Path=/api/*/paragraph-service/**
+            - Path=/api/*/recom/**
 #          filters:
 #            - CustomFilter
 
