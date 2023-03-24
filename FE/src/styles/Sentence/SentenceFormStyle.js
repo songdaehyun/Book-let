@@ -109,3 +109,33 @@ export const SentenceBookAutoSearchBox = styled.div`
 	border-radius: 8px;
 	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
 `;
+
+export const SentencePageInputBox = styled.div`
+	width: 100%;
+
+	margin-top: ${(props) => props.marginTop}px;
+	margin-bottom: ${(props) => props.marginBottom}px;
+	padding: 12px 16px;
+
+	display: flex;
+
+	background-color: var(--gray-50);
+	border: 1px solid var(--gray-200);
+	border-radius: 4px;
+
+	:focus {
+		outline: 1px solid var(--gray-500);
+	}
+
+	input {
+		width: 100%;
+
+		background: none;
+		border: none;
+		outline: none;
+
+		::placeholder {
+			color: var(--gray-500);
+		}
+	}
+`;
