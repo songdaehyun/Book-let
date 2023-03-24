@@ -12,3 +12,13 @@ export const TabItem = styled.div`
 
 	border-bottom: 2px solid ${(props) => (props.isSelected ? "#000000" : "none")};
 `;
+
+export const FeedHeadingBox = styled.div`
+	display: flex;
+
+	> button {
+		display: flex;
+		align-items: flex-start;
+		margin-left: auto;
+	}
+`;
