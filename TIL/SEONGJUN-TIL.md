@@ -548,3 +548,235 @@ https://stackoverflow.com/questions/57836100/this-may-be-the-result-of-an-unspec
 https://github.com/spring-projects/spring-security/issues/10822
 - Spring security의 경우 Spring 3 버전대와 2번전대도 다르고
 - 2.7버전과 그 아래 버전에서도 depreciate된 기능들이 있어서 학습하고 적용하는데 어려움을 겪고 있습니다.
+
+- 실습 중이나 기간차이가 있어 어려움에 있습니다.
+```java
+package com.example.jwtsecure.config;
+
+import com.example.jwtsecure.filter.MyFilter3;
+import com.example.jwtsecure.jwt.JwtAuthenticationFilter;
+import com.example.jwtsecure.jwt.JwtAuthorizationFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final CorsFilter corsFilter;
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                // 완전 앞에 넣어주고 싶으면 BasicAuthenticationFilter보다 빠른 녀석을 넣어주면 됨
+//                .addFilterAfter(new MyFilter4(), BasicAuthenticationFilter.class) // 이런식으로 넣어줄 수 있음
+                .addFilterBefore(new MyFilter3(), BasicAuthenticationFilter.class) // 이런식으로 넣어줄 수 있음
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(corsFilter)  // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증의 경우도 O)
+                .formLogin().disable()
+                .httpBasic().disable()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))  // Authentication Manager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager()))  // Authentication Manager
+//                .apply(new MyCustomDsl()) // 커스텀 필터 등록
+//                .and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/user/**")
+                .access("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+                .antMatchers("/api/v1/manager/**")
+                .access("hasRole('MANAGER') or hasRole('ADMIN')")
+                .antMatchers("/api/v1/admin/**")
+                .access("hasRole('ADMIN')")
+                .anyRequest().permitAll()
+                .and().build();
+    }
+}
+
+```
+
+```java
+package com.example.jwtsecure.jwt;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.example.jwtsecure.config.auth.PrincipalDetails;
+import com.example.jwtsecure.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Date;
+
+// 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter가 있음
+// /login 요청해서 username, password 전송하면 (post)
+// UsernamePasswordAuthenticationFilter 동작함
+// loginForm을 안사용하기 떄문에 활성화가 안되는데 그래서 security filter에 새로 등록해줘야됨
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private final AuthenticationManager authenticationManager;
+
+    // /login 요청을 하면 로그인 시도를 위해서 실행되는 함수
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+        throws AuthenticationException {
+        System.out.println("JwtAuthenticationFilter : 로그인 시도중");
+
+        // 1. username, password 받아서
+        try {
+//            BufferedReader br = request.getReader(); // 이거는 formdata 사용시
+//
+//            String input = null;
+//            while((input = br.readLine()) != null) {
+//                System.out.println(input);
+//            }
+            ObjectMapper om = new ObjectMapper();
+            User user = om.readValue(request.getInputStream(), User.class);
+            System.out.println(user);
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+
+            // PrincipalDetailsService의 loadUserByUsername() 함수가 실행된 후 정상이라면 authentication이 리턴됨
+            // DB에 있는 username과 password가 일치한다.
+            Authentication authentication =
+                    authenticationManager.authenticate(authenticationToken);
+
+            // => 로그인 되었다는 뜻
+            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            System.out.println("로그인 완료 됨 : " + principalDetails.getUser().getUsername());
+            // authentication 객체가 session영역에 저장 해야하고 그 방법이 return 해주면 됨.
+            // 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 근데 단지 권한 처리때문에 session을 넣어줌
+            return authentication;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    // attemptAuthentication 실행 후 인증이 정상적으로 되었으면 successfulAuthentication 함수가 실행
+    // JWT 토큰을 만들어서 request요청한 사용자에게 JWT토큰을 response해주면됨.
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
+        System.out.println("successfulAuthentication 실행됨 : 인증이 완료되었다는 뜻임");
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+
+        String jwtToken = JWT.create()
+                .withSubject("cos토큰")// 토큰이름
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10)))  // 60000 = 1분
+                .withClaim("id", principalDetails.getUser().getId())  // jwt에 넣고싶은거 넣는거
+                .withClaim("username", principalDetails.getUser().getUsername())
+                .sign(Algorithm.HMAC512("cos"));
+
+        response.addHeader("Authorization", "Bearer" + jwtToken);
+        super.successfulAuthentication(request, response, chain, authResult);
+    }
+}
+// 2. 정상인지 로그인 시도를 해보는 것 authenticationManager로 로그인을 시도하면
+// PrincipalDetailsService가 호출 loadUserByUsername() 함수 실행됨.
+// 3. PrincipalDetails를 세션에 담고 (권한 관리를 위해서, 권한 설정을 할 경우에만 사용하면 됨)
+// 4. JWT토큰을 만들어서 응답해주면 됨
+
+// 세션을 통한 로그인
+// 유저네임, 패스워드 로그인 정상
+// 서버쪽 세션ID생성
+// 클라이언트 쿠키 세션ID를 응답
+// 요청할 때마다 쿠키값 세션ID를 항상 들고 서버쪽으로 요청하기 때문에
+// session.getAttribute("세션값 확인");
+// 서버는 세션ID가 유효한지 판단해서 유효하면 인증이 필요한 페이지로 접근하게 하면됨
+
+// jwt 토큰을 통한 로그인
+// 유저네임, 패스워드 로그인 정상
+// JWT토큰을 생성
+// 클라이언트 쪽으로 JWT토큰을 응답
+// 요청할 떄마다 JWT토큰을 응답
+// 서버는 JWT토큰이 유효한지를 판단(필터를 만들어야 함)
+```
+```java
+package com.example.jwtsecure.jwt;
+
+// 시큐리티가 filter가지고 있는데 그 필터중에 BasicAuthenticationFilter 라는 것이 있음.
+// 권한이나 인증이 필요한 특정 주소를 요청했을 때 위 필터를 무조건 타게 되어있음.
+// 만약에 권한이 인증이 필요한 주소가 아니라면 이 필터를 안탐
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
+
+    // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        super.doFilterInternal(request, response, chain);
+        System.out.println("인증이나 권한이 필요한 주소 요청이 됨");
+
+        String jwtHeader = request.getHeader("Authorization");
+        System.out.println("jwtHeader : " + jwtHeader);
+
+        // JWT 토큰을 검증을 해서 정상적인 사용자인지 확인
+        if
+    }
+}
+
+```
+
+```java
+package com.example.jwtsecure.config.auth;
+
+import com.example.jwtsecure.model.User;
+import com.example.jwtsecure.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+// http://localhost:8080/login -> loginForm을 안쓰기 때문에 동작을 안함
+@Service
+@RequiredArgsConstructor
+public class PrincipalDetailsService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("PrincipalDetailsService의 loadUserByUsername()");
+        User userEntity = userRepository.findByUsername(username);
+        System.out.println("userEntity : " + userEntity);
+        return new PrincipalDetails(userEntity);
+    }
+}
+
+```
