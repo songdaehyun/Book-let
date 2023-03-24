@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SmallSentenceContainer = styled.div`
-	width: 70%;
+	/* width: 70%; */
 	position: relative;
 	// width: 160px;
 	// height: 160px;
