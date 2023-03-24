@@ -2,11 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+# book_title 추가 여부 검토
+
 
 class BookInfoModel(models.Model):
-    book_id = models.AutoField(primary_key=True)    # 책 id
-    isdn = models.CharField(max_length=13)  # ISDN(13자리)
-    imgsrc = models.CharField(max_length=300)   # 이미지 출처(URL)
+    book_isbn = models.CharField(max_length=13, primary_key=True)  # ISBN(13자리)
+    book_image = models.CharField(max_length=300)   # 이미지 출처(URL)
     cartoon = models.FloatField(default=0)  # 만화 그림체 유사도
     solid = models.FloatField(default=0)    # 솔리드 그림체 유사도
     infographic = models.FloatField(default=0)  # 인포그래픽(단색, 추상화) 그림체 유사도

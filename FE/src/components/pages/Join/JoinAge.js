@@ -47,7 +47,7 @@ function JoinAge(props) {
 	return (
 		<>
 			<ActionsNavigationBar
-				pre="취소"
+				pre="이전"
 				title="회원가입"
 				next="다음"
 				handleClickPre={handleClickPre}

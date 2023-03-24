@@ -118,7 +118,7 @@ function JoinCover(props) {
 	return (
 		<>
 			<ActionsNavigationBar
-				pre="취소"
+				pre="이전"
 				title="회원가입"
 				next={next}
 				handleClickPre={handleClickPre}
