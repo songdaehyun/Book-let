@@ -15,7 +15,7 @@ function ScrapToolbar({ post, isMy }) {
 					{post.createdDate}
 				</Text>
 			) : (
-				<ScrapButton isScraped={post.userScrapted} />
+				<ScrapButton isScraped={post?.scrapInfo.userScrape} />
 			)}
 		</ReactionInfoContainer>
 	);
