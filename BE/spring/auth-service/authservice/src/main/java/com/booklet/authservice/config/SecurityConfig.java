@@ -31,14 +31,11 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .apply(new MyCustomDsl())
+                .apply(new MyCustomDsl()) // 커스텀 필터 등록
                 .and()
                 .authorizeRequests()
-                // 권한 설정
-                .antMatchers("api/v1/user/**")
-                .access("hasRole('USER') or hasRole('ADMIN')")
-                .antMatchers("api/v1/admin/**")
-                .access("hasRole('ADMIN')")
+                .antMatchers("/api/v1/user/**")
+                .access("hasRole('USER')")
                 .anyRequest().permitAll()
                 .and().build();
     }
