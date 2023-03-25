@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
-
 import {
 	ReactionContainer,
 	ReactionImgContainer,
@@ -9,21 +7,16 @@ import {
 } from "../../styles/common/CommonStyle";
 import { Span } from "../../styles/common/TextsStyle";
 
-function ReactionInfo({ type }) {
-	const scrap = useSelector((state) => state.sentence.post.scrapInfo);
+function ReactionInfo({ imgs, count, type }) {
+	const isImageEmpty = count === 0 ? true : false;
 
-	const info = {
-		imgs: scrap?.scrapUserImages,
-		count: scrap?.scrapCount
-	};
-
-	const isImageEmpty = info.count === 0 ? true : false;
+	const info = null;
 
 	return (
 		<>
 			{!isImageEmpty && (
 				<ReactionImgContainer>
-					{(info?.imgs || info?.likesProfileImg)?.map((img, idx) => (
+					{(imgs || info?.likesProfileImg)?.map((img, idx) => (
 						<ReactionImgWrapper key={idx}>
 							<img src={img} alt="user profile" />
 						</ReactionImgWrapper>
@@ -36,7 +29,7 @@ function ReactionInfo({ type }) {
 				) : (
 					<>
 						<Span weight="bold" color="var(--primary-600)">
-							{info?.count || info?.likesNumber || "0"}
+							{count || info?.likesNumber || "0"}
 						</Span>
 						{type === "scrap" ? (
 							<>명이 스크랩했어요</>

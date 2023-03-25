@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
-
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	DetailSentenceBottomInfo,
@@ -10,42 +8,29 @@ import {
 	SentenceContentBox
 } from "../../../styles/Sentence/DetailSentenceStyle";
 
-function DetailSentence() {
-	const book = useSelector((state) => state.sentence.post.book);
-	const paragraph = useSelector((state) => state.sentence.post.paragraph);
-
-	const info = {
-		author: book?.bookAuthor,
-		cover: book?.bookImage,
-		isbn: book?.bookIsbn,
-		title: book?.bookTitle,
-		color: paragraph?.paragraphColor,
-		content: paragraph?.paragraphContent,
-		page: paragraph?.paragraphPage
-	};
-
+function DetailSentence({ title, author, cover, content, page, color }) {
 	return (
-		<DetailSentenceContainer color={info.color}>
+		<DetailSentenceContainer color={color}>
 			<SentenceContentBox>
 				<Text font="jeju" size="18" height="32">
-					{info.content}
+					{content}
 				</Text>
 			</SentenceContentBox>
 			<DetailSentenceBottomInfo>
 				<hr />
 				<DetailSentenceBottomInfoContainer>
 					<div>
-						<img src={info.cover} alt="book cover" />
+						<img src={cover} alt="book cover" />
 						<div>
 							<Text marginBottom="8">
 								<Span font="jeju">『 </Span>
-								{info.title}
+								{title}
 								<Span font="jeju"> 』</Span>
 							</Text>
-							<Text>{info.author}</Text>
+							<Text>{author}</Text>
 						</div>
 					</div>
-					<Text>P. {info.page}</Text>
+					<Text>P. {page}</Text>
 				</DetailSentenceBottomInfoContainer>
 			</DetailSentenceBottomInfo>
 		</DetailSentenceContainer>
