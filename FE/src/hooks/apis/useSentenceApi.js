@@ -1,14 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-
-import api from "../../utils/api";
-
-import { setPost } from "../../reducer/sentence";
+import api from "../../apis";
 
 export default function useSentence() {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
 
 	const post = async (data) => {
 		try {
@@ -25,20 +20,5 @@ export default function useSentence() {
 		}
 	};
 
-	const getPost = async (sId) => {
-		try {
-			await api({
-				method: "GET",
-				url: `/sns/paragraph/${sId}`
-			}).then((res) => {
-				console.log(res.data);
-
-				dispatch(setPost(res.data));
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	return { post, getPost };
+	return { post };
 }
