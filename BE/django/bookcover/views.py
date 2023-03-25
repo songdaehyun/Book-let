@@ -30,11 +30,12 @@ def image_recommend(request):   # 예측 기능 수행
         image_spec = pd.DataFrame(columns=[
             "book_isbn",
             "book_image",
-            "cartoon",
-            "solid",
-            "infographic",
-            "realistic",
-            "art"
+            "anger",
+            "disgust",
+            "fear",
+            "joy",
+            "sadness",
+            "surprise"
         ])
 
         # 요청한 값의 이미지 URL을 하나씩 조회

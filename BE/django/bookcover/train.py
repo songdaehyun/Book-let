@@ -17,11 +17,23 @@ def bookcover_recommendation(result_dataframe):
     # DB에서 표지 별 분류 데이터 가져오기
     db_dataframe = []
 
+    # 추천 리스트
+    rec_list = []
+
+    # df의 행을 하나씩 읽으면서 유사도 검사
+    for col in range(result_dataframe.shape[0]):
+        origin_data = result_dataframe.iloc[col]    # 요청받은 이미지의 특성 정보 행
+
+        # 다른 표지 간 유사도 구하기(유클리드 거리)
+
+        # 추천 작품 추가
+        rec_list.append()
+
     # 이미지 간 유클리드 거리 검사
     similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
 
     # pkl 파일로 static 디렉토리에 저장
-    return similarity_matrix
+    return rec_list
 
 
 # 이미지 정보를 분류하는 머신러닝 함수
