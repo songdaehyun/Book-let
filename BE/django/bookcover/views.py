@@ -1,19 +1,17 @@
-from django.shortcuts import render
-import torch
+# from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from PIL import Image
 import pandas as pd
 from .train import bookcover_recommendation
+from tensorflow import keras
 
 
 # import yolov5
 
 # .pt로 저장된 모델 불러오기
-modelpath = "static/test300.pt"
-model = torch.hub.load('ultralytics/yolov5', 'custom',
-                       path=modelpath, force_reload=True)
-model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비활성화
+modelpath = "static/model5"
+model = keras.models.load_model(modelpath)
 # model = yolov5.load(modelpath)
 
 
