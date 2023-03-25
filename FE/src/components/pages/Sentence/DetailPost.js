@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
-import useSentence from "../../../hooks/api/useSentenceApi";
+import useSentence from "../../../hooks/apis/useSentenceApi";
 
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import DetailComment from "../../organisms/Sentence/DetailComment";
