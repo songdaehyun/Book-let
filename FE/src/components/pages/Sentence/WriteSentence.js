@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import SentenceForm from "../../organisms/Sentence/SentenceForm";
 
-import useSentence from "../../../hooks/apis/useSentenceApi";
+import { createPost } from "../../../apis/sentenceApi";
 
 function WriteSentence(props) {
 	const navigate = useNavigate();
-
-	const { post } = useSentence();
 
 	const [bookId, setBookId] = useState("");
 	const [content, setContent] = useState("");
@@ -26,9 +24,16 @@ function WriteSentence(props) {
 			paragraphContent: content,
 			paragraphPage: page,
 			paragraphColor: background,
-			userId: 1,
+			userId: 1
 		};
-		post(data);
+
+		(async () => {
+			await createPost(data).then((res) => {
+				if (res.status === 201) {
+					navigate(`/sentence/${res.data.id}`);
+				}
+			});
+		})();
 	};
 
 	return (
