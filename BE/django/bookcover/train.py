@@ -26,20 +26,20 @@ def bookcover_recommendation(result_dataframe):
 
         # 다른 표지 간 유사도 구하기(유클리드 거리)
 
-        # 추천 작품 추가
-        rec_list.append()
+        # 이미지 간 유클리드 거리 검사
+        similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
 
-    # 이미지 간 유클리드 거리 검사
-    similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
+        # 유클리드 거리가 가까운 순서대로 추천 작품 추가
+        rec_list.append()
 
     # pkl 파일로 static 디렉토리에 저장
     return rec_list
 
 
-# 이미지 정보를 분류하는 머신러닝 함수
+# 이미지 정보를 분류하는 데이터 전처리 함수
 # df에 들어가는 값은 [ISBN번호, 이미지 주소]로 구현되어야 한다.
 # isbn 중복을 제외하고, isbn과 image 주소 값이 유효해야 함('없음' 등이 들어가면 안 됨)
-def ml_progress(df):
+def data_refine_progress(df):
     # .pt로 저장된 모델 불러오기
     modelpath = "static/model5"
     model = keras.models.load_model(modelpath)

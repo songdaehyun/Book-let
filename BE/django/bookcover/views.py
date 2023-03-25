@@ -79,4 +79,4 @@ def image_recommend(request):   # 예측 기능 수행
         return JsonResponse(response)
 
     # 유효하지 않은 요청에 대해서는 오류 처리
-    return JsonResponse()
+    # return JsonResponse()
