@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import SentenceForm from "../../organisms/Sentence/SentenceForm";
 
-import useSentence from "../../../hooks/api/useSentenceApi";
+import useSentence from "../../../hooks/apis/useSentenceApi";
 
 function WriteSentence(props) {
 	const navigate = useNavigate();
