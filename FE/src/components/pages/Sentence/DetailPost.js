@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
-import useSentence from "../../../hooks/apis/useSentenceApi";
+import { getPost } from "../../../apis/sentenceApi";
+import { initSentence } from "../../../apis/init/initSentence";
 
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import DetailComment from "../../organisms/Sentence/DetailComment";
@@ -59,20 +58,38 @@ function DetailPost() {
 
 	const { sId } = useParams();
 
+	const [post, setPost] = useState();
 	const [isFollowed, setIsFollowed] = useState(false);
 
-	const { getPost } = useSentence();
-
-	const book = useSelector((state) => state.sentence.post.book);
-
 	useEffect(() => {
-		getPost(sId);
+		(async () => {
+			await getPost(sId)
+				.then(initSentence)
+				.then((res) => {
+					setPost(res);
+				});
+		})();
 	}, []);
 
 	return (
 		<>
-			<ReturnNavigationBar title={book?.bookTitle} />
-			<DetailPostOverview isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
+			<ReturnNavigationBar title={post?.title} />
+			<DetailPostOverview
+				nickname={post?.nickname}
+				profileImg={post?.profileImg}
+				date={post?.date}
+				isScraped={post?.isScraped}
+				scrapImgs={post?.scrapImgs}
+				scrapCount={post?.scrapCount}
+				isFollowed={isFollowed}
+				setIsFollowed={setIsFollowed}
+				title={post?.title}
+				author={post?.author}
+				cover={post?.cover}
+				content={post?.content}
+				page={post?.page}
+				color={post?.color}
+			/>
 			<SeparationBar />
 			<DetailComment comments={comments} />
 		</>
