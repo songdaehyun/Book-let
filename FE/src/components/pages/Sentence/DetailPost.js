@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { useSelector } from "react-redux";
+
+import useSentence from "../../../hooks/api/useSentenceApi";
 
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import DetailComment from "../../organisms/Sentence/DetailComment";
@@ -6,37 +11,9 @@ import DetailPostOverview from "../../organisms/Sentence/DetailPostOverview";
 
 import { SeparationBar } from "../../../styles/common/BarsStyle";
 
-import useSentence from "../../../hooks/api/useSentenceApi";
-
-import { useSelector  } from "react-redux";
-// import { GET_POST } from "../../../reducer/sentence";
-
-
-// import cover from "../../../assets/images/dummy/cover/cover-img (1).png";
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
-import { useParams } from "react-router-dom";
 
-function DetailPost(props) {
-	// 더미
-	// const post = {
-	// 	paragraphId: 1,
-	// 	content:
-	// 		"이제는 안다. 우리가 계속 지는 한이 있더라도 선택해야만 하는 건 이토록 평범한 미래라는 것을. 그리고 포기하지 않는 한 그 미래가 다가올 확률은 100퍼센트에 수렴한다는 것을.",
-	// 	paragraphColor: "#B88962",
-	// 	paragraphPage: 145,
-	// 	createdDate: "2023.03.18",
-	// 	bookTitle: "이토록 평범한 미래",
-	// 	bookAuthor: "김연수",
-	// 	userId: 1,
-	// 	nickname: "루피는 행복해",
-	// 	commentCnt: 10,
-	// 	scrapUserImgs: [LoopyImg, LoopyImg, LoopyImg],
-	// 	scrapCnt: 10,
-	// 	userScrapted: 1, // 1 이면 스크랩 함. 0이면 안 함.
-	// 	cover: cover,
-	// 	userImg: LoopyImg,
-	// };
-
+function DetailPost() {
 	const comments = [
 		{
 			commentId: 1,
@@ -46,7 +23,7 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 0,
 			commentGroup: 1,
-			img: LoopyImg,
+			img: LoopyImg
 		},
 		{
 			commentId: 4,
@@ -56,7 +33,7 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 1,
 			commentGroup: 1,
-			img: LoopyImg,
+			img: LoopyImg
 		},
 		{
 			commentId: 2,
@@ -66,7 +43,7 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 0,
 			commentGroup: 2,
-			img: LoopyImg,
+			img: LoopyImg
 		},
 		{
 			commentId: 3,
@@ -76,27 +53,26 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 1,
 			commentGroup: 2,
-			img: LoopyImg,
-		},
+			img: LoopyImg
+		}
 	];
 
-	const [isFollowed, setIsFollowed] = useState(false);
-	const { getSentence } = useSentence();
-	const post = useSelector(state => state.post)
+	const { sId } = useParams();
 
-	const {sId} = useParams();
+	const [isFollowed, setIsFollowed] = useState(false);
+
+	const { getPost } = useSentence();
+
+	const book = useSelector((state) => state.sentence.post.book);
 
 	useEffect(() => {
-		getSentence(sId);
-
-		console.log(post?.book?.bookTitle)
-		
-	}, [post]);
+		getPost(sId);
+	}, []);
 
 	return (
 		<>
-			<ReturnNavigationBar title={post?.book?.bookTitle} />
-			<DetailPostOverview post={post} isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
+			<ReturnNavigationBar title={book?.bookTitle} />
+			<DetailPostOverview isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
 			<SeparationBar />
 			<DetailComment comments={comments} />
 		</>

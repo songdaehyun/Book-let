@@ -1,26 +1,50 @@
 import React from "react";
+
+import { useSelector } from "react-redux";
+
 import {
 	ReactionContainer,
 	ReactionImgContainer,
-	ReactionImgWrapper,
+	ReactionImgWrapper
 } from "../../styles/common/CommonStyle";
 import { Span } from "../../styles/common/TextsStyle";
 
-function ReactionInfo({ info, type }) {
+function ReactionInfo({ type }) {
+	const scrap = useSelector((state) => state.sentence.post.scrapInfo);
+
+	const info = {
+		imgs: scrap?.scrapUserImages,
+		count: scrap?.scrapCount
+	};
+
+	const isImageEmpty = info.count === 0 ? true : false;
+
 	return (
 		<>
-			<ReactionImgContainer>
-				{(info?.scrapInfo.scrapUserImages || info?.likesProfileImg)?.map((img, idx) => (
-					<ReactionImgWrapper key={idx}>
-						<img src={img} />
-					</ReactionImgWrapper>
-				))}
-			</ReactionImgContainer>
+			{!isImageEmpty && (
+				<ReactionImgContainer>
+					{(info?.imgs || info?.likesProfileImg)?.map((img, idx) => (
+						<ReactionImgWrapper key={idx}>
+							<img src={img} alt="user profile" />
+						</ReactionImgWrapper>
+					))}
+				</ReactionImgContainer>
+			)}
 			<ReactionContainer>
-				<Span weight="bold" color="var(--primary-600)">
-					{info?.scrapCnt || info?.likesNumber}
-				</Span>
-				{type === "scrap" ? <>명이 스크랩했어요</> : type === "like" && <>명이 좋아해요</>}
+				{isImageEmpty ? (
+					<>아직 스크랩한 사용자가 없어요</>
+				) : (
+					<>
+						<Span weight="bold" color="var(--primary-600)">
+							{info?.count || info?.likesNumber || "0"}
+						</Span>
+						{type === "scrap" ? (
+							<>명이 스크랩했어요</>
+						) : (
+							type === "like" && <>명이 좋아해요</>
+						)}
+					</>
+				)}
 			</ReactionContainer>
 		</>
 	);

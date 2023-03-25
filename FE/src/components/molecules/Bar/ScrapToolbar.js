@@ -1,21 +1,31 @@
 import React from "react";
 
+import { useSelector } from "react-redux";
+
 import ScrapButton from "../../atoms/Button/ScrapButton";
 import ReactionInfo from "../ReactionInfo";
 
 import { Text } from "../../../styles/common/TextsStyle";
 import { ReactionInfoContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
-function ScrapToolbar({ post, isMy }) {
+function ScrapToolbar({ isMy }) {
+	const scrap = useSelector((state) => state.sentence.post.scrapInfo);
+	const paragraph = useSelector((state) => state.sentence.post.paragraph);
+
+	const info = {
+		date: paragraph?.createdDate,
+		isScraped: scrap?.userScrape
+	};
+
 	return (
 		<ReactionInfoContainer>
-			<ReactionInfo info={post} type="scrap" />
+			<ReactionInfo type="scrap" />
 			{isMy ? (
 				<Text size="14" color="var(--gray-500)">
-					{post.createdDate}
+					{info.date}
 				</Text>
 			) : (
-				<ScrapButton isScraped={post?.scrapInfo.userScrape} />
+				<ScrapButton isScraped={info.isScraped} />
 			)}
 		</ReactionInfoContainer>
 	);
