@@ -6,10 +6,9 @@ import SentenceForm from "../../organisms/Sentence/SentenceForm";
 
 import { createPost } from "../../../apis/sentenceApi";
 
-function WriteSentence(props) {
+function WriteSentence() {
 	const navigate = useNavigate();
 
-	const [bookId, setBookId] = useState("");
 	const [content, setContent] = useState("");
 	const [background, setBackground] = useState("#FEEB60");
 	const [page, setPage] = useState("");
@@ -46,7 +45,6 @@ function WriteSentence(props) {
 				handleClickNext={handleClickNext}
 			/>
 			<SentenceForm
-				setBookId={setBookId}
 				content={content}
 				setContent={setContent}
 				background={background}
