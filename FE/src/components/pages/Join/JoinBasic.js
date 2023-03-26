@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { setId, setNickname, setPw, setEmail } from "../../../reducer/join";
 
 import CricleCheck from "../../atoms/Icon/CricleCheck";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
@@ -13,25 +15,24 @@ import { Label, Text } from "../../../styles/common/TextsStyle";
 
 function JoinBasic() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const {id, nickname, email, pw} = useSelector(state => state.join);
 
 	// 아이디
-	const [id, setId] = useState("");
 	const [idCntValid, setIdCntValid] = useState("default");
 	const [idIncludeValid, setIdIncludeValid] = useState("default");
 	const [idDuplicationValid, setIdDuplicationValid] = useState("default");
 
 	// 닉네임
-	const [nickname, setNickname] = useState("");
 	const [nicknameCntValid, setNicknameCntValid] = useState("default");
 	const [nicknameDuplicationValid, setNicknameDuplicationValid] = useState("default");
 
 	// 이메일
-	const [email, setEmail] = useState("");
 	const [emailFormValid, setEmailFormValid] = useState("default");
 	const [emailDuplicationValid, setEmailDuplicationValid] = useState("default");
 
 	// 비밀번호
-	const [pw, setPw] = useState("");
 	const [pwCntValid, setPwCntValid] = useState("default");
 	const [pwIncludeValid, setPwIncludeValid] = useState("default");
 
@@ -40,16 +41,16 @@ function JoinBasic() {
 	const [pwSameValid, setPwSameValid] = useState("default");
 
 	const hadleChangeId = (e) => {
-		setId(e.target.value);
+		dispatch(setId(e.target.value));
 	};
 	const hadleChangeNickname = (e) => {
-		setNickname(e.target.value);
+		dispatch(setNickname(e.target.value));
 	};
 	const hadleChangeEmail = (e) => {
-		setEmail(e.target.value);
+		dispatch(setEmail(e.target.value));
 	};
 	const hadleChangePw = (e) => {
-		setPw(e.target.value);
+		dispatch(setPw(e.target.value));
 	};
 	const hadleChangePwConfirm = (e) => {
 		setPwConfirm(e.target.value);
