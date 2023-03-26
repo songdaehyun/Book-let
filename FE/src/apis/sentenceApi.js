@@ -70,3 +70,17 @@ export const deletePost = async (sId) => {
 		console.log(err);
 	}
 };
+
+export const postScrap = async (data) => {
+	try {
+		const res = await api({
+			method: "POST",
+			url: `/prgscrap`,
+			data: data
+		});
+
+		console.log(res);
+	} catch (err) {
+		console.log(err);
+	}
+};
