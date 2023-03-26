@@ -10,7 +10,7 @@ import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import { TagsContainer } from "../../../styles/User/JoinStyle";
-import { join } from "../../../apis/joinApi";
+import { join } from "../../../apis/authApi";
 
 function JoinTag(props) {
 	// 더미 데이터
