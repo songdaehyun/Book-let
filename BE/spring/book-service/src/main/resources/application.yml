@@ -27,9 +27,10 @@ spring:
       max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j8b306.p.ssafy.io:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
-    username: booklet
-    password: qnrwjrqnrwjr!qnrfpt
+#    url: jdbc:mysql://j8b306.p.ssafy.io:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
+    username: jihee # booklet
+    password: jihee # qnrwjrqnrwjr!qnrfpt
   # swagger
   mvc:
     pathmatch:
