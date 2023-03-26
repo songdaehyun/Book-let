@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,5 +24,7 @@ public class Book {
     private Author author;
     @Column
     String bookImage;
+    @OneToMany(mappedBy = "book") //FK 없는 쪽에 mapped by 리더
+    private List<Review> comments = new ArrayList<>();
 
 }
