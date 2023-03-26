@@ -1,62 +1,25 @@
-export const SET_ID = "join/SET_ID";
-export const SET_NICKNAME = "join/SET_NICKNAME";
-export const SET_PW = "join/SET_PW";
-export const SET_EMAIL = "join/SET_EMAIL";
-export const SET_AGE = "join/SET_AGE";
-export const SET_GENDER = "join/SET_GENDER";
+// reducers/counter.js
 
-export const setId = (id) => ({ type: SET_ID, id });
-export const setNickname = (nickname) => ({ type: SET_NICKNAME, nickname });
-export const setPw = (pw) => ({ type: SET_PW, pw });
-export const setEmail = (email) => ({ type: SET_EMAIL, email });
-export const setAge = (age) => ({ type: SET_AGE, age });
-export const setGender = (gender) => ({ type: SET_GENDER, gender });
+// reducer가 많아지면 action상수가 중복될 수 있으니
+// 액션이름 앞에 파일 이름을 넣습니다.
+export const INCRESE = "COUNT/INCRESE";
 
-const initialState = {
-	id: "",
-	nickname: "",
-	pw: "",
-	email: "",
-	age: "",
-	gender: 0
+export const increseCount = count => ({ type: INCRESE, count });
+
+const initalState = {
+  count: 0
 };
 
-const join = (state = initialState, action) => {
-	switch (action.type) {
-		case SET_ID:
-			return {
-				...state,
-				id: action.id
-			};
-		case SET_NICKNAME:
-			return {
-				...state,
-				nickname: action.nickname
-			};
-		case SET_PW:
-			return {
-				...state,
-				pw: action.pw
-			};
-		case SET_EMAIL:
-			return {
-				...state,
-				email: action.email
-			};
-		case SET_AGE:
-			return {
-				...state,
-				age: action.age
-			};
-		case SET_GENDER:
-			return {
-				...state,
-				gender: action.gender
-			};
-		// default를 쓰지 않으면 맨처음 state에 count값이 undefined가 나옵니다 꼭! default문을 넣으세요
-		default:
-			return state;
-	}
-};
+const counter = (state = initalState, action) => {
+  switch (action.type) {
+    case INCRESE:
+      return {
+        ...state,
+        count: action.count
+      };
 
-export default join;
+    // default를 쓰지 않으면 맨처음 state에 count값이 undefined가 나옵니다 꼭! default문을 넣으세요
+    default:
+      return state;
+  }
+};
