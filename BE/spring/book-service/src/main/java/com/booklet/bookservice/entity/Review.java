@@ -1,5 +1,6 @@
 package com.booklet.bookservice.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,18 @@ public class Review extends BaseTimeEntity{
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="book_isbn")
     private Book book;
+
+    @Builder
+    public Review(Long reviewId, String reviewContent, double reviewGrade, User user, Book book) {
+        this.reviewId = reviewId;
+        this.reviewContent = reviewContent;
+        this.reviewGrade = reviewGrade;
+        this.user = user;
+        this.book = book;
+    }
+
+    public void updateReview(String reviewContent, double reviewGrade){
+        this.reviewContent = reviewContent;
+        this.reviewGrade = reviewGrade;
+    }
 }
