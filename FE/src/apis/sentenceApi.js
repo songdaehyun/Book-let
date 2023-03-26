@@ -84,3 +84,31 @@ export const postScrap = async (data) => {
 		console.log(err);
 	}
 };
+
+export const getScrappedPost = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/prgscrap/${uId}`
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getScrapCount = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/prgscrap/count/${uId}`
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
+};
