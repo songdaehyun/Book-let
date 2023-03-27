@@ -6,18 +6,17 @@ import com.booklet.authservice.entity.User;
 import com.booklet.authservice.repository.UserRepository;
 import com.booklet.authservice.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -25,26 +24,21 @@ public class AuthController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthService authService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> LogIn(@RequestBody LoginReqDto loginReqDto) {
-        LoginDataDto loginDataDto = authService.logIn(loginReqDto);
-        if (loginDataDto == null) {
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
-        }
-        LoginResDto loginResDto = new LoginResDto(loginDataDto.getUsername(), loginDataDto.getNickname());
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, loginDataDto.getToken());
-        return ResponseEntity.ok().headers(httpHeaders).body(loginResDto);
-    }
-
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignUpReqDto signUpReqDto) {
-        return new ResponseEntity<SignUpResDto>(authService.signUp(signUpReqDto));
-    }
-    // 모든 사람이 접근 가능
-    @GetMapping("home")
-    public String home() {
-        return "<h1>home</h1>";
+    public ResponseEntity signUp(@RequestBody SignUpReqDto signUpReqDto) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        result = authService.signUp(signUpReqDto);
+
+        if (result != null) {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+
+        } else {
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("user/test")
@@ -71,18 +65,44 @@ public class AuthController {
         return "<h1>user</h1>";
     }
 
-    // 어드민이 접근 가능
-    @GetMapping("admin/users")
-    public List<User> users() {
-        return userRepository.findAll();
+    @PostMapping("/setpw")
+    public ResponseEntity setPw(Authentication authentication ,@RequestBody SetPwReqDto setPwReqDto) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        result = authService.setPw(setPwReqDto, authentication);
+
+        if (result != null) {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
-    @PostMapping("/join")
-    public String join(@RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
-//        user.setRoles("USER");
-        userRepository.save(user);
-        return "회원가입완료";
+    @GetMapping("/check/username/{username}")
+    public ResponseEntity<?> checkUsername(@PathVariable String username){
+        HashMap<String, Object> result = new HashMap<>();
+        result = authService.checkUsername(username);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
+
+    @GetMapping("/check/nickname/{nickname}")
+    public ResponseEntity<?> checkNickname(@PathVariable String nickname){
+        HashMap<String, Object> result = new HashMap<>();
+        result = authService.checkNickname(nickname);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/check/email/{email}")
+    public ResponseEntity<?> checkEmail(@PathVariable String email){
+        HashMap<String, Object> result = new HashMap<>();
+        result = authService.checkEmail(email);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+
 }
