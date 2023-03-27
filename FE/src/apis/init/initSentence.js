@@ -46,6 +46,32 @@ export const initSentence = (raw) => {
 
 		isScraped: raw?.scrapInfo?.userScrape,
 		scrapImgs: raw?.scrapInfo?.scrapUserImages,
-		scrapCount: raw?.scrapInfo?.scrapCount
+		scrapCount: raw?.scrapInfo?.scrapCount,
 	};
+};
+
+export const initSentenceList = (raw) => {
+	return raw?.map((sentence) => {
+		return {
+			nickname: sentence?.user.nickname,
+			profileImg: sentence?.user?.userImage,
+
+			isbn: sentence?.book?.bookIsbn,
+			title: sentence?.book?.bookTitle,
+			author: sentence?.book?.bookAuthor,
+			cover: sentence?.book?.bookImage,
+
+			sId: sentence?.paragraph?.paragraphId,
+			content: sentence?.paragraph?.paragraphContent,
+			page: sentence?.paragraph?.paragraphPage,
+			color: sentence?.paragraph?.paragraphColor,
+			date: sentence?.paragraph?.createdDate,
+
+			isScraped: sentence?.scrapInfo?.userScrape,
+			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
+			scrapCount: sentence?.scrapInfo?.scrapCount,
+
+			commentCnt: sentence?.paragraphId?.commentCnt,
+		};
+	});
 };
