@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
-import { setId, setNickname, setPw, setEmail } from "../../../reducer/join";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmail, setId, setNickname, setPw } from "../../../reducer/join";
 
 import CricleCheck from "../../atoms/Icon/CricleCheck";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 
+import { checkEmail, checkId, checkNickname } from "../../../apis/authApi";
+import { initCheck } from "../../../apis/init/initAuth";
 import { ValidLabel } from "../../../styles/common/CommonStyle";
 import { Container, ValidLabelContainer } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
@@ -17,7 +19,7 @@ function JoinBasic() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const {id, nickname, email, pw} = useSelector(state => state.join);
+	const { id, nickname, email, pw } = useSelector((state) => state.join);
 
 	// 아이디
 	const [idCntValid, setIdCntValid] = useState("default");
@@ -76,9 +78,17 @@ function JoinBasic() {
 			isValidConfirm = false;
 		}
 
-		if (true) {
-			setIdDuplicationValid("success");
-		}
+		// 아이디 중복 체크
+		(async () => {
+			await checkId(id)
+				.then((res) => initCheck(res))
+				.then((res) => {
+					setIdDuplicationValid(res);
+				});
+		})();
+		// if (true) {
+		// 	setIdDuplicationValid("success");
+		// }
 
 		return isValidConfirm;
 	};
@@ -94,9 +104,18 @@ function JoinBasic() {
 			isValidConfirm = false;
 		}
 
-		if (true) {
-			setNicknameDuplicationValid("success");
-		}
+		// 닉네임 중복 체크
+		(async () => {
+			await checkNickname(nickname)
+				.then((res) => initCheck(res))
+				.then((res) => {
+					setNicknameDuplicationValid(res);
+				});
+		})();
+
+		// if (true) {
+		// 	setNicknameDuplicationValid("success");
+		// }
 
 		return isValidConfirm;
 	};
@@ -114,9 +133,18 @@ function JoinBasic() {
 			isValidConfirm = false;
 		}
 
-		if (true) {
-			setEmailDuplicationValid("success");
-		}
+		// 이메일 중복 체크
+		(async () => {
+			await checkEmail(email)
+				.then((res) => initCheck(res))
+				.then((res) => {
+					setEmailDuplicationValid(res);
+				});
+		})();
+
+		// if (true) {
+		// 	setEmailDuplicationValid("success");
+		// }
 
 		return isValidConfirm;
 	};
