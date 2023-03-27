@@ -17,7 +17,7 @@ function DeleteAccountAction(props) {
 
 	const handleClickDeleteAccountButton = () => {
 		if (isChecked) {
-			async () => {
+			(async () => {
 				await deleteMyAccount().then((res) => {
 					console.log(res);
 
@@ -26,7 +26,7 @@ function DeleteAccountAction(props) {
 						navigate("/login");
 					}
 				});
-			};
+			})();
 		}
 	};
 
