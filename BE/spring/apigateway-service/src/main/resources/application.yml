@@ -34,7 +34,6 @@ spring:
             allowedOrigins:
               - "http://localhost:3000"
               - "https://localhost:3000"
-              - "http://192.168.56.1:3000"
             allow-credentials: true   #추가
             allowedHeaders:
               - x-requested-with
