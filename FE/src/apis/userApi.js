@@ -66,8 +66,8 @@ export const getTagExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/hashtag");
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -77,8 +77,8 @@ export const getCoverExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/cover");
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
