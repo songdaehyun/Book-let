@@ -1,16 +1,17 @@
 import React from "react";
 
-import DetailSentence from "../../molecules/Sentence/DetailSentence";
 import ScrapToolbar from "../../molecules/Bar/ScrapToolbar";
+import DetailSentence from "../../molecules/Sentence/DetailSentence";
 import ProfileWithFollow from "../../molecules/Sentence/ProfileWithFollow";
 
 import useDate from "../../../hooks/useDate";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
-import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
 import { Text } from "../../../styles/common/TextsStyle";
+import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
 
 function DetailPostOverview({
+	uId,
 	nickname,
 	profileImg,
 	date,
@@ -24,7 +25,7 @@ function DetailPostOverview({
 	cover,
 	content,
 	page,
-	color
+	color,
 }) {
 	const dateTimeSeparation = useDate();
 
@@ -47,6 +48,7 @@ function DetailPostOverview({
 				/>
 				<Container marginTop="24">
 					<ProfileWithFollow
+						uId={uId}
 						nickname={nickname}
 						profileImg={profileImg}
 						isFollowed={isFollowed}

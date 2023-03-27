@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getPost } from "../../../apis/sentenceApi";
 import { initSentence } from "../../../apis/init/initSentence";
+import { getPost } from "../../../apis/sentenceApi";
 
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import DetailComment from "../../organisms/Sentence/DetailComment";
@@ -22,7 +22,7 @@ function DetailPost() {
 			updatedDate: "",
 			commentDepth: 0,
 			commentGroup: 1,
-			img: LoopyImg
+			img: LoopyImg,
 		},
 		{
 			commentId: 4,
@@ -32,7 +32,7 @@ function DetailPost() {
 			updatedDate: "",
 			commentDepth: 1,
 			commentGroup: 1,
-			img: LoopyImg
+			img: LoopyImg,
 		},
 		{
 			commentId: 2,
@@ -42,7 +42,7 @@ function DetailPost() {
 			updatedDate: "",
 			commentDepth: 0,
 			commentGroup: 2,
-			img: LoopyImg
+			img: LoopyImg,
 		},
 		{
 			commentId: 3,
@@ -52,8 +52,8 @@ function DetailPost() {
 			updatedDate: "",
 			commentDepth: 1,
 			commentGroup: 2,
-			img: LoopyImg
-		}
+			img: LoopyImg,
+		},
 	];
 
 	const { sId } = useParams();
@@ -75,6 +75,7 @@ function DetailPost() {
 		<>
 			<ReturnNavigationBar title={post?.title} />
 			<DetailPostOverview
+				uId={post?.uId}
 				nickname={post?.nickname}
 				profileImg={post?.profileImg}
 				date={post?.date}
