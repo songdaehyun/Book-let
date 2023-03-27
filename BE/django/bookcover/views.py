@@ -33,12 +33,7 @@ def image_recommend(request):   # 예측 기능 수행
         image_spec = pd.DataFrame(columns=[
             "book_isbn",
             "book_image",
-            "anger",
-            "disgust",
-            "fear",
-            "joy",
-            "sadness",
-            "surprise"
+            "feeling"
         ])
 
         # 요청한 값의 이미지 URL을 하나씩 조회
@@ -69,13 +64,8 @@ def image_recommend(request):   # 예측 기능 수행
             input_info = model.predict(x_input_RGB)
 
             # # 딕셔너리에 {분류: 유사도} 형태로 저장
-            image_value["anger"] = input_info[0][0]
-            image_value["disgust"] = input_info[0][1]
-            image_value["fear"] = input_info[0][2]
-            image_value["joy"] = input_info[0][3]
-            image_value["sadness"] = input_info[0][4]
-            image_value["surprise"] = input_info[0][5]
-
+            # 모델 예측 결과 중 가장 정확도가 높은 값의 인덱스 번호
+            image_value["feeling"] = np.argmax(input_info[0])
             image_value = pd.DataFrame([image_value])
 
             # image_value 값을 image_spec에 합치기

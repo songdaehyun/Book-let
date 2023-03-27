@@ -6,6 +6,7 @@ import requests
 import numpy as np
 import cv2
 from tensorflow import keras
+from .models import BookInfoModel
 
 # skimage.ssim을 이용해 연관 이미지 추천해 주는 함수
 
@@ -13,31 +14,37 @@ from tensorflow import keras
 def bookcover_recommendation(result_dataframe):
     serializer = BookInfoSerializer(many=True)
 
-    # DB에서 표지 별 분류 데이터 가져오기
-    db_dataframe = []
-
     # 추천 리스트
     rec_list = []
 
     # df의 행을 하나씩 읽으면서 유사도 검사
     for col in range(result_dataframe.shape[0]):
-        origin_data = result_dataframe.iloc[col]    # 요청받은 이미지의 특성 정보 행
+        # 요청받은 이미지의 특성 정보 행
+        origin_data = result_dataframe.iloc[col]
+        # 데이터셋의 감정 분류 컬럼을 정규화할 필요가 있다.
+        origin_feeling = origin_data["feeling"]
 
-        # 다른 표지 간 유사도 구하기(ssim)
-        image_src1 = origin_data["book_image"]     # 사용자가 제출한 선호 추천 표지
+        # Django ORM으로 DB에서 표지 분류 결과가 일치하는 항목 가져오기
+        db_dataframe = BookInfoModel.objects.get(feeling=origin_feeling)
+
+        # 사용자가 제출한 선호 추천 표지
+        image_src1 = origin_data["book_image"]
+
         # DB에 저장된 연관 추천 표지
-        image_src2 = "C:/Users/SSAFY/Desktop/TrainTestSrc/auto/test1050.jpg"
+        for idx in range(len(db_dataframe)):
+            # db에서 하나씩 꺼내서 유사도 비교?(이하 미완성)
+            image_src2 = db_dataframe.objects.filter()
 
-        origin_img1 = np.asarray(
-            bytearray(requests.get(image_src1).content), dtype=np.uint8)
-        resize_img1 = cv2.resize(origin_img1, (300, 300))
+            origin_img1 = np.asarray(
+                bytearray(requests.get(image_src1).content), dtype=np.uint8)
+            resize_img1 = cv2.resize(origin_img1, (300, 300))
 
-        origin_img2 = np.asarray(
-            bytearray(requests.get(image_src2).content), dtype=np.uint8)
-        resize_img2 = cv2.resize(origin_img2, (300, 300))
+            origin_img2 = np.asarray(
+                bytearray(requests.get(image_src2).content), dtype=np.uint8)
+            resize_img2 = cv2.resize(origin_img2, (300, 300))
 
-        # score = 이미지 간의 유사도(-1 ~ 1 사이, 1에 가까울수록 유사도 높음)
-        (score, diff) = ssim(resize_img1, resize_img2, full=True)
+            # score = 이미지 간의 유사도(-1 ~ 1 사이, 1에 가까울수록 유사도 높음)
+            (score, diff) = ssim(resize_img1, resize_img2, full=True)
 
     # 유사도 상위 N개 필터링 후 rec_list에 추가
     rec_list.append()
