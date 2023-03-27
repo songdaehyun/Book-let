@@ -34,9 +34,10 @@ public class SecurityConfig {
                 .apply(new MyCustomDsl()) // 커스텀 필터 등록
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/user/**")
+                .antMatchers("/api/v1/auth/user")
                 .access("hasRole('USER')")
                 .anyRequest().permitAll()
+                .and().logout().logoutUrl("/api/v1/auth/logout")
                 .and().build();
     }
 
@@ -44,9 +45,13 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager);
+            jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");  // 필터 기본 주소 변경
+
             http
                     .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(jwtAuthenticationFilter)
+//                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
                     ;
         }
