@@ -3,11 +3,12 @@ package com.booklet.bookservice.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @Table(name="review")
 public class Review extends BaseTimeEntity{

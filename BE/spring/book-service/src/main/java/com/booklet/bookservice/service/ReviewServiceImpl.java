@@ -6,6 +6,7 @@ import com.booklet.bookservice.dto.UserDto;
 import com.booklet.bookservice.entity.Book;
 import com.booklet.bookservice.entity.Review;
 import com.booklet.bookservice.entity.User;
+import com.booklet.bookservice.repository.BookRepository;
 import com.booklet.bookservice.repository.ReviewRepository;
 import com.booklet.bookservice.repository.UserImageRepository;
 import com.booklet.bookservice.repository.UserRepository;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
+    private final BookRepository bookRepository;
     private final UserImageRepository userImageRepository;
 
     @Override
@@ -61,13 +63,21 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     @Transactional
-    public boolean saveReview(ReviewDto reviewDto) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setAmbiguityIgnored(true);
-        // 리뷰 정보
-        Review review = new ModelMapper().map(reviewDto, Review.class);
-        Long reviewId = reviewRepository.save(review).getReviewId();
-        if(reviewId>0) return true;
+    public boolean saveReview(ReviewDto req) {
+        Long result = 0L;
+        try {
+            Review review = Review.builder()
+                    .reviewContent(req.getContent())
+                    .reviewGrade(req.getGrade())
+                    .book(bookRepository.findById(req.getBookIsbn()).orElse(null))
+                    .user(userRepository.findById(req.getUserId()).orElse(null))
+                    .build();
+            result = reviewRepository.save(review).getReviewId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(result>0) return true;
         return false;
     }
 

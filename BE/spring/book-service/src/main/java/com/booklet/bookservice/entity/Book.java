@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name="book")
 public class Book {
     @Id
-    @Column
+    @Column(name="book_isbn")
     String bookIsbn;
 
     @Column

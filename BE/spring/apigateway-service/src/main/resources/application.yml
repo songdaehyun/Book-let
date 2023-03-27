@@ -33,7 +33,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins: "*" # "http://localhost:3000"
             allow-credentials: true   #추가
             allowedHeaders: "*"
             allowedMethods: "*"
@@ -47,19 +47,19 @@ spring:
         - id: booklet-paragraph-service
           uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
           predicates:
-            - Path=/api/v1/sns/**
+            - Path=/api/v1/sns/**,/api/v1/scrap/**
 #          filters:
 #            - CustomFilter
         - id: booklet-book-service
           uri: lb://BOOK-SERVICE # book-service의 name
           predicates:
-            - Path=/api/*/book/**
+            - Path=/api/v1/book/**,/api/v1/review
 #          filters:
 #            - CustomFilter
         - id: booklet-recommand-service
           uri: lb://RECOMMAND-SERVICE # recom-service의 name
           predicates:
-            - Path=/api/*/recom/**
+            - Path=/api/v1/recom/**
 #          filters:
 #            - CustomFilter
 
