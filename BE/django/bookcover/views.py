@@ -68,8 +68,13 @@ def image_recommend(request):   # 예측 기능 수행
             # 모델로 카테고리 분류
             input_info = model.predict(x_input_RGB)
 
-            # 72 ~ 83번 줄 새로 바꿔야 함(모델 변경)
-            # 딕셔너리에 {분류: 유사도} 형태로 저장
+            # # 딕셔너리에 {분류: 유사도} 형태로 저장
+            image_value["anger"] = input_info[0][0]
+            image_value["disgust"] = input_info[0][1]
+            image_value["fear"] = input_info[0][2]
+            image_value["joy"] = input_info[0][3]
+            image_value["sadness"] = input_info[0][4]
+            image_value["surprise"] = input_info[0][5]
 
             image_value = pd.DataFrame([image_value])
 
