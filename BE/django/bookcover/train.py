@@ -1,14 +1,13 @@
 import pandas as pd
 from .serializers import BookInfoSerializer
-from sklearn.metrics.pairwise import euclidean_distances
 import requests
-from PIL import Image
-from io import BytesIO
+from skimage.metrics import structural_similarity as ssim
+import requests
 import numpy as np
 import cv2
 from tensorflow import keras
 
-# 유클리드 거리를 기준으로 연관 이미지 추천해 주는 함수
+# skimage.ssim을 이용해 연관 이미지 추천해 주는 함수
 
 
 def bookcover_recommendation(result_dataframe):
@@ -24,13 +23,24 @@ def bookcover_recommendation(result_dataframe):
     for col in range(result_dataframe.shape[0]):
         origin_data = result_dataframe.iloc[col]    # 요청받은 이미지의 특성 정보 행
 
-        # 다른 표지 간 유사도 구하기(유클리드 거리)
+        # 다른 표지 간 유사도 구하기(ssim)
+        image_src1 = origin_data["book_image"]     # 사용자가 제출한 선호 추천 표지
+        # DB에 저장된 연관 추천 표지
+        image_src2 = "C:/Users/SSAFY/Desktop/TrainTestSrc/auto/test1050.jpg"
 
-        # 이미지 간 유클리드 거리 검사
-        similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
+        origin_img1 = np.asarray(
+            bytearray(requests.get(image_src1).content), dtype=np.uint8)
+        resize_img1 = cv2.resize(origin_img1, (300, 300))
 
-        # 유클리드 거리가 가까운 순서대로 추천 작품 추가
-        rec_list.append()
+        origin_img2 = np.asarray(
+            bytearray(requests.get(image_src2).content), dtype=np.uint8)
+        resize_img2 = cv2.resize(origin_img2, (300, 300))
+
+        # score = 이미지 간의 유사도(-1 ~ 1 사이, 1에 가까울수록 유사도 높음)
+        (score, diff) = ssim(resize_img1, resize_img2, full=True)
+
+    # 유사도 상위 N개 필터링 후 rec_list에 추가
+    rec_list.append()
 
     # pkl 파일로 static 디렉토리에 저장
     return rec_list
