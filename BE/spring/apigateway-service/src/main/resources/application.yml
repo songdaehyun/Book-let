@@ -61,13 +61,13 @@ spring:
         - id: booklet-paragraph-service
           uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
           predicates:
-            - Path=/api/v1/sns/**
+            - Path=/api/v1/sns/**, /api/v1/scrap/**
 #          filters:
 #            - CustomFilter
         - id: booklet-book-service
           uri: lb://BOOK-SERVICE # book-service의 name
           predicates:
-            - Path=/api/v1/book/**, /api/v1/review
+            - Path=/api/v1/book/**, /api/v1/review/**
 #          filters:
 #            - CustomFilter
         - id: booklet-recommand-service
