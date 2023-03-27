@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: 8000
   ssl:
     enabled: true
     key-store: classpath:keystore.p12
@@ -9,9 +9,9 @@ server:
 
 
 eureka:
-  eureka:
-    instance:
-      prefer-ip-address: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -67,7 +67,7 @@ spring:
         - id: booklet-book-service
           uri: lb://BOOK-SERVICE # book-service의 name
           predicates:
-            - Path=/api/v1/book/**,/api/v1/review
+            - Path=/api/v1/book/**, /api/v1/review
 #          filters:
 #            - CustomFilter
         - id: booklet-recommand-service
