@@ -22,8 +22,8 @@ export const getMyInfo = async () => {
 			url: `/user/`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -33,8 +33,8 @@ export const getMyReview = async () => {
 	try {
 		const res = await api.get("/user/review");
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -44,8 +44,8 @@ export const getMyLike = async () => {
 	try {
 		const res = await api.get("/user/like/book");
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
