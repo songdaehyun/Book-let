@@ -27,19 +27,31 @@ spring:
         ssl:
           use-insecure-trust-manager: true
       default-filters:
-        - name: GlobalFilter
-          args:
-            baseMessage: Spring Cloud Gateway Global Filter
-            preLogger: true
-            postLogger: true
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "https://localhost:3000"
+              - "http://192.168.56.1:3000"
             allow-credentials: true   #추가
-            allowedHeaders: "*"
-            allowedMethods: "*"
+            allowedHeaders:
+              - x-requested-with
+              - authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+              - x-forwarded-for-user-id
+
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - OPTIONS
+              - DELETE
+
       routes:
         - id: booklet-user-service
           uri: lb://USER-SERVICE # user-service의 namef
