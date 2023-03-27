@@ -67,7 +67,7 @@ spring:
         - id: booklet-book-service
           uri: lb://BOOK-SERVICE # book-service의 name
           predicates:
-            - Path=/api/v1/book/**, /api/v1/review
+            - Path=/api/v1/book/**, /api/v1/review/**
 #          filters:
 #            - CustomFilter
         - id: booklet-recommand-service
