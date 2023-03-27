@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
 import { Container, ValidWrapper } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
-import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
-import { ImgWrapper, TextBtnWrapper } from "../../../styles/User/LoginStyle";
 import { ValidFailText } from "../../../styles/common/TextsStyle";
+import { ImgWrapper, TextBtnWrapper } from "../../../styles/User/LoginStyle";
 
+import { login } from "../../../apis/authApi";
 import loginImg from "../../../assets/images/login-img.svg";
 
 function Login() {
@@ -46,7 +47,21 @@ function Login() {
 		console.log(id, pw);
 
 		if (id !== "" && pw !== "") {
-			navigate("/");
+			(async () => {
+				await login({
+					username: id,
+					password: pw,
+				}).then((res) => {
+					if (res.status === 201) {
+						// 로그인 토큰 저장 
+						// localStorage.setItem('refresh-token', res.data['refresh-token']);
+						// setCookie('access-token', res.data['access-token']);
+						// setCookie('uId', res.data.username);
+						// setCookie('nickname', res.data.nickname);
+						navigate("/");
+					}
+				});
+			})();
 		} else {
 			idValidTest();
 			pwValidTest();
