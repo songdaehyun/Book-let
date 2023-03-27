@@ -53,7 +53,7 @@ export const initSentence = (raw) => {
 export const initSentenceList = (raw) => {
 	return raw?.map((sentence) => {
 		return {
-			nickname: sentence?.user.nickname,
+			nickname: sentence?.user?.nickname,
 			profileImg: sentence?.user?.userImage,
 
 			isbn: sentence?.book?.bookIsbn,
@@ -72,6 +72,20 @@ export const initSentenceList = (raw) => {
 			scrapCount: sentence?.scrapInfo?.scrapCount,
 
 			commentCnt: sentence?.paragraphId?.commentCnt,
+		};
+	});
+};
+
+export const initScrappedList = (raw) => {
+	console.log(raw)
+	return raw?.map((sentence) => {
+		return {
+			nickname: sentence?.userInfo?.nickname,
+			profileImg: sentence?.userInfo?.userImage,
+
+			sId: sentence?.paragraphId,
+			content: sentence?.paragraphContent,
+			color: sentence?.paragraphColor,
 		};
 	});
 };
