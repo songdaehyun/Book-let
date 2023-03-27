@@ -29,11 +29,11 @@ export const getPost = async (sId) => {
 	}
 };
 
-export const getMyPost = async (sId) => {
+export const getMyPost = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/mylist/${sId}`
+			url: `/sns/paragraph/mylist/${uId}`
 		});
 
 		console.log(res.data);
