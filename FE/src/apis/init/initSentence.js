@@ -31,6 +31,7 @@
 
 export const initSentence = (raw) => {
 	return {
+		uId: raw?.user?.userId,
 		nickname: raw?.user.nickname,
 		profileImg: raw?.user?.userImage,
 
@@ -46,6 +47,6 @@ export const initSentence = (raw) => {
 
 		isScraped: raw?.scrapInfo?.userScrape,
 		scrapImgs: raw?.scrapInfo?.scrapUserImages,
-		scrapCount: raw?.scrapInfo?.scrapCount
+		scrapCount: raw?.scrapInfo?.scrapCount,
 	};
 };

@@ -5,11 +5,11 @@ export const join = async (data) => {
 		const res = await api({
 			method: "POST",
 			url: `/auth/signup`,
-			data: data
+			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -20,7 +20,21 @@ export const login = async (data) => {
 		const res = await api({
 			method: "POST",
 			url: `/auth/login`,
-			data: data
+			data: data,
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const logout = async () => {
+	try {
+		const res = await api({
+			method: "POST",
+			url: `/auth/logout`,
 		});
 
 		console.log(res);
@@ -35,11 +49,11 @@ export const updateMyInfo = async (data) => {
 		const res = await api({
 			method: "PUT",
 			url: `/auth/update`,
-			data: data
+			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -49,7 +63,7 @@ export const deleteMyAccount = async (uId) => {
 	try {
 		const res = await api({
 			method: "DELETE",
-			url: `/auth/delete`
+			url: `/auth/delete`,
 		});
 
 		console.log(res);
@@ -64,7 +78,7 @@ export const updateMyPw = async (data) => {
 		const res = await api({
 			method: "POST",
 			url: `/auth/setpw`,
-			data: data
+			data: data,
 		});
 
 		console.log(res);
@@ -78,11 +92,11 @@ export const checkId = async (data) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/auth/check/username/${data}`
+			url: `/auth/check/username/${data}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.log(err);
 	}
@@ -92,11 +106,11 @@ export const checkNickname = async (data) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/auth/check/nickname/${data}`
+			url: `/auth/check/nickname/${data}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.log(err);
 	}
@@ -106,13 +120,12 @@ export const checkEmail = async (data) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/auth/check/email/${data}`
+			url: `/auth/check/email/${data}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.log(err);
 	}
 };
-
