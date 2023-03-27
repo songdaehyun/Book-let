@@ -30,6 +30,20 @@ export const login = async (data) => {
 	}
 };
 
+export const logout = async () => {
+	try {
+		const res = await api({
+			method: "POST",
+			url: `/auth/logout`,
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export const updateMyInfo = async (data) => {
 	try {
 		const res = await api({
