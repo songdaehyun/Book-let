@@ -20,7 +20,7 @@ function PreviewSwiperSentence({ sentences }) {
 				modules={[FreeMode]}
 				className="mySwiper"
 			>
-				{sentences.map((sentence, idx) => (
+				{sentences?.map((sentence, idx) => (
 					<SwiperSlide>
 						<SmallSentence sentence={sentence} />
 					</SwiperSlide>
