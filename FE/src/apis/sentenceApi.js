@@ -5,7 +5,7 @@ export const createPost = async (data) => {
 		const res = await api({
 			method: "POST",
 			url: "/sns/paragraph",
-			data: data
+			data: data,
 		});
 
 		console.log(res);
@@ -19,7 +19,7 @@ export const getPost = async (sId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/${sId}`
+			url: `/sns/paragraph/${sId}`,
 		});
 
 		console.log(res.data);
@@ -33,7 +33,7 @@ export const getMyPost = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/mylist/${uId}`
+			url: `/sns/paragraph/mylist/${uId}`,
 		});
 
 		console.log(res.data);
@@ -43,11 +43,11 @@ export const getMyPost = async (uId) => {
 	}
 };
 
-export const getFollowingPost = async (sId) => {
+export const getFollowingPost = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/following/${sId}`
+			url: `/sns/paragraph/following/${uId}`,
 		});
 
 		console.log(res.data);
@@ -61,7 +61,7 @@ export const deletePost = async (sId) => {
 	try {
 		const res = await api({
 			method: "DELETE",
-			url: `/sns/paragraph/${sId}`
+			url: `/sns/paragraph/${sId}`,
 		});
 
 		console.log(res.data);
@@ -75,8 +75,8 @@ export const postScrap = async (data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/prgscrap`,
-			data: data
+			url: `/scrap`,
+			data: data,
 		});
 
 		console.log(res);
@@ -85,15 +85,15 @@ export const postScrap = async (data) => {
 	}
 };
 
-export const getScrappedPost = async (uId) => {
+export const getScrappedPost = async (uId, page, size) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/prgscrap/${uId}`
+			url: `/scrap/${uId}?page=${page}&size=${size}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -103,7 +103,7 @@ export const getScrapCount = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/prgscrap/count/${uId}`
+			url: `/scrap/count/${uId}`,
 		});
 
 		console.log(res);
