@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 import MyLikeHeading from "../../atoms/Mypage/MyLikeHeading";
@@ -8,6 +8,7 @@ import BookList from "../../organisms/Book/BookList";
 
 import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
+import { getMyLike } from "../../../apis/userApi";
 
 function MyLike(props) {
 	const count = 15;

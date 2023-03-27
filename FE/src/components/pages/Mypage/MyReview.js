@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
