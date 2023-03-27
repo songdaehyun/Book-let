@@ -12,21 +12,16 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# reading .env file
-environ.Env.read_env(
-    env_file=os.path.join(BASE_DIR, '.env')
-)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ.Env('DJANGO_KEY')
+SECRET_KEY = 'django-insecure-s#s2pg+ncmtv2l^zb7%trw)0k&%3r$4la$b6#f2rxxa8ek2vn0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -99,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookdb',
         'USER': 'ssafy',
-        'PASSWORD': environ.Env('DB_PW'),
+        'PASSWORD': 'ssafy',
         'HOST': 'localhost',
         'PORT': "3306"
     }
