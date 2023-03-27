@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/sns/paragraph")
+@RequestMapping("api/v1/sns/paragraph")
 @RequiredArgsConstructor
 @Component
 public class ParagraphController {
