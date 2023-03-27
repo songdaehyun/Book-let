@@ -1,15 +1,11 @@
-package com.booklet.authservice.entity;
+package com.booklet.userservice.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Entity
 @Data
@@ -42,4 +38,10 @@ public class User {
     private Integer sex;
 
     private float preferScore;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserImg userImg;
+
+
+
 }

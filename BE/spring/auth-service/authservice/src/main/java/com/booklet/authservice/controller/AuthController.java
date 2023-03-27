@@ -20,8 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthService authService;
 
     @PostMapping("/signup")

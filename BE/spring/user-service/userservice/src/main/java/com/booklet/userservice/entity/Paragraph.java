@@ -1,0 +1,35 @@
+package com.booklet.userservice.entity;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name="paragraph")
+public class Paragraph extends BaseTimeEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="paragraph_id")
+    private Long paragraphId;
+
+    @Column(length = 301, nullable = false)
+    private String paragraphContent;
+    @Column
+    private String paragraphColor;
+
+    @Column
+    private int paragraphPage;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="book_isbn")
+    private Book book;
+
+    @OneToMany(mappedBy = "paragraph") //FK 없는 쪽에 mapped by 리더
+    private List<Comment> comments = new ArrayList<>();
+
+}
+
