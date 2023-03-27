@@ -1,7 +1,8 @@
 package com.booklet.bookservice.repository;
 
-import com.booklet.paragraphservice.entity.User;
-import com.booklet.paragraphservice.entity.UserImage;
+
+import com.booklet.bookservice.entity.User;
+import com.booklet.bookservice.entity.UserImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

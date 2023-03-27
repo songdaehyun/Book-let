@@ -1,23 +1,24 @@
 package com.booklet.bookservice.dto;
 
-import com.booklet.bookservice.entity.User;
 import lombok.*;
-import org.modelmapper.ModelMapper;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ReviewListDto {
     private UserDto userInfo;
     private String reviewContent;
-    private String createdDate;
+    private double reviewGrade;
+    private LocalDateTime createdDate;
 
     @Builder
-    public ReviewListDto(UserDto userInfo, String reviewContent, String createdDate) {
+    public ReviewListDto(UserDto userInfo, String reviewContent, double reviewGrade, LocalDateTime createdDate) {
         this.userInfo = userInfo;
         this.reviewContent = reviewContent;
         this.createdDate = createdDate;
+        this.reviewGrade = reviewGrade;
     }
 }

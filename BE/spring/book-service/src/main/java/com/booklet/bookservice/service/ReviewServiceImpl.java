@@ -7,6 +7,8 @@ import com.booklet.bookservice.entity.Book;
 import com.booklet.bookservice.entity.Review;
 import com.booklet.bookservice.entity.User;
 import com.booklet.bookservice.repository.ReviewRepository;
+import com.booklet.bookservice.repository.UserImageRepository;
+import com.booklet.bookservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +28,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
+    private final UserImageRepository userImageRepository;
 
     @Override
     public Review findReviewEntity(Long reviewId) {
@@ -32,17 +37,26 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public HashMap<String, Object> findReviews(Book book, Pageable pageable) {
-//        try {
-//            Slice<Review> reviews = reviewRepository.findReviewByBook(book, pageable);
-//
-//
-//            return result;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-        return null;
+    public HashMap<String, Object> findReviews(Book book, Pageable pageable) { // 책의 리뷰 리스트
+        List<ReviewListDto> listDto = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setAmbiguityIgnored(true);
+        Slice<Review> reviews = reviewRepository.findReviewByBook(book, pageable);
+
+        try {
+            for(Review review : reviews){
+                UserDto userDto = new ModelMapper().map(review.getUser(), UserDto.class);
+                userDto.setUserImage(userImageRepository.findUserImageByUser(review.getUser()));
+                listDto.add(new ReviewListDto(userDto, review.getReviewContent(), review.getReviewGrade(), review.getCreatedDate()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("reviews", listDto);
+        result.put("hasNextPage", reviews.hasNext());
+        return result;
     }
 
     @Override
