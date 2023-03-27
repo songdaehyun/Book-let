@@ -2,7 +2,7 @@ export default function useDate() {
 	const dateTimeSeparation = (date) => {
 		// seperatedDate[0] is date
 		// seperatedDate[1] is time
-		const seperatedDate = date.split("T");
+		const seperatedDate = date?.split("T");
 
 		const realTimeDate = new Date();
 
@@ -21,10 +21,12 @@ export default function useDate() {
 		const today = year + "." + month + "." + day;
 
 		// 오늘 날짜라면 시간을, 오늘 날짜가 아니라면 날짜를 리턴
-		if (seperatedDate[0] === today) {
-			return seperatedDate[1];
-		} else {
-			return seperatedDate[0].replaceAll('-', '.');
+		if (seperatedDate) {
+			if (seperatedDate[0] === today) {
+				return seperatedDate[1];
+			} else {
+				return seperatedDate[0].replaceAll("-", ".");
+			}
 		}
 	};
 

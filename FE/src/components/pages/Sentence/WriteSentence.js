@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import SentenceForm from "../../organisms/Sentence/SentenceForm";
 
+import { createPost } from "../../../apis/sentenceApi";
+
 function WriteSentence(props) {
 	const navigate = useNavigate();
+
+	const [bookId, setBookId] = useState("");
+	const [content, setContent] = useState("");
+	const [background, setBackground] = useState("#FEEB60");
+	const [page, setPage] = useState("");
 
 	const handleClickPre = () => {
 		navigate("/");
 	};
 
 	const handleClickNext = () => {
-		// navigate("/");
+		const data = {
+			bookIsbn: "2090000063035",
+			paragraphContent: content,
+			paragraphPage: page,
+			paragraphColor: background,
+			userId: 1
+		};
+
+		(async () => {
+			await createPost(data).then((res) => {
+				if (res.status === 201) {
+					navigate(`/sentence/${res.data.id}`);
+				}
+			});
+		})();
 	};
 
 	return (
@@ -24,7 +45,15 @@ function WriteSentence(props) {
 				handleClickPre={handleClickPre}
 				handleClickNext={handleClickNext}
 			/>
-			<SentenceForm />
+			<SentenceForm
+				setBookId={setBookId}
+				content={content}
+				setContent={setContent}
+				background={background}
+				setBackground={setBackground}
+				page={page}
+				setPage={setPage}
+			/>
 		</>
 	);
 }

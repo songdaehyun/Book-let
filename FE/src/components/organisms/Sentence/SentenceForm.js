@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
 import SentenceTextarea from "../../molecules/Input/SentenceTextarea";
+import SentenceBookSearch from "../../molecules/Sentence/SentenceBookSearch";
 import SentenceColorSelect from "./SentenceColorSelect";
 import WriteSentencePage from "./WriteSentencePage";
-import SentenceBookSearch from "../../molecules/Sentence/SentenceBookSearch";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
-function SentenceForm(props) {
-	const [content, setContent] = useState("");
-	const [background, setBackground] = useState("#FEEB60");
-	const [page, setPage] = useState("");
-
+function SentenceForm({content, setContent, background, setBackground, page, setPage}) {
 	return (
 		<Container paddingTop="80" paddingLeft="16" paddingRight="16">
 			<SentenceBookSearch />

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 import EmotionTag from "../../../components/atoms/Join/EmotionTag";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
@@ -8,6 +10,7 @@ import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import { TagsContainer } from "../../../styles/User/JoinStyle";
+import { join } from "../../../apis/authApi";
 
 function JoinTag(props) {
 	// 더미 데이터
@@ -17,10 +20,12 @@ function JoinTag(props) {
 		{ id: 3, title: "대담한" },
 		{ id: 4, title: "조심스러운" },
 		{ id: 5, title: "호기심 많은" },
-		{ id: 6, title: "용감한" },
+		{ id: 6, title: "용감한" }
 	];
 
 	const navagate = useNavigate();
+
+	const { id, nickname, email, pw, age, gender } = useSelector((state) => state.join);
 
 	const [selectedTag, setSelectedTag] = useState([]);
 	const [isTargetValidConfirmed, setIsTargetValidConfirmed] = useState(false);
@@ -58,8 +63,23 @@ function JoinTag(props) {
 
 	const handleClickNext = () => {
 		if (isTargetValidConfirmed) {
-			// 회원가입 완료
-			navagate("/");
+			const data = {
+				username: id,
+				nickname: nickname,
+				password: pw,
+				email: email,
+				age: age,
+				sex: gender
+			};
+
+			(async () => {
+				await join(data).then((res) => {
+					if (res?.status === 201) {
+						// 회원가입 완료
+						navagate("/");
+					}
+				});
+			})();
 		}
 	};
 
