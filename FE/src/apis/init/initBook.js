@@ -18,7 +18,8 @@ export const initBook = (raw) => {
 
 export const initBookRecom = (raw) => {
 	return {
-		type: book?.recommendType,
+		type: raw?.recommendType,
+		genre: raw?.genreName,
 		books: raw?.map((book) => {
 			return {
 				cover: book?.recommend?.bookImgPath,
