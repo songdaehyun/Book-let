@@ -51,6 +51,8 @@ function ScrapSentence(props) {
 	// },
 	// ];
 
+	const id = localStorage.getItem("userId");
+
 	const [posts, setPosts] = useState();
 
 	const isArrEmpty = useArr();
@@ -70,7 +72,7 @@ function ScrapSentence(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getScrappedPost(1, 0, 5)
+			await getScrappedPost(id, 0, 5)
 				.then(initScrappedList)
 				.then((res) => setPosts(res));
 		})();
@@ -80,7 +82,7 @@ function ScrapSentence(props) {
 		<>
 			<ReturnNavigationBar title="스크랩한 문장" />
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
-				<ScrapHeading posts={posts} />
+				<ScrapHeading />
 				{isArrEmpty(posts) ? (
 					<Empty
 						title={emptyInfo.title}
