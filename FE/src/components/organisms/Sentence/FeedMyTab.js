@@ -9,7 +9,7 @@ import Empty from "../../molecules/Empty";
 
 // import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
-import { initSentenceList } from "../../../apis/init/initSentence";
+import { initMyPost } from "../../../apis/init/initSentence";
 import { getMyPost } from "../../../apis/sentenceApi";
 
 function FeedMyTab(props) {
@@ -69,8 +69,8 @@ function FeedMyTab(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getMyPost(id)
-				.then(initSentenceList)
+			await getMyPost(id, 5, 0)
+				.then(initMyPost)
 				.then((res) => setPosts(res));
 		})();
 	}, []);
