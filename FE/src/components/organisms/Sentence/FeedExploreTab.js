@@ -70,7 +70,7 @@ function FeedExploreTab(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getFollowingPost(id)
+			await getFollowingPost(id, 5, 0)
 				.then(initSentenceList)
 				.then((res) => setPosts(res));
 		})();
