@@ -12,12 +12,12 @@ function PreviewBookOverview({ book }) {
 
 	return (
 		<PreviewBookOverviewBox>
-			<img src={book.bookImgPath} alt="book" onClick={handleClick} />
+			<img src={book.cover} alt="book" onClick={handleClick} />
 			<Text weight="600" marginBottom="4" onClick={handleClick}>
-				{book.bookTitle}
+				{book.title}
 			</Text>
 			<Text size="14" color="var(--gray-500)">
-				{book.authorName}
+				{book.author}
 			</Text>
 		</PreviewBookOverviewBox>
 	);
