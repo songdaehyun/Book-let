@@ -21,7 +21,7 @@ public class Comment extends BaseTimeEntity{
     @Column(name = "comment_id")
     private Long commentId;
     @Column(nullable = false)
-    private int commentGroup; // 댓글이 속한 그룹 ( 모댓글의 commentsID )
+    private Long commentGroup; // 댓글이 속한 그룹 ( 모댓글의 commentsID )
     @Column(nullable = false)
     private int commentDepth; // 0 : 모댓글, 1 : 자식
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class Comment extends BaseTimeEntity{
     private User user;
 
     @Builder
-    public Comment( int commentGroup, int commentDepth, String commentContent, Paragraph paragraph, User user) {
+    public Comment( Long commentGroup, int commentDepth, String commentContent, Paragraph paragraph, User user) {
 //        this.commentId = commentId;
         this.commentGroup = commentGroup;
         this.commentDepth = commentDepth;
@@ -49,5 +49,8 @@ public class Comment extends BaseTimeEntity{
 
     public void updateCommentUpdate(String commentContent){
         this.commentContent = commentContent;
+    }
+    public void updateCommentGroup(){
+        this.commentGroup = this.commentId;
     }
 }
