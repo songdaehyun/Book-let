@@ -16,7 +16,7 @@ function BookDetailOverview({ cover, title, author, publisher, genres }) {
 					<Span marginLeft="8" marginRight="8" color="var(--gray-300)">
 						|
 					</Span>
-					{genres.join(", ")}
+					{genres?.join(", ")}
 				</Text>
 			</div>
 		</BookDetailOverviewBox>
