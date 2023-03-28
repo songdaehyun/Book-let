@@ -3,6 +3,7 @@ package com.booklet.paragraphservice.service;
 import com.booklet.paragraphservice.dto.ScrapReq;
 import com.booklet.paragraphservice.dto.UserDto;
 import com.booklet.paragraphservice.dto.paragraph.ParagraphDto;
+import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.Scrap;
 import com.booklet.paragraphservice.entity.User;
 import com.booklet.paragraphservice.repository.ParagraphRepository;
@@ -36,10 +37,11 @@ public class ScrapServiceImpl implements ScrapService{
     @Override
     public boolean createScrap(ScrapReq req) {
         try {
-            ModelMapper mapper = new ModelMapper();
-            mapper.getConfiguration().setAmbiguityIgnored(true);
+            Paragraph paragraph = paragraphRepository.findById(req.getParagraphId()).orElse(null);
+            User user = userRepository.findById(req.getUserId()).orElse(null);
             // 문장 정보
-            Scrap scrap = new ModelMapper().map(req, Scrap.class);
+            Scrap scrap = Scrap.builder().paragraph(paragraph).user(user)
+                            .build();
             scrapRepository.save(scrap);
         }catch (Exception e){
             e.printStackTrace();
@@ -52,10 +54,12 @@ public class ScrapServiceImpl implements ScrapService{
     @Override
     public boolean deleteScrap(ScrapReq req) {
         try{
-            ModelMapper mapper = new ModelMapper();
-            mapper.getConfiguration().setAmbiguityIgnored(true);
+//            Paragraph paragraph = paragraphRepository.findById(req.getParagraphId()).orElse(null);
+//            User user = userRepository.findById(req.getUserId()).orElse(null);
+            Scrap s = scrapRepository.findByUserIdAndParagraphId(req.getUserId(), req.getParagraphId()).orElse(null);
             // 문장 정보
-            Scrap scrap = new ModelMapper().map(req, Scrap.class);
+            Scrap scrap = Scrap.builder().paragraph(s.getParagraph()).user(s.getUser()).scrapId(s.getScrapId())
+                    .build();
             scrapRepository.delete(scrap);
         }catch (Exception e){
             e.printStackTrace();
