@@ -36,11 +36,9 @@ public class AuthController {
             result.put("message", "fail");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignUpReqDto signUpReqDto) {
-        return new ResponseEntity<SignUpResDto>(authService.signUp(signUpReqDto),HttpStatus.ACCEPTED);
     }
+
+
     // 모든 사람이 접근 가능
     @GetMapping("home")
     public String home() {
@@ -49,7 +47,7 @@ public class AuthController {
 
     @GetMapping("user/test")
     public String usertest(Authentication authentication) {
-        PrincipalDetails principalDetails =  (PrincipalDetails) authentication.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         System.out.println("test입니다");
         System.out.println(principalDetails.getUsername());
         System.out.println(principalDetails.getUser().getUsername());
@@ -72,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/setpw")
-    public ResponseEntity setPw(Authentication authentication ,@RequestBody SetPwReqDto setPwReqDto) {
+    public ResponseEntity setPw(Authentication authentication, @RequestBody SetPwReqDto setPwReqDto) {
 
         HashMap<String, Object> result = new HashMap<>();
         result = authService.setPw(setPwReqDto, authentication);
@@ -90,21 +88,21 @@ public class AuthController {
     }
 
     @GetMapping("/check/username/{username}")
-    public ResponseEntity<?> checkUsername(@PathVariable String username){
+    public ResponseEntity<?> checkUsername(@PathVariable String username) {
         HashMap<String, Object> result = new HashMap<>();
         result = authService.checkUsername(username);
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
     @GetMapping("/check/nickname/{nickname}")
-    public ResponseEntity<?> checkNickname(@PathVariable String nickname){
+    public ResponseEntity<?> checkNickname(@PathVariable String nickname) {
         HashMap<String, Object> result = new HashMap<>();
         result = authService.checkNickname(nickname);
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
     @GetMapping("/check/email/{email}")
-    public ResponseEntity<?> checkEmail(@PathVariable String email){
+    public ResponseEntity<?> checkEmail(@PathVariable String email) {
         HashMap<String, Object> result = new HashMap<>();
         result = authService.checkEmail(email);
         return new ResponseEntity(result, HttpStatus.OK);
