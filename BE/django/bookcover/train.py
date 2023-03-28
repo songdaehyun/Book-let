@@ -67,8 +67,8 @@ def bookcover_recommendation(result_dataframe):
 
         # score를 기준으로 상위 20개 필터링
         # rec_list에 추가할 상위 20개 점수의 이미지
-        highscore = rec_series.nlargest(20, ["book_image"], keep='first')
-        highscore = highscore.values.tolist()
+        highscore = rec_series.nlargest(20, "ssim_score")
+        highscore = highscore["book_image"].tolist()
 
         # 필터링 결과는 {책 번호: [추천 이미지 목록]} 형태로 rec_list에 추가
         rec_list.append({col: highscore})
@@ -116,7 +116,8 @@ def data_refine_progress(df):
         # book_isbn, book_image 설정
         image_value["book_isbn"] = column_case['isbn']
         image_value["book_image"] = column_case['image']
-        image_value["feeling"] = column_case["feeling"]
+        # 예측 결과(0~5 사이) 저장
+        image_value["feeling"] = np.argmax(predict_result[0])
 
         # predict 결과를 anger~surprise에 추가
 
