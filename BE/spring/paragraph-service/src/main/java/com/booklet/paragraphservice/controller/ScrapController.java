@@ -30,7 +30,7 @@ public class ScrapController {
     private final ParagraphService paragraphService;
 
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity doScrap(@RequestBody ScrapReq request) throws Exception {
         String result;
         if(scrapService.findScrap(request)){ // 스크랩 존재시 취소 로직

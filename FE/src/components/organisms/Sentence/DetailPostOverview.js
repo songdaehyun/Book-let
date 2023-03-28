@@ -1,37 +1,74 @@
 import React from "react";
 
-import DetailSentence from "../../molecules/Sentence/DetailSentence";
 import ScrapToolbar from "../../molecules/Bar/ScrapToolbar";
+import DetailSentence from "../../molecules/Sentence/DetailSentence";
 import ProfileWithFollow from "../../molecules/Sentence/ProfileWithFollow";
 
-import { Container } from "../../../styles/common/ContainingsStyle";
-import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
-import { Text } from "../../../styles/common/TextsStyle";
+import useDate from "../../../hooks/useDate";
 
-function DetailPostOverview({ post, isFollowed, setIsFollowed }) {
+import { deletePost } from "../../../apis/sentenceApi";
+import { Container } from "../../../styles/common/ContainingsStyle";
+import { Span, Text } from "../../../styles/common/TextsStyle";
+import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
+
+function DetailPostOverview({
+	uId,
+	nickname,
+	profileImg,
+	date,
+	isScraped,
+	scrapImgs,
+	scrapCount,
+	isFollowed,
+	setIsFollowed,
+	title,
+	author,
+	cover,
+	sId,
+	content,
+	page,
+	color,
+}) {
+	const dateTimeSeparation = useDate();
+
+	const handleClickDelete = () => {
+		(async () => {
+			await deletePost(sId).then((res) => {
+				console.log(res);
+			});
+		})();
+	};
+
 	return (
 		<>
 			<DetailSentence
-				title={post.bookTitle}
-				author={post.bookAuthor}
-				content={post.content}
-				page={post.paragraphPage}
-				color={post.paragraphColor}
-				cover={post.cover}
+				author={author}
+				cover={cover}
+				title={title}
+				color={color}
+				content={content}
+				page={page}
 			/>
 			<Container marginTop="16" paddingLeft="16" paddingRight="16">
-				<ScrapToolbar post={post} isMy={false} />
+				<ScrapToolbar
+					isScraped={isScraped}
+					scrapImgs={scrapImgs}
+					scrapCount={scrapCount}
+					isMy={false}
+				/>
 				<Container marginTop="24">
 					<ProfileWithFollow
-						nickname={post.nickname}
-						profileImg={post.userImg}
+						uId={uId}
+						nickname={nickname}
+						profileImg={profileImg}
 						isFollowed={isFollowed}
 						setIsFollowed={setIsFollowed}
 					/>
 				</Container>
 				<DetailPostDateBox>
 					<Text size="14" color="var(--gray-500)">
-						{post.createdDate}
+						<Span onClick={handleClickDelete}>삭제</Span>
+						{dateTimeSeparation(date)}
 					</Text>
 				</DetailPostDateBox>
 			</Container>

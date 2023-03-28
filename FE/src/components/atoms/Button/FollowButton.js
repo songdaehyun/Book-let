@@ -1,9 +1,14 @@
 import React from "react";
+import { postFollow } from "../../../apis/userApi";
 import { FollowBtn } from "../../../styles/common/ButtonsStyle";
 
-function FollowButton({ isFollowed, setIsFollowed }) {
+function FollowButton({ uId, isFollowed, setIsFollowed }) {
 	const handleClickFollow = () => {
-        setIsFollowed(!isFollowed);
+		(async () => {
+			await postFollow(uId).then((res) => {
+				setIsFollowed(!isFollowed);
+			})();
+		})();
 	};
 
 	return (
