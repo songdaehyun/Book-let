@@ -39,6 +39,7 @@ export const initSentence = (raw) => {
 		author: raw?.book?.bookAuthor,
 		cover: raw?.book?.bookImage,
 
+		sId: raw?.paragraph?.paragraphId,
 		content: raw?.paragraph?.paragraphContent,
 		page: raw?.paragraph?.paragraphPage,
 		color: raw?.paragraph?.paragraphColor,
