@@ -53,7 +53,7 @@ spring:
 
       routes:
         - id: booklet-user-service
-          uri: lb://AUTHSERVICE # user-service의 namef
+          uri: lb://USER-SERVICE # user-service의 namef
           predicates:
             - Path=/api/v1/auth/**
 #          filters:
