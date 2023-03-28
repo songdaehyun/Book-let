@@ -65,6 +65,7 @@ function DetailPostOverview({
 			/>
 			<Container marginTop="16" paddingLeft="16" paddingRight="16">
 				<ScrapToolbar
+					sId={sId}
 					isScraped={isScraped}
 					scrapImgs={scrapImgs}
 					scrapCount={scrapCount}
