@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import BookListTemplates from "../../templates/Book/BookListTemplates";
 
@@ -55,13 +55,13 @@ function UserRecomBook(props) {
 	// };
 	const uId = localStorage.getItem("userId");
 
-	const [books, setBooks] = useState();
+	const [recom, setRecom] = useState();
 
 	useEffect(() => {
 		(async () => {
 			await getUserBookRecom(uId)
 				.then(initBookRecom)
-				.then((res) => setBooks(res));
+				.then((res) => setRecom(res));
 		})();
 	}, []);
 
@@ -88,8 +88,8 @@ function UserRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
-			type={books.type}
-			books={books.books}
+			type={recom.type}
+			books={recom.books}
 		/>
 	);
 }
