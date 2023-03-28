@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { postComment } from "../../../apis/sentenceApi";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
 
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
 function CommentInput({ type }) {
+	const uId = localStorage.getItem("userId");
+
 	const [comment, setComment] = useState("");
 	const limit = 100;
 
@@ -12,6 +15,20 @@ function CommentInput({ type }) {
 		if (e.target.value.length <= limit) {
 			setComment(e.target.value);
 		}
+	};
+
+	const commentSubmit = () => {
+		const data = {
+			userId: 1,
+			commentContent: comment,
+			parentCommentId: 0, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
+		};
+
+		(async () => {
+			await postComment(data).then((res) => {
+				console.log(res);
+			});
+		})();
 	};
 
 	return (
@@ -27,7 +44,9 @@ function CommentInput({ type }) {
 							: type === "리뷰" && "리뷰를 작성해주세요"
 					}
 				></input>
-				<CommentUploadButton />
+				<div onClick={commentSubmit}>
+					<CommentUploadButton />
+				</div>
 			</CommentInputBox>
 			<WordCountText limit={limit} length={comment.length} />
 		</>
