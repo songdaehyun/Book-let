@@ -171,6 +171,7 @@ public class ParagraphServiceImpl implements ParagraphService {
 
 
     @Override
+    @Transactional
     public boolean deleteParagraph(Long paragraphId) { // 등록된 문장 삭제
         try {
             paragraphRepository.deleteById(paragraphId);
