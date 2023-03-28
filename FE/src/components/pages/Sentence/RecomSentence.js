@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import TopBanner from "../../molecules/Banner/TopBanner";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
@@ -8,8 +8,8 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 
 import BannerImg from "../../../assets/images/Banner/reco-sentence-banner.png";
 // import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
+import { initScrappedList } from "../../../apis/init/initSentence";
 import { getSentenceRecom } from "../../../apis/sentenceApi";
-import { initScrappedList, initSentence } from "../../../apis/init/initSentence";
 
 function RecomSentence(props) {
 	const uId = localStorage.getItem("userId");
@@ -82,7 +82,7 @@ function RecomSentence(props) {
 				/>
 			</Container>
 			<Container marginTop="24" marginLeft="16" marginRight="16">
-				{posts.map((post, idx) => (
+				{recom.map((post, idx) => (
 					<PreviewPostWithProfile key={idx} post={post} />
 				))}
 			</Container>
