@@ -6,7 +6,7 @@ function PreviewPostWithProfile({ post }) {
 	return (
 		<>
 			<UserProfile nickname={post.nickname} profileImg={post.profileImg} />
-			<PreviewPost key={post.id} post={post} isMy={false} />
+			<PreviewPost key={post.sId} post={post} isMy={false} />
 		</>
 	);
 }
