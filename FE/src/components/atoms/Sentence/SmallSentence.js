@@ -10,11 +10,11 @@ function SmallSentence({ sentence }) {
 	const navigate = useNavigate();
 
 	const handleClickSentence = () => {
-		navigate(`/sentence/${sentence.paragraphId}`);
+		navigate(`/sentence/${sentence.sId}`);
 	};
 
 	return (
-		<SmallSentenceContainer onClick={handleClickSentence} color={sentence.paragraphColor}>
+		<SmallSentenceContainer onClick={handleClickSentence} color={sentence.color}>
 			<SmallSentenceContent>
 				<Text font="jeju" height="22">
 					{sentence.content}

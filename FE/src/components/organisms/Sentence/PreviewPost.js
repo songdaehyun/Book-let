@@ -10,7 +10,12 @@ function PreviewPost({ post, isMy }) {
 	return (
 		<Container marginBottom="40">
 			<PreviewSentence post={post} />
-			<ScrapToolbar post={post} isMy={isMy} />
+			<ScrapToolbar
+				isScraped={post?.isMy}
+				scrapImgs={post?.scrapImgs}
+				scrapCount={post?.scrapCount}
+				isMy={isMy}
+			/>
 			<PreviewComment post={post} isMy={isMy} />
 		</Container>
 	);

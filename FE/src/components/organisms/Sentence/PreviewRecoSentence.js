@@ -3,7 +3,7 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 
 import MoreBar from "../../molecules/Bar/MoreBar";
-import PreviewSlideSentence from "../../molecules/Sentence/PreviewSlideSentence";
+import PreviewSwiperSentence from "../../molecules/Sentence/PreviewSwiperSentence";
 
 function PreviewRecoSentence(props) {
 	// 더미 데이터
@@ -33,7 +33,7 @@ function PreviewRecoSentence(props) {
 				당신과 비슷한 감성의 문장을 추려봤어요.
 			</Text>
 			<MoreBar title="이런 문장도 좋아하실거예요." path="/sentence/recommand" />
-			<PreviewSlideSentence sentences={sentences} />
+			<PreviewSwiperSentence sentences={sentences} />
 		</Container>
 	);
 }

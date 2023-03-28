@@ -1,35 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { initSentence } from "../../../apis/init/initSentence";
+import { getPost } from "../../../apis/sentenceApi";
 
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
+import DetailComment from "../../organisms/Sentence/DetailComment";
 import DetailPostOverview from "../../organisms/Sentence/DetailPostOverview";
 
 import { SeparationBar } from "../../../styles/common/BarsStyle";
 
-import cover from "../../../assets/images/dummy/cover/cover-img (1).png";
 import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
-import DetailComment from "../../organisms/Sentence/DetailComment";
 
-function DetailPost(props) {
-	// 더미
-	const post = {
-		paragraphId: 1,
-		content:
-			"이제는 안다. 우리가 계속 지는 한이 있더라도 선택해야만 하는 건 이토록 평범한 미래라는 것을. 그리고 포기하지 않는 한 그 미래가 다가올 확률은 100퍼센트에 수렴한다는 것을.",
-		paragraphColor: "#B88962",
-		paragraphPage: 145,
-		createdDate: "2023.03.18",
-		bookTitle: "이토록 평범한 미래",
-		bookAuthor: "김연수",
-		userId: 1,
-		nickname: "루피는 행복해",
-		commentCnt: 10,
-		scrapUserImgs: [LoopyImg, LoopyImg, LoopyImg],
-		scrapCnt: 10,
-		userScrapted: 1, // 1 이면 스크랩 함. 0이면 안 함.
-		cover: cover,
-		userImg: LoopyImg
-	};
-
+function DetailPost() {
 	const comments = [
 		{
 			commentId: 1,
@@ -39,7 +22,7 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 0,
 			commentGroup: 1,
-			img: LoopyImg
+			img: LoopyImg,
 		},
 		{
 			commentId: 4,
@@ -49,7 +32,7 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 1,
 			commentGroup: 1,
-			img: LoopyImg
+			img: LoopyImg,
 		},
 		{
 			commentId: 2,
@@ -59,7 +42,7 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 0,
 			commentGroup: 2,
-			img: LoopyImg
+			img: LoopyImg,
 		},
 		{
 			commentId: 3,
@@ -69,16 +52,46 @@ function DetailPost(props) {
 			updatedDate: "",
 			commentDepth: 1,
 			commentGroup: 2,
-			img: LoopyImg
-		}
+			img: LoopyImg,
+		},
 	];
 
+	const { sId } = useParams();
+
+	const [post, setPost] = useState();
 	const [isFollowed, setIsFollowed] = useState(false);
+
+	useEffect(() => {
+		(async () => {
+			await getPost(sId)
+				.then(initSentence)
+				.then((res) => {
+					setPost(res);
+				});
+		})();
+	}, []);
 
 	return (
 		<>
-			<ReturnNavigationBar title={post.bookTitle} />
-			<DetailPostOverview post={post} isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
+			<ReturnNavigationBar title={post?.title} />
+			<DetailPostOverview
+				uId={post?.uId}
+				nickname={post?.nickname}
+				profileImg={post?.profileImg}
+				date={post?.date}
+				isScraped={post?.isScraped}
+				scrapImgs={post?.scrapImgs}
+				scrapCount={post?.scrapCount}
+				isFollowed={isFollowed}
+				setIsFollowed={setIsFollowed}
+				title={post?.title}
+				author={post?.author}
+				cover={post?.cover}
+				sId={post?.sId}
+				content={post?.content}
+				page={post?.page}
+				color={post?.color}
+			/>
 			<SeparationBar />
 			<DetailComment comments={comments} />
 		</>

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useSelector, useDispatch } from "react-redux";
+import { setAge } from "../../../reducer/join";
+
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 
@@ -8,18 +11,20 @@ import { Text, ValidFailText } from "../../../styles/common/TextsStyle";
 import {
 	AgeInput,
 	JoinCenterContainer,
-	JoinFullHeightContainer,
+	JoinFullHeightContainer
 } from "../../../styles/User/JoinStyle";
 
 function JoinAge(props) {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-	const [age, setAge] = useState("");
+	const { age } = useSelector((state) => state.join);
+
 	const [isAgeValidConfirmed, setIsAgeValidConfirmed] = useState(true);
 
 	const handleChangeAge = (e) => {
 		const onlyNumber = e.target.value.replace(/[^0-9]/g, "");
-		setAge(onlyNumber);
+		dispatch(setAge(onlyNumber));
 	};
 
 	const ageValidTest = () => {

@@ -1,9 +1,22 @@
 import React from "react";
+
+import { postScrap } from "../../../apis/sentenceApi";
+
 import { ScrapBtn } from "../../../styles/common/ButtonsStyle";
 
 function ScrapButton({ isScraped }) {
 	const handleClickScrap = () => {
+		const data = {
+			paragraphId: 8,
+			userId: 1
+		};
+
 		// 백 요청
+		(async () => {
+			await postScrap(data).then((res) => {
+				console.log(res);
+			});
+		})();
 	};
 
 	return (
