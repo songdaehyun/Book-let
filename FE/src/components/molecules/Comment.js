@@ -11,26 +11,25 @@ function Comment({ comment, type }) {
 
 	return (
 		<CommentBox>
-			<img src={comment.img} alt="Profile of the user who commented" />
+			<img src={comment?.img} alt="Profile of the user who commented" />
 			<div>
 				<CommentHeadingBox>
-					<Text weight="600">{comment.nickname}</Text>
+					<Text weight="600">{comment?.nickname}</Text>
 					{type === "review" ? (
-						<RatingLabel rating={parseInt(comment.reviewGrade)} />
+						<RatingLabel rating={parseInt(comment?.reviewGrade)} />
 					) : (
 						<CommentDateBox>
 							<Text size="14" color="var(--gray-500)">
-								{comment.createdDate}
+								{comment?.date}
 							</Text>
 						</CommentDateBox>
 					)}
 				</CommentHeadingBox>
-				<Text marginBottom="12">{comment.commentContent || comment.reviewContent}</Text>
+				<Text marginBottom="12">{comment?.content || comment?.reviewContent}</Text>
 				{type === "review" ? (
 					<CommentDateBox>
 						<Text size="14" color="var(--gray-500)">
-							{/* {comment.createdDate} */}
-							{dateTimeSeparation(comment.createdDate)}
+							{dateTimeSeparation(comment?.date)}
 						</Text>
 					</CommentDateBox>
 				) : (

@@ -14,7 +14,7 @@ function DetailComment({ comments }) {
 				<Span size="19" color="var(--gray-200)" marginLeft="8" marginRight="8">
 					|
 				</Span>
-				<Span size="19">{comments.length}</Span>
+				<Span size="19">{comments?.length}</Span>
 			</Container>
 			<CommentInput type="댓글" />
 			<CommentList comments={comments} />

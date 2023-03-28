@@ -6,7 +6,7 @@ import ReactionInfo from "../ReactionInfo";
 import { Text } from "../../../styles/common/TextsStyle";
 import { ReactionInfoContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
-function ScrapToolbar({ isScraped, scrapImgs, scrapCount, date, isMy }) {
+function ScrapToolbar({ sId, isScraped, scrapImgs, scrapCount, date, isMy }) {
 	return (
 		<ReactionInfoContainer>
 			<ReactionInfo imgs={scrapImgs} count={scrapCount} type="scrap" />
@@ -15,7 +15,7 @@ function ScrapToolbar({ isScraped, scrapImgs, scrapCount, date, isMy }) {
 					{date}
 				</Text>
 			) : (
-				<ScrapButton isScraped={isScraped} />
+				<ScrapButton sId={sId} isScraped={isScraped} />
 			)}
 		</ReactionInfoContainer>
 	);
