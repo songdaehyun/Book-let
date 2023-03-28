@@ -107,7 +107,7 @@ export const getScrapCount = async (uId) => {
 		});
 
 		console.log(res);
-		return res;
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
