@@ -79,7 +79,8 @@ export const postScrap = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
