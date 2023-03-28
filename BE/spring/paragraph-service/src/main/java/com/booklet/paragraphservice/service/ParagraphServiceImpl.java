@@ -79,7 +79,8 @@ public class ParagraphServiceImpl implements ParagraphService {
             ParagraphDto paragraphDto = new ModelMapper().map(paragraph, ParagraphDto.class);
             // 책 정보
             BookDto bookDto = new ModelMapper().map(book, BookDto.class);
-            bookDto.setBookAuthor(book.getAuthor().getAuthorName());
+//            bookDto.setBookAuthor(book.getAuthor().getAuthorName());
+            bookDto.setBookAuthor("김이박");
             // 작성자 정보
             UserDto userDto = new ModelMapper().map(user, UserDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(user));
@@ -115,7 +116,8 @@ public class ParagraphServiceImpl implements ParagraphService {
                 int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
                 // 4. 해당 paragraph book Info
                 Book book = p.getBook();
-                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), book.getAuthor().getAuthorName()));
+//                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), book.getAuthor().getAuthorName()));
+                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), "김이박"));
 
             }
             result.put("paragraphs", listDto);
@@ -174,7 +176,8 @@ public class ParagraphServiceImpl implements ParagraphService {
             int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
             // 4. 해당 paragraph book Info
             Book book = p.getBook();
-            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), book.getAuthor().getAuthorName(), book.getBookTitle()));
+            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), "김이박", book.getBookTitle()));
+//            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), book.getAuthor().getAuthorName(), book.getBookTitle()));
 
         }
         HashMap<String, Object> result = new HashMap<>();
