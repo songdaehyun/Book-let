@@ -25,8 +25,10 @@ manage.py
 - CUDA : 11.7
 - pytorch(torch) : Stable(1.13.1)
 - yolov5 : 7.0.9
+- tensorflow==2.12.0
+- keras==2.12.0
 
-  - _yolov5l_ 모델 사용
+- ~~yolov5 모델 사용~~ **(현재 사용하지 않음)**
 
 - Django REST Framework : 3.14.0
 - ipython : 8.11.0

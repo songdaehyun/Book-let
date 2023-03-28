@@ -20,15 +20,14 @@ def bookcover_recommendation(result_dataframe):
     # df의 행을 하나씩 읽으면서 유사도 검사
     for col in range(result_dataframe.shape[0]):
         # 요청받은 이미지의 특성 정보 행
-        origin_data = result_dataframe.iloc[col]
-        # 데이터셋의 감정 분류 컬럼을 정규화할 필요가 있다.
-        origin_feeling = origin_data["feeling"]
+        input_data = result_dataframe.iloc[col]
+        input_feeling = input_data["feeling"]
 
         # Django ORM으로 DB에서 표지 분류 결과가 일치하는 항목 가져오기
-        db_dataframe = BookInfoModel.objects.get(feeling=origin_feeling)
+        db_dataframe = BookInfoModel.objects.get(feeling=input_feeling)
 
         # 사용자가 제출한 선호 추천 표지
-        image_src1 = origin_data["book_image"]
+        image_src1 = input_data["book_image"]
 
         # DB에 저장된 연관 추천 표지
         for idx in range(len(db_dataframe)):
