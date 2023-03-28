@@ -93,7 +93,7 @@ export const getScrappedPost = async (uId, page, size) => {
 		});
 
 		console.log(res.data);
-		return res.data;
+		return res.data?.paragraphs;
 	} catch (err) {
 		console.log(err);
 	}
