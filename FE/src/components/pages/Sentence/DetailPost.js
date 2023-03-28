@@ -86,6 +86,7 @@ function DetailPost() {
 				title={post?.title}
 				author={post?.author}
 				cover={post?.cover}
+				sId={post?.sId}
 				content={post?.content}
 				page={post?.page}
 				color={post?.color}
