@@ -81,9 +81,6 @@ export const initSentenceList = (raw) => {
 export const initMyPost = (raw) => {
 	return raw?.map((sentence) => {
 		return {
-			nickname: sentence?.userInfo?.nickname,
-			profileImg: sentence?.userInfo?.userImage,
-
 			isbn: sentence?.book?.bookIsbn,
 			title: sentence?.book?.bookTitle,
 			author: sentence?.book?.bookAuthor,
