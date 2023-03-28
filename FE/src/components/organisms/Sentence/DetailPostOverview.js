@@ -23,6 +23,7 @@ function DetailPostOverview({
 	scrapCount,
 	isFollowed,
 	setIsFollowed,
+	isbn,
 	title,
 	author,
 	cover,
@@ -58,6 +59,7 @@ function DetailPostOverview({
 			<DetailSentence
 				author={author}
 				cover={cover}
+				isbn={isbn}
 				title={title}
 				color={color}
 				content={content}
