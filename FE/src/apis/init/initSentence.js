@@ -84,6 +84,7 @@ export const initScrappedList = (raw) => {
 
 			sId: sentence?.paragraphId,
 			content: sentence?.paragraphContent,
+			page: sentence?.paragraphPage,
 			color: sentence?.paragraphColor,
 			date: sentence?.createdDate,
 
