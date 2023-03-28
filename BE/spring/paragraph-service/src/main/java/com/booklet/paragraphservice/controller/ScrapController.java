@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 @Slf4j
 @RestController
-@RequestMapping("api/v1/sns/scrap")
+@RequestMapping("api/v1/scrap")
 @RequiredArgsConstructor
 @Component
 public class ScrapController {

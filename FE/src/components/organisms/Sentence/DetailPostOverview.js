@@ -12,6 +12,7 @@ import { Span, Text } from "../../../styles/common/TextsStyle";
 import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
 
 function DetailPostOverview({
+	uId,
 	nickname,
 	profileImg,
 	date,
@@ -57,6 +58,7 @@ function DetailPostOverview({
 				/>
 				<Container marginTop="24">
 					<ProfileWithFollow
+						uId={uId}
 						nickname={nickname}
 						profileImg={profileImg}
 						isFollowed={isFollowed}
