@@ -15,3 +15,17 @@ export const initBook = (raw) => {
 		rating: raw.bookScore,
 	};
 };
+
+export const initBookRecom = (raw) => {
+	return {
+		type: book?.recommendType,
+		books: raw?.map((book) => {
+			return {
+				cover: book?.recommend?.bookImgPath,
+				title: book?.recommend?.bookTitle,
+				author: book?.recommend?.authorName,
+				isbn: book?.recommend?.bookIsbn,
+			};
+		}),
+	};
+};
