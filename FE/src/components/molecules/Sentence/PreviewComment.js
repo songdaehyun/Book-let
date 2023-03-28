@@ -1,10 +1,15 @@
 import React from "react";
+
+import useDate from "../../../hooks/useDate";
+
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import { PreviewCommentContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
 import commentIcon from "../../../assets/icons/comment-icon.svg";
 
 function PreviewComment({ post, isMy }) {
+	const dateTimeSeparation = useDate();
+	
 	return (
 		<PreviewCommentContainer>
 			<div>
@@ -18,7 +23,7 @@ function PreviewComment({ post, isMy }) {
 			</div>
 			{!isMy && (
 				<Text size="14" color="var(--gray-500)">
-					{post.createdDate}
+					{dateTimeSeparation(post.date)}
 				</Text>
 			)}
 		</PreviewCommentContainer>

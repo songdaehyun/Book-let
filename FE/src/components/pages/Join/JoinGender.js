@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useSelector, useDispatch } from "react-redux";
+import { setGender } from "../../../reducer/join";
+
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 
@@ -9,7 +12,7 @@ import {
 	GenderContainer,
 	GenderImgWrapper,
 	JoinCenterContainer,
-	JoinFullHeightContainer,
+	JoinFullHeightContainer
 } from "../../../styles/User/JoinStyle";
 
 import femaleImg from "../../../assets/images/gender_female_img.svg";
@@ -17,13 +20,15 @@ import maleImg from "../../../assets/images/gender_male_img.svg";
 
 function JoinAge(props) {
 	const navagate = useNavigate();
+	const dispatch = useDispatch();
 
 	// 남성: 1, 여성: 2;
-	const [gender, setGender] = useState(0);
+	const { gender } = useSelector((state) => state.join);
+
 	const [isValidConfirmed, setIsValidConfirmed] = useState(true);
 
 	const handleClickGender = (gender) => {
-		setGender(gender);
+		dispatch(setGender(gender));
 	};
 
 	const handleClickPre = () => {
@@ -35,6 +40,7 @@ function JoinAge(props) {
 			setIsValidConfirmed(false);
 		} else {
 			setIsValidConfirmed(true);
+
 			navagate("/join/3");
 		}
 	};

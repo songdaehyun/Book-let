@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setEmail, setId, setNickname, setPw } from "../../../reducer/join";
 
 import CricleCheck from "../../atoms/Icon/CricleCheck";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 
+import { checkEmail, checkId, checkNickname } from "../../../apis/authApi";
+import { initCheck } from "../../../apis/init/initAuth";
 import { ValidLabel } from "../../../styles/common/CommonStyle";
 import { Container, ValidLabelContainer } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
@@ -13,25 +17,24 @@ import { Label, Text } from "../../../styles/common/TextsStyle";
 
 function JoinBasic() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const { id, nickname, email, pw } = useSelector((state) => state.join);
 
 	// 아이디
-	const [id, setId] = useState("");
 	const [idCntValid, setIdCntValid] = useState("default");
 	const [idIncludeValid, setIdIncludeValid] = useState("default");
 	const [idDuplicationValid, setIdDuplicationValid] = useState("default");
 
 	// 닉네임
-	const [nickname, setNickname] = useState("");
 	const [nicknameCntValid, setNicknameCntValid] = useState("default");
 	const [nicknameDuplicationValid, setNicknameDuplicationValid] = useState("default");
 
 	// 이메일
-	const [email, setEmail] = useState("");
 	const [emailFormValid, setEmailFormValid] = useState("default");
 	const [emailDuplicationValid, setEmailDuplicationValid] = useState("default");
 
 	// 비밀번호
-	const [pw, setPw] = useState("");
 	const [pwCntValid, setPwCntValid] = useState("default");
 	const [pwIncludeValid, setPwIncludeValid] = useState("default");
 
@@ -40,16 +43,16 @@ function JoinBasic() {
 	const [pwSameValid, setPwSameValid] = useState("default");
 
 	const hadleChangeId = (e) => {
-		setId(e.target.value);
+		dispatch(setId(e.target.value));
 	};
 	const hadleChangeNickname = (e) => {
-		setNickname(e.target.value);
+		dispatch(setNickname(e.target.value));
 	};
 	const hadleChangeEmail = (e) => {
-		setEmail(e.target.value);
+		dispatch(setEmail(e.target.value));
 	};
 	const hadleChangePw = (e) => {
-		setPw(e.target.value);
+		dispatch(setPw(e.target.value));
 	};
 	const hadleChangePwConfirm = (e) => {
 		setPwConfirm(e.target.value);
@@ -75,9 +78,17 @@ function JoinBasic() {
 			isValidConfirm = false;
 		}
 
-		if (true) {
-			setIdDuplicationValid("success");
-		}
+		// 아이디 중복 체크
+		(async () => {
+			await checkId(id)
+				.then((res) => initCheck(res))
+				.then((res) => {
+					setIdDuplicationValid(res);
+				});
+		})();
+		// if (true) {
+		// 	setIdDuplicationValid("success");
+		// }
 
 		return isValidConfirm;
 	};
@@ -93,9 +104,18 @@ function JoinBasic() {
 			isValidConfirm = false;
 		}
 
-		if (true) {
-			setNicknameDuplicationValid("success");
-		}
+		// 닉네임 중복 체크
+		(async () => {
+			await checkNickname(nickname)
+				.then((res) => initCheck(res))
+				.then((res) => {
+					setNicknameDuplicationValid(res);
+				});
+		})();
+
+		// if (true) {
+		// 	setNicknameDuplicationValid("success");
+		// }
 
 		return isValidConfirm;
 	};
@@ -113,9 +133,18 @@ function JoinBasic() {
 			isValidConfirm = false;
 		}
 
-		if (true) {
-			setEmailDuplicationValid("success");
-		}
+		// 이메일 중복 체크
+		(async () => {
+			await checkEmail(email)
+				.then((res) => initCheck(res))
+				.then((res) => {
+					setEmailDuplicationValid(res);
+				});
+		})();
+
+		// if (true) {
+		// 	setEmailDuplicationValid("success");
+		// }
 
 		return isValidConfirm;
 	};
