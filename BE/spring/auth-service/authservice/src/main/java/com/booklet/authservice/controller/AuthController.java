@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody SignUpReqDto signUpReqDto) {
-        return new ResponseEntity<SignUpResDto>(authService.signUp(signUpReqDto));
+        return new ResponseEntity<SignUpResDto>(authService.signUp(signUpReqDto),HttpStatus.ACCEPTED);
     }
     // 모든 사람이 접근 가능
     @GetMapping("home")
