@@ -76,6 +76,32 @@ export const initSentenceList = (raw) => {
 	});
 };
 
+export const initMyPost = (raw) => {
+	return raw?.map((sentence) => {
+		return {
+			nickname: sentence?.userInfo?.nickname,
+			profileImg: sentence?.userInfo?.userImage,
+
+			isbn: sentence?.book?.bookIsbn,
+			title: sentence?.book?.bookTitle,
+			author: sentence?.book?.bookAuthor,
+			cover: sentence?.book?.bookImage,
+
+			sId: sentence?.paragraphId,
+			content: sentence?.paragraphContent,
+			page: sentence?.paragraphPage,
+			color: sentence?.paragraphColor,
+			date: sentence?.createdDate,
+
+			isScraped: sentence?.paragraphScrapDto?.userScrape,
+			scrapImgs: sentence?.paragraphScrapDto?.scrapUserImages,
+			scrapCount: sentence?.paragraphScrapDto?.scrapCount,
+
+			commentCnt: sentence?.commentCnt,
+		};
+	});
+};
+
 export const initScrappedList = (raw) => {
 	return raw?.map((sentence) => {
 		return {
