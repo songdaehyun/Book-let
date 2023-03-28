@@ -29,6 +29,7 @@ public class ParagraphServiceImpl implements ParagraphService {
     private final ScrapRepository scrapRepository;
     private final UserImageRepository userImageRepository;
     private final FollowRepository followRepository;
+    private final AuthorRepository authorRepository;
 
 
     @Transactional
@@ -64,17 +65,19 @@ public class ParagraphServiceImpl implements ParagraphService {
     @Override
     public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        Map<String, Object> result = new HashMap<>();
+
         if (paragraph == null) return null;
         Book book = paragraph.getBook();
         User user = paragraph.getUser();
         try {
-            Map<String, Object> result = new HashMap<>();
             ModelMapper mapper = new ModelMapper();
             mapper.getConfiguration().setAmbiguityIgnored(true);
             // 문장 정보
             ParagraphDto paragraphDto = new ModelMapper().map(paragraph, ParagraphDto.class);
             // 책 정보
             BookDto bookDto = new ModelMapper().map(book, BookDto.class);
+            bookDto.setBookAuthor(book.getAuthor().getAuthorName());
             // 작성자 정보
             UserDto userDto = new ModelMapper().map(user, UserDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(user));
@@ -91,7 +94,7 @@ public class ParagraphServiceImpl implements ParagraphService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     @Override
@@ -129,16 +132,18 @@ public class ParagraphServiceImpl implements ParagraphService {
 
     @Override
     public HashMap<String, Object> findScrapParagraph(User user, Pageable pageable) {
+        HashMap<String, Object> result = new HashMap<>();
         try {
             // 1. 해당 user가 scrap한 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinScrap(user, pageable);
+            result =getStringObjectHashMap(paragraphs);
             // 2. scrap 정보, 댓글 수, 해당 user 정보
-            return getStringObjectHashMap(paragraphs);
+            return result;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     private HashMap<String, Object> getStringObjectHashMap(Slice<Paragraph> paragraphs) {
@@ -156,6 +161,8 @@ public class ParagraphServiceImpl implements ParagraphService {
             // 3. 해당 paragraph comment 수
             int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
             listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt));
+            // 4. 해당 paragraph book Info
+            Book book =
         }
         HashMap<String, Object> result = new HashMap<>();
         result.put("paragraphs", listDto);
@@ -200,13 +207,13 @@ public class ParagraphServiceImpl implements ParagraphService {
             scrapInfo = ParagraphScrapDto.builder()
                     .scrapUserImages(userImageList)
                     .scrapCount(scrapCount)
-                    .userScrape(0)
+                    .userScrap(0)
                     .build();
         } else {
             scrapInfo = ParagraphScrapDto.builder()
                     .scrapUserImages(userImageList)
                     .scrapCount(scrapCount)
-                    .userScrape(1)
+                    .userScrap(1)
                     .build();
         }
         return scrapInfo;
