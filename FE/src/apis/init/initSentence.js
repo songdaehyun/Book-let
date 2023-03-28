@@ -77,7 +77,6 @@ export const initSentenceList = (raw) => {
 };
 
 export const initScrappedList = (raw) => {
-	console.log(raw)
 	return raw?.map((sentence) => {
 		return {
 			nickname: sentence?.userInfo?.nickname,
@@ -86,6 +85,13 @@ export const initScrappedList = (raw) => {
 			sId: sentence?.paragraphId,
 			content: sentence?.paragraphContent,
 			color: sentence?.paragraphColor,
+			date: sentence?.createdDate,
+
+			isScraped: sentence?.scrapInfo?.userScrape,
+			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
+			scrapCount: sentence?.scrapInfo?.scrapCount,
+
+			commentCnt: sentence?.commentCnt,
 		};
 	});
 };
