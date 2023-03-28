@@ -29,15 +29,15 @@ export const getPost = async (sId) => {
 	}
 };
 
-export const getMyPost = async (uId) => {
+export const getMyPost = async (uId, size, page) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/mylist/${uId}`,
+			url: `/sns/paragraph/mylist/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.paragraphs);
+		return res.data.paragraphs;
 	} catch (err) {
 		console.log(err);
 	}
