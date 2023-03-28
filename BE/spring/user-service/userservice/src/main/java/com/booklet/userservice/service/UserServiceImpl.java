@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
         try {
             HashMap<String, Object> result = new HashMap<>();
             GetUserInfoResDto getUserInfoResDto = new GetUserInfoResDto().builder()
-                            .imgPath()
+                            .imgPath(user.getUserImg())
                             .nickname(user.getNickname())
                             .follower()
                             .following()

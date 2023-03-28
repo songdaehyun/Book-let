@@ -1,9 +1,7 @@
 package com.booklet.userservice.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Follow {
@@ -11,7 +9,11 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
 
-    private String followings;
+    @ManyToOne
+    @JoinColumn(name = "followings")
+    private List<User> followings;
 
-    private String followers;
+    @ManyToOne
+    @JoinColumn(name = "follower")
+    private List<User> followers;
 }
