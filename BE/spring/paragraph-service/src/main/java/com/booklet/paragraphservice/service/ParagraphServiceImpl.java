@@ -58,10 +58,12 @@ public class ParagraphServiceImpl implements ParagraphService {
         if (paragraph == null) return false;
         return true;
     }
-    public Paragraph findParagraphEntity(Long paragraphId){
+
+    public Paragraph findParagraphEntity(Long paragraphId) {
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
         return paragraph;
     }
+
     @Override
     public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
@@ -99,19 +101,29 @@ public class ParagraphServiceImpl implements ParagraphService {
 
     @Override
     public HashMap<String, Object> findParagraphs(User user, Pageable pageable) { // 내 문장 목록 조회
+        HashMap<String, Object> result = new HashMap<>();
+
         try {
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphByUser(user, pageable);
+            List<ParagraphListDto> listDto = new ArrayList<>();
+            ModelMapper mapper = new ModelMapper();
+            mapper.getConfiguration().setAmbiguityIgnored(true);
+            for (Paragraph p : paragraphs) {
+                // 2. 해당 paragraph scrap 정보
+                ParagraphScrapDto scrapInfo = getParagraphScrapDto(p.getParagraphId(), p, p.getUser());
+                // 3. 해당 paragraph comment 수
+                int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
+                // 4. 해당 paragraph book Info
+                Book book = p.getBook();
+                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), book.getAuthor().getAuthorName()));
 
-            List<ParagraphListDto> listDto = paragraphs.getContent().stream()
-                    .map(i -> new ParagraphListDto(i, getParagraphScrapDto(i.getParagraphId(), i, i.getUser()), commentRepository.countByParagraphId(i.getParagraphId())))
-                    .collect(Collectors.toList());
-            HashMap<String, Object> result = new HashMap<>();
+            }
             result.put("paragraphs", listDto);
             result.put("hasNextPage", paragraphs.hasNext());
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return result;
         }
     }
 
@@ -136,7 +148,7 @@ public class ParagraphServiceImpl implements ParagraphService {
         try {
             // 1. 해당 user가 scrap한 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinScrap(user, pageable);
-            result =getStringObjectHashMap(paragraphs);
+            result = getStringObjectHashMap(paragraphs);
             // 2. scrap 정보, 댓글 수, 해당 user 정보
             return result;
 
@@ -160,9 +172,10 @@ public class ParagraphServiceImpl implements ParagraphService {
             ParagraphScrapDto scrapInfo = getParagraphScrapDto(p.getParagraphId(), p, p.getUser());
             // 3. 해당 paragraph comment 수
             int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
-            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt));
             // 4. 해당 paragraph book Info
-            Book book =
+            Book book = p.getBook();
+            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), book.getAuthor().getAuthorName(), book.getBookTitle()));
+
         }
         HashMap<String, Object> result = new HashMap<>();
         result.put("paragraphs", listDto);

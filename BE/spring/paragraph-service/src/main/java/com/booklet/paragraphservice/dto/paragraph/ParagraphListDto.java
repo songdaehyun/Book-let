@@ -28,7 +28,8 @@ public class ParagraphListDto { // user가 등록한 목록 조회하기 위한 
     // comment
     private int commentCnt;
 
-    public ParagraphListDto(Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt){
+    public ParagraphListDto(Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt,
+                            String bookIsbn, String bookTitle, String bookAuthor){
         this.paragraphId = paragraph.getParagraphId();
         this.paragraphContent = paragraph.getParagraphContent();
         this.paragraphPage = paragraph.getParagraphPage();
@@ -37,6 +38,9 @@ public class ParagraphListDto { // user가 등록한 목록 조회하기 위한 
         this.modifiedDate = paragraph.getModifiedDate();
         this.scrapInfo = scrapInfo;
         this.commentCnt = commentCnt;
+        this.bookAuthor = bookAuthor;
+        this.bookIsbn = bookIsbn;
+        this.bookTitle = bookTitle;
     }
 
 }
