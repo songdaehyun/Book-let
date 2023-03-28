@@ -9,7 +9,7 @@ import { ReactionInfoContainer } from "../../../styles/Sentence/PostPreviewStyle
 function ScrapToolbar({ isScraped, scrapImgs, scrapCount, date, isMy }) {
 	return (
 		<ReactionInfoContainer>
-			<ReactionInfo img={scrapImgs} count={scrapCount} type="scrap" />
+			<ReactionInfo imgs={scrapImgs} count={scrapCount} type="scrap" />
 			{isMy ? (
 				<Text size="14" color="var(--gray-500)">
 					{date}

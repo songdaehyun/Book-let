@@ -6,8 +6,9 @@ import ProfileWithFollow from "../../molecules/Sentence/ProfileWithFollow";
 
 import useDate from "../../../hooks/useDate";
 
+import { deletePost } from "../../../apis/sentenceApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
-import { Text } from "../../../styles/common/TextsStyle";
+import { Span, Text } from "../../../styles/common/TextsStyle";
 import { DetailPostDateBox } from "../../../styles/Sentence/DetailSentenceStyle";
 
 function DetailPostOverview({
@@ -23,11 +24,20 @@ function DetailPostOverview({
 	title,
 	author,
 	cover,
+	sId,
 	content,
 	page,
 	color,
 }) {
 	const dateTimeSeparation = useDate();
+
+	const handleClickDelete = () => {
+		(async () => {
+			await deletePost(sId).then((res) => {
+				console.log(res);
+			});
+		})();
+	};
 
 	return (
 		<>
@@ -57,6 +67,7 @@ function DetailPostOverview({
 				</Container>
 				<DetailPostDateBox>
 					<Text size="14" color="var(--gray-500)">
+						<Span onClick={handleClickDelete}>삭제</Span>
 						{dateTimeSeparation(date)}
 					</Text>
 				</DetailPostDateBox>

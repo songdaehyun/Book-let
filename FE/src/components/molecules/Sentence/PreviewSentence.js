@@ -11,11 +11,11 @@ function PreviewSentence({ post }) {
 	const navigate = useNavigate();
 
 	const handleClickSentence = () => {
-		navigate(`/sentence/${post.paragraphId}`);
+		navigate(`/sentence/${post.sId}`);
 	};
 
 	return (
-		<PreviewSentenceContainer onClick={handleClickSentence} color={post.paragraphColor}>
+		<PreviewSentenceContainer onClick={handleClickSentence} color={post.color}>
 			<PreviewSentenceContent>
 				<Text font="jeju" height="28">
 					{post.content}
@@ -23,11 +23,11 @@ function PreviewSentence({ post }) {
 				<PreviewSentenceBottonContent>
 					<div>
 						<Text size="12" weight="bold" marginBottom="4">
-							{post.bookTitle}
+							{post.title}
 						</Text>
-						<Text size="12">{post.bookAuthor}</Text>
+						<Text size="12">{post.author}</Text>
 					</div>
-					<Text size="12">P. {post.paragraphPage}</Text>
+					<Text size="12">P. {post.page}</Text>
 				</PreviewSentenceBottonContent>
 			</PreviewSentenceContent>
 		</PreviewSentenceContainer>
