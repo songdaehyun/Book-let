@@ -41,3 +41,74 @@ export const getBookSearch = async (title) => {
 		console.error(err);
 	}
 };
+
+// 도서 추천
+export const getCoverBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/cover/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getRatingBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/score/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getLikeBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/like/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getGenreBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/genre/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getUserBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/user/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
