@@ -1,26 +1,43 @@
 import React from "react";
+
 import {
 	ReactionContainer,
 	ReactionImgContainer,
-	ReactionImgWrapper,
+	ReactionImgWrapper
 } from "../../styles/common/CommonStyle";
 import { Span } from "../../styles/common/TextsStyle";
 
-function ReactionInfo({ info, type }) {
+function ReactionInfo({ imgs, count, type }) {
+	const isImageEmpty = count === 0 ? true : false;
+
+	const info = null;
+
 	return (
 		<>
-			<ReactionImgContainer>
-				{(info.scrapUserImgs || info.liikesProfileImg).map((img, idx) => (
-					<ReactionImgWrapper key={idx}>
-						<img src={img} />
-					</ReactionImgWrapper>
-				))}
-			</ReactionImgContainer>
+			{!isImageEmpty && (
+				<ReactionImgContainer>
+					{(imgs || info?.likesProfileImg)?.map((img, idx) => (
+						<ReactionImgWrapper key={idx}>
+							<img src={img} alt="user profile" />
+						</ReactionImgWrapper>
+					))}
+				</ReactionImgContainer>
+			)}
 			<ReactionContainer>
-				<Span weight="bold" color="var(--primary-600)">
-					{info.scrapCnt || info.likesNumber}
-				</Span>
-				{type === "scrap" ? <>명이 스크랩했어요</> : type === "like" && <>명이 좋아해요</>}
+				{isImageEmpty ? (
+					<>아직 스크랩한 사용자가 없어요</>
+				) : (
+					<>
+						<Span weight="bold" color="var(--primary-600)">
+							{count || info?.likesNumber || "0"}
+						</Span>
+						{type === "scrap" ? (
+							<>명이 스크랩했어요</>
+						) : (
+							type === "like" && <>명이 좋아해요</>
+						)}
+					</>
+				)}
 			</ReactionContainer>
 		</>
 	);

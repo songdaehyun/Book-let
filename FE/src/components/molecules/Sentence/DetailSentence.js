@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	DetailSentenceBottomInfo,
@@ -7,7 +8,7 @@ import {
 	SentenceContentBox
 } from "../../../styles/Sentence/DetailSentenceStyle";
 
-function DetailSentence({ title, author, content, page, color, cover }) {
+function DetailSentence({ title, author, cover, content, page, color }) {
 	return (
 		<DetailSentenceContainer color={color}>
 			<SentenceContentBox>

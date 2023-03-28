@@ -41,4 +41,5 @@ public class User {
 
     private Integer sex;
 
+    private float preferScore;
 }

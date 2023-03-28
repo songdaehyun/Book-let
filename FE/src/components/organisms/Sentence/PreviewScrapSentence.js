@@ -1,7 +1,7 @@
 import React from "react";
 
 import MoreBar from "../../molecules/Bar/MoreBar";
-import PreviewSlideSentence from "../../molecules/Sentence/PreviewSlideSentence";
+import PreviewSwiperSentence from "../../molecules/Sentence/PreviewSwiperSentence";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
@@ -59,7 +59,7 @@ function PreviewScrapSentence(props) {
 						top="24"
 					/>
 				) : (
-					<PreviewSlideSentence sentences={sentences} />
+					<PreviewSwiperSentence sentences={sentences} />
 				)}
 			</Container>
 		</div>
