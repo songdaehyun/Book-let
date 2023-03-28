@@ -11,6 +11,7 @@ import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
 
 function PreviewScrapSentence(props) {
+	const id = localStorage.getItem("userId");
 	const [sentences, setSentences] = useState();
 
 	const isArrEmpty = useArr();
@@ -30,7 +31,7 @@ function PreviewScrapSentence(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getScrappedPost(1, 0, 3)
+			await getScrappedPost(id, 0, 3)
 				.then(initScrappedList)
 				.then((res) => setSentences(res));
 		})();
