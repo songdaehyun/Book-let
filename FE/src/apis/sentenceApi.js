@@ -43,11 +43,11 @@ export const getMyPost = async (uId, size, page) => {
 	}
 };
 
-export const getFollowingPost = async (uId) => {
+export const getFollowingPost = async (uId, size, page) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/following/${uId}`,
+			url: `/sns/paragraph/following/${uId}?size=${size}&page=${page}`,
 		});
 
 		console.log(res.data);
