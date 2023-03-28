@@ -37,6 +37,14 @@ public class AuthController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
 
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody SignUpReqDto signUpReqDto) {
+        return new ResponseEntity<SignUpResDto>(authService.signUp(signUpReqDto),HttpStatus.ACCEPTED);
+    }
+    // 모든 사람이 접근 가능
+    @GetMapping("home")
+    public String home() {
+        return "<h1>home</h1>";
     }
 
     @GetMapping("user/test")
