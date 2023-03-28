@@ -84,6 +84,7 @@ function DetailPost() {
 				scrapCount={post?.scrapCount}
 				isFollowed={isFollowed}
 				setIsFollowed={setIsFollowed}
+				isbn={post?.isbn}
 				title={post?.title}
 				author={post?.author}
 				cover={post?.cover}
