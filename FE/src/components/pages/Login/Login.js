@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import api from "../../../apis";
+
 import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
 import { Container, ValidWrapper } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
@@ -51,13 +53,15 @@ function Login() {
 					username: id,
 					password: pw,
 				}).then((res) => {
-					if (res.status === 200) {
+					if (res?.status === 200) {
 						// 로그인 토큰 저장
-						// localStorage.setItem('refresh-token', res.data['refresh-token']);
-						// setCookie('access-token', res.data['access-token']);
-						// setCookie('uId', res.data.username);
-						// setCookie('nickname', res.data.nickname);
-						console.log(res.headers)
+						const token = res.headers.get("Authorization");
+						localStorage.setItem("token", token);
+						localStorage.setItem("userId", id);
+
+						// api 기본 헤더로 설정
+						api.defaults.headers.common["Authorization"] = token;
+
 						navigate("/");
 					}
 				});
