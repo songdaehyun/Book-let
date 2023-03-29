@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface UserService {
     // 유저 기본 정보 조회
-//    public HashMap<String, Object> findUserInfo(String username);
+    public HashMap<String, Object> findUserInfo(String username);
 
-//    public boolean following(FollowReqDto followReqDto);
-    public String test();
+    public boolean following(FollowReqDto followReqDto);
 }

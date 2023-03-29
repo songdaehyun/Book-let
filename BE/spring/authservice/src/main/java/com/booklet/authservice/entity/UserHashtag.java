@@ -3,7 +3,7 @@ package com.booklet.authservice.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tb_user_hashtag")
+@Table(name="user_hashtag")
 public class UserHashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,8 +3,8 @@ package com.booklet.authservice.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user_img")
-public class UserImg {
+@Table(name="user_image")
+public class UserImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imgId;
