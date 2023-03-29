@@ -1,19 +1,16 @@
 import pandas as pd
-from .serializers import BookInfoSerializer
 import requests
 from skimage.metrics import structural_similarity as ssim
 import requests
 import numpy as np
 import cv2
-from tensorflow import keras
+# from tensorflow import keras
 from .models import BookInfoModel
 
 # skimage.ssim을 이용해 연관 이미지 추천해 주는 함수
 
 
 def bookcover_recommendation(result_dataframe):
-    serializer = BookInfoSerializer(many=True)
-
     # 추천 리스트
     rec_list = []
 

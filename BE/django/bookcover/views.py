@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 import cv2
@@ -7,6 +7,7 @@ import numpy as np
 from .train import bookcover_recommendation
 from tensorflow import keras
 import requests
+from .serializers import BookInfoSerializer
 
 
 # import yolov5
@@ -86,11 +87,8 @@ def image_recommend(request):   # 예측 기능 수행
 
         # DB에 해당 값 주입
 
-        # output = 추천 이미지 리스트
-        output = bookcover_recommendation(image_spec)
-
-        # # Format the output as JSON
-        response = {input_isbn[0]: output}
+        # response = 추천 이미지 리스트
+        response = bookcover_recommendation(image_spec)
 
         # Return the response as a JSON object
         return JsonResponse(response)
@@ -102,60 +100,47 @@ def image_recommend(request):   # 예측 기능 수행
 # 이미지 정보를 분류하는 데이터 전처리 함수
 # df에 들어가는 값은 [ISBN번호, 이미지 주소, 감정점수]로 구현되어야 한다.
 # isbn 중복을 제외하고, isbn과 image 주소 값이 유효해야 함('없음' 등이 들어가면 안 됨)
-def data_refine_progress(df):
-    # image_spec = 이미지의 confidence 값을 df로 요약한 형태
-    image_spec = pd.DataFrame(columns=[
-        "book_name",
-        "book_isbn",
-        "book_image",
-        "feeling"
-    ])
 
-    column_case = df.iloc[idx]
-    image_value = dict()
+@csrf_exempt    # API를 만드는 경우 csrf 인증을 끄는 게 좋다.(대신 API 키 등의 방식을 사용)
+def data_refine_progress(request):
+    if request.method == 'POST':
+        book_name = request.POST.get("book_name")
+        book_isbn = request.POST.get("book_isbn")
+        book_image = request.POST.get("book_image")
 
-    # URL에서 이미지 요청
-    image_nparray = np.asarray(
-        bytearray(
-            requests.get(column_case["image"]).content
-        ),
-        dtype=np.uint8
-    )
-    origin_image = cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
+        # URL에서 이미지 요청
+        image_nparray = np.asarray(
+            bytearray(
+                requests.get(book_image).content
+            ),
+            dtype=np.uint8
+        )
+        origin_image = cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
 
-    # 이미지 사이즈 조절
-    resize_img = cv2.resize(origin_image, (300, 300))
+        # 이미지 사이즈 조절
+        resize_img = cv2.resize(origin_image, (300, 300))
 
-    # Converting image to RGB by OpenCV function
-    image_RGB = cv2.cvtColor(resize_img, cv2.COLOR_BGR2RGB)
+        # Converting image to RGB by OpenCV function
+        image_RGB = cv2.cvtColor(resize_img, cv2.COLOR_BGR2RGB)
 
-    # Reshaping RGB image to get following: (batch size, rows, columns, channels)
-    x_input_RGB = image_RGB.reshape(
-        1,
-        image_RGB.shape[0],
-        image_RGB.shape[1],
-        3
-    ).astype(
-        np.float32
-    )
+        # Reshaping RGB image to get following: (batch size, rows, columns, channels)
+        x_input_RGB = image_RGB.reshape(
+            1,
+            image_RGB.shape[0],
+            image_RGB.shape[1],
+            3
+        ).astype(
+            np.float32
+        )
 
-    predict_result = model.predict(x_input_RGB)
+        predict_result = model.predict(x_input_RGB)
 
-    # book_name, book_isbn, book_image 설정
-    image_value["book_name"] = column_case['book_name']
-    image_value["book_isbn"] = column_case['book_isbn']
-    image_value["book_image"] = column_case['book_image']
-    # 예측 결과(0~5 사이) 저장
-    image_value["feeling"] = np.argmax(predict_result[0])
+        # feeling = 예측 결과(0~5 사이) 저장
+        feeling = np.argmax(predict_result[0])
 
-    # predict 결과를 anger~surprise에 추가
+        # 이미지 정보와 분류 결과를 serializer에 저장
+        serializer = BookInfoSerializer()
 
-    image_value = pd.DataFrame([image_value])
+        return HttpResponse("201 CREATED")
 
-    # image_value 값을 image_spec에 합치기
-    image_spec = pd.concat([image_spec, image_value])
-
-    # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
-    image_spec = image_spec.fillna(0)
-
-    return image_spec
+    return HttpResponseBadRequest("유효하지 않은 요청입니다.")
