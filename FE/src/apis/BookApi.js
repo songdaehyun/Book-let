@@ -41,3 +41,46 @@ export const getBookSearch = async (title) => {
 		console.error(err);
 	}
 };
+
+// 리뷰 api
+export const getReview = async (isbn, size, page) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/review/${isbn}?size=${size}&page=${page}`,
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const deleteReview = async (rId) => {
+	try {
+		const res = await api({
+			method: "DELTE",
+			url: `/review/${rId}`,
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const postReview = async (data) => {
+	try {
+		const res = await api({
+			method: "POST",
+			url: `/review`,
+		});
+
+		console.log(res);
+		return res;
+	} catch (err) {
+		console.error(err);
+	}
+};
