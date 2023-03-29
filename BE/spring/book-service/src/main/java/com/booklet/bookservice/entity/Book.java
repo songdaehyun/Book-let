@@ -25,6 +25,6 @@ public class Book {
     @Column
     String bookImage;
     @OneToMany(mappedBy = "book") //FK 없는 쪽에 mapped by 리더
-    private List<Review> comments = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
 }
