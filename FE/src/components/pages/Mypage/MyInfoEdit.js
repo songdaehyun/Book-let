@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateMyInfo } from "../../../apis/authApi";
+import { setEmail, setId, setNickname } from "../../../reducer/join";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import UploadProfileImage from "../../atoms/Mypage/UploadProfileImage";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
@@ -45,7 +46,7 @@ function MyInfoEdit(props) {
 			/>
 			<Container paddingTop="86" paddingLeft="16" paddingRight="16">
 				<UploadProfileImage />
-				<JoinBasicForm ref={allValidRef} setIsAllValidConfirm={setIsAllValidConfirm} />
+				<JoinBasicForm ref={allValidRef} />
 			</Container>
 		</>
 	);
