@@ -77,7 +77,7 @@ def bookcover_recommendation(result_dataframe):
         rec_list.append({json_title: highscore})
 
     # pkl 파일로 static 디렉토리에 저장
-    return rec_list
+    return rec_list[0]
 
 
 # 이미지 정보를 분류하는 데이터 전처리 함수
