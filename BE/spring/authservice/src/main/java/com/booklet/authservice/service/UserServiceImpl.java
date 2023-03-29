@@ -2,14 +2,20 @@ package com.booklet.authservice.service;
 
 import com.booklet.authservice.dto.FollowReqDto;
 import com.booklet.authservice.dto.GetUserInfoResDto;
+import com.booklet.authservice.dto.UserTasteReqDto;
 import com.booklet.authservice.entity.Follow;
+import com.booklet.authservice.entity.Hashtag;
 import com.booklet.authservice.entity.User;
+import com.booklet.authservice.entity.UserHashtag;
 import com.booklet.authservice.repository.FollowRepository;
+import com.booklet.authservice.repository.HashtagRepository;
+import com.booklet.authservice.repository.UserHashtagRepository;
 import com.booklet.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +26,8 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final HashtagRepository hashtagRepository;
+    private final UserHashtagRepository userHashtagRepository;
 
 //    @Override
     public HashMap<String, Object> findUserInfo(String username) {
@@ -87,5 +95,26 @@ public class UserServiceImpl implements UserService{
             return true;
         }
     }
-    
+
+    @Override
+    public boolean saveUserTaste(UserTasteReqDto userTasteReqDto, String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return false;}
+
+        List<UserHashtag> userHashtaghashtag = userHashtagRepository.findAllByUserHashtagId(user.getId());
+        if (userHashtaghashtag.size()!=0) {return false;}
+
+        List<String> tastes = userTasteReqDto.getTastes();
+        for (String taste : tastes) {
+            Hashtag hashtag = hashtagRepository.findByHashtagName(taste);
+            UserHashtag userHashtag = new UserHashtag();
+            userHashtag.setUser(user);
+            userHashtag.setHashtag(hashtag);
+            userHashtagRepository.save(userHashtag);
+        }
+
+
+        return true;
+    }
+
 }
