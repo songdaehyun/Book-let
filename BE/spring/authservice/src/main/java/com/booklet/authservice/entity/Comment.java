@@ -12,7 +12,7 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "comment_id")
     private Long commentId;
     @Column(nullable = false)
-    private int commentGroup; // 댓글이 속한 그룹 ( 모댓글의 commentsID )
+    private Long commentGroup; // 댓글이 속한 그룹 ( 모댓글의 commentsID )
     @Column(nullable = false)
     private int commentDepth; // 0 : 모댓글, 1 : 자식
     @Column(nullable = false)
