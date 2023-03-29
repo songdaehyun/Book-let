@@ -16,6 +16,7 @@ cycler==0.11.0
 decorator==5.1.1
 Django==4.0
 django-cors-headers==3.14.0
+django-environ==0.10.0
 django-extensions==3.2.1
 djangorestframework==3.14.0
 executing==1.2.0
@@ -103,7 +104,6 @@ thop==0.1.1.post2209072238
 threadpoolctl==3.1.0
 tifffile==2023.3.21
 tomli==2.0.1
-torch==2.0.0+cu117
 torchaudio==2.0.1+cu117
 torchvision==0.15.1+cu117
 tqdm==4.65.0
@@ -114,4 +114,3 @@ urllib3==1.26.13
 wcwidth==0.2.6
 Werkzeug==2.2.3
 wrapt==1.14.1
-yolov5==7.0.9
