@@ -1,5 +1,6 @@
 package com.booklet.authservice.config;
 
+import com.booklet.authservice.config.jwt.JwtProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,6 +26,7 @@ public class CorsConfig {
         config.setAllowedOrigins(originlst);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.addExposedHeader(JwtProperties.HEADER_STRING);
 
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
