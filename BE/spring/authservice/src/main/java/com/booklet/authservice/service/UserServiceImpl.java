@@ -1,12 +1,10 @@
-package com.booklet.userservice.service;
+package com.booklet.authservice.service;
 
-import com.booklet.userservice.dto.GetUserInfoResDto;
-import com.booklet.userservice.entity.User;
-import com.booklet.userservice.repository.UserRepository;
+import com.booklet.authservice.entity.User;
+import com.booklet.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 

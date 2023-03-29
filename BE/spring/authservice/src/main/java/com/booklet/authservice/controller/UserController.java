@@ -1,14 +1,7 @@
-package com.booklet.userservice.controller;
+package com.booklet.authservice.controller;
 
-import com.booklet.userservice.dto.FollowReqDto;
-import com.booklet.userservice.entity.User;
-import com.booklet.userservice.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/user")

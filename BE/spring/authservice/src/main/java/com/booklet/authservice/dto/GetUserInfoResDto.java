@@ -1,6 +1,5 @@
-package com.booklet.userservice.dto;
+package com.booklet.authservice.dto;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
