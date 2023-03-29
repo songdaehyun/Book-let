@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,6 +27,6 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookSearchRes> searchBooks(String title, Pageable pageable) {
-        return bookRepository.findByBookTitleContaining(title,pageable).stream().collect(Collectors.toList());
+        return bookRepository.findByBookTitleContaining(title,pageable).getContent().stream().collect(toList());
     }
 }
