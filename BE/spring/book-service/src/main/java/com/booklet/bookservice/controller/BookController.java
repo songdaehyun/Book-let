@@ -42,8 +42,8 @@ public class BookController {
         return new ResponseEntity(result, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/search/{bookTitle}")
-    public ResponseEntity searchBooks(@PathVariable String bookTitle, int size, int page) throws Exception{
+    @GetMapping("/search")
+    public ResponseEntity searchBooks(@RequestBody String bookTitle, int size, int page) throws Exception{
         PageRequest pageRequest = PageRequest.of(page, size);
 
         List<BookSearchRes> resList = bookService.searchBooks(bookTitle, pageRequest);
