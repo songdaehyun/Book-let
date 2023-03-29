@@ -45,20 +45,19 @@ function Login() {
 	};
 
 	const handleClickLogin = () => {
-		console.log(id, pw);
-
 		if (id !== "" && pw !== "") {
 			(async () => {
 				await login({
 					username: id,
 					password: pw,
 				}).then((res) => {
-					if (res.status === 201) {
+					if (res.status === 200) {
 						// 로그인 토큰 저장
 						// localStorage.setItem('refresh-token', res.data['refresh-token']);
 						// setCookie('access-token', res.data['access-token']);
 						// setCookie('uId', res.data.username);
 						// setCookie('nickname', res.data.nickname);
+						console.log(res.headers)
 						navigate("/");
 					}
 				});
@@ -98,6 +97,7 @@ function Login() {
 				)}
 			</>
 			<DefaultInput
+				type="password"
 				placeholder="비밀번호를 입력해주세요."
 				value={pw}
 				onChange={hadleChangePw}
