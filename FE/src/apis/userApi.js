@@ -15,15 +15,15 @@ export const postTaste = async (data) => {
 	}
 };
 
-export const getMyInfo = async () => {
+export const getMyInfo = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/user/`,
+			url: `/user/${uId}`,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
