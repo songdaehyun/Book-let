@@ -4,7 +4,7 @@ import { Span } from "../../../styles/common/TextsStyle";
 import CommentInput from "../../molecules/Input/CommentInput";
 import CommentList from "../../molecules/Sentence/CommentList";
 
-function DetailComment({ comments }) {
+function DetailComment({ comments, getCommentApiCall }) {
 	return (
 		<Container marginTop="32" paddingLeft="16" paddingRight="16">
 			<Container marginBottom="24">
@@ -16,7 +16,7 @@ function DetailComment({ comments }) {
 				</Span>
 				<Span size="19">{comments?.length}</Span>
 			</Container>
-			<CommentInput type="댓글" />
+			<CommentInput type="댓글" getCommentApiCall={getCommentApiCall}/>
 			<CommentList comments={comments} />
 		</Container>
 	);

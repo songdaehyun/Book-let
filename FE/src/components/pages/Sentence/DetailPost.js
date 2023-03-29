@@ -61,7 +61,7 @@ function DetailPost() {
 
 	const [isFollowed, setIsFollowed] = useState(false);
 
-	useEffect(() => {
+	const getPostApiCall = () => {
 		(async () => {
 			await getPost(sId)
 				.then(initSentence)
@@ -69,7 +69,9 @@ function DetailPost() {
 					setPost(res);
 				});
 		})();
+	};
 
+	const getCommentApiCall = () => {
 		(async () => {
 			await getComment(sId)
 				.then(initComment)
@@ -77,6 +79,11 @@ function DetailPost() {
 					setComments(res);
 				});
 		})();
+	};
+
+	useEffect(() => {
+		getPostApiCall();
+		getCommentApiCall();
 	}, []);
 
 	return (
@@ -102,7 +109,7 @@ function DetailPost() {
 				color={post?.color}
 			/>
 			<SeparationBar />
-			<DetailComment comments={comments} />
+			<DetailComment comments={comments} getCommentApiCall={getCommentApiCall} />
 		</>
 	);
 }
