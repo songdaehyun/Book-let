@@ -1,13 +1,36 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { deleteComment } from "../../apis/sentenceApi";
 import useDate from "../../hooks/useDate";
 import { CommentDateBox, CommentHeadingBox } from "../../styles/Book/BookDetailStyle";
+import { TextBtn } from "../../styles/common/ButtonsStyle";
 import { CommentBox } from "../../styles/common/CommonStyle";
 import { Text } from "../../styles/common/TextsStyle";
 import ReplyTextButton from "../atoms/Button/ReplyTextButton";
 import RatingLabel from "../atoms/RatingLabel";
 
-function Comment({ comment, type }) {
+function Comment({ comment, type, getCommentApiCall }) {
+	const { sId } = useParams();
+
 	const dateTimeSeparation = useDate();
+
+	const isMy = () => {
+		if (comment.uId === localStorage.getItem("userId")) {
+			return true;
+		}
+
+		return false;
+	};
+
+	const deleteCommentApiCall = () => {
+		(async () => {
+			await deleteComment(sId).then((res) => {
+				if (res === "success") {
+					getCommentApiCall();
+				}
+			});
+		})();
+	};
 
 	return (
 		<CommentBox>
@@ -35,6 +58,7 @@ function Comment({ comment, type }) {
 				) : (
 					<div>
 						<ReplyTextButton label="답글쓰기" />
+						{isMy && <TextBtn onClick={deleteCommentApiCall}>삭제</TextBtn>}
 					</div>
 				)}
 			</div>
