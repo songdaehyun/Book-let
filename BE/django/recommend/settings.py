@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s#s2pg+ncmtv2l^zb7%trw)0k&%3r$4la$b6#f2rxxa8ek2vn0'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,8 +58,6 @@ MIDDLEWARE = [
 
 # CORS 허용하는 호스트 목록(아래에서 수정)
 CORS_ORIGIN_WHITELIST = [
-    "https://example.com",
-    "https://sub.example.com",
     "http://localhost:8080",
     "http://127.0.0.1:9000"
 ]
