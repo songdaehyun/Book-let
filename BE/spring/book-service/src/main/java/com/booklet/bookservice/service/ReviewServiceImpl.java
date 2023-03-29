@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Review findReviewEntity(Long reviewId) {
-        return null;
+        return reviewRepository.findById(reviewId).orElseGet(Review::new);
     }
 
     @Override
