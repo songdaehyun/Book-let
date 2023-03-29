@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { updateMyInfo } from "../../../apis/authApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import UploadProfileImage from "../../atoms/Mypage/UploadProfileImage";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
@@ -7,21 +9,29 @@ import JoinBasicForm from "../../organisms/Join/JoinBasicForm";
 
 function MyInfoEdit(props) {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const allValidRef = useRef();
+
+	const uId = localStorage.getItem("userId");
+
+	useEffect(() => {
+		dispatch(setId(uId));
+		(async () => {
+			await updateMyInfo(uId).then((res) => {
+				dispatch(setNickname(res.nickname));
+				dispatch(setEmail(res.email));
+			});
+		})();
+	}, []);
 
 	const handleClickPre = () => {
 		navigate("/mypage");
 	};
 
 	const handleClickNext = () => {
-		// if (
-		// 	idValidTest() &&
-		// 	nicknameValidTest() &&
-		// 	emailValidTest() &&
-		// 	pwValidTest() &&
-		// 	pwConfirmValidTest()
-		// ) {
-		navigate("/mypage");
-		// }
+		if (allValidRef.current.allConfirmTest()) {
+			navigate("/mypage");
+		}
 	};
 
 	return (
@@ -35,7 +45,7 @@ function MyInfoEdit(props) {
 			/>
 			<Container paddingTop="86" paddingLeft="16" paddingRight="16">
 				<UploadProfileImage />
-				<JoinBasicForm />
+				<JoinBasicForm ref={allValidRef} setIsAllValidConfirm={setIsAllValidConfirm} />
 			</Container>
 		</>
 	);
