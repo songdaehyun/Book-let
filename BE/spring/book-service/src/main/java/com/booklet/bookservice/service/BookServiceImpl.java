@@ -25,6 +25,6 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookSearchRes> searchBooks(String title, Pageable pageable) {
-        return bookRepository.findBooksByBookTitle(title,pageable).stream().collect(Collectors.toList());
+        return bookRepository.findByBookTitleContaining(title,pageable).stream().collect(Collectors.toList());
     }
 }
