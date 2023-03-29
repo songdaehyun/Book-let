@@ -1,72 +1,110 @@
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from .serializers import BookInfoSerializer
-from sklearn.metrics.pairwise import euclidean_distances
 import requests
-from PIL import Image
-from io import BytesIO
-import torch
+from skimage.metrics import structural_similarity as ssim
+import requests
+import numpy as np
+import cv2
+from tensorflow import keras
+from .models import BookInfoModel
 
-# 유클리드 거리를 기준으로 연관 이미지 추천해 주는 함수
+# skimage.ssim을 이용해 연관 이미지 추천해 주는 함수
 
 
 def bookcover_recommendation(result_dataframe):
     serializer = BookInfoSerializer(many=True)
 
-    # DB에서 표지 별 분류 데이터 가져오기
-    db_dataframe = []
+    # 추천 리스트
+    rec_list = []
 
-    # 이미지 간 유클리드 거리 검사
-    similarity_matrix = euclidean_distances(result_dataframe, db_dataframe)
+    # df의 행을 하나씩 읽으면서 유사도 검사
+    for col in range(result_dataframe.shape[0]):
+        # 요청받은 이미지의 특성 정보 행
+        origin_data = result_dataframe.iloc[col]
+        # 데이터셋의 감정 분류 컬럼을 정규화할 필요가 있다.
+        origin_feeling = origin_data["feeling"]
+
+        # Django ORM으로 DB에서 표지 분류 결과가 일치하는 항목 가져오기
+        db_dataframe = BookInfoModel.objects.get(feeling=origin_feeling)
+
+        # 사용자가 제출한 선호 추천 표지
+        image_src1 = origin_data["book_image"]
+
+        # DB에 저장된 연관 추천 표지
+        for idx in range(len(db_dataframe)):
+            # db에서 하나씩 꺼내서 유사도 비교?(이하 미완성)
+            image_src2 = db_dataframe.objects.filter()
+
+            origin_img1 = np.asarray(
+                bytearray(requests.get(image_src1).content), dtype=np.uint8)
+            resize_img1 = cv2.resize(origin_img1, (300, 300))
+
+            origin_img2 = np.asarray(
+                bytearray(requests.get(image_src2).content), dtype=np.uint8)
+            resize_img2 = cv2.resize(origin_img2, (300, 300))
+
+            # score = 이미지 간의 유사도(-1 ~ 1 사이, 1에 가까울수록 유사도 높음)
+            (score, diff) = ssim(resize_img1, resize_img2, full=True)
+
+    # 유사도 상위 N개 필터링 후 rec_list에 추가
+    rec_list.append()
 
     # pkl 파일로 static 디렉토리에 저장
-    return similarity_matrix
+    return rec_list
 
 
-# 이미지 정보를 분류하는 머신러닝 함수
-def ml_progress(df):
+# 이미지 정보를 분류하는 데이터 전처리 함수
+# df에 들어가는 값은 [ISBN번호, 이미지 주소]로 구현되어야 한다.
+# isbn 중복을 제외하고, isbn과 image 주소 값이 유효해야 함('없음' 등이 들어가면 안 됨)
+def data_refine_progress(df):
     # .pt로 저장된 모델 불러오기
-    modelpath = "static/test300.pt"
-    model = torch.hub.load('ultralytics/yolov5', 'custom',
-                           path=modelpath, force_reload=True)
-    model.eval()    # 평가(예측) 과정에서 사용하지 않는 레이어 비활성화
+    modelpath = "static/model5"
+    model = keras.models.load_model(modelpath)
 
     # image_spec = 이미지의 confidence 값을 df로 요약한 형태
     image_spec = pd.DataFrame(columns=[
-        "isdn",
-        "imgsrc",
-        "cartoon",
-        "solid",
-        "infographic",
-        "real",
-        "art"
+        "book_isbn",
+        "book_image",
+        "anger",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise"
     ])
 
-    # 아래 코드는 중복 실행하지 않도록 주의
     for idx in range(df.shape[0]):
         column_case = df.iloc[idx]
+        image_value = dict()
 
         # URL에서 이미지 요청
-        res = requests.get(column_case['image'])
+        image_nparray = np.asarray(
+            bytearray(requests.get(column_case["image"]).content), dtype=np.uint8)
+        origin_image = cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
 
-        input_pixel = Image.open(BytesIO(res.content))
-        image_value = dict()                # 이미지 keyword의 confidence 값을 딕셔너리 형태로 정리
+        # 이미지 사이즈 조절
+        resize_img = cv2.resize(origin_image, (300, 300))
+
+        # Converting image to RGB by OpenCV function
+        image_RGB = cv2.cvtColor(resize_img, cv2.COLOR_BGR2RGB)
+
+        # Reshaping RGB image to get following: (batch size, rows, columns, channels)
+        x_input_RGB = image_RGB.reshape(
+            1, image_RGB.shape[0], image_RGB.shape[1], 3).astype(np.float32)
+
+        predict_result = model.predict(x_input_RGB)
 
         # book_isbn, book_image 설정
         image_value["book_isbn"] = column_case['isbn']
         image_value["book_image"] = column_case['image']
+        image_value["anger"] = predict_result[0][0]
+        image_value["disgust"] = predict_result[0][1]
+        image_value["fear"] = predict_result[0][2]
+        image_value["joy"] = predict_result[0][3]
+        image_value["sadness"] = predict_result[0][4]
+        image_value["surprise"] = predict_result[0][5]
 
-        # 매 이미지마다 분류 특성 조회
-        input_info = model(input_pixel)
-        input_info = input_info.pandas().xyxy[0]
-
-        # input_info를 구성하는 행렬을 종류별로 조회
-        for col in range(input_info.shape[0]):
-            # 행 하나씩 조회
-            feature_column = input_info.iloc[col]
-            # 딕셔너리에 {분류: 유사도} 형태로 저장
-            if not feature_column.get(feature_column):
-                image_value[input_info.name[col]] = input_info.confidence[col]
+        # predict 결과를 anger~surprise에 추가
 
         image_value = pd.DataFrame([image_value])
 

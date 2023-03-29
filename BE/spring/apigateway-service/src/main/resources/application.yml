@@ -55,14 +55,13 @@ spring:
         - id: booklet-user-service
           uri: lb://USER-SERVICE # user-service의 namef
           predicates:
-            - Path=/api/*/auth/**
+            - Path=/api/v1/auth/**
 #          filters:
 #            - CustomFilter
         - id: booklet-paragraph-service
           uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
           predicates:
             - Path=/api/v1/sns/**
-            - Path=/api/v1/scrap/**
 #          filters:
 #            - CustomFilter
         - id: booklet-book-service
