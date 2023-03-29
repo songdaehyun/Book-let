@@ -42,7 +42,7 @@ public class BookController {
 
     @GetMapping("/search/{bookTitle}")
     public ResponseEntity searchBooks(@PathVariable String bookTitle) throws Exception{
-        List<BookSearchRes> resList = bookService.searchBooks(bookTitle);
+        List<BookSearchRes> resList = bookService.searchBooks("%"+bookTitle+"%");
         return new ResponseEntity(resList, HttpStatus.ACCEPTED);
     }
 }
