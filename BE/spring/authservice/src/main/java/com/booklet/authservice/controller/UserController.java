@@ -16,22 +16,41 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
-//    private final UserService userService;
-//
-//    @PostMapping("/follow")
-//    public ResponseEntity follow(@RequestBody FollowReqDto followReqDto) {
-//
-//        HashMap<String, Object> result = new HashMap<>();
-//
-//        Boolean check = userService.following(followReqDto);
-//
-//        if (check != true) {
-//            result.put("message", "fail");
-//            return new ResponseEntity<>(result, HttpStatus.CREATED);
-//
-//        } else {
-//            result.put("message", "success");
-//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    private final UserService userService;
+
+    @GetMapping("/{username}")
+    public ResponseEntity follow(@PathVariable String username) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        result = userService.findUserInfo(username);
+
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/follow")
+    public ResponseEntity follow(@RequestBody FollowReqDto followReqDto) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        Boolean check = userService.following(followReqDto);
+
+        if (check != true) {
+            System.out.println("컨트롤러 : 읍음");
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+        } else {
+            System.out.println("컨트롤러 : 잇음");
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
 }

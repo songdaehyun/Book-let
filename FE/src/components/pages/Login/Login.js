@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
 import { Container, ValidWrapper } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
-import { ValidFailText } from "../../../styles/common/TextsStyle";
-import { ImgWrapper, TextBtnWrapper } from "../../../styles/User/LoginStyle";
+import { Text, ValidFailText } from "../../../styles/common/TextsStyle";
+import { ImgWrapper, LogoBox, TextBtnWrapper } from "../../../styles/User/LoginStyle";
 
 import { login } from "../../../apis/authApi";
 import loginImg from "../../../assets/images/login-img.svg";
+import Logo from "../../../assets/images/logo_left.png";
 
 function Login() {
 	const navigate = useNavigate();
@@ -53,7 +54,7 @@ function Login() {
 					password: pw,
 				}).then((res) => {
 					if (res.status === 201) {
-						// 로그인 토큰 저장 
+						// 로그인 토큰 저장
 						// localStorage.setItem('refresh-token', res.data['refresh-token']);
 						// setCookie('access-token', res.data['access-token']);
 						// setCookie('uId', res.data.username);
@@ -73,7 +74,11 @@ function Login() {
 	};
 
 	return (
-		<Container paddingLeft="24" paddingRight="24">
+		<Container paddingTop="88" paddingBottom="24" paddingLeft="24" paddingRight="24">
+			<LogoBox>
+				<img src={Logo} alt="Logo" />
+				<Text marginTop="12">책을 읽다, 문장으로 잇다.</Text>
+			</LogoBox>
 			<ImgWrapper>
 				<img src={loginImg} alt="이미지" />
 			</ImgWrapper>
