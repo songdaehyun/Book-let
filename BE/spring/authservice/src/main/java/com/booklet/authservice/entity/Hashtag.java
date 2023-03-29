@@ -12,7 +12,7 @@ public class Hashtag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hastagId;
+    private Long hashtagId;
 
     private String hashtagName;
 
