@@ -128,8 +128,9 @@ export const initScrappedList = (raw) => {
 export const initComment = (raw) => {
 	return raw?.map((comment) => {
 		return {
-			uId: comment?.user?.userId,
+			uId: comment?.userId,
 			cId: comment?.commentId,
+			img: comment?.userImage,
 			nickname: comment?.nickname,
 			content: comment?.commentContent,
 			date: comment?.createdDate,
