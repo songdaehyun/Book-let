@@ -13,7 +13,7 @@ from .serializers import BookInfoSerializer
 # import yolov5
 
 # .pt로 저장된 모델 불러오기
-modelpath = "static/model5"
+modelpath = "static/model_p1"
 model = keras.models.load_model(modelpath)
 # model = yolov5.load(modelpath)
 
@@ -104,6 +104,7 @@ def image_recommend(request):   # 예측 기능 수행
 @csrf_exempt    # API를 만드는 경우 csrf 인증을 끄는 게 좋다.(대신 API 키 등의 방식을 사용)
 def data_refine_progress(request):
     if request.method == 'POST':
+        # 요청받은 데이터 확인
         book_name = request.POST.get("book_name")
         book_isbn = request.POST.get("book_isbn")
         book_image = request.POST.get("book_image")
@@ -133,6 +134,7 @@ def data_refine_progress(request):
             np.float32
         )
 
+        # 예측 결과 조회
         predict_result = model.predict(x_input_RGB)
 
         # feeling = 예측 결과(0~5 사이) 저장
