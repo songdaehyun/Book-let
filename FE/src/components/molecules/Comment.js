@@ -2,7 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { deleteComment } from "../../apis/sentenceApi";
 import useDate from "../../hooks/useDate";
-import { CommentDateBox, CommentHeadingBox } from "../../styles/Book/BookDetailStyle";
+import {
+	CommentBtnBox,
+	CommentDateBox,
+	CommentHeadingBox,
+} from "../../styles/Book/BookDetailStyle";
 import { TextBtn } from "../../styles/common/ButtonsStyle";
 import { CommentBox } from "../../styles/common/CommonStyle";
 import { Text } from "../../styles/common/TextsStyle";
@@ -43,7 +47,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 					) : (
 						<CommentDateBox>
 							<Text size="14" color="var(--gray-500)">
-								{comment?.date}
+								{dateTimeSeparation(comment?.date)}
 							</Text>
 						</CommentDateBox>
 					)}
@@ -56,10 +60,10 @@ function Comment({ comment, type, getCommentApiCall }) {
 						</Text>
 					</CommentDateBox>
 				) : (
-					<div>
+					<CommentBtnBox>
 						<ReplyTextButton label="답글쓰기" />
 						{isMy && <TextBtn onClick={deleteCommentApiCall}>삭제</TextBtn>}
-					</div>
+					</CommentBtnBox>
 				)}
 			</div>
 		</CommentBox>
