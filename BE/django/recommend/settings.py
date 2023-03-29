@@ -28,7 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # allowed_hosts를 설정하지 않으면 DEBUG=False 환경에서 작동하지 않음
 # 실제 배포 환경에서는 spring 서버의 IP 주소를 적어주면 된다.

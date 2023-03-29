@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('image/', views.image_recommend),
-    path('register/', views.data_refine_progress),
+    path('savedata/', views.data_refine_progress),
 ]

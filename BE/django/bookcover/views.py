@@ -138,9 +138,25 @@ def data_refine_progress(request):
         # feeling = 예측 결과(0~5 사이) 저장
         feeling = np.argmax(predict_result[0])
 
-        # 이미지 정보와 분류 결과를 serializer에 저장
-        serializer = BookInfoSerializer()
+        # serializer에 저장할 데이터 형식
+        data_form = {
+            'book_name': book_name,
+            'book_isbn': book_isbn,
+            'book_image': book_image,
+            'feeling': feeling
+        }
 
-        return HttpResponse("201 CREATED")
+        # 이미지 정보와 분류 결과를 serializer에 저장
+        serializer = BookInfoSerializer(data=data_form)
+        if serializer.is_valid():
+            # DB에 없는 정보인 경우 serializer에 추가
+            try:
+                serializer.save()
+                return HttpResponse("저장 성공했습니다.")
+            # 저장에 문제가 있는 경우(중복된 정보인 경우 등)
+            except:
+                return HttpResponse("저장 실패했습니다.")
+
+        return HttpResponse("이미 저장된 데이터입니다.")
 
     return HttpResponseBadRequest("유효하지 않은 요청입니다.")
