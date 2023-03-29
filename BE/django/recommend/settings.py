@@ -12,21 +12,30 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# environment variant
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s#s2pg+ncmtv2l^zb7%trw)0k&%3r$4la$b6#f2rxxa8ek2vn0'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# allowed_hosts를 설정하지 않으면 DEBUG=False 환경에서 작동하지 않음
+# 실제 배포 환경에서는 spring 서버의 IP 주소를 적어주면 된다.
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost'
+]
 
 
 # Application definition
@@ -58,8 +67,6 @@ MIDDLEWARE = [
 
 # CORS 허용하는 호스트 목록(아래에서 수정)
 CORS_ORIGIN_WHITELIST = [
-    "https://example.com",
-    "https://sub.example.com",
     "http://localhost:8080",
     "http://127.0.0.1:9000"
 ]
@@ -87,16 +94,15 @@ WSGI_APPLICATION = 'recommend.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+# 배포 환경에서는 변경해야 함
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bookdb',
-        'USER': 'ssafy',
-        'PASSWORD': 'ssafy',
-        'HOST': 'localhost',
-        'PORT': "3306"
+        'NAME': 'bookdb',   # DB 이름
+        'USER': 'ssafy',    # DB 에 접속하는 사용자명
+        'PASSWORD': 'ssafy',    # 비밀번호
+        'HOST': 'localhost',    # 호스트명
+        'PORT': "3306"  # 포트 번호
     }
 }
 
