@@ -11,5 +11,5 @@ public class BookImg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookImgId;
 
-    private String fimg
+    private String fimg;
 }
