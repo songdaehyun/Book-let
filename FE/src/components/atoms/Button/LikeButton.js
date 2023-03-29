@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { postLike } from "../../../apis/BookApi";
 import { LikeBtn } from "../../../styles/common/ButtonsStyle";
 
 function LikeButton({ isLiked }) {
+	const {bId} = useParams();
 	const [isButtonLiked, setIsButtonLiked] = useState();
 
 	useEffect(() => {
@@ -11,7 +13,7 @@ function LikeButton({ isLiked }) {
 
 	const handleClickLike = () => {
 		(async () => {
-			await postLike().then((res) => {
+			await postLike(bId).then((res) => {
 				if (res) {
 					setIsButtonLiked(!isButtonLiked);
 				}
