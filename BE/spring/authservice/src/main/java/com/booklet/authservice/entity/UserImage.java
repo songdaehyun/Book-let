@@ -1,17 +1,17 @@
 package com.booklet.authservice.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="user_image")
-public class UserImage {
+public class UserImage extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imgId;
+    private Long userImageId;
 
-    private String imgName;
-
-    private String imgPath;
+    @Column
+    private String imagePath;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
