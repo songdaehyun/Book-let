@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import searchIcon from "../../../assets/icons/search-icon.png";
 import { Text } from "../../../styles/common/TextsStyle";
 import {
 	SentenceBookAutoSearchBox,
 	SentenceBookSearchBarBox,
-	SentenceBookSearchBox
+	SentenceBookSearchBox,
 } from "../../../styles/Sentence/SentenceFormStyle";
-import searchIcon from "../../../assets/icons/search-icon.png";
 
 function SentenceBookSearch(props) {
+	const inputRef = useRef();
 	const [isOpen, setIsOpen] = useState();
 
 	const openAutoSearch = () => {
@@ -18,12 +19,17 @@ function SentenceBookSearch(props) {
 		setIsOpen(false);
 	};
 
+	const handleClickSearchBox = () => {
+		inputRef.current.focus();
+	};
+
 	return (
 		<SentenceBookSearchBox>
-			<SentenceBookSearchBarBox>
+			<SentenceBookSearchBarBox onClick={handleClickSearchBox}>
 				<img src={searchIcon} alt="search icon" />
 				<div>
 					<input
+						ref={inputRef}
 						placeholder="책을 선택해주세요"
 						onFocus={openAutoSearch}
 						onBlur={closeAutoSearch}
