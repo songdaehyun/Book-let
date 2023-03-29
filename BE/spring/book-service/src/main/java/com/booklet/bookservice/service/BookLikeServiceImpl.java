@@ -1,6 +1,6 @@
 package com.booklet.bookservice.service;
 
-import com.booklet.bookservice.dto.LikeReq;
+import com.booklet.bookservice.dto.BookLikeReq;
 import com.booklet.bookservice.entity.Book;
 import com.booklet.bookservice.entity.User;
 import com.booklet.bookservice.entity.BookLikes;
@@ -23,7 +23,7 @@ public class BookLikeServiceImpl implements BookLikeService {
     private final UserRepository userRepository;
 
     @Override
-    public boolean findLike(LikeReq req) {
+    public boolean findLike(BookLikeReq req) {
         BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(req.getUserId(), req.getBookIsbn()).orElseGet(BookLikes::new);
         if (bookLikes.getBookLikeId() == null) {
             return false;
@@ -33,7 +33,7 @@ public class BookLikeServiceImpl implements BookLikeService {
 
     @Transactional
     @Override
-    public boolean createLike(LikeReq req) {
+    public boolean createLike(BookLikeReq req) {
         try {
             Book book = bookRepository.findById(req.getBookIsbn()).orElseGet(Book::new);
             User user = userRepository.findById(req.getUserId()).orElseGet(User::new);
@@ -50,7 +50,7 @@ public class BookLikeServiceImpl implements BookLikeService {
     }
     @Transactional
     @Override
-    public boolean deleteLike(LikeReq req) {
+    public boolean deleteLike(BookLikeReq req) {
         try {
             BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(req.getUserId(), req.getBookIsbn()).orElseGet(BookLikes::new);
             if(bookLikes.getBookLikeId()==null) return false;

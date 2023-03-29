@@ -7,7 +7,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LikeReq {
+public class BookSearchRes {
     private String bookIsbn;
-    private Long userId;
+    private String authorName;
+    private String bookImage;
 }
