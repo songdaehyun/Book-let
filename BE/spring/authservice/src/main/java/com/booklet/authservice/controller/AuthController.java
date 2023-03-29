@@ -38,13 +38,6 @@ public class AuthController {
         }
     }
 
-
-    // 모든 사람이 접근 가능
-    @GetMapping("home")
-    public String home() {
-        return "<h1>home</h1>";
-    }
-
     @GetMapping("user/test")
     public String usertest(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();

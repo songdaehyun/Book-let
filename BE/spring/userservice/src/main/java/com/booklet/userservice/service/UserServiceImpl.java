@@ -27,13 +27,13 @@ public class UserServiceImpl implements UserService{
 
         try {
             HashMap<String, Object> result = new HashMap<>();
-            GetUserInfoResDto getUserInfoResDto = new GetUserInfoResDto().builder()
-                            .imgPath(user.getUserImg())
-                            .nickname(user.getNickname())
-                            .follower()
-                            .following()
-                            .build();
-            result.put("data",getUserInfoResDto);
+//            GetUserInfoResDto getUserInfoResDto = new GetUserInfoResDto().builder()
+//                            .imgPath(user.getUserImg())
+//                            .nickname(user.getNickname())
+//                            .follower()
+//                            .following()
+//                            .build();
+//            result.put("data",getUserInfoResDto);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
