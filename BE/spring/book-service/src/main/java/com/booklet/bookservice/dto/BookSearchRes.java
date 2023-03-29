@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class BookSearchRes {
     private String bookIsbn;
-    private String authorName;
+//    private String authorName;
+    private Long authorId;
     private String bookImage;
 }

@@ -6,6 +6,8 @@ import com.booklet.bookservice.service.BookLikeService;
 import com.booklet.bookservice.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -41,8 +43,11 @@ public class BookController {
     }
 
     @GetMapping("/search/{bookTitle}")
-    public ResponseEntity searchBooks(@PathVariable String bookTitle) throws Exception{
-        List<BookSearchRes> resList = bookService.searchBooks("%"+bookTitle+"%");
+    public ResponseEntity searchBooks(@PathVariable String bookTitle, int size, int page) throws Exception{
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        List<BookSearchRes> resList = bookService.searchBooks(bookTitle, pageRequest);
+
         return new ResponseEntity(resList, HttpStatus.ACCEPTED);
     }
 }
