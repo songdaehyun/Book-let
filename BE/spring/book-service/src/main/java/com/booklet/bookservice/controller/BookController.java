@@ -28,11 +28,11 @@ public class BookController {
     public ResponseEntity LikeBook(@RequestBody LikeReq request) throws Exception{
         String result="";
         if(bookLikeService.findLike(request)){ // 좋아요 존재 시 취소
-            if(bookLikeService.doLike(request, "delete")){
+            if(bookLikeService.deleteLike(request)){
                 result = "cancel";
             }else result = "fail";
         }else{ // 좋아요 등록
-            if(bookLikeService.doLike(request, "create")) result = "like";
+            if(bookLikeService.createLike(request)) result = "like";
             else result = "fail";
         }
 

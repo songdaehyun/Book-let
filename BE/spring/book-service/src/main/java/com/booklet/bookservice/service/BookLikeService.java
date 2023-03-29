@@ -5,6 +5,7 @@ import com.booklet.bookservice.entity.Book;
 
 public interface BookLikeService {
     public boolean findLike(LikeReq req);
-    public boolean doLike(LikeReq req, String cmd);
+    public boolean createLike(LikeReq req);
+    public boolean deleteLike(LikeReq req);
     public int countLike(Book book);
 }

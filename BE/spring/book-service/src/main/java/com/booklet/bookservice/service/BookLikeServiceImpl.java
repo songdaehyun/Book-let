@@ -17,14 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class BookLikeServiceImpl implements BookLikeService{
+public class BookLikeServiceImpl implements BookLikeService {
     private final BookLikesRepository bookLikesRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+
     @Override
     public boolean findLike(LikeReq req) {
-        BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(req.getUserId(),req.getBookIsbn()).orElseGet(BookLikes::new);
-        if(bookLikes.getBookLikeId()==null){
+        BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(req.getUserId(), req.getBookIsbn()).orElseGet(BookLikes::new);
+        if (bookLikes.getBookLikeId() == null) {
             return false;
         }
         return true;
@@ -32,7 +33,7 @@ public class BookLikeServiceImpl implements BookLikeService{
 
     @Transactional
     @Override
-    public boolean doLike(LikeReq req, String cmd) {
+    public boolean createLike(LikeReq req) {
         try {
             Book book = bookRepository.findById(req.getBookIsbn()).orElseGet(Book::new);
             User user = userRepository.findById(req.getUserId()).orElseGet(User::new);
@@ -41,14 +42,24 @@ public class BookLikeServiceImpl implements BookLikeService{
             }
             BookLikes bookLikes = BookLikes.builder()
                     .book(book).user(user).build();
-            if(cmd.equals("create")) bookLikesRepository.save(bookLikes);
-            else bookLikesRepository.delete(bookLikes);
-        }catch (Exception e){
+            bookLikesRepository.save(bookLikes);
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
-
+    @Transactional
+    @Override
+    public boolean deleteLike(LikeReq req) {
+        try {
+            BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(req.getUserId(), req.getBookIsbn()).orElseGet(BookLikes::new);
+            if(bookLikes.getBookLikeId()==null) return false;
+            bookLikesRepository.delete(bookLikes);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
     @Override
     public int countLike(Book book) {
         return 0;
