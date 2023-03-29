@@ -6,9 +6,11 @@ import com.booklet.bookservice.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,11 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookSearchRes> searchBooks(String title, Pageable pageable) {
-        return bookRepository.findByBookTitleContaining(title,pageable).getContent().stream().collect(toList());
+        List<BookSearchRes> list =new ArrayList<>();
+        Slice<Book> books = bookRepository.findByBookTitleContaining(title,pageable);
+        System.out.println(books.getContent());
+        list = books.getContent().stream().map(i->new BookSearchRes(i.getBookTitle(), i.getBookIsbn(), "김이박", i.getBookImage())).collect(toList());
+
+        return list;
     }
 }

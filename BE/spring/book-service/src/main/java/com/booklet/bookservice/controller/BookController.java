@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -43,10 +45,12 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity searchBooks(@RequestBody String bookTitle, int size, int page) throws Exception{
+    public ResponseEntity searchBooks(@RequestParam String bookTitle, int size, int page) throws Exception{
         PageRequest pageRequest = PageRequest.of(page, size);
-
+        System.out.println(bookTitle+"!!!!!!!!!!!!!!!!!!!!!!!!!1");
         List<BookSearchRes> resList = bookService.searchBooks(bookTitle, pageRequest);
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("list", resList);
 
         return new ResponseEntity(resList, HttpStatus.ACCEPTED);
     }
