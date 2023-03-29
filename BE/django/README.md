@@ -34,3 +34,10 @@ manage.py
 - ipython : 8.11.0
 - OpenCV : 4.7.0.72
 - Pillow : 9.3.0
+
+## 배포 환경에서 변경해야 할 점
+
+### settings.py
+
+- ALLOWED_HOSTS : Spring과 DB의 포트 번호(IP 주소) 입력
+- DATABASES : 배포 환경 DB의 정속 정보 입력
