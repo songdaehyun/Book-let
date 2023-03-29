@@ -49,10 +49,4 @@ public class ParagraphCommonListDto {
         this.bookTitle = bookTitle;
     }
 
-
-    private class ScrapInfo {
-        private ArrayList<String> scrapUserImages;
-        private int scrapCount;
-        private int userScrape; // 사용자가 스크랩한지 안한지 여부
-    }
 }
