@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +29,14 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<BookSearchRes> searchBooks(String title, Pageable pageable) {
+    public HashMap<String, Object> searchBooks(String title, Pageable pageable) {
+        HashMap<String, Object> result = new HashMap<>();
         List<BookSearchRes> list =new ArrayList<>();
         Slice<Book> books = bookRepository.findByBookTitleContaining(title,pageable);
         System.out.println(books.getContent());
         list = books.getContent().stream().map(i->new BookSearchRes(i.getBookTitle(), i.getBookIsbn(), "김이박", i.getBookImage())).collect(toList());
-
-        return list;
+        result.put("bookList", list);
+        result.put("hasNext", books.hasNext());
+        return result;
     }
 }
