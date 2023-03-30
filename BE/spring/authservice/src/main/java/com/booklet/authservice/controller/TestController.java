@@ -89,7 +89,7 @@ public class TestController {
                 hashtagRepository.save(tag);
                 System.out.println("저장완료! : " + tag.getHashtagName());
             } else {
-                System.out.println("이미 존재하여 패스합니다" + map.get("name"));
+                System.out.println("이미 존재하여 패스합니다 : " + map.get("name"));
                 continue;
             }
 

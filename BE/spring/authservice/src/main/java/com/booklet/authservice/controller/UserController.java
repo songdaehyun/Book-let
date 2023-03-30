@@ -68,6 +68,10 @@ public class UserController {
 
         } else {
             result.put("message", "success");
+
+            HashMap<String, Object> saveResult = userService.saveUserPreferScore(username);
+            result.put("preferType", saveResult.get("type"));
+            result.put("preferScore", saveResult.get("score"));
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
