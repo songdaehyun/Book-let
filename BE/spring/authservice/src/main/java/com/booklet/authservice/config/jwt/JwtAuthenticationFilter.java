@@ -6,6 +6,7 @@ import com.booklet.authservice.config.auth.PrincipalDetails;
 import com.booklet.authservice.dto.LoginReqDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
@@ -28,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
-        System.out.println("JwtAuthenticationFilter : 진입");
+        log.info("JwtAuthenticationFilter : 진입");
 
         ObjectMapper om = new ObjectMapper();
         LoginReqDto LoginReqDto = null;
@@ -38,7 +40,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             e.printStackTrace();
         }
 
-        System.out.println("JwtAuthenticationFilter : "+LoginReqDto);
+        log.info("JwtAuthenticationFilter : {}", LoginReqDto);
 
         // 유저네임패스워드 토큰 생성
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -46,13 +48,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                         LoginReqDto.getUsername(),
                         LoginReqDto.getPassword());
 
-        System.out.println("JwtAuthenticationFilter : 토큰생성완료");
+        log.info("JwtAuthenticationFilter : 토큰생성완료");
 
         Authentication authentication =
                 authenticationManager.authenticate(authenticationToken);
 
         PrincipalDetails principalDetailis = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println("Authentication : "+principalDetailis.getUser().getUsername());
+        log.info("Authentication : {}",principalDetailis.getUser().getUsername());
         return authentication;
     }
 
@@ -65,11 +67,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = JWT.create()
                 .withSubject(principalDetailis.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", principalDetailis.getUser().getUserId())
+                .withClaim("userId", principalDetailis.getUser().getId())
                 .withClaim("username", principalDetailis.getUser().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken);
+//        response.setHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken);
     }
 
 }

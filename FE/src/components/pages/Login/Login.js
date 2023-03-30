@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import jwt_decode from "jwt-decode";
+
+import api from "../../../apis";
+
 import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
 import { Container, ValidWrapper } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
@@ -45,20 +49,25 @@ function Login() {
 	};
 
 	const handleClickLogin = () => {
-		console.log(id, pw);
-
 		if (id !== "" && pw !== "") {
 			(async () => {
 				await login({
 					username: id,
 					password: pw,
 				}).then((res) => {
-					if (res.status === 201) {
+					if (res?.status === 200) {
 						// 로그인 토큰 저장
-						// localStorage.setItem('refresh-token', res.data['refresh-token']);
-						// setCookie('access-token', res.data['access-token']);
-						// setCookie('uId', res.data.username);
-						// setCookie('nickname', res.data.nickname);
+						const token = res.headers.get("Authorization");
+
+						const decodeData = jwt_decode(token);
+
+						localStorage.setItem("token", token);
+						localStorage.setItem("userId", decodeData.userId);
+						localStorage.setItem("userName", decodeData.username);
+
+						// api 기본 헤더로 설정
+						api.defaults.headers.common["Authorization"] = token;
+
 						navigate("/");
 					}
 				});
@@ -98,6 +107,7 @@ function Login() {
 				)}
 			</>
 			<DefaultInput
+				type="password"
 				placeholder="비밀번호를 입력해주세요."
 				value={pw}
 				onChange={hadleChangePw}

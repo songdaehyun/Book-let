@@ -1,9 +1,12 @@
 package com.booklet.authservice.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="user_hashtag")
+@Data
 public class UserHashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
