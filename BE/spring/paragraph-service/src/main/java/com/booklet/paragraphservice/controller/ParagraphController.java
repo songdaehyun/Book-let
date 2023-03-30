@@ -1,6 +1,7 @@
 package com.booklet.paragraphservice.controller;
 
 import com.booklet.paragraphservice.dto.paragraph.ParagraphCreateReq;
+import com.booklet.paragraphservice.dto.paragraph.ParagraphReq;
 import com.booklet.paragraphservice.dto.paragraph.ParagraphUpdateReq;
 import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
@@ -45,11 +46,11 @@ public class ParagraphController {
         }
     }
 
-    @GetMapping("/{paragraphId}")
-    public ResponseEntity getOneParagraph(@PathVariable("paragraphId") Long paragraphId) {
+    @GetMapping
+    public ResponseEntity getOneParagraph(@RequestBody ParagraphReq request) {
         try {
             Map<String, Object> result = new HashMap<>();
-            result = paragraphService.findParagraph(paragraphId);
+            result = paragraphService.findParagraph(request.getParagraphId(), request.getUserId());
             if (result == null) {
                 String message = "not found";
 //                result.put("message", "not found");
