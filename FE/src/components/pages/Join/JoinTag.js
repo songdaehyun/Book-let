@@ -81,7 +81,7 @@ function JoinTag(props) {
 				nickname: nickname,
 				password: pw,
 				email: email,
-				age: age,
+				age: parseInt(age),
 				sex: gender,
 			};
 

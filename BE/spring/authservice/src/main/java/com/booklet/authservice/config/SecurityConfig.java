@@ -3,6 +3,7 @@ package com.booklet.authservice.config;
 import com.booklet.authservice.config.jwt.JwtAuthenticationFilter;
 import com.booklet.authservice.config.jwt.JwtAuthorizationFilter;
 import com.booklet.authservice.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

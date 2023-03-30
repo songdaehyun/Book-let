@@ -33,6 +33,7 @@ public class AuthServiceImpl implements AuthService{
             user.setRole("ROLE_USER");
             userRepository.save(user);
 
+
             SignUpResDto signUpResDto = modelMapper.map(user, SignUpResDto.class);
 
             result.put("data", signUpResDto);
