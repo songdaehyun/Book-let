@@ -51,9 +51,13 @@ export const getMyLike = async () => {
 	}
 };
 
-export const postFollow = async (uId) => {
+export const postFollow = async (uId, data) => {
 	try {
-		const res = await api.get(`/user/follow/${uId}`);
+		const res = await api({
+			method: "POST",
+			url: `/user/follow/${uId}`, 
+			data: data
+		});
 
 		console.log(res);
 		return res;
