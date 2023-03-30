@@ -51,8 +51,8 @@ export const getReview = async (isbn, size, page) => {
 			url: `/review/${isbn}?size=${size}&page=${page}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.reviews);
+		return res.data.reviews;
 	} catch (err) {
 		console.error(err);
 	}
