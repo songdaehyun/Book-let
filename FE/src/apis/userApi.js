@@ -15,15 +15,15 @@ export const postTaste = async (data) => {
 	}
 };
 
-export const getMyInfo = async () => {
+export const getMyInfo = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/user/`,
+			url: `/user/${uId}`,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -51,9 +51,13 @@ export const getMyLike = async () => {
 	}
 };
 
-export const postFollow = async (uId) => {
+export const postFollow = async (uId, data) => {
 	try {
-		const res = await api.get(`/user/follow/${uId}`);
+		const res = await api({
+			method: "POST",
+			url: `/user/follow/${uId}`, 
+			data: data
+		});
 
 		console.log(res);
 		return res;

@@ -11,23 +11,20 @@ import UserProfileImage from "../../atoms/UserProfileImage";
 function UserInfoOverview(props) {
 	const navigate = useNavigate();
 
+	const uId = localStorage.getItem("userId");
 	const [user, setUser] = useState();
 
-	useEffect(() => {
+	const getMyInfoApiCall = () => {
 		(async () => {
-			await getMyInfo().then((res) => {
+			await getMyInfo(uId).then((res) => {
 				setUser(res);
 			});
 		})();
-	}, []);
+	};
 
-	// const user = {
-	// 	imgPath:
-	// 		"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShQWztVKOhIT1WX5TmfhJCviOe1QTXIj_vOA&usqp=CAU",
-	// 	nickname: "만두킬러",
-	// 	follower: 15,
-	// 	following: 31,
-	// };
+	useEffect(() => {
+		getMyInfoApiCall();
+	}, []);
 
 	const handleClickFollowLabel = () => {
 		navigate("follow");
@@ -36,16 +33,16 @@ function UserInfoOverview(props) {
 	return (
 		<>
 			<Container paddingTop="56" paddingBottom="32" paddingLeft="16" paddingRight="16">
-				<UserProfileImage img={user.imgPath} size="lg" />
+				<UserProfileImage img={user?.imgPath} size="lg" />
 				<Text weight="bold" marginTop="24" marginBottom="16">
-					{user.nickname}
+					{user?.nickname}
 				</Text>
 				<FollowLabelsBox>
 					<div onClick={handleClickFollowLabel}>
-						<FollowLabel label="팔로잉" count={user.following} />
+						<FollowLabel label="팔로잉" count={user?.following} />
 					</div>
 					<div onClick={handleClickFollowLabel}>
-						<FollowLabel label="팔로워" count={user.follower} />
+						<FollowLabel label="팔로워" count={user?.follower} />
 					</div>
 				</FollowLabelsBox>
 			</Container>

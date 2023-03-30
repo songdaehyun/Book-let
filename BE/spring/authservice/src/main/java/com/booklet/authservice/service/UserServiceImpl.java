@@ -2,14 +2,21 @@ package com.booklet.authservice.service;
 
 import com.booklet.authservice.dto.FollowReqDto;
 import com.booklet.authservice.dto.GetUserInfoResDto;
+import com.booklet.authservice.dto.UserTasteReqDto;
 import com.booklet.authservice.entity.Follow;
+import com.booklet.authservice.entity.Hashtag;
 import com.booklet.authservice.entity.User;
+import com.booklet.authservice.entity.UserHashtag;
 import com.booklet.authservice.repository.FollowRepository;
+import com.booklet.authservice.repository.HashtagRepository;
+import com.booklet.authservice.repository.UserHashtagRepository;
 import com.booklet.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +27,8 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final HashtagRepository hashtagRepository;
+    private final UserHashtagRepository userHashtagRepository;
 
 //    @Override
     public HashMap<String, Object> findUserInfo(String username) {
@@ -53,22 +62,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean following(FollowReqDto followReqDto) {
-        System.out.println("팔로우하러옴");
+        log.info("팔로우 진입");
         User user = userRepository.findByUsername(followReqDto.getUsername());
         User following = userRepository.findByUsername(followReqDto.getFollowingUsername());
-        System.out.println("객체받음");
+
         // 유저가 있는지 확인
         if (user == null || following == null) {
-            System.out.println("유저없음");
+            log.info("유저없음");
             return false;
         }
-        System.out.println("user" + user.getUsername().toString());
-        System.out.println("following" + following.getUsername().toString());
+        log.info("user : {}", user.getUsername().toString());
+        log.info("following : {}", following.getUsername().toString());
         Follow test = followRepository.findByFollowerAndFollowing(user, following);
-        System.out.println(test);
         // 팔로우 정보가 있는지 확인
         if (followRepository.findByFollowerAndFollowing(user, following) != null) {
-            System.out.println("팔로우 정보 있음");
             // 팔로우가 있다면 삭제
             Follow follow = followRepository.findByFollowerAndFollowing(user, following);
             followRepository.delete(follow);
@@ -76,16 +83,36 @@ public class UserServiceImpl implements UserService{
 
             return true;
         } else {
-            System.out.println("팔로우정보 없음");
             // 팔로우가 없다면 팔로우
             Follow follow = new Follow();
             follow.setFollowing(following);
             follow.setFollower(user);
             followRepository.save(follow);
-            System.out.println("팔로우 완료!");
+            log.info("팔로우 완료!");
 
             return true;
         }
     }
-    
+
+    @Override
+    public boolean saveUserTaste(UserTasteReqDto userTasteReqDto, String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return false;}
+
+        List<UserHashtag> userHashtaghashtag = userHashtagRepository.findAllByUserHashtagId(user.getId());
+        if (userHashtaghashtag.size()!=0) {return false;}
+
+        List<String> tastes = userTasteReqDto.getTastes();
+        for (String taste : tastes) {
+            Hashtag hashtag = hashtagRepository.findByHashtagName(taste);
+            UserHashtag userHashtag = new UserHashtag();
+            userHashtag.setUser(user);
+            userHashtag.setHashtag(hashtag);
+            userHashtagRepository.save(userHashtag);
+        }
+
+
+        return true;
+    }
+
 }
