@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import jwt_decode from "jwt-decode";
+
 import api from "../../../apis";
 
 import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
@@ -56,8 +58,12 @@ function Login() {
 					if (res?.status === 200) {
 						// 로그인 토큰 저장
 						const token = res.headers.get("Authorization");
+
+						const decodeData = jwt_decode(token);
+
 						localStorage.setItem("token", token);
-						localStorage.setItem("userId", id);
+						localStorage.setItem("userId", decodeData.userId);
+						localStorage.setItem("userName", decodeData.username);
 
 						// api 기본 헤더로 설정
 						api.defaults.headers.common["Authorization"] = token;
