@@ -47,11 +47,9 @@ public class BookController {
     @GetMapping("/search")
     public ResponseEntity searchBooks(@RequestParam String bookTitle, int size, int page) throws Exception{
         PageRequest pageRequest = PageRequest.of(page, size);
-        System.out.println(bookTitle+"!!!!!!!!!!!!!!!!!!!!!!!!!1");
-        List<BookSearchRes> resList = bookService.searchBooks(bookTitle, pageRequest);
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("list", resList);
+        HashMap<String, Object> map = new HashMap<>();
+        map = bookService.searchBooks(bookTitle, pageRequest);
 
-        return new ResponseEntity(resList, HttpStatus.ACCEPTED);
+        return new ResponseEntity(map, HttpStatus.ACCEPTED);
     }
 }
