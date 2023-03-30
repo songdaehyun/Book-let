@@ -15,7 +15,7 @@ function LikeButton({ isLiked }) {
 	const handleClickLike = () => {
 		const data = {
 			bookIsbn: bId,
-			userId: 1,
+			userId: uId,
 		};
 
 		(async () => {
