@@ -2,7 +2,7 @@
 
 ## 디렉토리 설명
 
-recommend
+recommend-bookcover
 ㄴ settings
 urls
 bookcover
@@ -13,8 +13,11 @@ models
 ㄴmodel\*p1 _(keras 모델 디렉토리)_
 csv \_(표지 유사도 추천 테이블)\_
 Docker (recommend 프로젝트 도커 이미지 파일)
-
 manage.py
+
+recommend-service
+ㄴ basic_recom
+ㄴ book_recom
 
 ## 이미지 추천 시스템 구조
 
