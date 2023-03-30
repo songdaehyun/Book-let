@@ -12,7 +12,7 @@ function PreviewPost({ post, isMy }) {
 			<PreviewSentence post={post} />
 			<ScrapToolbar
 				sId={post?.sId}
-				isScraped={post?.isMy}
+				isScraped={post?.isScraped}
 				scrapImgs={post?.scrapImgs}
 				scrapCount={post?.scrapCount}
 				isMy={isMy}
