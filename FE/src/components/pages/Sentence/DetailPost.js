@@ -57,7 +57,7 @@ function DetailPost() {
 	const { sId } = useParams();
 
 	const [post, setPost] = useState();
-	const [comments, setComments] = useState();
+	const [comments, setComments] = useState([]);
 
 	const [isFollowed, setIsFollowed] = useState(false);
 
@@ -76,7 +76,9 @@ function DetailPost() {
 			await getComment(sId)
 				.then(initComment)
 				.then((res) => {
-					setComments(res);
+					if (res !== "no comments" && res !== "fail") {
+						setComments(res);
+					}
 				});
 		})();
 	};
