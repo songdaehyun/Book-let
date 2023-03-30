@@ -8,6 +8,8 @@ import { Text } from "../../styles/common/TextsStyle";
 import ReplyTextButton from "../atoms/Button/ReplyTextButton";
 import RatingLabel from "../atoms/RatingLabel";
 
+import defaultImg from "../../assets/images/user-default-img.png";
+
 function Comment({ comment, type, getReviewApiCall }) {
 	const dateTimeSeparation = useDate();
 
@@ -23,7 +25,11 @@ function Comment({ comment, type, getReviewApiCall }) {
 
 	return (
 		<CommentBox>
-			<img src={comment?.img} alt="Profile of the user who commented" />
+			<img
+				src={comment.img ? comment.img : defaultImg}
+				alt="Profile of the user who commented"
+			/>
+
 			<div>
 				<CommentHeadingBox>
 					<Text weight="600">{comment?.nickname}</Text>
