@@ -30,12 +30,13 @@ export const postLike = async (data) => {
 };
 
 export const getBookSearch = async (title, size, page) => {
-	const titleParam = decodeURI(decodeURIComponent(title));
+	// const titleParam = decodeURI(decodeURIComponent(title));
+	const titleParam = encodeURIComponent(title);
 
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/search?bookTitle=${titleParam}&size=${size}&page=${page}`,
+			url: `/book/search?bookTitle=${titleParam}&size=${size}&page=${page}`,
 		});
 
 		console.log(res.data.bookList);
