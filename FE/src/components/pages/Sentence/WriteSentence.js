@@ -9,6 +9,7 @@ import { createPost } from "../../../apis/sentenceApi";
 function WriteSentence() {
 	const navigate = useNavigate();
 
+	const uId = localStorage.getItem("userId");
 	const [content, setContent] = useState("");
 	const [background, setBackground] = useState("#FEEB60");
 	const [page, setPage] = useState("");
@@ -23,7 +24,7 @@ function WriteSentence() {
 			paragraphContent: content,
 			paragraphPage: page,
 			paragraphColor: background,
-			userId: 1
+			userId: uId,
 		};
 
 		(async () => {

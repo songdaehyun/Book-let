@@ -55,25 +55,25 @@ export const initSentence = (raw) => {
 export const initSentenceList = (raw) => {
 	return raw?.map((sentence) => {
 		return {
-			nickname: sentence?.user?.nickname,
-			profileImg: sentence?.user?.userImage,
+			nickname: sentence?.userInfo?.nickname,
+			profileImg: sentence?.userInfo?.userImage,
 
-			isbn: sentence?.book?.bookIsbn,
-			title: sentence?.book?.bookTitle,
-			author: sentence?.book?.bookAuthor,
-			cover: sentence?.book?.bookImage,
+			isbn: sentence?.bookIsbn,
+			title: sentence?.bookTitle,
+			author: sentence?.bookAuthor,
+			cover: sentence?.bookImage,
 
-			sId: sentence?.paragraph?.paragraphId,
-			content: sentence?.paragraph?.paragraphContent,
-			page: sentence?.paragraph?.paragraphPage,
-			color: sentence?.paragraph?.paragraphColor,
-			date: sentence?.paragraph?.createdDate,
+			sId: sentence?.paragraphId,
+			content: sentence?.paragraphContent,
+			page: sentence?.paragraphPage,
+			color: sentence?.paragraphColor,
+			date: sentence?.createdDate,
 
 			isScraped: sentence?.scrapInfo?.userScrape,
 			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
 			scrapCount: sentence?.scrapInfo?.scrapCount,
 
-			commentCnt: sentence?.paragraphId?.commentCnt,
+			commentCnt: sentence?.commentCnt,
 		};
 	});
 };
@@ -81,12 +81,8 @@ export const initSentenceList = (raw) => {
 export const initMyPost = (raw) => {
 	return raw?.map((sentence) => {
 		return {
-			nickname: sentence?.userInfo?.nickname,
-			profileImg: sentence?.userInfo?.userImage,
-
-			isbn: sentence?.book?.bookIsbn,
-			title: sentence?.book?.bookTitle,
-			author: sentence?.book?.bookAuthor,
+			title: sentence?.bookTitle,
+			author: sentence?.bookAuthor,
 			cover: sentence?.book?.bookImage,
 
 			sId: sentence?.paragraphId,
@@ -95,9 +91,9 @@ export const initMyPost = (raw) => {
 			color: sentence?.paragraphColor,
 			date: sentence?.createdDate,
 
-			isScraped: sentence?.paragraphScrapDto?.userScrape,
-			scrapImgs: sentence?.paragraphScrapDto?.scrapUserImages,
-			scrapCount: sentence?.paragraphScrapDto?.scrapCount,
+			isScraped: sentence?.scrapInfo?.userScrape,
+			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
+			scrapCount: sentence?.scrapInfo?.scrapCount,
 
 			commentCnt: sentence?.commentCnt,
 		};
@@ -128,9 +124,11 @@ export const initScrappedList = (raw) => {
 export const initComment = (raw) => {
 	return raw?.map((comment) => {
 		return {
-			uId: comment?.user?.userId,
+			uId: comment?.userId,
 			cId: comment?.commentId,
+			img: comment?.userImage,
 			nickname: comment?.nickname,
+			img: comment?.userImage,
 			content: comment?.commentContent,
 			date: comment?.createdDate,
 			group: comment?.commentGroup,

@@ -50,8 +50,8 @@ export const getFollowingPost = async (uId, size, page) => {
 			url: `/sns/paragraph/following/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data?.paragraphs);
+		return res.data?.paragraphs;
 	} catch (err) {
 		console.log(err);
 	}
@@ -152,8 +152,8 @@ export const getComment = async (sId) => {
 			url: `/comment/${sId}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}

@@ -8,6 +8,7 @@ import WordCountText from "../../atoms/WordCountText";
 
 function CommentInput({ type, getCommentApiCall }) {
 	const { sId } = useParams();
+
 	const uId = localStorage.getItem("userId");
 
 	const [comment, setComment] = useState("");
@@ -21,8 +22,8 @@ function CommentInput({ type, getCommentApiCall }) {
 
 	const commentSubmit = () => {
 		const data = {
-			paragraphId: sId,
-			userId: 1,
+			paragraphId: parseInt(sId),
+			userId: uId,
 			commentContent: comment,
 			parentCommentId: 0, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
 		};
