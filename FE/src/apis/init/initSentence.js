@@ -81,12 +81,8 @@ export const initSentenceList = (raw) => {
 export const initMyPost = (raw) => {
 	return raw?.map((sentence) => {
 		return {
-			nickname: sentence?.userInfo?.nickname,
-			profileImg: sentence?.userInfo?.userImage,
-
-			isbn: sentence?.book?.bookIsbn,
-			title: sentence?.book?.bookTitle,
-			author: sentence?.book?.bookAuthor,
+			title: sentence?.bookTitle,
+			author: sentence?.bookAuthor,
 			cover: sentence?.book?.bookImage,
 
 			sId: sentence?.paragraphId,
@@ -95,9 +91,9 @@ export const initMyPost = (raw) => {
 			color: sentence?.paragraphColor,
 			date: sentence?.createdDate,
 
-			isScraped: sentence?.paragraphScrapDto?.userScrape,
-			scrapImgs: sentence?.paragraphScrapDto?.scrapUserImages,
-			scrapCount: sentence?.paragraphScrapDto?.scrapCount,
+			isScraped: sentence?.scrapInfo?.userScrape,
+			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
+			scrapCount: sentence?.scrapInfo?.scrapCount,
 
 			commentCnt: sentence?.commentCnt,
 		};
