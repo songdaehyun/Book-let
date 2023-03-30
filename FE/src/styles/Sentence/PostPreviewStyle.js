@@ -20,6 +20,7 @@ export const PreviewSentenceContainer = styled.div`
 `;
 
 export const PreviewSentenceContent = styled.div`
+	width: 100%;
 	height: 100%;
 
 	position: absolute;
