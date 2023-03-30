@@ -1,6 +1,5 @@
 # Django 가상 환경 폴더 제외
-BE/django/venv
+venv
 
 .DS_Store
-BE/django/condavenv
 .env
