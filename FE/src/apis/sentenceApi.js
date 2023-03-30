@@ -15,11 +15,12 @@ export const createPost = async (data) => {
 	}
 };
 
-export const getPost = async (sId) => {
+export const getPost = async (data) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph/${sId}`,
+			url: `/sns/paragraph`,
+			data: data,
 		});
 
 		console.log(res.data);
