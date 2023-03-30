@@ -13,7 +13,7 @@ from .serializers import BookInfoSerializer
 # import yolov5
 
 # .pt로 저장된 모델 불러오기
-modelpath = "static/model_p1"
+modelpath = "models/model_p1"
 model = keras.models.load_model(modelpath)
 # model = yolov5.load(modelpath)
 
