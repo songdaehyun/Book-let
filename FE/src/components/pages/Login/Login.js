@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import jwt_decode from "jwt-decode";
+
+import api from "../../../apis";
+
 import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
 import { Container, ValidWrapper } from "../../../styles/common/ContainingsStyle";
 import { DefaultInput } from "../../../styles/common/InputsStyle";
-import { ValidFailText } from "../../../styles/common/TextsStyle";
-import { ImgWrapper, TextBtnWrapper } from "../../../styles/User/LoginStyle";
+import { Text, ValidFailText } from "../../../styles/common/TextsStyle";
+import { ImgWrapper, LogoBox, TextBtnWrapper } from "../../../styles/User/LoginStyle";
 
 import { login } from "../../../apis/authApi";
 import loginImg from "../../../assets/images/login-img.svg";
+import Logo from "../../../assets/images/logo_left.png";
 
 function Login() {
 	const navigate = useNavigate();
@@ -44,20 +49,25 @@ function Login() {
 	};
 
 	const handleClickLogin = () => {
-		console.log(id, pw);
-
 		if (id !== "" && pw !== "") {
 			(async () => {
 				await login({
 					username: id,
 					password: pw,
 				}).then((res) => {
-					if (res.status === 201) {
-						// 로그인 토큰 저장 
-						// localStorage.setItem('refresh-token', res.data['refresh-token']);
-						// setCookie('access-token', res.data['access-token']);
-						// setCookie('uId', res.data.username);
-						// setCookie('nickname', res.data.nickname);
+					if (res?.status === 200) {
+						// 로그인 토큰 저장
+						const token = res.headers.get("Authorization");
+
+						const decodeData = jwt_decode(token);
+
+						localStorage.setItem("token", token);
+						localStorage.setItem("userId", decodeData.userId);
+						localStorage.setItem("userName", decodeData.username);
+
+						// api 기본 헤더로 설정
+						api.defaults.headers.common["Authorization"] = token;
+
 						navigate("/");
 					}
 				});
@@ -73,7 +83,11 @@ function Login() {
 	};
 
 	return (
-		<Container paddingLeft="24" paddingRight="24">
+		<Container paddingTop="88" paddingBottom="24" paddingLeft="24" paddingRight="24">
+			<LogoBox>
+				<img src={Logo} alt="Logo" />
+				<Text marginTop="12">책을 읽다, 문장으로 잇다.</Text>
+			</LogoBox>
 			<ImgWrapper>
 				<img src={loginImg} alt="이미지" />
 			</ImgWrapper>
@@ -93,6 +107,7 @@ function Login() {
 				)}
 			</>
 			<DefaultInput
+				type="password"
 				placeholder="비밀번호를 입력해주세요."
 				value={pw}
 				onChange={hadleChangePw}

@@ -44,12 +44,12 @@ export const logout = async () => {
 	}
 };
 
-export const updateMyInfo = async (data) => {
+export const updateMyInfo = async (uId) => {
 	try {
 		const res = await api({
 			method: "PUT",
 			url: `/auth/update`,
-			data: data,
+			data: uId,
 		});
 
 		console.log(res.data);
