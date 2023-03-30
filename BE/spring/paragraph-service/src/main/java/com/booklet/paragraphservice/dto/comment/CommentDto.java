@@ -5,6 +5,8 @@ import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +18,8 @@ public class CommentDto {
     private String commentContent;
     private Paragraph paragraph;
     private User user;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public CommentDto(CommentCreateReq commentCreateReq){
         if(commentCreateReq.getParentCommentId()>0){ // 아기 댓글

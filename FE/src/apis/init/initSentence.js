@@ -130,6 +130,7 @@ export const initComment = (raw) => {
 		return {
 			uId: comment?.userId,
 			cId: comment?.commentId,
+			img: comment?.userImage,
 			nickname: comment?.nickname,
 			img: comment?.userImage,
 			content: comment?.commentContent,
