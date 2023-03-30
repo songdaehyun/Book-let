@@ -48,7 +48,7 @@ function BookReview() {
 				<Span marginLeft="8" marginRight="8" color="var(--gray-300)">
 					|
 				</Span>
-				<Span>{reviews?.length}</Span>
+				<Span>{reviews?.length || 0}</Span>
 			</Text>
 			<InputRatingSection />
 			<CommentInput type="리뷰" getReviewApiCall={getReviewApiCall} />
