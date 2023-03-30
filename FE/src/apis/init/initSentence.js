@@ -12,7 +12,7 @@
 //     "scrapInfo": {
 //         "scrapUserImages": [],
 //         "scrapCount": 0,
-//         "userScrape": 0
+//         "userScrap": 0
 //     },
 //     "book": {
 //         "bookIsbn": "2090000063035",
@@ -46,7 +46,7 @@ export const initSentence = (raw) => {
 		color: raw?.paragraph?.paragraphColor,
 		date: raw?.paragraph?.createdDate,
 
-		isScraped: raw?.scrapInfo?.userScrape,
+		isScraped: raw?.scrapInfo?.userScrap,
 		scrapImgs: raw?.scrapInfo?.scrapUserImages,
 		scrapCount: raw?.scrapInfo?.scrapCount,
 	};
@@ -69,7 +69,7 @@ export const initSentenceList = (raw) => {
 			color: sentence?.paragraphColor,
 			date: sentence?.createdDate,
 
-			isScraped: sentence?.scrapInfo?.userScrape,
+			isScraped: sentence?.scrapInfo?.userScrap,
 			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
 			scrapCount: sentence?.scrapInfo?.scrapCount,
 
@@ -91,7 +91,7 @@ export const initMyPost = (raw) => {
 			color: sentence?.paragraphColor,
 			date: sentence?.createdDate,
 
-			isScraped: sentence?.scrapInfo?.userScrape,
+			isScraped: sentence?.scrapInfo?.userScrap,
 			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
 			scrapCount: sentence?.scrapInfo?.scrapCount,
 
@@ -112,7 +112,7 @@ export const initScrappedList = (raw) => {
 			color: sentence?.paragraphColor,
 			date: sentence?.createdDate,
 
-			isScraped: sentence?.scrapInfo?.userScrape,
+			isScraped: sentence?.scrapInfo?.userScrap,
 			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
 			scrapCount: sentence?.scrapInfo?.scrapCount,
 
