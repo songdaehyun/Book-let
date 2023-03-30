@@ -26,7 +26,7 @@ public class CorsConfig {
         config.setAllowedOrigins(originlst);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addExposedHeader(JwtProperties.HEADER_STRING);
+        config.addExposedHeader(JwtProperties.HEADER_STRING);  // 헤더 보이게 설정하기
 
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
