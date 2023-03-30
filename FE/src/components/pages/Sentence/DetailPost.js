@@ -74,11 +74,13 @@ function DetailPost() {
 	const getCommentApiCall = () => {
 		(async () => {
 			await getComment(sId)
-				.then(initComment)
 				.then((res) => {
-					if (res !== "no comments" && res !== "fail") {
-						setComments(res);
+					if (res.comments) {
+						return initComment(res.comments);
 					}
+				})
+				.then((res) => {
+					setComments(res);
 				});
 		})();
 	};
