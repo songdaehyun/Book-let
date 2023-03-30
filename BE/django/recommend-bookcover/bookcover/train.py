@@ -40,6 +40,7 @@ def bookcover_recommendation(result_dataframe):
 
         # score와 DB 인덱스를 DataFrake 형태로 정리
         rec_series = pd.DataFrame(columns=[
+            "book_isbn",
             "book_image",
             "ssim_score"
         ])
