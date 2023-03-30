@@ -14,11 +14,12 @@ export const getBook = async (isbn) => {
 	}
 };
 
-export const postLike = async (isbn) => {
+export const postLike = async (data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/like/${isbn}`,
+			url: `/like`,
+			data: data,
 		});
 
 		console.log(res);
@@ -76,6 +77,7 @@ export const postReview = async (data) => {
 		const res = await api({
 			method: "POST",
 			url: `/review`,
+			data: data,
 		});
 
 		console.log(res);
