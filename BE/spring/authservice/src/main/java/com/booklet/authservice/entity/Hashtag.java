@@ -1,7 +1,6 @@
 package com.booklet.authservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="hashtag")
-@Getter
+@Data
 public class Hashtag {
 
     @Id
@@ -17,6 +16,12 @@ public class Hashtag {
     private Long hashtagId;
 
     private String hashtagName;
+
+    @Column(name = "hashtag_p_score")
+    private float hashtagPScore;
+
+    @Column(name = "hashtag_n_score")
+    private float hashtagNScore;
 
     @OneToMany(mappedBy = "hashtag")
     private List<UserHashtag> userHashtags = new ArrayList<>();
