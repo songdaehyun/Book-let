@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { getBookSearch } from "../../../apis/BookApi";
 import searchIcon from "../../../assets/icons/search-icon.png";
 import { Text } from "../../../styles/common/TextsStyle";
 import {
@@ -29,22 +30,22 @@ function SentenceBookSearch(props) {
 		}, 100);
 	};
 
-	const searchApiCall = () => {
-		// (async () => {
-		// 	await getBookSearch(searchWord).then((res) => setSearchBooks(res));
-		// })();
+	const searchApiCall = (word) => {
+		(async () => {
+			await getBookSearch(word, 5, 0).then((res) => setSearchBooks(res));
+		})();
 
 		// 더미
-		setSearchBooks([
-			{ bId: 1, title: "제목1", author: "나1" },
-			{ bId: 2, title: "제목2", author: "나2" },
-		]);
+		// setSearchBooks([
+		// 	{ bId: 1, title: "제목1", author: "나1" },
+		// 	{ bId: 2, title: "제목2", author: "나2" },
+		// ]);
 	};
 
 	const handleChangeSearchWord = (e) => {
 		setSearchWord(e.target.value);
 
-		searchApiCall();
+		searchApiCall(e.target.value);
 	};
 
 	const handleClickBook = (book) => {
