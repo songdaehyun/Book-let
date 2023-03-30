@@ -13,6 +13,10 @@ WORKDIR /django/recommend
 
 COPY . .
 
+# 서버 구동에 필요한 라이브러리 & 오픈소스 설치
+RUN pip install -r requirements.txt
+
+
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 # 이동한 디렉토리에서 django를 가동시켜주는 코드를 작성합니다. 여기서 port는 8000로 실행시키겠습니다.
 

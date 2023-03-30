@@ -8,6 +8,8 @@ from .train import bookcover_recommendation
 from tensorflow import keras
 import requests
 from .serializers import BookInfoSerializer
+# ssim 사용 시 아래 코드 비활성화
+from .models import BookInfoModel
 
 
 # import yolov5
@@ -25,70 +27,61 @@ def image_recommend(request):   # 예측 기능 수행
 
         # Get 요청에서 입력 데이터 추출
         # input_data 처리 결과가 유효하지 않으면 오류가 반환해야 함
-        input_image = list(request.GET.get('book_image').split(','))
-        input_isbn = list(request.GET.get('book_isbn').split(','))
+        input_image = request.GET.get('book_image')
+        input_isbn = request.GET.get('book_isbn')
 
-        # image_spec = 이미지의 confidence 값을 df로 요약한 형태
-        image_spec = pd.DataFrame(columns=[
-            "book_isbn",
-            "book_image",
-            "feeling"
-        ])
+        # 요청한 값의 이미지 URL 조회
 
-        # 요청한 값의 이미지 URL을 하나씩 조회
-        for imgidx in range(len(input_image)):
-            col_image = input_image[imgidx]     # 이미지 URL 주소
+        # 각 URL 별 Image 데이터 불러오기
+        req_result = requests.get(input_image)
+        input_pixel = np.asarray(
+            bytearray(
+                req_result.content
+            ),
+            dtype=np.uint8
+        )
 
-            # 각 URL 별 Image 데이터 불러오기
-            req_result = requests.get(col_image)
-            input_pixel = np.asarray(
-                bytearray(
-                    req_result.content
-                ),
-                dtype=np.uint8
-            )
+        # 이미지 크기를 (300, 300)으로 재조정
+        input_image = cv2.imdecode(input_pixel, cv2.IMREAD_COLOR)
+        input_image = cv2.resize(input_image, (300, 300))
+        image_RGB = cv2.cvtColor(input_image, cv2.COLOR_BGR2RGB)
+        # Reshaping RGB image to get following: (batch size, rows, columns, channels)
+        x_input_RGB = image_RGB.reshape(
+            1,
+            image_RGB.shape[0],
+            image_RGB.shape[1],
+            3
+        ).astype(
+            np.float32
+        )
 
-            # 이미지 크기를 (300, 300)으로 재조정
-            input_image = cv2.imdecode(input_pixel, cv2.IMREAD_COLOR)
-            input_image = cv2.resize(input_image, (300, 300))
+        # 모델로 카테고리 분류
+        input_info = model.predict(x_input_RGB)
 
-            image_RGB = cv2.cvtColor(input_image, cv2.COLOR_BGR2RGB)
+        # # 딕셔너리에 {분류: 유사도} 형태로 저장
+        # 모델 예측 결과 중 가장 정확도가 높은 값의 인덱스 번호
+        image_classification = np.argmax(input_info[0])
 
-            # Reshaping RGB image to get following: (batch size, rows, columns, channels)
-            x_input_RGB = image_RGB.reshape(
-                1,
-                image_RGB.shape[0],
-                image_RGB.shape[1],
-                3
-            ).astype(
-                np.float32
-            )
+        # ssim을 사용하는 경우 image_spec ~ response 활성화
+        # # image_spec = 이미지의 confidence 값을 df로 요약한 형태
+        # image_spec = pd.DataFrame({
+        #     "book_isbn" : input_isbn,
+        #     "book_image" : input_image,
+        #     "feeling" : image_classification
+        # })
 
-            image_value = dict()                # 이미지 keyword의 confidence 값을 딕셔너리 형태로 정리
+        # response = bookcover_recommendation(image_spec)
 
-            # book_id, book_isbn, book_image 설정
-            image_value["book_id"] = imgidx
-            image_value["book_isbn"] = input_isbn[imgidx]
-            image_value["book_image"] = col_image
+        # ssim을 사용하지 않는 경우 Bookinfomodel ~ response 활성화
+        result = BookInfoModel.objects.filter(
+            feeling=image_classification
+        ).order_by(
+            '?'
+        )[:20]
+        # 20개 항목을 무작위로 추출
+        result = list(result.values())
+        response = {input_isbn : result}
 
-            # 모델로 카테고리 분류
-            input_info = model.predict(x_input_RGB)
-
-            # # 딕셔너리에 {분류: 유사도} 형태로 저장
-            # 모델 예측 결과 중 가장 정확도가 높은 값의 인덱스 번호
-            image_value["feeling"] = np.argmax(input_info[0])
-            image_value = pd.DataFrame([image_value])
-
-            # image_value 값을 image_spec에 합치기
-            image_spec = pd.concat([image_spec, image_value])
-
-        # confidence 값이 없는 경우(결측치인 경우) 0으로 대체
-        image_spec = image_spec.fillna(0)
-
-        # DB에 해당 값 주입
-
-        # response = 추천 이미지 리스트
-        response = bookcover_recommendation(image_spec)
 
         # Return the response as a JSON object
         return JsonResponse(response)
