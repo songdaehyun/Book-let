@@ -16,8 +16,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, String> {
 
      Slice<Book> findByBookTitleContaining(String title, Pageable pageable);
-     @Query("select new com.booklet.bookservice.dto.AuthorBookDto(b.bookImage, b.bookTitle, b.bookIsbn) from Book b where b.author.authorId=:authorId order by rand() limit 5")
-     List<AuthorBookDto> findBooksByAuthor(Long authorId);
-     @Query("select new com.booklet.bookservice.dto.AuthorBookDto(b.bookImage, b.bookTitle, b.bookIsbn) from Book b where b.bookPublisher=:publisher order by rand() limit 5")
-     List<AuthorBookDto> findBooksByBookPublisher(String publisher);
+     @Query("select new com.booklet.bookservice.dto.AuthorBookDto(b.bookImage, b.bookTitle, b.bookIsbn) from Book b where b.author.authorId=:authorId")
+     List<AuthorBookDto> findTop5BooksByAuthor(Long authorId, Pageable pageable);
+     @Query("select new com.booklet.bookservice.dto.AuthorBookDto(b.bookImage, b.bookTitle, b.bookIsbn) from Book b where b.bookPublisher=:publisher")
+     List<AuthorBookDto> findTop5BooksByBookPublisher(String publisher, Pageable pageable);
 }

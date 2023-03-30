@@ -14,6 +14,7 @@ import com.booklet.bookservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -67,8 +68,8 @@ public class BookServiceImpl implements BookService{
 //        bookInfo.setAuthorName(book.getAuthor().getAuthorName());
         bookInfo.setAuthorName("김이박"); // 임시
         // author의 다른 책 5권
-//        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getAuthor().getAuthorId())); // 임시
-        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByBookPublisher(book.getBookPublisher())); // 임시
+//        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getAuthor().getAuthorId(), PageRequest.of(0,5))); // 임시
+        bookInfo.setAuthorOtherBooks(bookRepository.findTop5BooksByBookPublisher(book.getBookPublisher(), PageRequest.of(0,5))); // 임시
 
         // 회원이 책을 좋아하는지 여부
         BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(userId, bookIsbn).orElseGet(BookLikes::new);
@@ -77,7 +78,7 @@ public class BookServiceImpl implements BookService{
         // 책의 좋아요 수
         bookInfo.setLikesNumber(bookLikesRepository.countBookLikesByBook(book));
         // 책을 좋아요하는 회원들 사진 3개
-        List<User> users = bookLikesRepository.findTop3BookLikeUserImages(bookIsbn);
+        List<User> users = bookLikesRepository.findTop3BookLikeUser(bookIsbn, PageRequest.of(0,3));
         ArrayList<String> userImageList = new ArrayList<>();
         for (User u : users) {
             userImageList.add(userImageRepository.findUserImageByUser(u));

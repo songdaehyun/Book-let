@@ -1,5 +1,7 @@
 package com.booklet.bookservice.controller;
 
+import com.booklet.bookservice.dto.BookDetailReq;
+import com.booklet.bookservice.dto.BookDetailRes;
 import com.booklet.bookservice.dto.BookLikeReq;
 import com.booklet.bookservice.dto.BookSearchRes;
 import com.booklet.bookservice.service.BookLikeService;
@@ -44,6 +46,16 @@ public class BookController {
         return new ResponseEntity(result, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping
+    public ResponseEntity getBookDetail(@RequestBody BookDetailReq request) throws Exception{
+        try {
+            BookDetailRes detailRes = bookService.findBookDetail(request.getBookIsbn(), request.getUserId());
+            return new ResponseEntity(detailRes, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/search")
     public ResponseEntity searchBooks(@RequestParam String bookTitle, int size, int page) throws Exception{
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -52,4 +64,5 @@ public class BookController {
 
         return new ResponseEntity(map, HttpStatus.ACCEPTED);
     }
+
 }

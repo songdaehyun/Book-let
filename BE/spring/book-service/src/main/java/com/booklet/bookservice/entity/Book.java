@@ -23,8 +23,6 @@ public class Book {
 
     private String bookDescription;
 
-    private float bookScore;
-
     private float bookGrade;
 
     @Column
