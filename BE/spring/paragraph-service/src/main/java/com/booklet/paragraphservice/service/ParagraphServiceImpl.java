@@ -3,6 +3,7 @@ package com.booklet.paragraphservice.service;
 import com.booklet.paragraphservice.dto.*;
 import com.booklet.paragraphservice.dto.paragraph.*;
 import com.booklet.paragraphservice.entity.Book;
+import com.booklet.paragraphservice.entity.Follow;
 import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
 import com.booklet.paragraphservice.repository.*;
@@ -65,8 +66,9 @@ public class ParagraphServiceImpl implements ParagraphService {
     }
 
     @Override
-    public Map<String, Object> findParagraph(Long paragraphId) { // 한개의 문장 상세 보기
+    public Map<String, Object> findParagraph(Long paragraphId, Long userId) { // 한개의 문장 상세 보기
         Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        User me = userRepository.findById(userId).orElseGet(User::new);
         Map<String, Object> result = new HashMap<>();
 
         if (paragraph == null) return null;
@@ -82,11 +84,15 @@ public class ParagraphServiceImpl implements ParagraphService {
 //            bookDto.setBookAuthor(book.getAuthor().getAuthorName());
             bookDto.setBookAuthor("김이박");
             // 작성자 정보
-            UserDto userDto = new ModelMapper().map(user, UserDto.class);
+            UserInfoDto userDto = new ModelMapper().map(user, UserInfoDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(user));
+            Follow follow = followRepository.findByFollowerAndFollowing(me, user).orElseGet(Follow::new);
+            if (follow.getFollowId() > 0) {
+                userDto.setIsFollowing(1);
+            }else userDto.setIsFollowing(0);
             // 댓글 수
             int commentCnt = commentRepository.countByParagraphId(paragraphId);
-            ParagraphScrapDto paragraphScrapDto = getParagraphScrapDto(paragraphId, paragraph, user);
+            ParagraphScrapDto paragraphScrapDto = getParagraphScrapDto(paragraphId, paragraph, me);
 
             result.put("paragraph", paragraphDto);
             result.put("book", bookDto);
@@ -136,7 +142,7 @@ public class ParagraphServiceImpl implements ParagraphService {
             // 1. 해당 user가 following한 user들의 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinFollow(user, pageable);
             // 2. scrap 정보, 댓글 수, 해당 user 정보
-            return getStringObjectHashMap(paragraphs);
+            return getStringObjectHashMap(paragraphs, user);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,7 +156,7 @@ public class ParagraphServiceImpl implements ParagraphService {
         try {
             // 1. 해당 user가 scrap한 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinScrap(user, pageable);
-            result = getStringObjectHashMap(paragraphs);
+            result = getStringObjectHashMap(paragraphs, user);
             // 2. scrap 정보, 댓글 수, 해당 user 정보
             return result;
 
@@ -160,7 +166,7 @@ public class ParagraphServiceImpl implements ParagraphService {
         return result;
     }
 
-    private HashMap<String, Object> getStringObjectHashMap(Slice<Paragraph> paragraphs) {
+    private HashMap<String, Object> getStringObjectHashMap(Slice<Paragraph> paragraphs, User me) {
         List<ParagraphCommonListDto> listDto = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setAmbiguityIgnored(true);
@@ -171,7 +177,7 @@ public class ParagraphServiceImpl implements ParagraphService {
             UserDto userDto = new ModelMapper().map(p.getUser(), UserDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(p.getUser()));
             // 2. 해당 paragraph scrap 정보
-            ParagraphScrapDto scrapInfo = getParagraphScrapDto(p.getParagraphId(), p, p.getUser());
+            ParagraphScrapDto scrapInfo = getParagraphScrapDto(p.getParagraphId(), p, me);
             // 3. 해당 paragraph comment 수
             int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
             // 4. 해당 paragraph book Info
