@@ -19,13 +19,13 @@ public class Book {
 
     private String bookPublisher;
 
-    private Integer bookPrice;
+    private int bookPrice;
 
     private String bookDescription;
 
-    private Float bookScore;
+    private float bookScore;
 
-    private Float bookGrade;
+    private float bookGrade;
 
     @Column
     private String bookImage;
