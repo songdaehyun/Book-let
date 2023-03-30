@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!w55jf2@_h#s1&o=nr)qtua#@)*z0jttdz!4u_pqh1_l)lgr2h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,13 +55,38 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ALL_ORIGINS = True
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
+
+# CORS_ALLOW_METHODS = (
+#     'DELETE',
+#     'GET',
+#     'OPTIONS',
+#     'PATCH',
+#     'POST',
+#     'PUT',
+# )
+
+# CORS_ALLOW_HEADERS = (
+#     'accept',
+#     'accept-encoding',
+#     'authorization',
+#     'content-type',
+#     'dnt',
+#     'origin',
+#     'user-agent',
+#     'x-csrftoken',
+#     'x-requested-with',
+# )
+
+
 
 ROOT_URLCONF = 'book_recom.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [0],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,16 +105,16 @@ WSGI_APPLICATION = 'book_recom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'basic_recom',  # DB 이름
-#         'USER': 'root',  # DB에 접속할 때 쓰는 사용자명
-#         'PASSWORD': 'thd620409@',  # DB에 접속할 때 쓰는 비밀번호
-#         'HOST': 'localhost',  # 서버 주소
-#         'PORT': "3306"  # DB 포트 번호
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'basic_recom',  # DB 이름
+        'USER': 'booklet',  # DB에 접속할 때 쓰는 사용자명
+        'PASSWORD': 'qnrwjrqnrwjr!qnrfpt',  # DB에 접속할 때 쓰는 비밀번호
+        'HOST': 'j8b306.p.ssafy.io',  # 서버 주소
+        'PORT': "3306"  # DB 포트 번호
+    }
+}
 
 
 # Password validation
@@ -134,3 +159,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
