@@ -152,8 +152,8 @@ export const getComment = async (sId) => {
 			url: `/comment/${sId}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
