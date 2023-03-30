@@ -52,7 +52,7 @@ function DetailPostOverview({
 		})();
 	};
 
-	const isMy = localStorage.getItem("userId") === uId;
+	const isMy = parseInt(localStorage.getItem("userId")) === uId;
 
 	return (
 		<>
