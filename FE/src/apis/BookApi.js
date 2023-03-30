@@ -29,15 +29,17 @@ export const postLike = async (data) => {
 	}
 };
 
-export const getBookSearch = async (title) => {
+export const getBookSearch = async (title, size, page) => {
+	const titleParam = decodeURI(decodeURIComponent(title));
+
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/search/${title}`,
+			url: `/search?bookTitle=${titleParam}&size=${size}&page=${page}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.bookList);
+		return res.data.bookList;
 	} catch (err) {
 		console.error(err);
 	}
