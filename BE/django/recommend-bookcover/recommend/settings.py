@@ -94,13 +94,24 @@ WSGI_APPLICATION = 'recommend.wsgi.application'
 
 # Database
 # 배포 환경에서는 변경해야 함
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'bookdb',   # DB 이름
+#         'USER': 'ssafy',    # DB 에 접속하는 사용자명
+#         'PASSWORD': 'ssafy',    # 비밀번호
+#         'HOST': 'localhost',    # 호스트명
+#         'PORT': "3306"  # 포트 번호
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookdb',   # DB 이름
-        'USER': 'ssafy',    # DB 에 접속하는 사용자명
-        'PASSWORD': 'ssafy',    # 비밀번호
-        'HOST': 'localhost',    # 호스트명
+        'USER': 'booklet',    # DB 에 접속하는 사용자명
+        'PASSWORD': 'qnrwjrqnrwjr!qnrfpt',    # 비밀번호
+        'HOST': 'j8b306.p.ssafy.io',    # 호스트명
         'PORT': "3306"  # 포트 번호
     }
 }
