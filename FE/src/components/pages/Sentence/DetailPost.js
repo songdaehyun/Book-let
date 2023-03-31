@@ -54,7 +54,7 @@ function DetailPost() {
 	// 	},
 	// ];
 
-	const uId = localStorage.getItem("userId")
+	const uId = localStorage.getItem("userId");
 	const { sId } = useParams();
 
 	const [post, setPost] = useState();
@@ -63,13 +63,8 @@ function DetailPost() {
 	const [isFollowed, setIsFollowed] = useState(false);
 
 	const getPostApiCall = () => {
-		const data = {
-			paragraphId: sId,
-			userId: uId,
-		};
-		
 		(async () => {
-			await getPost(data)
+			await getPost(sId, uId)
 				.then(initSentence)
 				.then((res) => {
 					setPost(res);
