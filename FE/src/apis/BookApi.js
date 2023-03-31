@@ -64,7 +64,7 @@ export const getReview = async (isbn, size, page) => {
 export const deleteReview = async (rId) => {
 	try {
 		const res = await api({
-			method: "DELTE",
+			method: "DELETE",
 			url: `/review/${rId}`,
 		});
 
