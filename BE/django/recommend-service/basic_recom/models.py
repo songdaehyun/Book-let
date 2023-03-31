@@ -14,7 +14,7 @@ class Review(models.Model):
     modified_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-       
+        managed = False
         db_table = 'review'
 
 
@@ -33,7 +33,7 @@ class Userr(models.Model):
     prefer_score = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        # managed = True
+        managed = False
         db_table = 'user'
 
     
@@ -46,7 +46,7 @@ class BookLikes(models.Model):
     user_id = models.BigIntegerField()
 
     class Meta:
-        
+        managed = False
         db_table = 'book_likes'
 
 
@@ -61,7 +61,7 @@ class Book(models.Model):
     book_image = models.TextField(blank=True, null=True)
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'book'
 
 
@@ -73,7 +73,7 @@ class BookGenre(models.Model):
     genre_id = models.ForeignKey('Genre', models.DO_NOTHING)
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'book_genre'
 
 
@@ -85,7 +85,7 @@ class Genre(models.Model):
     genre_name = models.CharField(max_length=32)
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'genre'
 
 
@@ -95,7 +95,7 @@ class Author(models.Model):
     author_name = models.CharField(max_length=32)
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'author'
 
 
@@ -106,5 +106,5 @@ class BookAuthor(models.Model):
     book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'book_author'
