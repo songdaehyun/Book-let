@@ -9,26 +9,34 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Configuration
 public class CorsConfig {
 
+    /**
+     * CORS 설정, 허락된 URL, 허락된 Origin
+     * @return
+     */
+    List<String> originlst = new ArrayList<>(List.of(
+            "http://localhost:3000",
+            "https://localhost:3000",
+            "http://j8b306.p.ssafy.io:3000",
+            "https://j8b306.p.ssafy.io:3000"
+    ));
     @Bean
-    public CorsFilter corsFilter() {
-        List<String> originlst = new ArrayList<>(List.of(
-                "http://localhost:3000",
-                "https://localhost:3000",
-                "http://j8b306.p.ssafy.io:3000",
-                "https://j8b306.p.ssafy.io:3000"
-        ));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(originlst);
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-//        config.addExposedHeader(JwtProperties.HEADER_STRING);  // 헤더 보이게 설정하기
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration("/api/**", config);
-        return new CorsFilter(source);
+        CorsConfiguration corsConfig = new CorsConfiguration();
+//        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
+        corsConfig.addAllowedHeader("*");
+        corsConfig.setAllowedMethods("*");
+        corsConfig.setAllowedOrigins(originlst);
+//        corsConfig.addAllowedOriginPattern("*");
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setMaxAge(corsConfig.getMaxAge());
+
+        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
+        return corsConfigSource;
     }
 }
