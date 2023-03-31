@@ -43,6 +43,8 @@ public class User {
 
     private float preferScore;
 
+    private String preferType;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserImage userImage;
 

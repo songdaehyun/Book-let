@@ -62,7 +62,7 @@ function Login() {
 						const decodeData = jwt_decode(token);
 
 						localStorage.setItem("token", token);
-						localStorage.setItem("userId", decodeData.userId);
+						localStorage.setItem("userId", parseInt(decodeData.userId));
 						localStorage.setItem("userName", decodeData.username);
 
 						// api 기본 헤더로 설정
