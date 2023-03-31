@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/taste/{username}")
-    public ResponseEntity follow(@RequestBody UserTasteReqDto userTasteReqDto, @PathVariable String username) {
+    public ResponseEntity saveUserTaste(@RequestBody UserTasteReqDto userTasteReqDto, @PathVariable String username) {
 
         HashMap<String, Object> result = new HashMap<>();
 
@@ -68,6 +68,10 @@ public class UserController {
 
         } else {
             result.put("message", "success");
+
+            HashMap<String, Object> saveResult = userService.saveUserPreferScore(username);
+            result.put("preferType", saveResult.get("type"));
+            result.put("preferScore", saveResult.get("score"));
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }

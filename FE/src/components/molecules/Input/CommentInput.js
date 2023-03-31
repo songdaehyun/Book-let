@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+
 import { useParams } from "react-router-dom";
+import { postReview } from "../../../apis/BookApi";
 import { postComment } from "../../../apis/sentenceApi";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
 
@@ -10,8 +13,10 @@ function CommentInput({ type, getCommentApiCall }) {
 	const { sId } = useParams();
 
 	const uId = localStorage.getItem("userId");
+	const { bId } = useParams();
 
 	const [comment, setComment] = useState("");
+	const { selectedRating } = useSelector((state) => state.book);
 	const limit = 100;
 
 	const handleChange = (e) => {
@@ -37,6 +42,23 @@ function CommentInput({ type, getCommentApiCall }) {
 		})();
 	};
 
+	const reviewSubmit = () => {
+		const data = {
+			content: comment,
+			grade: selectedRating,
+			userId: uId,
+			bookIsbn: bId,
+		};
+
+		(async () => {
+			await postReview(data).then((res) => {
+				if (res === "success") {
+					getReviewApiCall();
+				}
+			});
+		})();
+	};
+
 	return (
 		<>
 			<CommentInputBox>
@@ -50,7 +72,7 @@ function CommentInput({ type, getCommentApiCall }) {
 							: type === "리뷰" && "리뷰를 작성해주세요"
 					}
 				></input>
-				<div onClick={commentSubmit}>
+				<div onClick={type === "댓글" ? commentSubmit : type === "리뷰" && reviewSubmit}>
 					<CommentUploadButton />
 				</div>
 			</CommentInputBox>

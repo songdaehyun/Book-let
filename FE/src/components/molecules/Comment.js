@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { deleteReview } from "../../apis/BookApi";
 import { deleteComment } from "../../apis/sentenceApi";
+import defaultImg from "../../assets/images/user-default-img.png";
 import useDate from "../../hooks/useDate";
 import {
 	CommentBtnBox,
@@ -36,14 +38,28 @@ function Comment({ comment, type, getCommentApiCall }) {
 		})();
 	};
 
+	const deleteReviewApiCall = () => {
+		(async () => {
+			await deleteReview(comment.commentId).then((res) => {
+				if (res === "success") {
+					getCommentApiCall();
+				}
+			});
+		})();
+	};
+
 	return (
 		<CommentBox>
-			<img src={comment?.img} alt="Profile of the user who commented" />
+			<img
+				src={comment.img ? comment.img : defaultImg}
+				alt="Profile of the user who commented"
+			/>
+
 			<div>
 				<CommentHeadingBox>
 					<Text weight="600">{comment?.nickname}</Text>
 					{type === "review" ? (
-						<RatingLabel rating={parseInt(comment?.reviewGrade)} />
+						<RatingLabel rating={parseInt(comment?.rating)} />
 					) : (
 						<CommentDateBox>
 							<Text size="14" color="var(--gray-500)">
@@ -52,7 +68,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 						</CommentDateBox>
 					)}
 				</CommentHeadingBox>
-				<Text marginBottom="12">{comment?.content || comment?.reviewContent}</Text>
+				<Text marginBottom="12">{comment?.content}</Text>
 				{type === "review" ? (
 					<CommentDateBox>
 						<Text size="14" color="var(--gray-500)">
@@ -60,10 +76,22 @@ function Comment({ comment, type, getCommentApiCall }) {
 						</Text>
 					</CommentDateBox>
 				) : (
-					<CommentBtnBox>
-						<ReplyTextButton label="답글쓰기" />
-						{isMy && <TextBtn onClick={deleteCommentApiCall}>삭제</TextBtn>}
-					</CommentBtnBox>
+					<div>
+						<CommentBtnBox>
+							<ReplyTextButton label="답글쓰기" />
+							{isMy && (
+								<TextBtn
+									onClick={
+										type === "댓글"
+											? deleteCommentApiCall
+											: type === "리뷰" && deleteReviewApiCall
+									}
+								>
+									삭제
+								</TextBtn>
+							)}
+						</CommentBtnBox>
+					</div>
 				)}
 			</div>
 		</CommentBox>
