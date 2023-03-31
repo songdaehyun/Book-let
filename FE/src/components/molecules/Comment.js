@@ -71,7 +71,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 				<div>
 					<CommentHeadingBox>
 						<Text weight="600">{comment?.nickname}</Text>
-						{type === "review" ? (
+						{type === "리뷰" ? (
 							<RatingLabel rating={parseInt(comment?.rating)} />
 						) : (
 							<CommentDateBox>
@@ -82,7 +82,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 						)}
 					</CommentHeadingBox>
 					<Text marginBottom="12">{comment?.content}</Text>
-					{type === "review" ? (
+					{type === "리뷰" ? (
 						<>
 							{isMy && <TextBtn onClick={openPopup}>삭제</TextBtn>}
 							<CommentDateBox>
