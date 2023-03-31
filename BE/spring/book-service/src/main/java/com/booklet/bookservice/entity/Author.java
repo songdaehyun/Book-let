@@ -14,5 +14,5 @@ import javax.persistence.Table;
 public class Author {
     @Id
     private Long authorId;
-    private String author_name;
+    private String authorName;
 }
