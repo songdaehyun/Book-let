@@ -15,6 +15,7 @@ from .models import Userr, Review, BookLikes, Book, Genre, BookGenre
 import random
 from django.db import connection
 import statistics
+from django.db.models import Q
 
 
 # Create your views here.
@@ -324,14 +325,23 @@ def category_book(request):
         return Response(data=b, status=200, content_type='application/json')
     
     user_liked_list = []
+    isbn_list = []
     for i in liked_books:
         book_isbn = i.book_id
         book = BookGenre.objects.get(book_isbn = book_isbn)
         book_genre_id = book.genre_id.genre_id 
         user_liked_list.append(book_genre_id)
+        isbn_list.append(book_isbn)
 
     user_most_genre = statistics.mode(user_liked_list)
-    books = BookGenre.objects.filter(genre_id = user_most_genre)
+    books1 = BookGenre.objects.filter(genre_id = user_most_genre)
+
+    books2 = books1.exclude(Q(book_isbn__in=isbn_list))
+
+    if len(books2) < 5:
+        books = books1
+    else:
+        books = books2
 
     # QuerySet을 리스트로 변환
     book_list = list(books)
