@@ -53,7 +53,7 @@ function CommentInput({ type, getCommentApiCall }) {
 		(async () => {
 			await postReview(data).then((res) => {
 				if (res === "success") {
-					getReviewApiCall();
+					getCommentApiCall();
 				}
 			});
 		})();
