@@ -50,13 +50,15 @@ function CommentInput({ type, getCommentApiCall }) {
 			bookIsbn: bId,
 		};
 
-		(async () => {
-			await postReview(data).then((res) => {
-				if (res === "success") {
-					getCommentApiCall();
-				}
-			});
-		})();
+		if (comment !== "" && selectedRating !== 0) {
+			(async () => {
+				await postReview(data).then((res) => {
+					if (res === "success") {
+						getCommentApiCall();
+					}
+				});
+			})();
+		}
 	};
 
 	return (
