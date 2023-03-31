@@ -51,11 +51,11 @@ export const getMyLike = async () => {
 	}
 };
 
-export const postFollow = async (uId, data) => {
+export const postFollow = async (uName, data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/user/follow/${uId}`, 
+			url: `/user/follow/${uName}`, 
 			data: data
 		});
 
