@@ -10,6 +10,7 @@ function WriteSentence() {
 	const navigate = useNavigate();
 
 	const uId = localStorage.getItem("userId");
+	const [selectedBook, setSelectedBook] = useState();
 	const [content, setContent] = useState("");
 	const [background, setBackground] = useState("#FEEB60");
 	const [page, setPage] = useState("");
@@ -20,7 +21,7 @@ function WriteSentence() {
 
 	const handleClickNext = () => {
 		const data = {
-			bookIsbn: "2090000063035",
+			bookIsbn: selectedBook?.bId,
 			paragraphContent: content,
 			paragraphPage: page,
 			paragraphColor: background,
@@ -46,6 +47,8 @@ function WriteSentence() {
 				handleClickNext={handleClickNext}
 			/>
 			<SentenceForm
+				selectedBook={selectedBook}
+				setSelectedBook={setSelectedBook}
 				content={content}
 				setContent={setContent}
 				background={background}
