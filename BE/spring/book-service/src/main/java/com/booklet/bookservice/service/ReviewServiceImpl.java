@@ -49,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService{
             for(Review review : reviews){
                 UserDto userDto = new ModelMapper().map(review.getUser(), UserDto.class);
                 userDto.setUserImage(userImageRepository.findUserImageByUser(review.getUser()));
-                listDto.add(new ReviewListDto(userDto, review.getReviewContent(), review.getReviewGrade(), review.getCreatedDate()));
+                listDto.add(new ReviewListDto(userDto, review.getReviewId(), review.getReviewContent(), review.getReviewGrade(), review.getCreatedDate()));
             }
         } catch (Exception e) {
             e.printStackTrace();

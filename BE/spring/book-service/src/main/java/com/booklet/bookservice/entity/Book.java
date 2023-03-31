@@ -13,18 +13,32 @@ import java.util.List;
 @Table(name="book")
 public class Book {
     @Id
-    @Column(name="book_isbn")
-    String bookIsbn;
+    private String bookIsbn;
+
+    private String bookTitle;
+
+    private String bookPublisher;
+
+    private int bookPrice;
+
+    private String bookDescription;
+
+    private float bookGrade;
 
     @Column
-    String bookTitle;
+    private String bookImage;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="author_id")
     private Author author;
-    @Column
-    String bookImage;
-    @OneToMany(mappedBy = "book") //FK 없는 쪽에 mapped by 리더
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<BookGenre> bookGenres = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<BookLikes> bookLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
 }
