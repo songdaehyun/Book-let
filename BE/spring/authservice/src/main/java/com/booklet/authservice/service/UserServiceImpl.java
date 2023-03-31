@@ -3,22 +3,20 @@ package com.booklet.authservice.service;
 import com.booklet.authservice.dto.FollowReqDto;
 import com.booklet.authservice.dto.GetUserInfoResDto;
 import com.booklet.authservice.dto.UserTasteReqDto;
-import com.booklet.authservice.entity.Follow;
-import com.booklet.authservice.entity.Hashtag;
-import com.booklet.authservice.entity.User;
-import com.booklet.authservice.entity.UserHashtag;
-import com.booklet.authservice.repository.FollowRepository;
-import com.booklet.authservice.repository.HashtagRepository;
-import com.booklet.authservice.repository.UserHashtagRepository;
-import com.booklet.authservice.repository.UserRepository;
+import com.booklet.authservice.entity.*;
+import com.booklet.authservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -29,6 +27,8 @@ public class UserServiceImpl implements UserService{
     private final FollowRepository followRepository;
     private final HashtagRepository hashtagRepository;
     private final UserHashtagRepository userHashtagRepository;
+    private final BookRepository bookRepository;
+    private final BookLikesRepository bookLikesRepository;
 
 //    @Override
     public HashMap<String, Object> findUserInfo(String username) {
@@ -155,5 +155,30 @@ public class UserServiceImpl implements UserService{
         result.put("score", user.getPreferScore());
         return result;
     }
+
+    @Override
+    public List<Map> findAllHashtags() {
+        List<Hashtag> hashtags = hashtagRepository.findAll();
+        List<Map> result = new ArrayList<>();
+        for(Hashtag hashtag : hashtags) {
+            Map<String, Object> tmp = Map.of(
+                    "hashtag_name",hashtag.getHashtagName(),
+                    "hashtag_id", hashtag.getHashtagId()
+                    );
+            result.add(tmp);
+        }
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> findUserLikeBooks(String username, Pageable pageable) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return null;}
+
+        Slice<BookLikes> bookLikes = bookLikesRepository.findAllByUser(user, pageable);
+
+        return null;
+    }
+
 
 }
