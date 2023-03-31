@@ -16,13 +16,14 @@ import BookRatingInfo from "../../organisms/Book/BookRatingInfo";
 import BookReview from "../../organisms/Book/BookReview";
 
 function BookDetail(props) {
+	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
 
 	const [book, setBook] = useState();
 
 	useEffect(() => {
 		(async () => {
-			await getBook(bId)
+			await getBook(bId, uId)
 				.then((res) => initBook(res))
 				.then((res) => {
 					setBook(res);
