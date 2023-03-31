@@ -21,7 +21,8 @@ public class CorsConfig {
             "http://localhost:3000",
             "https://localhost:3000",
             "http://j8b306.p.ssafy.io:3000",
-            "https://j8b306.p.ssafy.io:3000"
+            "https://j8b306.p.ssafy.io:3000",
+            "https://j8b306.p.ssafy.io"
     ));
     List<String> list = new ArrayList<>(List.of(
             "GET","POST","PUT","OPTIONS","DELETE"
