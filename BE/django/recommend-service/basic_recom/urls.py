@@ -7,7 +7,7 @@ urlpatterns = [
     path('like/', views.like_book),
     path('category/', views.category_book),
     path('profile/', views.profile_book),
-    path('test/', views.test),
+    # path('test/', views.test),
     # path('booklist/', views.show_all_book),
     # path('db/', views.insert_db),
     # path('db2/', views.insert_db2),
