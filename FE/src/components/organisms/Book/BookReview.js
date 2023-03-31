@@ -52,7 +52,7 @@ function BookReview() {
 			</Text>
 			<InputRatingSection />
 			<CommentInput type="리뷰" getCommentApiCall={getReviewApiCall} />
-			<CommentList comments={reviews} type="review" getCommentApiCall={getReviewApiCall}/>
+			<CommentList comments={reviews} type="리뷰" getCommentApiCall={getReviewApiCall}/>
 		</Container>
 	);
 }
