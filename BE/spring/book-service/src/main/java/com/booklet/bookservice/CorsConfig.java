@@ -23,6 +23,9 @@ public class CorsConfig {
             "http://j8b306.p.ssafy.io:3000",
             "https://j8b306.p.ssafy.io:3000"
     ));
+    List<String> list = new ArrayList<>(List.of(
+            "GET","POST","PUT","OPTIONS","DELETE"
+    ));
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
@@ -30,7 +33,7 @@ public class CorsConfig {
         CorsConfiguration corsConfig = new CorsConfiguration();
 //        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
         corsConfig.addAllowedHeader("*");
-        corsConfig.setAllowedMethods("*");
+        corsConfig.setAllowedMethods(list);
         corsConfig.setAllowedOrigins(originlst);
 //        corsConfig.addAllowedOriginPattern("*");
         corsConfig.setAllowCredentials(true);
