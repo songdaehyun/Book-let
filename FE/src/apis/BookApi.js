@@ -1,14 +1,14 @@
 import api from "./index";
 
-export const getBook = async (isbn) => {
+export const getBook = async (bId, uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/book/${isbn}`,
+			url: `/book/${bId}?userId=${uId}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
