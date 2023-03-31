@@ -46,12 +46,13 @@ public class BookController {
         return new ResponseEntity(result, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping
-    public ResponseEntity getBookDetail(@RequestBody BookDetailReq request) throws Exception{
+    @GetMapping("/{bookIsbn}")
+    public ResponseEntity getBookDetail(@RequestParam Long userId, @PathVariable String bookIsbn) throws Exception{
         try {
-            BookDetailRes detailRes = bookService.findBookDetail(request.getBookIsbn(), request.getUserId());
+            BookDetailRes detailRes = bookService.findBookDetail(bookIsbn, userId);
             return new ResponseEntity(detailRes, HttpStatus.ACCEPTED);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
         }
     }
