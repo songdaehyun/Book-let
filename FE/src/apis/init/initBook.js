@@ -1,6 +1,6 @@
 export const initBook = (raw) => {
 	return {
-		cover: raw?.bookImgPath,
+		cover: raw?.bookImage,
 		title: raw?.bookTitle,
 		aId: "",
 		author: raw?.authorName,
@@ -11,8 +11,8 @@ export const initBook = (raw) => {
 		authorOtherBooks: raw?.authorOtherBooks,
 		isLiked: raw?.bookLike,
 		likeCnt: raw?.likesNumber,
-		likeProfileImg: raw?.liikesProfileImg,
-		rating: raw?.bookScore,
+		likeProfileImg: raw?.likesUserImages,
+		rating: raw?.bookGrade,
 	};
 };
 
