@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +47,11 @@ public class ParagraphController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity getOneParagraph(@RequestBody ParagraphReq request) {
+    @GetMapping("/{paragraphId}")
+    public ResponseEntity getOneParagraph(@PathVariable Long paragraphId, @RequestParam Long userId) {
         try {
             Map<String, Object> result = new HashMap<>();
-            result = paragraphService.findParagraph(request.getParagraphId(), request.getUserId());
+            result = paragraphService.findParagraph(paragraphId, userId);
             if (result == null) {
                 String message = "not found";
 //                result.put("message", "not found");

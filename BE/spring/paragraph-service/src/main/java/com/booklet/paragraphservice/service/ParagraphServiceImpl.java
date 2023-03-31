@@ -87,7 +87,7 @@ public class ParagraphServiceImpl implements ParagraphService {
             UserInfoDto userDto = new ModelMapper().map(user, UserInfoDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(user));
             Follow follow = followRepository.findByFollowerAndFollowing(me, user).orElseGet(Follow::new);
-            if (follow.getFollowId() > 0) {
+            if (follow.getFollowId()!=null) {
                 userDto.setIsFollowing(1);
             }else userDto.setIsFollowing(0);
             // 댓글 수
