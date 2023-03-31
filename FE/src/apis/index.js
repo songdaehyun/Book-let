@@ -5,8 +5,7 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const api = axios.create({
 	baseURL: BASE_URL,
 	headers: {
-		// "Content-Type": "'application/x-www-form-urlencoded",
-		"Content-Type": "application/json; charset=UTF-8",
+		"Content-Type": "application/json",
 	},
 });
 
