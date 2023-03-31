@@ -15,11 +15,11 @@ export const postTaste = async (data) => {
 	}
 };
 
-export const getMyInfo = async (uId) => {
+export const getMyInfo = async (uName) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/user/${uId}`,
+			url: `/user/${uName}`,
 		});
 
 		console.log(res.data.data);
