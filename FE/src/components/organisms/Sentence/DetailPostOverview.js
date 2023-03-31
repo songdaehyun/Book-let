@@ -79,6 +79,7 @@ function DetailPostOverview({
 						profileImg={profileImg}
 						isFollowed={isFollowed}
 						setIsFollowed={setIsFollowed}
+						isMy={isMy}
 					/>
 				</Container>
 				<DetailPostDateBox>
