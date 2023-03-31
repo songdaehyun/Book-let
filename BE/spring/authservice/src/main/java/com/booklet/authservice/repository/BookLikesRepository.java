@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface BookLikesRepository extends JpaRepository<BookLikes, Long> {
     Slice<BookLikes> findAllByUser(User user, Pageable pageable);
+    List<BookLikes> findAllByUser(User user);
 }

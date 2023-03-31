@@ -1,8 +1,11 @@
 package com.booklet.authservice.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name="book_likes")
 public class BookLikes {
     @Id

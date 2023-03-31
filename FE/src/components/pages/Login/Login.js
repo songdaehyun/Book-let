@@ -23,6 +23,7 @@ function Login() {
 
 	const [isIdConfirm, setIsIdConfirm] = useState(true);
 	const [isPwConfirm, setIsPwConfirm] = useState(true);
+	const [isLoginFailed, setIsLoginFailed] = useState(false);
 
 	const hadleChangeId = (e) => {
 		setId(e.target.value);
@@ -69,6 +70,8 @@ function Login() {
 						api.defaults.headers.common["Authorization"] = token;
 
 						navigate("/");
+					} else {
+						setIsLoginFailed(true);
 					}
 				});
 			})();
@@ -115,9 +118,13 @@ function Login() {
 				marginTop="8"
 			></DefaultInput>
 			<>
-				{!isPwConfirm && (
+				{!isPwConfirm ? (
 					<ValidWrapper>
 						<ValidFailText>비밀번호를 입력해주세요</ValidFailText>
+					</ValidWrapper>
+				) : isLoginFailed && (
+					<ValidWrapper>
+						<ValidFailText>아이디나 비밀번호가 잘못되었습니다</ValidFailText>
 					</ValidWrapper>
 				)}
 			</>
