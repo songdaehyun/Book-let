@@ -7,6 +7,8 @@ import {
 } from "../../styles/common/CommonStyle";
 import { Span } from "../../styles/common/TextsStyle";
 
+import defaultImg from "../../assets/images/user-default-img.png";
+
 function ReactionInfo({ imgs, count, type }) {
 	const isImageEmpty = count === 0 ? true : false;
 
@@ -16,7 +18,7 @@ function ReactionInfo({ imgs, count, type }) {
 				<ReactionImgContainer>
 					{imgs?.map((img, idx) => (
 						<ReactionImgWrapper key={idx}>
-							<img src={img} alt="user profile" />
+							<img src={img ? img : defaultImg} alt="user profile" />
 						</ReactionImgWrapper>
 					))}
 				</ReactionImgContainer>
