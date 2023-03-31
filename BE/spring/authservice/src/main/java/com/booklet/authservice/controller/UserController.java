@@ -3,21 +3,40 @@ package com.booklet.authservice.controller;
 import com.booklet.authservice.dto.FollowReqDto;
 import com.booklet.authservice.dto.SignUpReqDto;
 import com.booklet.authservice.dto.UserTasteReqDto;
+import com.booklet.authservice.entity.Book;
 import com.booklet.authservice.entity.User;
+import com.booklet.authservice.repository.BookRepository;
 import com.booklet.authservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    private final BookRepository bookRepository;
+    @GetMapping("/books")
+    public ResponseEntity books(int size, int page) {
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<Book> result= bookRepository.findAllBy(pageRequest);
+        List<Book> result2 = result.getContent();
+        System.out.println(result2.toString());
+        for (Book book : result2) {
+            System.out.println(book.getBookTitle().toString());
+
+        }
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 
     @GetMapping("/{username}")
     public ResponseEntity getUserInfo(@PathVariable String username) {
@@ -55,6 +74,7 @@ public class UserController {
         }
     }
 
+    @PutMapping("/taste/{username}")
     @PostMapping("/taste/{username}")
     public ResponseEntity saveUserTaste(@RequestBody UserTasteReqDto userTasteReqDto, @PathVariable String username) {
 
@@ -75,4 +95,24 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/prefer/hashtag")
+    public ResponseEntity getAllHashtag() {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        List<Map> item = userService.findAllHashtags();
+        result.put("message", "success");
+        result.put("data", item);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/like/book/{username}")
+    public ResponseEntity getUserLikeBooks(@PathVariable String username, Pageable pageable) {
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+        HashMap<String, Object> result = userService.findUserLikeBooks(username, pageable);
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
 }

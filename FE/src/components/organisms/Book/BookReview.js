@@ -51,8 +51,8 @@ function BookReview() {
 				<Span>{reviews?.length || 0}</Span>
 			</Text>
 			<InputRatingSection />
-			<CommentInput type="리뷰" getReviewApiCall={getReviewApiCall} />
-			<CommentList comments={reviews} type="review" getReviewApiCall={getReviewApiCall}/>
+			<CommentInput type="리뷰" getCommentApiCall={getReviewApiCall} />
+			<CommentList comments={reviews} type="review" getCommentApiCall={getReviewApiCall}/>
 		</Container>
 	);
 }

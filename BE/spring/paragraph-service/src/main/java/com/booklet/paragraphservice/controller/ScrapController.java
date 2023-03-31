@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 @Slf4j
 @RestController
-@RequestMapping("api/v1/scrap")
+@RequestMapping("api/v1/sns/scrap")
 @RequiredArgsConstructor
 @Component
 public class ScrapController {
@@ -35,13 +35,13 @@ public class ScrapController {
         String result;
         if(scrapService.findScrap(request)){ // 스크랩 존재시 취소 로직
             if(scrapService.deleteScrap(request)){
-                result = "scrap";
+                result = "cancel";
             }else{
                 result = "fail";
             }
         }else{ // 안 했을 시 등록 로직
             if(scrapService.createScrap(request)){
-                result = "cancel";
+                result = "scrap";
             }else result = "fail";
         }
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
