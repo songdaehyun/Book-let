@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getBookSearch } from "../../../apis/BookApi";
+import { initBookSearch } from "../../../apis/init/initBook";
 import searchIcon from "../../../assets/icons/search-icon.png";
 import { Text } from "../../../styles/common/TextsStyle";
 import {
 	SentenceBookAutoSearchBox,
 	SentenceBookSearchBarBox,
 	SentenceBookSearchBox,
+	SentenceBookSearchInputBox,
+	SentenceBookSearchResultBox,
 } from "../../../styles/Sentence/SentenceFormStyle";
 
 function SentenceBookSearch(props) {
@@ -32,7 +35,9 @@ function SentenceBookSearch(props) {
 
 	const searchApiCall = (word) => {
 		(async () => {
-			await getBookSearch(word, 5, 0).then((res) => setSearchBooks(res));
+			await getBookSearch(word, 10, 0)
+				.then(initBookSearch)
+				.then((res) => setSearchBooks(res));
 		})();
 
 		// 더미
@@ -49,7 +54,12 @@ function SentenceBookSearch(props) {
 	};
 
 	const handleClickBook = (book) => {
-		setSelectedBook({ bId: book?.bId, title: book?.title, author: book.author });
+		setSelectedBook({
+			bId: book?.bId,
+			title: book?.title,
+			author: book.author,
+			cover: book.cover,
+		});
 	};
 
 	useEffect(() => {
@@ -60,14 +70,17 @@ function SentenceBookSearch(props) {
 		<SentenceBookSearchBox>
 			<SentenceBookSearchBarBox onClick={handleClickSearchBox}>
 				{isInputInvisible ? (
-					<>
-						<Text weight="bold" marginBottom="4">
-							{selectedBook?.title}
-						</Text>
-						<Text>{selectedBook?.author}</Text>
-					</>
+					<SentenceBookSearchResultBox>
+						<img src={selectedBook?.cover} alt="selected book cover" />
+						<div>
+							<Text weight="bold" marginBottom="4">
+								{selectedBook?.title}
+							</Text>
+							<Text>{selectedBook?.author}</Text>
+						</div>
+					</SentenceBookSearchResultBox>
 				) : (
-					<>
+					<SentenceBookSearchInputBox>
 						<img src={searchIcon} alt="search icon" />
 						<div>
 							<input
@@ -81,23 +94,23 @@ function SentenceBookSearch(props) {
 								어떤 책을 읽으셨어요?
 							</Text>
 						</div>
-					</>
+					</SentenceBookSearchInputBox>
 				)}
 			</SentenceBookSearchBarBox>
 			<SentenceBookAutoSearchBox isOpen={isOpen}>
 				{searchBooks?.length === 0 ? (
 					<Text color="var(--gray-500)">검색 결과가 없습니다.</Text>
 				) : (
-					<div>
+					<>
 						{searchBooks?.map((book) => (
 							<div key={book.bid} onClick={() => handleClickBook(book)}>
-								<Text weight="bold" marginBottom="4">
+								<Text marginBottom="4">
 									{book?.title}
 								</Text>
-								<Text>{book?.author}</Text>
+								<Text size="14" color="var(--gray-500)">{book?.author}</Text>
 							</div>
 						))}
-					</div>
+					</>
 				)}
 			</SentenceBookAutoSearchBox>
 		</SentenceBookSearchBox>
