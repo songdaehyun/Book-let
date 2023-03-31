@@ -17,7 +17,7 @@ function DetailComment({ comments, getCommentApiCall }) {
 				<Span size="19">{comments?.length}</Span>
 			</Container>
 			<CommentInput type="댓글" getCommentApiCall={getCommentApiCall} />
-			<CommentList comments={comments} getCommentApiCall={getCommentApiCall} />
+			<CommentList type="댓글" comments={comments} getCommentApiCall={getCommentApiCall} />
 		</Container>
 	);
 }
