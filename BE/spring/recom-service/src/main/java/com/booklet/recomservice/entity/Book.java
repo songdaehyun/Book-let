@@ -1,10 +1,13 @@
 package com.booklet.recomservice.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = "book")
 public class Book {
     @Id

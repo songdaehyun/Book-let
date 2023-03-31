@@ -1,5 +1,6 @@
 package com.booklet.recomservice.util;
 
+import com.booklet.recomservice.dto.DataDto;
 import com.booklet.recomservice.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.HttpHead;
@@ -14,10 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -52,12 +50,9 @@ public class RequestTools {
         return result;
     }
 
-    public List<Integer> getRecombooks(String type, User user) {
-        List<Integer> result = new ArrayList<>();
-
+    public List<String> getRecombooks(String type, User user) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("user_id", user.getId().toString());
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -79,15 +74,17 @@ public class RequestTools {
                 setting = "profile";
                 break;
         }
-        String url = "http://192.168.31.193:8000/basic_recom/" + setting + "/";
+        String url = "http://j8b306.p.ssafy.io:8083/basic_recom/" + setting + "/";
 
         RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.postForObject(url, requestEntity, String.class);
+        try {
+            DataDto response = restTemplate.postForObject(url, requestEntity, DataDto.class);
+            response.getRecom_list();
+            return response.getRecom_list();
 
-
-        log.info("GET 요청 결과: " + response);
-
-        return result;
+        } catch (Exception e){
+            log.info("요청 변환에 실패하였습니다" + restTemplate.postForObject(url, requestEntity, String.class));
+            return null;
+        }
     }
-
 }
