@@ -4,11 +4,11 @@ FROM python:3.9.13
 # LABEL name="Dongjun" 
 # LABEL email="jdznawa@gmail.com"
 RUN apt-get -y update
+RUN apt-get -y install libgl1-mesa-glx
 RUN apt-get -y install vim
 RUN pip3 install django
 # python:3.7.7 이미지 상에 django를 pip를 통해 설치합니다.
 
-WORKDIR /django/recommend
 # WORKDIR은 cd와 같은 명령으로, 작업 경로를 /usr/src/app으로 이동합니다.
 # CMD에서 설정한 실행 파일이 실행될 디렉터리를 절대 경로로 지정해주어야 한다.
 

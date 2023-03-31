@@ -64,11 +64,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS 허용하는 호스트 목록(아래에서 수정)
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
-    "http://127.0.0.1:9000"
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# # CORS 허용하는 호스트 목록(아래에서 수정)
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:8000",
+#     "https://localhost:8000",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000"
+# ]
 
 
 ROOT_URLCONF = 'recommend.urls'
