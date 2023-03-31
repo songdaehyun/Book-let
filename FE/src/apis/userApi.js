@@ -70,8 +70,8 @@ export const getTagExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/hashtag");
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
