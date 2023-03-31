@@ -17,8 +17,9 @@ public class BookDetailRes {
     private String bookDescription;
     private float bookGrade;
     private String bookImage;
+    private List<String> GenreNames;
     private String authorName;
-
+    private Long authorId;
     private List<AuthorBookDto> authorOtherBooks;
     // 좋아요 여부
     private boolean bookLike;

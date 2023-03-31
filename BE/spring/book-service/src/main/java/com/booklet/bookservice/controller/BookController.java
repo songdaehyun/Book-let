@@ -1,24 +1,19 @@
 package com.booklet.bookservice.controller;
 
-import com.booklet.bookservice.dto.BookDetailReq;
 import com.booklet.bookservice.dto.BookDetailRes;
 import com.booklet.bookservice.dto.BookLikeReq;
-import com.booklet.bookservice.dto.BookSearchRes;
 import com.booklet.bookservice.service.BookLikeService;
 import com.booklet.bookservice.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+
 
 @Slf4j
 @RestController

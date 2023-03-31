@@ -3,10 +3,7 @@ package com.booklet.bookservice.service;
 import com.booklet.bookservice.dto.BookDetailRes;
 import com.booklet.bookservice.dto.BookDto;
 import com.booklet.bookservice.dto.BookSearchRes;
-import com.booklet.bookservice.entity.Book;
-import com.booklet.bookservice.entity.BookLikes;
-import com.booklet.bookservice.entity.User;
-import com.booklet.bookservice.entity.UserImage;
+import com.booklet.bookservice.entity.*;
 import com.booklet.bookservice.repository.BookLikesRepository;
 import com.booklet.bookservice.repository.BookRepository;
 import com.booklet.bookservice.repository.UserImageRepository;
@@ -65,7 +62,15 @@ public class BookServiceImpl implements BookService{
         mapper.getConfiguration().setAmbiguityIgnored(true);
         // 도서 정보
         BookDetailRes bookInfo = new ModelMapper().map(book, BookDetailRes.class);
+        List<String> genres = new ArrayList<>();
+        genres.add("판타지");
+        genres.add("호러");
+        bookInfo.setGenreNames(genres);
+        // 저자
+        Author author = book.getAuthor();
+//        bookInfo.setAuthorId(author.getAuthorId());
 //        bookInfo.setAuthorName(book.getAuthor().getAuthorName());
+        bookInfo.setAuthorId(1L);
         bookInfo.setAuthorName("김이박"); // 임시
         // author의 다른 책 5권
 //        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getAuthor().getAuthorId(), PageRequest.of(0,5))); // 임시
