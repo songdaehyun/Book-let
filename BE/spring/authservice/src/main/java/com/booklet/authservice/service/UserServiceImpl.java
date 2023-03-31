@@ -173,31 +173,38 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public HashMap<String, Object> findUserLikeBooks(String username, Pageable pageable) {
+    public HashMap<String, Object> findUserLikeBooks(String username, int type) {
         User user = userRepository.findByUsername(username);
+        System.out.println("진입 : " + user.getUsername());
         HashMap<String, Object> result = new HashMap<>();
 
         if (user == null) {return null;}
 
-        Slice<BookLikes> rawbookLikes = bookLikesRepository.findAllByUser(user, pageable);
-        List<BookLikes> bookl = bookLikesRepository.findAllByUser(user);
-        for (BookLikes boo : bookl){
-            System.out.println(boo.getBook().getBookTitle());
-        }
-        System.out.println(rawbookLikes.toString());
-        List<BookLikes> tmps = rawbookLikes.getContent();
+        List<BookLikes> tmps = bookLikesRepository.findAllByUser(user);
         List<UserLikeBooksResDto> items = new ArrayList<>();
-        System.out.println(tmps.toString());
+
+        int cnt = 0;
+
         for (BookLikes bookLikes : tmps) {
+            if (type ==0 && cnt == 5) {
+                break;
+            }
             Book book = bookLikes.getBook();
-            items.add(new UserLikeBooksResDto().builder()
+            System.out.println("작업 중인 책 : "+book.getBookTitle());
+            UserLikeBooksResDto userLikeBooksResDto = new UserLikeBooksResDto().builder()
                     .bookIsbn(book.getBookIsbn())
                     .bookImgPath(book.getBookImage())
                     .bookTitle(book.getBookTitle())
-                    .authorName(book.getAuthor().getAuthorName()).build());
-            System.out.println(book.getBookTitle());
+//                    .authorName(book.getAuthor().getAuthorName());
+                    .build();
+            try {
+                userLikeBooksResDto.setAuthorName(book.getAuthor().getAuthorName());
+            } catch (Exception e) {
+
+            }
+            cnt += 1;
+            items.add(userLikeBooksResDto);
         }
-        System.out.println(items.toString());
         result.put("data", items);
 
         return result;

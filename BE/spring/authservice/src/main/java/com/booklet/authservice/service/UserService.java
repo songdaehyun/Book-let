@@ -22,6 +22,6 @@ public interface UserService {
     // 모든 취향 태그 조회
     public  List<Map> findAllHashtags();
     // 좋아요 누른 책 모든 목록 조회
-    public HashMap<String, Object> findUserLikeBooks(String username, Pageable pageable);
+    public HashMap<String, Object> findUserLikeBooks(String username, int type);
 
 }
