@@ -102,7 +102,7 @@ function DetailPost() {
 				isScraped={post?.isScraped}
 				scrapImgs={post?.scrapImgs}
 				scrapCount={post?.scrapCount}
-				isFollowed={isFollowed}
+				isFollowed={post?.isFollowed}
 				setIsFollowed={setIsFollowed}
 				isbn={post?.isbn}
 				title={post?.title}
