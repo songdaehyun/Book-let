@@ -36,7 +36,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 	};
 
 	const isMy = () => {
-		if (comment?.uId === localStorage.getItem("userId")) {
+		if (comment?.uId === parseInt(localStorage.getItem("userId"))) {
 			return true;
 		}
 
@@ -61,7 +61,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 				if (res === "success") {
 					// 댓글 조회 api call
 					reviewApiCall().then((res) => {
-						console.log(res)
+						console.log(res);
 						setComments(res);
 					});
 				}
@@ -93,7 +93,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 					<Text marginBottom="12">{comment?.content}</Text>
 					{type === "리뷰" ? (
 						<>
-							{isMy && <TextBtn onClick={openPopup}>삭제</TextBtn>}
+							{isMy() && <TextBtn onClick={openPopup}>삭제</TextBtn>}
 							<CommentDateBox>
 								<Text size="14" color="var(--gray-500)">
 									{dateTimeSeparation(comment?.date)}
@@ -104,7 +104,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 						<div>
 							<CommentBtnBox>
 								<ReplyTextButton label="답글쓰기" />
-								{isMy && <TextBtn onClick={openPopup}>삭제</TextBtn>}
+								{isMy() && <TextBtn onClick={openPopup}>삭제</TextBtn>}
 							</CommentBtnBox>
 						</div>
 					)}
