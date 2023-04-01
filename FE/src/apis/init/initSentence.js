@@ -80,25 +80,28 @@ export const initSentenceList = (raw) => {
 };
 
 export const initMyPost = (raw) => {
-	return raw?.map((sentence) => {
-		return {
-			title: sentence?.bookTitle,
-			author: sentence?.bookAuthor,
-			cover: sentence?.book?.bookImage,
+	return {
+		hasNextPage: raw?.hasNextPage,
+		contents: raw?.paragraphs?.map((sentence) => {
+			return {
+				title: sentence?.bookTitle,
+				author: sentence?.bookAuthor,
+				cover: sentence?.book?.bookImage,
 
-			sId: sentence?.paragraphId,
-			content: sentence?.paragraphContent,
-			page: sentence?.paragraphPage,
-			color: sentence?.paragraphColor,
-			date: sentence?.createdDate,
+				sId: sentence?.paragraphId,
+				content: sentence?.paragraphContent,
+				page: sentence?.paragraphPage,
+				color: sentence?.paragraphColor,
+				date: sentence?.createdDate,
 
-			isScraped: sentence?.scrapInfo?.userScrap,
-			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
-			scrapCount: sentence?.scrapInfo?.scrapCount,
+				isScraped: sentence?.scrapInfo?.userScrap,
+				scrapImgs: sentence?.scrapInfo?.scrapUserImages,
+				scrapCount: sentence?.scrapInfo?.scrapCount,
 
-			commentCnt: sentence?.commentCnt,
-		};
-	});
+				commentCnt: sentence?.commentCnt,
+			};
+		}),
+	};
 };
 
 export const initScrappedList = (raw) => {
