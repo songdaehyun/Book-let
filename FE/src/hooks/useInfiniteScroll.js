@@ -1,22 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
 
-export default function useInfiniteScroll(id, api, size, init) {
+export default function useInfiniteScroll(id, api, size, init, isStart) {
 	const [page, setPage] = useState(0);
 	const [data, setData] = useState([]);
 	const [isFetching, setFetching] = useState(false);
 	const [hasNextPage, setNextPage] = useState(true);
 
 	const apiCall = useCallback(async () => {
-		(async () => {
-			await api(id, size, page)
+		return (async () => {
+			const result = await api(id, size, isStart ? 0 : page)
 				.then(init)
 				.then((res) => {
-					setData(data.concat(res?.contents));
+					isStart ? setData(res?.contents) : setData(data.concat(res?.contents));
 					setNextPage(res?.hasNextPage);
 					setFetching(false);
+
+					return isStart ? res?.contents : data.concat(res?.contents);
 				});
 
-			setPage(page + 1);
+			isStart ? setPage(1) : setPage(page + 1);
+
+			return result;
 		})();
 	}, [page]);
 
@@ -38,5 +42,5 @@ export default function useInfiniteScroll(id, api, size, init) {
 		else if (!hasNextPage) setFetching(false);
 	}, [isFetching]);
 
-	return { page, data, isFetching, hasNextPage };
+	return { page, data, isFetching, hasNextPage, apiCall };
 }

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { deleteReview } from "../../apis/BookApi";
+import { deleteReview, getReview } from "../../apis/BookApi";
+import { initReview } from "../../apis/init/initBook";
 import { deleteComment } from "../../apis/sentenceApi";
 import defaultImg from "../../assets/images/user-default-img.png";
 import useDate from "../../hooks/useDate";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import {
 	CommentBtnBox,
 	CommentDateBox,
@@ -16,8 +18,9 @@ import ReplyTextButton from "../atoms/Button/ReplyTextButton";
 import RatingLabel from "../atoms/RatingLabel";
 import ModalLayer from "../organisms/ModalLayer";
 
-function Comment({ comment, type, getCommentApiCall }) {
+function Comment({ comment, type, setComments, getCommentApiCall }) {
 	const { sId } = useParams();
+	const { bId } = useParams();
 
 	const dateTimeSeparation = useDate();
 	const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +36,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 	};
 
 	const isMy = () => {
-		if (comment.uId === localStorage.getItem("userId")) {
+		if (comment?.uId === localStorage.getItem("userId")) {
 			return true;
 		}
 
@@ -50,11 +53,17 @@ function Comment({ comment, type, getCommentApiCall }) {
 		})();
 	};
 
+	const { apiCall: reviewApiCall } = useInfiniteScroll(bId, getReview, 5, initReview);
+
 	const deleteReviewApiCall = () => {
 		(async () => {
-			await deleteReview(comment.commentId).then((res) => {
+			await deleteReview(comment?.commentId).then((res) => {
 				if (res === "success") {
-					getCommentApiCall();
+					// 댓글 조회 api call
+					reviewApiCall().then((res) => {
+						console.log(res)
+						setComments(res);
+					});
 				}
 			});
 		})();
@@ -64,7 +73,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 		<>
 			<CommentBox>
 				<img
-					src={comment.img ? comment.img : defaultImg}
+					src={comment?.img ? comment?.img : defaultImg}
 					alt="Profile of the user who commented"
 				/>
 
