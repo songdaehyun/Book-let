@@ -158,4 +158,16 @@ public class UserController {
 
         return new ResponseEntity(result, HttpStatus.OK);
     }
+
+    @GetMapping("/prefer/cover")
+    public ResponseEntity getBookCovers() {
+        HashMap<String, Object> result = userService.findBookCovers();
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 }

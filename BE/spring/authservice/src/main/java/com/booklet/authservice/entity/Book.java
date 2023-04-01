@@ -30,7 +30,7 @@ public class Book {
     private String bookImage;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="author_id")
+    @JoinColumn(name="book_author_id")
     private Author author;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)

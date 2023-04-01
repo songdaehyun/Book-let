@@ -25,5 +25,7 @@ public interface UserService {
     public HashMap<String, Object> findUserLikeBooks(String username, int type);
     // 작성한 모든 리뷰 조회
     public HashMap<String, Object> findUserReviews(String username, int type);
+    // 랜덤한 책 커버 조회
+    public HashMap<String, Object> findBookCovers();
 
 }

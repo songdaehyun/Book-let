@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -241,6 +238,28 @@ public class UserServiceImpl implements UserService{
         }
         result.put("data", items);
 
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> findBookCovers() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        List<BookCoverResDto> itmes = new ArrayList<>();
+
+        for (int i = 0; i < 21; i++) {
+            Book book = bookRepository.findRandomBook();
+
+            if (book != null) {
+                itmes.add(new BookCoverResDto().builder()
+                                .book_isbn(book.getBookIsbn())
+                                .book_img(book.getBookImage())
+                                .build());
+            }
+            else {log.info("책 커버 불러오기 실패");}
+        }
+
+        result.put("data", itmes);
         return result;
     }
 
