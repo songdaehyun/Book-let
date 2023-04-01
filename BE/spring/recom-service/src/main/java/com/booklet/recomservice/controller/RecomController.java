@@ -81,17 +81,4 @@ public class RecomController {
             return new ResponseEntity(result, HttpStatus.OK);
         }
     }
-
-//    @GetMapping("/test")
-//    public String test() {
-//        System.out.println("컨트롤러 진입");
-//        RequestTools requestTools = new RequestTools();
-//        requestTools.GetRequest();
-//        return "테스트완료";
-//    }
-
-    @GetMapping("/check")
-    public String check(){
-        return "확인";
-    }
 }
