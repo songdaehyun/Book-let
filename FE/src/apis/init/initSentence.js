@@ -82,27 +82,6 @@ export const initSentenceList = (raw) => {
 	};
 };
 
-export const initScrappedList = (raw) => {
-	return raw?.map((sentence) => {
-		return {
-			nickname: sentence?.userInfo?.nickname,
-			profileImg: sentence?.userInfo?.userImage,
-
-			sId: sentence?.paragraphId,
-			content: sentence?.paragraphContent,
-			page: sentence?.paragraphPage,
-			color: sentence?.paragraphColor,
-			date: sentence?.createdDate,
-
-			isScraped: sentence?.scrapInfo?.userScrap,
-			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
-			scrapCount: sentence?.scrapInfo?.scrapCount,
-
-			commentCnt: sentence?.commentCnt,
-		};
-	});
-};
-
 export const initComment = (raw) => {
 	return raw?.map((comment) => {
 		return {
