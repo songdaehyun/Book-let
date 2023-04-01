@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getMyLike } from "../../../apis/userApi";
+import { getMyLike, getMyPreviewLike } from "../../../apis/userApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import PreviewBookSection from "../Book/PreviewBookSection";
 
@@ -21,9 +21,11 @@ function MyLikePreviewSection(props) {
 	// 	},
 	// ];
 
+	const uName = localStorage.getItem("userName");
+
 	useEffect(() => {
 		(async () => {
-			await getMyLike().then((res) => {
+			await getMyPreviewLike(uName).then((res) => {
 				setBooks(res);
 			});
 		})();
