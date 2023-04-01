@@ -30,31 +30,31 @@ function MyReviewDetail({ review }) {
 		<>
 			<MyReviewDetailBox>
 				<MyReviewPreviewBookInfoBox>
-					<img src={review.bookImgPath} />
+					<img src={review?.bookImgPath} />
 					<div>
 						<MyReviewDetailHeadingBox>
 							<Text size="14" weight="600" marginBottom="4">
-								{review.bookTitle}
+								{review?.bookTitle}
 							</Text>
 							<TextBtn size="14" onClick={openPopup}>
 								삭제
 							</TextBtn>
 						</MyReviewDetailHeadingBox>
-						<Text size="12">{review.authorName}</Text>
+						<Text size="12">{review?.authorName}</Text>
 						<Text size="12" color="var(--gray-500)">
-							{review.bookPublisher}
+							{review?.bookPublisher}
 						</Text>
 					</div>
 				</MyReviewPreviewBookInfoBox>
 				<MyReviewPreviewReviewInfoBox>
 					<div>
-						<RatingLabel rating={parseInt(review.reviewGrade)} />
+						<RatingLabel rating={parseInt(review?.reviewGrade)} />
 						<Text size="14" marginTop="8" marginBottom="8">
-							{review.reviewContent}
+							{review?.reviewContent}
 						</Text>
 					</div>
 					<Text size="12" color="var(--gray-500)">
-						{dateTimeSeparation(review.createdDate)}
+						{dateTimeSeparation(review?.createdDate)}
 					</Text>
 				</MyReviewPreviewReviewInfoBox>
 			</MyReviewDetailBox>
