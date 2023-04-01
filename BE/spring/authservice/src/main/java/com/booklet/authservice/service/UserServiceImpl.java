@@ -1,9 +1,6 @@
 package com.booklet.authservice.service;
 
-import com.booklet.authservice.dto.FollowReqDto;
-import com.booklet.authservice.dto.GetUserInfoResDto;
-import com.booklet.authservice.dto.UserLikeBooksResDto;
-import com.booklet.authservice.dto.UserTasteReqDto;
+import com.booklet.authservice.dto.*;
 import com.booklet.authservice.entity.*;
 import com.booklet.authservice.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +12,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -31,6 +26,8 @@ public class UserServiceImpl implements UserService{
     private final UserHashtagRepository userHashtagRepository;
     private final BookRepository bookRepository;
     private final BookLikesRepository bookLikesRepository;
+    private final ReviewRepository reviewRepository;
+    private final BookCoverRepository bookCoverRepository;
 
 //    @Override
     public HashMap<String, Object> findUserInfo(String username) {
@@ -131,6 +128,29 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean saveUserBookCover(UserTasteReqDto userTasteReqDto, String username) {
+        User user = userRepository.findByUsername(username);
+        List<BookCover> bookCovers = bookCoverRepository.findAllByUser(user);
+        if (bookCovers != null) {
+            log.info("기존 유저 취향 책 커버 삭제");
+            bookCoverRepository.deleteAll(bookCovers);
+        }
+        for (String bookIsbn : userTasteReqDto.getBookCovers()) {
+            try {
+                BookCover bookCover = new BookCover();
+                bookCover.setBookIsbn(bookIsbn);
+                bookCover.setUser(user);
+                bookCoverRepository.save(bookCover);
+                log.info("유저 취향 책 커버 등록 : " + bookRepository.findByBookIsbn(bookIsbn).getBookTitle());
+            } catch (Exception e) {
+                log.warn("유저 취향 책 커버 등록 실패 : "+bookIsbn);
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public HashMap<String, Object> saveUserPreferScore(String username) {
         HashMap result = new HashMap();
         User user = userRepository.findByUsername(username);
@@ -173,33 +193,97 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public HashMap<String, Object> findUserLikeBooks(String username, Pageable pageable) {
+    public HashMap<String, Object> findUserLikeBooks(String username, int type) {
         User user = userRepository.findByUsername(username);
+        System.out.println("진입 : " + user.getUsername());
         HashMap<String, Object> result = new HashMap<>();
 
         if (user == null) {return null;}
 
-        Slice<BookLikes> rawbookLikes = bookLikesRepository.findAllByUser(user, pageable);
-        List<BookLikes> bookl = bookLikesRepository.findAllByUser(user);
-        for (BookLikes boo : bookl){
-            System.out.println(boo.getBook().getBookTitle());
-        }
-        System.out.println(rawbookLikes.toString());
-        List<BookLikes> tmps = rawbookLikes.getContent();
+        List<BookLikes> tmps = bookLikesRepository.findAllByUser(user);
         List<UserLikeBooksResDto> items = new ArrayList<>();
-        System.out.println(tmps.toString());
+
+        int cnt = 0;
+
         for (BookLikes bookLikes : tmps) {
+            if (type ==0 && cnt == 5) {
+                break;
+            }
             Book book = bookLikes.getBook();
-            items.add(new UserLikeBooksResDto().builder()
+            System.out.println("작업 중인 책 : "+book.getBookTitle());
+            UserLikeBooksResDto userLikeBooksResDto = new UserLikeBooksResDto().builder()
                     .bookIsbn(book.getBookIsbn())
                     .bookImgPath(book.getBookImage())
                     .bookTitle(book.getBookTitle())
-                    .authorName(book.getAuthor().getAuthorName()).build());
-            System.out.println(book.getBookTitle());
+//                    .authorName(book.getAuthor().getAuthorName());
+                    .build();
+            try {
+                userLikeBooksResDto.setAuthorName(book.getAuthor().getAuthorName());
+            } catch (Exception e) {
+
+            }
+            cnt += 1;
+            items.add(userLikeBooksResDto);
         }
-        System.out.println(items.toString());
         result.put("data", items);
 
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> findUserReviews(String username, int type) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return null;}
+        HashMap<String, Object> result = new HashMap<>();
+        List<Review> reviews = reviewRepository.findAllByUser(user);
+        int cnt = 0;
+        List<UserReviewsResDto> items = new ArrayList<>();
+        for (Review review : reviews) {
+            if (type ==0 && cnt == 5) {
+                break;
+            }
+            Book book = review.getBook();
+            UserReviewsResDto userReviewsResDto = UserReviewsResDto.builder()
+                    .bookImgPath(book.getBookImage())
+                    .bookTitle(book.getBookTitle())
+                    .bookPublisher(book.getBookPublisher())
+                    .bookIsbn(book.getBookIsbn())
+                    .reviewGrade(review.getReviewGrade())
+                    .reivewContent(review.getReviewContent())
+                    .createdDate(review.getCreatedDate())
+                    .build();
+            try {
+                userReviewsResDto.setAuthorName(book.getAuthor().getAuthorName());
+            } catch (Exception e) {
+                log.info("작가 찾기 실패");
+            }
+            cnt += 1;
+            items.add(userReviewsResDto);
+        }
+        result.put("data", items);
+
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> findBookCovers() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        List<BookCoverResDto> itmes = new ArrayList<>();
+
+        for (int i = 0; i < 21; i++) {
+            Book book = bookRepository.findRandomBook();
+
+            if (book != null) {
+                itmes.add(new BookCoverResDto().builder()
+                                .book_isbn(book.getBookIsbn())
+                                .book_img(book.getBookImage())
+                                .build());
+            }
+            else {log.info("책 커버 불러오기 실패");}
+        }
+
+        result.put("data", itmes);
         return result;
     }
 

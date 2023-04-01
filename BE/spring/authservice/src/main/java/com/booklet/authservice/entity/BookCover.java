@@ -2,6 +2,7 @@ package com.booklet.authservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,16 +10,16 @@ import java.util.List;
 
 @Entity
 @Getter
-@Table(name="author")
-public class Author {
+@Setter
+@Table(name="book_cover")
+public class BookCover {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authorId;
+    private Long bookCoverId;
 
-    private String authorName;
+    private String bookIsbn;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private List<Book> books = new ArrayList<>();
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 }

@@ -5,16 +5,17 @@ import com.booklet.authservice.entity.Hashtag;
 import com.booklet.authservice.repository.HashtagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,45 @@ import java.util.Map;
 @RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestController {
+
+    public static final String UPLOAD_DIR = "uploads/";
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            // 파일을 저장할 디렉토리가 있는지 확인하고 없으면 생성
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // 업로드한 파일을 디렉토리에 저장
+            Path filePath = uploadPath.resolve(file.getOriginalFilename());
+            file.transferTo(filePath);
+
+            // 파일 저장에 성공하면 파일 이름 반환
+            return ResponseEntity.ok(file.getOriginalFilename());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<?> getImage(@PathVariable("filename") String filename) {
+        try {
+            // 이미지 파일을 불러옴
+            Path imagePath = Paths.get(UPLOAD_DIR, filename);
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+
+            // 이미지 바이트 배열을 반환
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
+
     // Tip : JWT를 사용하면 UserDetailsService를 호출하지 않기 때문에 @AuthenticationPrincipal 사용
     // 불가능.
     // 왜냐하면 @AuthenticationPrincipal은 UserDetailsService에서 리턴될 때 만들어지기 때문이다.
