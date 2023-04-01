@@ -66,8 +66,8 @@ export const getMyLike = async (uName) => {
 	try {
 		const res = await api.get(`/user/like/book/all/${uName}`);
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
