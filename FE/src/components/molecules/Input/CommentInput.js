@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { postReview } from "../../../apis/BookApi";
 import { postComment } from "../../../apis/sentenceApi";
+import useRating from "../../../hooks/useRating";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
 
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
@@ -11,13 +12,14 @@ import WordCountText from "../../atoms/WordCountText";
 
 function CommentInput({ type, getCommentApiCall }) {
 	const { sId } = useParams();
-
 	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
 
 	const [comment, setComment] = useState("");
 	const { selectedRating } = useSelector((state) => state.book);
 	const limit = 100;
+
+	const selectRating = useRating();
 
 	const handleChange = (e) => {
 		if (e.target.value.length <= limit) {
@@ -54,7 +56,11 @@ function CommentInput({ type, getCommentApiCall }) {
 			(async () => {
 				await postReview(data).then((res) => {
 					if (res === "success") {
+						// 댓글 조회 api call
 						getCommentApiCall();
+						// 댓글, 별점 초기화
+						setComment("");
+						selectRating(0);
 					}
 				});
 			})();
