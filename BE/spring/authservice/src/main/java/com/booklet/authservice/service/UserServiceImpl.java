@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService{
     private final BookRepository bookRepository;
     private final BookLikesRepository bookLikesRepository;
     private final ReviewRepository reviewRepository;
+    private final BookCoverRepository bookCoverRepository;
 
 //    @Override
     public HashMap<String, Object> findUserInfo(String username) {
@@ -121,6 +122,29 @@ public class UserServiceImpl implements UserService{
             System.out.println("유저 : " + user.getUsername());
             System.out.println("태그" + hashtag.getHashtagName());
             userHashtagRepository.save(userHashtag);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean saveUserBookCover(UserTasteReqDto userTasteReqDto, String username) {
+        User user = userRepository.findByUsername(username);
+        List<BookCover> bookCovers = bookCoverRepository.findAllByUser(user);
+        if (bookCovers != null) {
+            log.info("기존 유저 취향 책 커버 삭제");
+            bookCoverRepository.deleteAll(bookCovers);
+        }
+        for (String bookIsbn : userTasteReqDto.getBookCovers()) {
+            try {
+                BookCover bookCover = new BookCover();
+                bookCover.setBookIsbn(bookIsbn);
+                bookCover.setUser(user);
+                bookCoverRepository.save(bookCover);
+                log.info("유저 취향 책 커버 등록 : " + bookRepository.findByBookIsbn(bookIsbn).getBookTitle());
+            } catch (Exception e) {
+                log.warn("유저 취향 책 커버 등록 실패 : "+bookIsbn);
+            }
         }
 
         return true;

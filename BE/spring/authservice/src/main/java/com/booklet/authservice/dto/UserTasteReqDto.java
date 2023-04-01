@@ -7,4 +7,5 @@ import java.util.List;
 @Data
 public class UserTasteReqDto {
     private List<String> tastes;
+    private List<String> bookCovers;
 }

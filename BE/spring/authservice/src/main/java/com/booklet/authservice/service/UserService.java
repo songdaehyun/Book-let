@@ -17,6 +17,10 @@ public interface UserService {
     public boolean following(FollowReqDto followReqDto);
     // 문장취향 등록
     public boolean saveUserTaste(UserTasteReqDto userTasteReqDto, String username);
+    // 책 커버 등록
+    public boolean saveUserBookCover(UserTasteReqDto userTasteReqDto, String username);
+    // 책 커버 조회
+    public HashMap<String, Object> findBookCovers();
     // 긍정 점수 계산 및 저장
     public HashMap<String, Object> saveUserPreferScore(String username);
     // 모든 취향 태그 조회
@@ -26,6 +30,6 @@ public interface UserService {
     // 작성한 모든 리뷰 조회
     public HashMap<String, Object> findUserReviews(String username, int type);
     // 랜덤한 책 커버 조회
-    public HashMap<String, Object> findBookCovers();
+
 
 }
