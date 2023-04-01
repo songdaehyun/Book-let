@@ -69,7 +69,9 @@ function Login() {
 						// api 기본 헤더로 설정
 						api.defaults.headers.common["Authorization"] = token;
 
-						navigate("/");
+						
+						// navigate("/");
+						window.location.replace("/")
 					} else {
 						setIsLoginFailed(true);
 					}
