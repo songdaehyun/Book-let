@@ -3,33 +3,37 @@ import React from "react";
 import {
 	ReactionContainer,
 	ReactionImgContainer,
-	ReactionImgWrapper
+	ReactionImgWrapper,
 } from "../../styles/common/CommonStyle";
 import { Span } from "../../styles/common/TextsStyle";
 
+import defaultImg from "../../assets/images/user-default-img.png";
+
 function ReactionInfo({ imgs, count, type }) {
 	const isImageEmpty = count === 0 ? true : false;
-
-	const info = null;
 
 	return (
 		<>
 			{!isImageEmpty && (
 				<ReactionImgContainer>
-					{(imgs || info?.likesProfileImg)?.map((img, idx) => (
+					{imgs?.map((img, idx) => (
 						<ReactionImgWrapper key={idx}>
-							<img src={img} alt="user profile" />
+							<img src={img ? img : defaultImg} alt="user profile" />
 						</ReactionImgWrapper>
 					))}
 				</ReactionImgContainer>
 			)}
 			<ReactionContainer>
 				{isImageEmpty ? (
-					<>아직 스크랩한 사용자가 없어요</>
+					type === "scrap" ? (
+						<>아직 스크랩한 사용자가 없어요</>
+					) : (
+						type === "like" && <>아직 좋아하는 사용자가 없어요</>
+					)
 				) : (
 					<>
 						<Span weight="bold" color="var(--primary-600)">
-							{count || info?.likesNumber || "0"}
+							{count || "0"}
 						</Span>
 						{type === "scrap" ? (
 							<>명이 스크랩했어요</>

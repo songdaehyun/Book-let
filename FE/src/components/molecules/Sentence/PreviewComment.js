@@ -16,14 +16,14 @@ function PreviewComment({ post, isMy }) {
 				<img src={commentIcon} />
 				<Text size="14" color="var(--gray-500)">
 					<Span size="14" weight="bold">
-						{post.commentCnt}
+						{post?.commentCnt}
 					</Span>
 					개의 댓글
 				</Text>
 			</div>
 			{!isMy && (
 				<Text size="14" color="var(--gray-500)">
-					{dateTimeSeparation(post.date)}
+					{dateTimeSeparation(post?.date)}
 				</Text>
 			)}
 		</PreviewCommentContainer>

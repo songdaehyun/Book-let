@@ -15,11 +15,11 @@ export const postTaste = async (data) => {
 	}
 };
 
-export const getMyInfo = async (uId) => {
+export const getMyInfo = async (uName) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/user/${uId}`,
+			url: `/user/${uName}`,
 		});
 
 		console.log(res.data.data);
@@ -51,9 +51,13 @@ export const getMyLike = async () => {
 	}
 };
 
-export const postFollow = async (uId) => {
+export const postFollow = async (uName, data) => {
 	try {
-		const res = await api.get(`/user/follow/${uId}`);
+		const res = await api({
+			method: "POST",
+			url: `/user/follow/${uName}`, 
+			data: data
+		});
 
 		console.log(res);
 		return res;
@@ -66,8 +70,8 @@ export const getTagExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/hashtag");
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}

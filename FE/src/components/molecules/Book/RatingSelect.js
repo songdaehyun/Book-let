@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { setSelectedRating } from "../../../reducer/book";
 
 import { RatingBox } from "../../../styles/Book/BookDetailStyle";
 import RatingStar from "../../atoms/Icon/RatingStar";
 
-function RatingSelect({ selectedRating, setSelectedRating }) {
-	const [isSelected, setIsSelected] = useState([false, false, false, false, false]);
+function RatingSelect() {
+	const dispatch = useDispatch();
 
-	const handleClickRating = (rating) => {
-		setIsSelected(isSelected);
-	};
+	const [isSelected, setIsSelected] = useState([false, false, false, false, false]);
 
 	const selecteRating = (rating) => {
 		let stars = [...isSelected];
@@ -20,7 +21,7 @@ function RatingSelect({ selectedRating, setSelectedRating }) {
 			}
 		}
 
-		setSelectedRating(rating);
+		dispatch(setSelectedRating(rating));
 		setIsSelected(stars);
 	};
 

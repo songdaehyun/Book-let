@@ -29,7 +29,12 @@ public class ParagraphCommonListDto {
     // comment
     private int commentCnt;
 
-    public ParagraphCommonListDto(UserDto user, Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt){
+    // bookInfo
+    private String bookIsbn;
+    private String bookTitle;
+    private String bookAuthor;
+
+    public ParagraphCommonListDto(UserDto user, Paragraph paragraph, ParagraphScrapDto scrapInfo, int commentCnt, String bookIsbn, String bookAuthor, String bookTitle) {
         this.userInfo = user;
         this.paragraphId = paragraph.getParagraphId();
         this.paragraphContent = paragraph.getParagraphContent();
@@ -39,12 +44,9 @@ public class ParagraphCommonListDto {
         this.modifiedDate = paragraph.getModifiedDate();
         this.scrapInfo = scrapInfo;
         this.commentCnt = commentCnt;
+        this.bookAuthor = bookAuthor;
+        this.bookIsbn = bookIsbn;
+        this.bookTitle = bookTitle;
     }
 
-
-    private class ScrapInfo {
-        private ArrayList<String> scrapUserImages;
-        private int scrapCount;
-        private int userScrape; // 사용자가 스크랩한지 안한지 여부
-    }
 }

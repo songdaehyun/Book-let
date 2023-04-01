@@ -11,7 +11,8 @@ function PreviewPost({ post, isMy }) {
 		<Container marginBottom="40">
 			<PreviewSentence post={post} />
 			<ScrapToolbar
-				isScraped={post?.isMy}
+				sId={post?.sId}
+				isScraped={post?.isScraped}
 				scrapImgs={post?.scrapImgs}
 				scrapCount={post?.scrapCount}
 				isMy={isMy}

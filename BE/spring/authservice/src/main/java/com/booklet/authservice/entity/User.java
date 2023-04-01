@@ -43,6 +43,8 @@ public class User {
 
     private float preferScore;
 
+    private String preferType;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserImage userImage;
 
@@ -63,5 +65,8 @@ public class User {
 
     @OneToMany(mappedBy = "user") //FK 없는 쪽에 mapped by 리더
     private List<Scrap> scraps = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user") //FK 없는 쪽에 mapped by 리더
+    private List<BookCover> bookCover = new ArrayList<>();
 
 }

@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 // 로그인 / 회원가입
 import JoinAge from "./components/pages/Join/JoinAge";
@@ -36,6 +36,8 @@ import MyReview from "./components/pages/Mypage/MyReview";
 import MyTagEdit from "./components/pages/Mypage/MyTagEdit";
 
 function AppRouter(props) {
+	const isAuth = localStorage.getItem("token");
+
 	return (
 		<BrowserRouter>
 			<Routes>
@@ -46,29 +48,82 @@ function AppRouter(props) {
 				<Route path="/join/3" element={<JoinAge />} />
 				<Route path="/join/4" element={<JoinCover />} />
 				<Route path="/join/5" element={<JoinTag />} />
+
 				{/* 문장 */}
-				<Route path="/" element={<Feed />} />
-				<Route path="/sentence/scrap" element={<ScrapSentence />} />
-				<Route path="/sentence/recommand" element={<RecomSentence />} />
-				<Route path="/sentence/:sId" element={<DetailPost />} />
-				<Route path="/sentence/write" element={<WriteSentence />} />
+
+				<Route path="/" element={isAuth ? <Feed /> : <Navigate to="/login" />} />
+				<Route
+					path="/sentence/scrap"
+					element={isAuth ? <ScrapSentence /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/sentence/recommand"
+					element={isAuth ? <RecomSentence /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/sentence/:sId"
+					element={isAuth ? <DetailPost /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/sentence/write"
+					element={isAuth ? <WriteSentence /> : <Navigate to="/login" />}
+				/>
 				{/* 도서 */}
-				<Route path="/book" element={<Book />} />
-				<Route path="/book/recom/user" element={<UserRecomBook />} />
-				<Route path="/book/recom/rating" element={<RatingRecomBook />} />
-				<Route path="/book/recom/like" element={<LikeRecomBook />} />
-				<Route path="/book/recom/genre" element={<GenreRecomBook />} />
-				<Route path="/book/recom/cover" element={<CoverRecomBook />} />
-				<Route path="/book/:bId" element={<BookDetail />} />
-				<Route path="/author/:aId" element={<AuthorBook />} />
+				<Route path="/book" element={isAuth ? <Book /> : <Navigate to="/login" />} />
+				<Route
+					path="/book/recom/user"
+					element={isAuth ? <UserRecomBook /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/book/recom/rating"
+					element={isAuth ? <RatingRecomBook /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/book/recom/like"
+					element={isAuth ? <LikeRecomBook /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/book/recom/genre"
+					element={isAuth ? <GenreRecomBook /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/book/recom/cover"
+					element={isAuth ? <CoverRecomBook /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/book/:bId"
+					element={isAuth ? <BookDetail /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/author/:aId"
+					element={isAuth ? <AuthorBook /> : <Navigate to="/login" />}
+				/>
 				{/* 마이 페이지 */}
-				<Route path="/mypage" element={<Mypage />} />
-				<Route path="/mypage/follow" element={<MyFollow />} />
-				<Route path="/mypage/review" element={<MyReview />} />
-				<Route path="/mypage/like" element={<MyLike />} />
-				<Route path="/mypage/delete-account" element={<DeleteMyAccount />} />
-				<Route path="/mypage/info/edit" element={<MyInfoEdit />} />
-				<Route path="/mypage/tag/edit" element={<MyTagEdit />} />
+				<Route path="/mypage" element={isAuth ? <Mypage /> : <Navigate to="/login" />} />
+				<Route
+					path="/mypage/follow"
+					element={isAuth ? <MyFollow /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/mypage/review"
+					element={isAuth ? <MyReview /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/mypage/like"
+					element={isAuth ? <MyLike /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/mypage/delete-account"
+					element={isAuth ? <DeleteMyAccount /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/mypage/info/edit"
+					element={isAuth ? <MyInfoEdit /> : <Navigate to="/login" />}
+				/>
+				<Route
+					path="/mypage/tag/edit"
+					element={isAuth ? <MyTagEdit /> : <Navigate to="/login" />}
+				/>
 			</Routes>
 		</BrowserRouter>
 	);

@@ -21,26 +21,47 @@ public class RecomController {
     @GetMapping("/score/{username}")
     public ResponseEntity findScoreRecomBook(@PathVariable String username){
         HashMap<String, Object> result = recomService.getBookRecom("score",username);
-        return new ResponseEntity(result, HttpStatus.OK);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/like/{username}")
     public ResponseEntity findLikeRecomBook(@PathVariable String username){
         HashMap<String, Object> result = recomService.getBookRecom("like",username);
-        return new ResponseEntity(result, HttpStatus.OK);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/genre/{username}")
-    public ResponseEntity findGenreRecomBook(@PathVariable String username){
-        HashMap<String, Object> result = recomService.getBookRecom("genre",username);
-        return new ResponseEntity(result, HttpStatus.OK);
+    public ResponseEntity findGenreRecomBook(@PathVariable String username) {
+        HashMap<String, Object> result = recomService.getBookRecom("genre", username);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
     }
-
     @GetMapping("/user/{username}")
     public ResponseEntity findUserRecomBook(@PathVariable String username){
         HashMap<String, Object> result = recomService.getBookRecom("user",username);
         if (result == null) {
-            result.put("message", "fail");
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } else {
             result.put("message", "success");

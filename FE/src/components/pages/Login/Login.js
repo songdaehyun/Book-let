@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import jwt_decode from "jwt-decode";
+
 import api from "../../../apis";
 
 import { PrimaryLargeBtn, TextBtn } from "../../../styles/common/ButtonsStyle";
@@ -21,6 +23,7 @@ function Login() {
 
 	const [isIdConfirm, setIsIdConfirm] = useState(true);
 	const [isPwConfirm, setIsPwConfirm] = useState(true);
+	const [isLoginFailed, setIsLoginFailed] = useState(false);
 
 	const hadleChangeId = (e) => {
 		setId(e.target.value);
@@ -56,13 +59,21 @@ function Login() {
 					if (res?.status === 200) {
 						// 로그인 토큰 저장
 						const token = res.headers.get("Authorization");
+
+						const decodeData = jwt_decode(token);
+
 						localStorage.setItem("token", token);
-						localStorage.setItem("userId", id);
+						localStorage.setItem("userId", parseInt(decodeData.userId));
+						localStorage.setItem("userName", decodeData.username);
 
 						// api 기본 헤더로 설정
 						api.defaults.headers.common["Authorization"] = token;
 
-						navigate("/");
+						
+						// navigate("/");
+						window.location.replace("/")
+					} else {
+						setIsLoginFailed(true);
 					}
 				});
 			})();
@@ -109,9 +120,13 @@ function Login() {
 				marginTop="8"
 			></DefaultInput>
 			<>
-				{!isPwConfirm && (
+				{!isPwConfirm ? (
 					<ValidWrapper>
 						<ValidFailText>비밀번호를 입력해주세요</ValidFailText>
+					</ValidWrapper>
+				) : isLoginFailed && (
+					<ValidWrapper>
+						<ValidFailText>아이디나 비밀번호가 잘못되었습니다</ValidFailText>
 					</ValidWrapper>
 				)}
 			</>
