@@ -108,9 +108,15 @@ public class UserController {
     }
 
     @GetMapping("/like/book/{username}")
-    public ResponseEntity getUserLikeBooks(@PathVariable String username, Pageable pageable) {
+    public ResponseEntity getUserLikeBooks(@PathVariable String username, int size, int page) {
         // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
-        HashMap<String, Object> result = userService.findUserLikeBooks(username, pageable);
+        PageRequest pageRequest = PageRequest.of(size, page);
+        HashMap<String, Object> result = userService.findUserLikeBooks(username, pageRequest);
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
 
         return new ResponseEntity(result, HttpStatus.OK);
     }

@@ -11,12 +11,12 @@ import UserProfileImage from "../../atoms/UserProfileImage";
 function UserInfoOverview(props) {
 	const navigate = useNavigate();
 
-	const uId = localStorage.getItem("userId");
+	const uName = localStorage.getItem("userName");
 	const [user, setUser] = useState();
 
 	const getMyInfoApiCall = () => {
 		(async () => {
-			await getMyInfo(uId).then((res) => {
+			await getMyInfo(uName).then((res) => {
 				setUser(res);
 			});
 		})();

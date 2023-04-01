@@ -11,6 +11,7 @@ import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
 import { getFollowingPost } from "../../../apis/sentenceApi";
 import { initSentenceList } from "../../../apis/init/initSentence";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 
 function FeedExploreTab(props) {
 	// 더미 데이터
@@ -49,8 +50,6 @@ function FeedExploreTab(props) {
 	// },
 	// ];
 
-	const [posts, setPosts] = useState([]);
-
 	const isArrEmpty = useArr();
 
 	const id = localStorage.getItem("userId");
@@ -68,13 +67,20 @@ function FeedExploreTab(props) {
 		path: "/sentence/recommand",
 	};
 
-	useEffect(() => {
-		(async () => {
-			await getFollowingPost(id, 5, 0)
-				.then(initSentenceList)
-				.then((res) => setPosts(res));
-		})();
-	}, []);
+	// useEffect(() => {
+	// 	(async () => {
+	// 		await getFollowingPost(id, 5, 0)
+	// 			.then(initSentenceList)
+	// 			.then((res) => setPosts(res));
+	// 	})();
+	// }, []);
+
+	const { data: posts, isFetching } = useInfiniteScroll(
+		id,
+		getFollowingPost,
+		5,
+		initSentenceList
+	);
 
 	return (
 		<Container paddingTop="32">

@@ -2,6 +2,7 @@ package com.booklet.authservice.service;
 
 import com.booklet.authservice.dto.FollowReqDto;
 import com.booklet.authservice.dto.GetUserInfoResDto;
+import com.booklet.authservice.dto.UserLikeBooksResDto;
 import com.booklet.authservice.dto.UserTasteReqDto;
 import com.booklet.authservice.entity.*;
 import com.booklet.authservice.repository.*;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -173,11 +175,32 @@ public class UserServiceImpl implements UserService{
     @Override
     public HashMap<String, Object> findUserLikeBooks(String username, Pageable pageable) {
         User user = userRepository.findByUsername(username);
+        HashMap<String, Object> result = new HashMap<>();
+
         if (user == null) {return null;}
 
-        Slice<BookLikes> bookLikes = bookLikesRepository.findAllByUser(user, pageable);
+        Slice<BookLikes> rawbookLikes = bookLikesRepository.findAllByUser(user, pageable);
+        List<BookLikes> bookl = bookLikesRepository.findAllByUser(user);
+        for (BookLikes boo : bookl){
+            System.out.println(boo.getBook().getBookTitle());
+        }
+        System.out.println(rawbookLikes.toString());
+        List<BookLikes> tmps = rawbookLikes.getContent();
+        List<UserLikeBooksResDto> items = new ArrayList<>();
+        System.out.println(tmps.toString());
+        for (BookLikes bookLikes : tmps) {
+            Book book = bookLikes.getBook();
+            items.add(new UserLikeBooksResDto().builder()
+                    .bookIsbn(book.getBookIsbn())
+                    .bookImgPath(book.getBookImage())
+                    .bookTitle(book.getBookTitle())
+                    .authorName(book.getAuthor().getAuthorName()).build());
+            System.out.println(book.getBookTitle());
+        }
+        System.out.println(items.toString());
+        result.put("data", items);
 
-        return null;
+        return result;
     }
 
 

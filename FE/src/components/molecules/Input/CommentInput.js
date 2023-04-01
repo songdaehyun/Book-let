@@ -35,13 +35,16 @@ function CommentInput({ type, getCommentApiCall }) {
 			parentCommentId: 0, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
 		};
 
-		(async () => {
-			await postComment(data).then((res) => {
-				if (res === "success") {
-					getCommentApiCall();
-				}
-			});
-		})();
+		if (comment !== "") {
+			(async () => {
+				await postComment(data).then((res) => {
+					if (res === "success") {
+						getCommentApiCall();
+						setComment("")
+					}
+				});
+			})();
+		}
 	};
 
 	const reviewSubmit = () => {
@@ -81,7 +84,7 @@ function CommentInput({ type, getCommentApiCall }) {
 					}
 				></input>
 				<div onClick={type === "댓글" ? commentSubmit : type === "리뷰" && reviewSubmit}>
-					<CommentUploadButton />
+					<CommentUploadButton isCommentValid={comment !== ""} />
 				</div>
 			</CommentInputBox>
 			<WordCountText limit={limit} length={comment.length} />

@@ -18,7 +18,10 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         List<String> originlst = new ArrayList<>(List.of(
                 "http://localhost:3000",
-                "https://localhost:3000"
+                "https://localhost:3000",
+                "http://j8b306.p.ssafy.io:3000",
+                "https://j8b306.p.ssafy.io:3000",
+                "https://j8b306.p.ssafy.io"
         ));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();

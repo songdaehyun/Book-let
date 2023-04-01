@@ -11,13 +11,12 @@ import {
 	SentenceBookSearchResultBox,
 } from "../../../styles/Sentence/SentenceFormStyle";
 
-function SentenceBookSearch(props) {
+function SentenceBookSearch({ selectedBook, setSelectedBook }) {
 	const inputRef = useRef();
 	const [isOpen, setIsOpen] = useState();
 	const [isInputInvisible, setIsInputInvisible] = useState(true);
 	const [searchWord, setSearchWord] = useState("");
 	const [searchBooks, setSearchBooks] = useState([]);
-	const [selectedBook, setSelectedBook] = useState();
 
 	const closeAutoSearch = () => {
 		setTimeout(() => {
@@ -104,10 +103,10 @@ function SentenceBookSearch(props) {
 					<>
 						{searchBooks?.map((book) => (
 							<div key={book.bid} onClick={() => handleClickBook(book)}>
-								<Text marginBottom="4">
-									{book?.title}
+								<Text marginBottom="4">{book?.title}</Text>
+								<Text size="14" color="var(--gray-500)">
+									{book?.author}
 								</Text>
-								<Text size="14" color="var(--gray-500)">{book?.author}</Text>
 							</div>
 						))}
 					</>

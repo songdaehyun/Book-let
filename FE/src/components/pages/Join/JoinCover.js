@@ -163,7 +163,7 @@ function JoinCover(props) {
 					</Text>
 				</Container>
 				<CoversContainer>
-					{covers.map((cover) => {
+					{covers?.map((cover) => {
 						return (
 							<CoverWrapper
 								key={cover.id}

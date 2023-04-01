@@ -1,4 +1,4 @@
-package com.booklet.authservice.dto;
+package com.booklet.recomservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLikeBooksResDto {
-    private String bookIsbn;
+public class RecomResDto {
     private String bookImgPath;
     private String bookTitle;
     private String authorName;
+    private String bookIsbn;
 }
