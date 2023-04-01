@@ -34,9 +34,11 @@ function MyReview(props) {
 	// },
 	// ];
 
+	const uName = localStorage.getItem("userName");
+
 	useEffect(() => {
 		(async () => {
-			await getMyReview().then((res) => {
+			await getMyReview(uName).then((res) => {
 				setReviews(res);
 			});
 		})();
