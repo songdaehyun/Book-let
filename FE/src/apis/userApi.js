@@ -51,9 +51,20 @@ export const getMyReview = async (uName) => {
 	}
 };
 
-export const getMyLike = async () => {
+export const getMyPreviewLike = async (uName) => {
 	try {
-		const res = await api.get("/user/like/book");
+		const res = await api.get(`/user/like/book/${uName}`);
+
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getMyLike = async (uName) => {
+	try {
+		const res = await api.get(`/user/like/book/all/${uName}`);
 
 		console.log(res.data);
 		return res.data;
