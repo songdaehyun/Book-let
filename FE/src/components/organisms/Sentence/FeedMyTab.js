@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 
 import PreviewPost from "./PreviewPost";
 
@@ -9,7 +9,7 @@ import Empty from "../../molecules/Empty";
 
 // import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
-import { initMyPost } from "../../../apis/init/initSentence";
+import { initSentenceList } from "../../../apis/init/initSentence";
 import { getMyPost } from "../../../apis/sentenceApi";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 
@@ -66,7 +66,7 @@ function FeedMyTab(props) {
 		path: "/sentence/write",
 	};
 
-	const { data: posts, isFetching } = useInfiniteScroll(id, getMyPost, 5, initMyPost);
+	const { data: posts, isFetching } = useInfiniteScroll(id, getMyPost, 5, initSentenceList);
 
 	return (
 		<Container paddingTop="32">
