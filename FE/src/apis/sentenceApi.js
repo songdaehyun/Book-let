@@ -86,7 +86,7 @@ export const postScrap = async (data) => {
 	}
 };
 
-export const getScrappedPost = async (uId, page, size) => {
+export const getScrappedPost = async (uId, size, page) => {
 	try {
 		const res = await api({
 			method: "GET",
@@ -94,7 +94,7 @@ export const getScrappedPost = async (uId, page, size) => {
 		});
 
 		console.log(res.data);
-		return res.data?.paragraphs;
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
