@@ -36,8 +36,8 @@ export const getMyPost = async (uId, size, page) => {
 			url: `/sns/paragraph/mylist/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data.paragraphs);
-		return res.data.paragraphs;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
