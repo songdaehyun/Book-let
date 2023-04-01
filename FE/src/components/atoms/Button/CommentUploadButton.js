@@ -4,10 +4,10 @@ import { CommentUploadBtn } from "../../../styles/common/ButtonsStyle";
 
 import UploadArrow from "../../atoms/Icon/UploadArrow";
 
-function CommentUploadButton() {
+function CommentUploadButton({ isCommentValid }) {
 	return (
-		<CommentUploadBtn>
-			<UploadArrow />
+		<CommentUploadBtn isValid={isCommentValid}>
+			<UploadArrow isValid={isCommentValid} />
 		</CommentUploadBtn>
 	);
 }

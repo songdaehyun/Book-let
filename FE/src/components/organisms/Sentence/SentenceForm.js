@@ -7,10 +7,19 @@ import WriteSentencePage from "./WriteSentencePage";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 
-function SentenceForm({content, setContent, background, setBackground, page, setPage}) {
+function SentenceForm({
+	selectedBook,
+	setSelectedBook,
+	content,
+	setContent,
+	background,
+	setBackground,
+	page,
+	setPage,
+}) {
 	return (
 		<Container paddingTop="80" paddingLeft="16" paddingRight="16">
-			<SentenceBookSearch />
+			<SentenceBookSearch selectedBook={selectedBook} setSelectedBook={setSelectedBook} />
 			<SentenceTextarea content={content} setContent={setContent} background={background} />
 			<SentenceColorSelect setBackground={setBackground} />
 			<WriteSentencePage page={page} setPage={setPage} />
