@@ -68,8 +68,8 @@ export const deleteReview = async (rId) => {
 			url: `/review/${rId}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
@@ -83,8 +83,8 @@ export const postReview = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.error(err);
 	}
