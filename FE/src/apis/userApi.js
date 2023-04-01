@@ -29,9 +29,20 @@ export const getMyInfo = async (uName) => {
 	}
 };
 
-export const getMyReview = async () => {
+export const getMyPreviewReview = async (uName) => {
 	try {
-		const res = await api.get("/user/review");
+		const res = await api.get(`/user/review/pre/${uName}`);
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getMyReview = async (uName) => {
+	try {
+		const res = await api.get(`/user/review/all/${uName}`);
 
 		console.log(res.data);
 		return res.data;
