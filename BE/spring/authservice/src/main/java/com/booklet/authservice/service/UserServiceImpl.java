@@ -1,9 +1,6 @@
 package com.booklet.authservice.service;
 
-import com.booklet.authservice.dto.FollowReqDto;
-import com.booklet.authservice.dto.GetUserInfoResDto;
-import com.booklet.authservice.dto.UserLikeBooksResDto;
-import com.booklet.authservice.dto.UserTasteReqDto;
+import com.booklet.authservice.dto.*;
 import com.booklet.authservice.entity.*;
 import com.booklet.authservice.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +12,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +29,7 @@ public class UserServiceImpl implements UserService{
     private final UserHashtagRepository userHashtagRepository;
     private final BookRepository bookRepository;
     private final BookLikesRepository bookLikesRepository;
+    private final ReviewRepository reviewRepository;
 
 //    @Override
     public HashMap<String, Object> findUserInfo(String username) {
@@ -204,6 +203,41 @@ public class UserServiceImpl implements UserService{
             }
             cnt += 1;
             items.add(userLikeBooksResDto);
+        }
+        result.put("data", items);
+
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> findUserReviews(String username, int type) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return null;}
+        HashMap<String, Object> result = new HashMap<>();
+        List<Review> reviews = reviewRepository.findAllByUser(user);
+        int cnt = 0;
+        List<UserReviewsResDto> items = new ArrayList<>();
+        for (Review review : reviews) {
+            if (type ==0 && cnt == 5) {
+                break;
+            }
+            Book book = review.getBook();
+            UserReviewsResDto userReviewsResDto = UserReviewsResDto.builder()
+                    .bookImgPath(book.getBookImage())
+                    .bookTitle(book.getBookTitle())
+                    .bookPublisher(book.getBookPublisher())
+                    .bookIsbn(book.getBookIsbn())
+                    .reviewGrade(review.getReviewGrade())
+                    .reivewContent(review.getReviewContent())
+                    .createdDate(review.getCreatedDate())
+                    .build();
+            try {
+                userReviewsResDto.setAuthorName(book.getAuthor().getAuthorName());
+            } catch (Exception e) {
+                log.info("작가 찾기 실패");
+            }
+            cnt += 1;
+            items.add(userReviewsResDto);
         }
         result.put("data", items);
 

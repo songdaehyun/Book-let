@@ -109,7 +109,6 @@ public class UserController {
 
     @GetMapping("/like/book/{username}")
     public ResponseEntity getUserLikeBooks(@PathVariable String username) {
-        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
         HashMap<String, Object> result = userService.findUserLikeBooks(username, 0);
         if (result == null) {
             result.put("message", "fail");
@@ -122,7 +121,6 @@ public class UserController {
 
     @GetMapping("/like/book/all/{username}")
     public ResponseEntity getAllUserLikeBooks(@PathVariable String username) {
-        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
         HashMap<String, Object> result = userService.findUserLikeBooks(username, 1);
         if (result == null) {
             result.put("message", "fail");
@@ -133,4 +131,31 @@ public class UserController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    @GetMapping("/review/pre/{username}")
+    public ResponseEntity getUserReviews(@PathVariable String username) {
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+//        PageRequest pageRequest = PageRequest.of(page, size);
+        HashMap<String, Object> result = userService.findUserReviews(username, 0);
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/review/all/{username}")
+    public ResponseEntity getAllUserReviews(@PathVariable String username) {
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+//        PageRequest pageRequest = PageRequest.of(page, size);
+        HashMap<String, Object> result = userService.findUserReviews(username, 1);
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 }
