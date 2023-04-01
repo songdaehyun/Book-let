@@ -79,7 +79,7 @@ public class RequestTools {
                 setting = "profile";
                 break;
         }
-        String url = "https://192.168.31.193:8000/basic_recom/" + setting + "/";
+        String url = "https://j8b306.p.ssafy.io:8083/basic_recom/" + setting + "/";
 
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.postForObject(url, requestEntity, String.class);
