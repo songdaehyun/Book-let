@@ -113,10 +113,18 @@ function JoinTag(props) {
 
 			const tasteData = tags;
 
-			if (joinApiCall(joinData) && postTasteApiCall(tasteData)) {
-				// 회원가입 완료
-				navagate("/");
-			}
+			if (
+				id !== "" &&
+				nickname !== "" &&
+				pw !== "" &&
+				email !== "" &&
+				age !== "" &&
+				gender !== ""
+			)
+				if (joinApiCall(joinData) && postTasteApiCall(tasteData)) {
+					// 회원가입 완료
+					navagate("/");
+				}
 		}
 	};
 
