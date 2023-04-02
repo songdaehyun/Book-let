@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getMyReview } from "../../../apis/userApi";
+import { initMyReviews } from "../../../apis/init/initBook";
+import { getMyPreviewReview, getMyReview } from "../../../apis/userApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 
 import MoreBar from "../../molecules/Bar/MoreBar";
@@ -31,11 +32,15 @@ function MyReviewPreviewSection(props) {
 	// 	},
 	// ];
 
+	const uName = localStorage.getItem("userName");
+
 	useEffect(() => {
 		(async () => {
-			await getMyReview().then((res) => {
-				setReviews(res);
-			});
+			await getMyPreviewReview(uName)
+				.then(initMyReviews)
+				.then((res) => {
+					setReviews(res);
+				});
 		})();
 	}, []);
 

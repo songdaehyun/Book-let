@@ -29,9 +29,20 @@ export const getMyInfo = async (uName) => {
 	}
 };
 
-export const getMyReview = async () => {
+export const getMyPreviewReview = async (uName) => {
 	try {
-		const res = await api.get("/user/review");
+		const res = await api.get(`/user/review/pre/${uName}`);
+
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getMyReview = async (uName) => {
+	try {
+		const res = await api.get(`/user/review/all/${uName}`);
 
 		console.log(res.data);
 		return res.data;
@@ -40,27 +51,52 @@ export const getMyReview = async () => {
 	}
 };
 
-export const getMyLike = async () => {
+export const getMyPreviewLike = async (uName) => {
 	try {
-		const res = await api.get("/user/like/book");
+		const res = await api.get(`/user/like/book/${uName}`);
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-export const postFollow = async (uName, data) => {
+export const getMyLike = async (uName) => {
+	try {
+		const res = await api.get(`/user/like/book/all/${uName}`);
+
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getFollow = async (uName) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/user/follow/${uName}`,
+		});
+
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const postFollow = async (data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/user/follow/${uName}`, 
-			data: data
+			url: `/user/follow`,
+			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res?.data?.message);
+		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
 	}

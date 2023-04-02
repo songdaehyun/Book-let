@@ -12,4 +12,4 @@ class BookInfoModel(models.Model):
     feeling = models.IntegerField(null=False, blank=False)
 
     class Meta:
-        db_table = 'bookinfo'
+        db_table = 'bookcover_recommend'

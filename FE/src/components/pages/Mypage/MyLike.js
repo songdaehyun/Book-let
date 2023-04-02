@@ -41,9 +41,11 @@ function MyLike(props) {
 
 	const [books, setBooks] = useState();
 
+	const uName = localStorage.getItem('userName')
+
 	useEffect(() => {
 		(async () => {
-			await getMyLike().then((res) => {
+			await getMyLike(uName).then((res) => {
 				setBooks(res);
 			});
 		})();
