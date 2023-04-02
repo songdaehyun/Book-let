@@ -67,6 +67,7 @@ function DetailPostOverview({
 			<Container marginTop="16" paddingLeft="16" paddingRight="16">
 				<ScrapToolbar
 					sId={sId}
+					nickname={nickname}
 					isScraped={isScraped}
 					scrapImgs={scrapImgs}
 					scrapCount={scrapCount}
@@ -74,7 +75,6 @@ function DetailPostOverview({
 				/>
 				<Container marginTop="24">
 					<ProfileWithFollow
-						uId={uId}
 						nickname={nickname}
 						profileImg={profileImg}
 						isFollowed={isFollowed}

@@ -2,13 +2,10 @@ import React from "react";
 
 import { TabItem, TabWrapper } from "../../../styles/Sentence/FeedTabStyle";
 
-function FollowTab({ selectedItem, setSelectedItem }) {
+function FollowTab({ selectedItem, setSelectedItem, followingCnt, followerCnt }) {
 	const handleClickItem = (item) => {
 		setSelectedItem(item);
 	};
-
-	const followingCount = 10;
-	const followerCount = 15;
 
 	return (
 		<TabWrapper>
@@ -16,13 +13,13 @@ function FollowTab({ selectedItem, setSelectedItem }) {
 				onClick={() => handleClickItem(1)}
 				isSelected={selectedItem === 1 ? true : false}
 			>
-				팔로잉 {followingCount}
+				팔로잉 {followingCnt}
 			</TabItem>
 			<TabItem
 				onClick={() => handleClickItem(2)}
 				isSelected={selectedItem === 2 ? true : false}
 			>
-				팔로워 {followerCount}
+				팔로워 {followerCnt}
 			</TabItem>
 		</TabWrapper>
 	);

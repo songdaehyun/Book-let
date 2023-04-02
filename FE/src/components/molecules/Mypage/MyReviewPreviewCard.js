@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import useDate from "../../../hooks/useDate";
 import { Hr } from "../../../styles/common/CommonStyle";
 import { Text } from "../../../styles/common/TextsStyle";
@@ -10,10 +11,15 @@ import {
 import RatingLabel from "../../atoms/RatingLabel";
 
 function MyReviewPreviewCard({ review }) {
+	const navigate = useNavigate();
 	const dateTimeSeparation = useDate();
 
+	const handleClickCard = () => {
+		navigate(`/book/${review?.isbn}`);
+	};
+
 	return (
-		<MyReviewPreviewCardBox>
+		<MyReviewPreviewCardBox onClick={handleClickCard}>
 			<MyReviewPreviewBookInfoBox>
 				<img src={review?.cover} alt="cover" />
 				<div>
