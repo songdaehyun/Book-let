@@ -13,7 +13,9 @@ function FollowButton({ nickname, isFollowed, setIsFollowed }) {
 
 		(async () => {
 			await postFollow(data).then((res) => {
-				setIsFollowed(!isFollowed);
+				if (res === "success") {
+					setIsFollowed(!isFollowed);
+				}
 			});
 		})();
 	};
