@@ -9,9 +9,9 @@ function MyFollowList({ users, type }) {
 			{users.map((user) =>
 				type === "following" ? (
 					<ProfileWithFollow
-						uId={user.uid}
+						uId={user.username}
 						nickname={user.nickname}
-						profileImg={user.userImage}
+						profileImg={user.userImg}
 						isFollowed={true}
 					/>
 				) : (
