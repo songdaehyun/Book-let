@@ -2,6 +2,7 @@ package com.booklet.bookservice.service;
 
 import com.booklet.bookservice.dto.BookDetailRes;
 import com.booklet.bookservice.dto.BookDto;
+import com.booklet.bookservice.dto.BookListDto;
 import com.booklet.bookservice.dto.BookSearchRes;
 import com.booklet.bookservice.entity.*;
 import com.booklet.bookservice.repository.*;
@@ -33,6 +34,7 @@ public class BookServiceImpl implements BookService{
     private final BookLikesRepository bookLikesRepository;
     private final UserImageRepository userImageRepository;
     private final BookGenreRepository bookGenreRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
     public Book findBook(String bookIsbn){
@@ -85,4 +87,19 @@ public class BookServiceImpl implements BookService{
         bookInfo.setLikesUserImages(userImageList);
         return bookInfo;
     }
+
+    @Override
+    public HashMap<String, Object> findAuthorBook(Long authorId, Pageable pageable) {
+        HashMap<String, Object> result = new HashMap<>();
+        List<BookListDto> list =new ArrayList<>();
+        Author author = authorRepository.findById(authorId).orElseGet(Author::new);
+        if(author.getAuthorId()== null) return result;
+        Slice<Book> books = bookRepository.findBooksByAuthor(author,pageable);
+        list = books.getContent().stream().map(i->new BookListDto(i.getBookTitle(), i.getBookIsbn(), i.getAuthor().getAuthorName(), i.getBookImage())).collect(toList());
+        result.put("authorBooks", list);
+        result.put("hasNext", books.hasNext());
+        return result;
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.booklet.bookservice.service;
 
 import com.booklet.bookservice.dto.BookDetailRes;
+import com.booklet.bookservice.dto.BookListDto;
 import com.booklet.bookservice.dto.BookSearchRes;
 import com.booklet.bookservice.entity.Book;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,5 @@ public interface BookService {
     HashMap<String, Object> searchBooks(String title, Pageable pageable);
 
     BookDetailRes findBookDetail(String bookIsbn, Long userId);
+    HashMap<String, Object> findAuthorBook(Long authorId, Pageable pageable);
 }

@@ -55,6 +55,19 @@ public class BookController {
         }
     }
 
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity getAuthorBook(@PathVariable Long authorId, int size, int page) throws Exception{
+        try {
+            PageRequest pageRequest = PageRequest.of(page, size);
+            HashMap<String, Object> map = new HashMap<>();
+            map = bookService.findAuthorBook(authorId, pageRequest);
+            return new ResponseEntity(map, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/search")
     public ResponseEntity searchBooks(@RequestParam String bookTitle, int size, int page) throws Exception{
         PageRequest pageRequest = PageRequest.of(page, size);
