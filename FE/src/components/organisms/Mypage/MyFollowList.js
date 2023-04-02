@@ -19,7 +19,7 @@ function MyFollowList({ users, type }) {
 						setIsFollowed={setIsFollowed}
 					/>
 				) : (
-					<UserProfile key={idx} nickname={user.nickname} profileImg={user.userImage} />
+					<UserProfile key={idx} nickname={user.nickname} profileImg={user.userImg} />
 				)
 			)}
 		</Container>
