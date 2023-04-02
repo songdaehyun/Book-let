@@ -6,7 +6,7 @@ import PreviewBookOverview from "../../molecules/Book/PreviewBookOverview";
 function BookList({ books }) {
 	return (
 		<BookListBox>
-			{books.map((book, idx) => (
+			{books?.map((book, idx) => (
 				<PreviewBookOverview key={idx} book={book} />
 			))}
 		</BookListBox>

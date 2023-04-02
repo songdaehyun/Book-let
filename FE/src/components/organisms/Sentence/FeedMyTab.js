@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import PreviewPost from "./PreviewPost";
 
@@ -9,8 +9,9 @@ import Empty from "../../molecules/Empty";
 
 // import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
-import { initMyPost } from "../../../apis/init/initSentence";
+import { initSentenceList } from "../../../apis/init/initSentence";
 import { getMyPost } from "../../../apis/sentenceApi";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 
 function FeedMyTab(props) {
 	// 더미 데이터
@@ -49,8 +50,6 @@ function FeedMyTab(props) {
 	// 	}
 	// ];
 
-	const [posts, setPosts] = useState([]);
-
 	const id = localStorage.getItem("userId");
 
 	const isArrEmpty = useArr();
@@ -67,16 +66,11 @@ function FeedMyTab(props) {
 		path: "/sentence/write",
 	};
 
-	useEffect(() => {
-		(async () => {
-			await getMyPost(id, 5, 0)
-				.then(initMyPost)
-				.then((res) => setPosts(res));
-		})();
-	}, []);
+	const { data: posts, isFetching } = useInfiniteScroll(id, getMyPost, 5, initSentenceList);
 
 	return (
 		<Container paddingTop="32">
+			{isFetching && <div>로딩 중</div>}
 			{isArrEmpty(posts) ? (
 				<Empty
 					title={emptyInfo.title}

@@ -15,12 +15,11 @@ export const createPost = async (data) => {
 	}
 };
 
-export const getPost = async (data) => {
+export const getPost = async (sId, uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/sns/paragraph`,
-			data: data,
+			url: `/sns/paragraph/${sId}?userId=${uId}`,
 		});
 
 		console.log(res.data);
@@ -37,8 +36,8 @@ export const getMyPost = async (uId, size, page) => {
 			url: `/sns/paragraph/mylist/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data.paragraphs);
-		return res.data.paragraphs;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -51,8 +50,8 @@ export const getFollowingPost = async (uId, size, page) => {
 			url: `/sns/paragraph/following/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data?.paragraphs);
-		return res.data?.paragraphs;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -87,7 +86,7 @@ export const postScrap = async (data) => {
 	}
 };
 
-export const getScrappedPost = async (uId, page, size) => {
+export const getScrappedPost = async (uId, size, page) => {
 	try {
 		const res = await api({
 			method: "GET",
@@ -95,7 +94,7 @@ export const getScrappedPost = async (uId, page, size) => {
 		});
 
 		console.log(res.data);
-		return res.data?.paragraphs;
+		return res.data;
 	} catch (err) {
 		console.log(err);
 	}
