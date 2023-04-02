@@ -134,7 +134,6 @@ class Review(models.Model):
     book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
     created_date = models.DateTimeField(blank=True, null=True)
     modified_date = models.DateTimeField(blank=True, null=True)
-    created_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = setting
@@ -188,7 +187,6 @@ class UserImage(models.Model):
     modified_date = models.DateTimeField(blank=True, null=True)
     image_path = models.TextField()
     user = models.ForeignKey(User, models.DO_NOTHING)
-    imgid = models.BigIntegerField(db_column='imgId')  # Field name made lowercase.
 
     class Meta:
         managed = setting

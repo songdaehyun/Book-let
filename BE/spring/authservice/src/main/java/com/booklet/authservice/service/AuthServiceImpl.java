@@ -49,6 +49,11 @@ public class AuthServiceImpl implements AuthService{
             User user = modelMapper.map(signUpReqDto, User.class);
             user.setRole("ROLE_USER");
             userRepository.save(user);
+            UserImage userImage = new UserImage();
+            userImage.setUser(user);
+            userImage.setModifiedDate(LocalDateTime.now());
+            userImage.setImagePath("https://pjbooklet.s3.ap-northeast-2.amazonaws.com/defaultImg.png");
+            userImageRepository.save(userImage);
 
 
             SignUpResDto signUpResDto = modelMapper.map(user, SignUpResDto.class);

@@ -3,6 +3,8 @@ package com.booklet.authservice.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name="user_image")
+@EntityListeners(AuditingEntityListener.class)
 public class UserImage extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +22,7 @@ public class UserImage extends BaseTimeEntity{
     @Column
     private String imagePath;
 
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime createdDate;
 
     private LocalDateTime modifiedDate;
