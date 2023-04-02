@@ -6,14 +6,10 @@ import { initBookSearch } from "../../../apis/init/initBook";
 import searchIcon from "../../../assets/icons/search-icon.png";
 import { Text } from "../../../styles/common/TextsStyle";
 import {
-	SentenceBookAutoSearchBox,
 	SentenceBookSearchBarBox,
-	SentenceBookSearchBox,
 	SentenceBookSearchInputBox,
-	SentenceBookSearchResultBox,
 } from "../../../styles/Sentence/SentenceFormStyle";
 import { Container } from "../../../styles/common/ContainingsStyle";
-import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 
 function BookSearch(props) {
 	const navigate = useNavigate();
@@ -24,10 +20,6 @@ function BookSearch(props) {
 	const [isFetching, setFetching] = useState(false);
 	const [hasNextPage, setNextPage] = useState(true);
 
-	useEffect(() => {
-		console.log("여기", searchBooks);
-	}, [searchBooks]);
-
 	const searchApiCall = useCallback(
 		async (word, isStart) => {
 			return (async () => {
@@ -37,6 +29,7 @@ function BookSearch(props) {
 						isStart
 							? setSearchBooks(res?.contents)
 							: setSearchBooks(searchBooks.concat(res?.contents));
+
 						setNextPage(res?.hasNextPage);
 						setFetching(false);
 					});
@@ -46,6 +39,16 @@ function BookSearch(props) {
 		},
 		[page]
 	);
+
+	const handleClickBook = (book) => {
+		navigate(`/book/${book?.bId}`);
+	};
+
+	const handleChangeSearchWord = (e) => {
+		console.log("뭐여");
+		setSearchWord(e.target.value);
+		setPage(0);
+	};
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -62,20 +65,16 @@ function BookSearch(props) {
 
 	useEffect(() => {
 		if (isFetching && hasNextPage) {
-			console.log("콜");
+			console.log(searchWord);
 			searchApiCall(searchWord);
 		} else if (!hasNextPage) setFetching(false);
 	}, [isFetching]);
 
-	const handleClickBook = (book) => {
-		navigate(`/book/${book?.bId}`);
-	};
-
-	const handleChangeSearchWord = (e) => {
-		console.log("뭐여");
-		setSearchWord(e.target.value);
-		searchApiCall(e.target.value, true);
-	};
+	useEffect(() => {
+		if (page === 0) {
+			searchApiCall(searchWord, true);
+		}
+	}, [searchWord, page]);
 
 	return (
 		<Container marginTop="16" paddingLeft="16" paddingRight="16">
