@@ -71,7 +71,7 @@ export const SentenceBookSearchBarBox = styled.div`
 		width: 100%;
 
 		padding: 0;
-		margin-bottom: 8px;
+		/* margin-bottom: 8px; */
 
 		background-color: transparent;
 		border: none;
@@ -93,6 +93,12 @@ export const SentenceBookSearchInputBox = styled.div`
 
 		margin-right: 16px;
 		margin-top: 4px;
+	}
+
+	> div {
+		> div:nth-child(2) {
+			margin-top: 8px;
+		}
 	}
 `;
 
