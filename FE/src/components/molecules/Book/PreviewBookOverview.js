@@ -11,7 +11,7 @@ function PreviewBookOverview({ book }) {
 		<PreviewBookOverviewBox>
 			<img src={book.bookImgPath || book.bookImage || book.cover} alt="book" onClick={handleClick} />
 			<Text weight="600" marginBottom="4" onClick={handleClick}>
-				{book?.title}
+				{book?.title || book?.bookTitle}
 			</Text>
 			<Text size="14" color="var(--gray-500)">
 				{book?.author}
