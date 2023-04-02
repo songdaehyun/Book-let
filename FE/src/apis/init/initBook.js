@@ -2,7 +2,7 @@ export const initBook = (raw) => {
 	return {
 		cover: raw?.bookImage,
 		title: raw?.bookTitle,
-		aId: "",
+		aId: raw?.authorId,
 		author: raw?.authorName,
 		publisher: raw?.bookPublisher,
 		genres: raw?.genreNames,

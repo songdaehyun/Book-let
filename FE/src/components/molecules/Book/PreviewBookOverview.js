@@ -1,18 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { PreviewBookOverviewBox } from "../../../styles/Book/PreviewBookRecomStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 
 function PreviewBookOverview({ book }) {
-	const navigate = useNavigate();
-
 	const handleClick = () => {
-		navigate(`/book/${book.bookIsbn}`);
+		window.location.href = `/book/${book.bookIsbn}`;
 	};
 
 	return (
 		<PreviewBookOverviewBox>
-			<img src={book.bookImgPath} alt="book" onClick={handleClick} />
+			<img src={book.bookImgPath || book.bookImage} alt="book" onClick={handleClick} />
 			<Text weight="600" marginBottom="4" onClick={handleClick}>
 				{book.bookTitle}
 			</Text>
