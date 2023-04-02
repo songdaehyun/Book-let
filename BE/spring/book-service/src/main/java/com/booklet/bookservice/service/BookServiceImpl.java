@@ -70,7 +70,8 @@ public class BookServiceImpl implements BookService{
         // author의 다른 책 5권
         bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getBookIsbn(), book.getAuthor(), PageRequest.of(0,5))); // 임시
         // 회원이 책을 좋아하는지 여부
-        BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(userId, bookIsbn).orElseGet(BookLikes::new);
+        BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(user.getUserId(), bookIsbn).orElseGet(BookLikes::new);
+
         if(bookLikes.getBookLikeId()!=null) bookInfo.setBookLike(true);
         if(bookLikes.getBookLikeId()==null) bookInfo.setBookLike(false);
         // 책의 좋아요 수

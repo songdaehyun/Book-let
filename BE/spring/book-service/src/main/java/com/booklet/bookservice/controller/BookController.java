@@ -32,13 +32,16 @@ public class BookController {
         if(bookLikeService.findLike(request)){ // 좋아요 존재 시 취소
             if(bookLikeService.deleteLike(request)){
                 result = "cancel";
-            }else result = "fail";
+            }else{
+                result = "fail";
+            }
         }else{ // 좋아요 등록
-            if(bookLikeService.createLike(request)) result = "like";
+            if(bookLikeService.createLike(request)) {
+                result = "like";
+            }
             else result = "fail";
         }
-
-        return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{bookIsbn}")
