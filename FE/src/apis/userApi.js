@@ -1,15 +1,15 @@
 import api from "./index";
 
-export const postTaste = async (data) => {
+export const postTaste = async (uName, data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/user/taste`,
+			url: `/user/taste/${uName}`,
 			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.log(err);
 	}
