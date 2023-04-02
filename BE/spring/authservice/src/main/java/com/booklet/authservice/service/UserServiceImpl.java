@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
         try {
             HashMap<String, Object> result = new HashMap<>();
             GetUserInfoResDto getUserInfoResDto = new GetUserInfoResDto().builder()
-                            .imgPath("http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTHA8sTYngrF9FsGFcsv_vq3_ULeEG7DvrsIJLohckJnRPw4XBAx-Z9wQ6XOhMc-pzpaijFkpUWC86SKqE")
+                            .imgPath(user.getUserImage().getImagePath())
                             .nickname(user.getNickname())
                             .follower(followRepository.findAllByFollower(user).size())
                             .following(followRepository.findAllByFollowing(user).size())
@@ -109,8 +109,7 @@ public class UserServiceImpl implements UserService{
         for(Follow following : followings) {
             User followingUser = following.getFollower();
             followingsData.add(FollowDto.builder()
-//                            .userImg(followingUser.getUserImage().getImagePath())
-                            .userImg("http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTHA8sTYngrF9FsGFcsv_vq3_ULeEG7DvrsIJLohckJnRPw4XBAx-Z9wQ6XOhMc-pzpaijFkpUWC86SKqE")
+                            .userImg(followingUser.getUserImage().getImagePath())
                             .username(followingUser.getUsername())
                             .nickname(followingUser.getNickname())
                             .build());
@@ -119,17 +118,16 @@ public class UserServiceImpl implements UserService{
         for(Follow follower : followers) {
             User followerUser = follower.getFollowing();
             followersData.add(FollowDto.builder()
-//                            .userImg(followingUser.getUserImage().getImagePath())
-                    .userImg("http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTHA8sTYngrF9FsGFcsv_vq3_ULeEG7DvrsIJLohckJnRPw4XBAx-Z9wQ6XOhMc-pzpaijFkpUWC86SKqE")
-                    .username(followerUser.getUsername())
-                    .nickname(followerUser.getNickname())
-                    .build());
+                            .userImg(followerUser.getUserImage().getImagePath())
+                            .username(followerUser.getUsername())
+                            .nickname(followerUser.getNickname())
+                            .build());
         }
 
-        totalData.put("followingCnt", followings.size());
-        totalData.put("followings", followingsData);
-        totalData.put("followerCnt", followers.size());
-        totalData.put("followers", followersData);
+        totalData.put("followersCnt", followings.size());
+        totalData.put("followers", followingsData);
+        totalData.put("followingsCnt", followers.size());
+        totalData.put("followings", followersData);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("data", totalData);
@@ -260,13 +258,8 @@ public class UserServiceImpl implements UserService{
                     .bookIsbn(book.getBookIsbn())
                     .bookImgPath(book.getBookImage())
                     .bookTitle(book.getBookTitle())
-//                    .authorName(book.getAuthor().getAuthorName());
+                    .authorName(book.getAuthor().getAuthorName())
                     .build();
-            try {
-                userLikeBooksResDto.setAuthorName(book.getAuthor().getAuthorName());
-            } catch (Exception e) {
-
-            }
             cnt += 1;
             items.add(userLikeBooksResDto);
         }
@@ -294,15 +287,11 @@ public class UserServiceImpl implements UserService{
                     .bookTitle(book.getBookTitle())
                     .bookPublisher(book.getBookPublisher())
                     .bookIsbn(book.getBookIsbn())
+                    .authorName(book.getAuthor().getAuthorName())
                     .reviewGrade(review.getReviewGrade())
-                    .reivewContent(review.getReviewContent())
+                    .reviewContent(review.getReviewContent())
                     .createdDate(review.getCreatedDate())
                     .build();
-            try {
-                userReviewsResDto.setAuthorName(book.getAuthor().getAuthorName());
-            } catch (Exception e) {
-                log.info("작가 찾기 실패");
-            }
             cnt += 1;
             items.add(userReviewsResDto);
         }
