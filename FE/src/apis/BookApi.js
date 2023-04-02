@@ -29,6 +29,20 @@ export const postLike = async (data) => {
 	}
 };
 
+export const getAuthorBooks = async (aId, size, page) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/book/author/${aId}?size=${size}&page=${page}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 export const getBookSearch = async (title, size, page) => {
 	// const titleParam = decodeURI(decodeURIComponent(title));
 	const titleParam = encodeURIComponent(title);
