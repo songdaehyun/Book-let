@@ -4,10 +4,7 @@ import com.booklet.bookservice.dto.BookDetailRes;
 import com.booklet.bookservice.dto.BookDto;
 import com.booklet.bookservice.dto.BookSearchRes;
 import com.booklet.bookservice.entity.*;
-import com.booklet.bookservice.repository.BookLikesRepository;
-import com.booklet.bookservice.repository.BookRepository;
-import com.booklet.bookservice.repository.UserImageRepository;
-import com.booklet.bookservice.repository.UserRepository;
+import com.booklet.bookservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -35,6 +32,8 @@ public class BookServiceImpl implements BookService{
     private final UserRepository userRepository;
     private final BookLikesRepository bookLikesRepository;
     private final UserImageRepository userImageRepository;
+    private final BookGenreRepository bookGenreRepository;
+
     @Override
     public Book findBook(String bookIsbn){
         Book book = bookRepository.findById(bookIsbn).orElseGet(Book::new);
@@ -62,20 +61,14 @@ public class BookServiceImpl implements BookService{
         mapper.getConfiguration().setAmbiguityIgnored(true);
         // 도서 정보
         BookDetailRes bookInfo = new ModelMapper().map(book, BookDetailRes.class);
-        List<String> genres = new ArrayList<>();
-        genres.add("판타지");
-        genres.add("호러");
+        List<String> genres = bookGenreRepository.findBookGenreNameByBook(book);
         bookInfo.setGenreNames(genres);
         // 저자
         Author author = book.getAuthor();
-//        bookInfo.setAuthorId(author.getAuthorId());
-//        bookInfo.setAuthorName(book.getAuthor().getAuthorName());
-        bookInfo.setAuthorId(1L);
-        bookInfo.setAuthorName("김이박"); // 임시
+        bookInfo.setAuthorId(author.getAuthorId());
+        bookInfo.setAuthorName(book.getAuthor().getAuthorName());
         // author의 다른 책 5권
-//        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getAuthor().getAuthorId(), PageRequest.of(0,5))); // 임시
-        bookInfo.setAuthorOtherBooks(bookRepository.findTop5BooksByBookPublisher(book.getBookPublisher(), PageRequest.of(0,5))); // 임시
-
+        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getBookIsbn(), book.getAuthor(), PageRequest.of(0,5))); // 임시
         // 회원이 책을 좋아하는지 여부
         BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(userId, bookIsbn).orElseGet(BookLikes::new);
         if(bookLikes.getBookLikeId()!=null) bookInfo.setBookLike(true);
