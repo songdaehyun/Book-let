@@ -195,10 +195,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public HashMap<String, Object> findUserLikeBooks(String username, int type) {
         User user = userRepository.findByUsername(username);
-        System.out.println("진입 : " + user.getUsername());
-        HashMap<String, Object> result = new HashMap<>();
 
         if (user == null) {return null;}
+        System.out.println("진입 : " + user.getUsername());
+        HashMap<String, Object> result = new HashMap<>();
 
         List<BookLikes> tmps = bookLikesRepository.findAllByUser(user);
         List<UserLikeBooksResDto> items = new ArrayList<>();
@@ -225,6 +225,7 @@ public class UserServiceImpl implements UserService{
             cnt += 1;
             items.add(userLikeBooksResDto);
         }
+        result.put("totalCnt", tmps.size());
         result.put("data", items);
 
         return result;
