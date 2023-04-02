@@ -34,12 +34,15 @@ export const initReview = (raw) => {
 };
 
 export const initBookSearch = (raw) => {
-	return raw?.map((book) => {
-		return {
-			author: book?.authorName,
-			cover: book?.bookImage,
-			bId: book?.bookIsbn,
-			title: book?.bookTitle,
-		};
-	});
+	return {
+		hasNextPage: raw?.hasNext,
+		contents: raw?.bookList?.map((book) => {
+			return {
+				author: book?.authorName,
+				cover: book?.bookImage,
+				bId: book?.bookIsbn,
+				title: book?.bookTitle,
+			};
+		}),
+	};
 };
