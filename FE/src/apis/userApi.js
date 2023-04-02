@@ -33,8 +33,8 @@ export const getMyPreviewReview = async (uName) => {
 	try {
 		const res = await api.get(`/user/review/pre/${uName}`);
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
@@ -73,12 +73,27 @@ export const getMyLike = async (uName) => {
 	}
 };
 
-export const postFollow = async (uName, data) => {
+
+export const getFollow = async (uName) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/user/follow/${uName}`,
+		});
+
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const postFollow = async (data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/user/follow/${uName}`, 
-			data: data
+			url: `/user/follow`,
+			data: data,
 		});
 
 		console.log(res);

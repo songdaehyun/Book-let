@@ -64,11 +64,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS 허용하는 호스트 목록(아래에서 수정)
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
-    "http://127.0.0.1:9000"
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# # CORS 허용하는 호스트 목록(아래에서 수정)
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:8000",
+#     "https://localhost:8000",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000"
+# ]
 
 
 ROOT_URLCONF = 'recommend.urls'
@@ -94,13 +97,24 @@ WSGI_APPLICATION = 'recommend.wsgi.application'
 
 # Database
 # 배포 환경에서는 변경해야 함
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'bookdb',   # DB 이름
+#         'USER': 'ssafy',    # DB 에 접속하는 사용자명
+#         'PASSWORD': 'ssafy',    # 비밀번호
+#         'HOST': 'localhost',    # 호스트명
+#         'PORT': "3306"  # 포트 번호
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookdb',   # DB 이름
-        'USER': 'ssafy',    # DB 에 접속하는 사용자명
-        'PASSWORD': 'ssafy',    # 비밀번호
-        'HOST': 'localhost',    # 호스트명
+        'USER': 'booklet',    # DB 에 접속하는 사용자명
+        'PASSWORD': 'qnrwjrqnrwjr!qnrfpt',    # 비밀번호
+        'HOST': 'j8b306.p.ssafy.io',    # 호스트명
         'PORT': "3306"  # 포트 번호
     }
 }

@@ -20,13 +20,13 @@ export const initMyReviews = (raw) => {
 	return raw?.map((review) => {
 		return {
 			cover: review?.bookImgPath,
-			title: raw?.bookTitle,
-			author: raw?.authorName,
-			publisher: raw?.bookPublisher,
-			isbn: raw?.bookIsbn,
-			rating: raw?.reviewGrade,
-			content: raw?.reviewContent,
-			date: raw?.createdDate,
+			title: review?.bookTitle,
+			author: review?.authorName,
+			publisher: review?.bookPublisher,
+			isbn: review?.bookIsbn,
+			rating: review?.reviewGrade,
+			content: review?.reviewContent,
+			date: review?.createdDate,
 		};
 	});
 };
