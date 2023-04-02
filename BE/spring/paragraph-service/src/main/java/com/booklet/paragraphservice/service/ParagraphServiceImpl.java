@@ -2,10 +2,7 @@ package com.booklet.paragraphservice.service;
 
 import com.booklet.paragraphservice.dto.*;
 import com.booklet.paragraphservice.dto.paragraph.*;
-import com.booklet.paragraphservice.entity.Book;
-import com.booklet.paragraphservice.entity.Follow;
-import com.booklet.paragraphservice.entity.Paragraph;
-import com.booklet.paragraphservice.entity.User;
+import com.booklet.paragraphservice.entity.*;
 import com.booklet.paragraphservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -215,10 +212,10 @@ public class ParagraphServiceImpl implements ParagraphService {
         // 스크랩 정보
         ParagraphScrapDto scrapInfo;
         // 1. 스크랩한 사람들의 이미지 3개
-        ArrayList<User> userList = scrapRepository.findTop3ScrapUserImages(paragraphId);
+        List<Scrap> scrapList = scrapRepository.findTop3ByParagraph(paragraph);
         ArrayList<String> userImageList = new ArrayList<>();
-        for (User u : userList) {
-            userImageList.add(userImageRepository.findUserImageByUser(u));
+        for (Scrap s : scrapList) {
+            userImageList.add(userImageRepository.findUserImageByUser(s.getUser()));
         }
 
         // 2. 스크랩 count
