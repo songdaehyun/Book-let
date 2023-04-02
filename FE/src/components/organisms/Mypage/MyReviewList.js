@@ -6,7 +6,7 @@ import MyReviewDetail from "../../molecules/Mypage/MyReviewDetail";
 function MyReviewList({ reviews }) {
 	return (
 		<Container marginTop="24">
-			{reviews.map((review, idx) => (
+			{reviews?.map((review, idx) => (
 				<>
 					<MyReviewDetail key={idx} review={review} />
 					<Hr top="16" bottom="16" />

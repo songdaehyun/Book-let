@@ -23,7 +23,6 @@ export const MyReviewPreveiwCardGroupBox = styled.div`
 `;
 
 export const MyReviewPreviewCardBox = styled.div`
-	width: 80%;
 	height: 240px;
 
 	padding: 16px;

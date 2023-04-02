@@ -24,6 +24,7 @@ public class UserController {
     private final UserService userService;
 
     private final BookRepository bookRepository;
+    // pagenation 테스트
     @GetMapping("/books")
     public ResponseEntity books(int size, int page) {
         // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
@@ -74,24 +75,17 @@ public class UserController {
         }
     }
 
-    @PutMapping("/taste/{username}")
-    @PostMapping("/taste/{username}")
-    public ResponseEntity saveUserTaste(@RequestBody UserTasteReqDto userTasteReqDto, @PathVariable String username) {
+    @GetMapping("/follow/{username}")
+    public ResponseEntity follow(@PathVariable String username) {
 
-        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> result = userService.findfollowInfo(username);
 
-        Boolean check = userService.saveUserTaste(userTasteReqDto, username);
-
-        if (check != true) {
+        if (result == null) {
             result.put("message", "fail");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 
         } else {
             result.put("message", "success");
-
-            HashMap<String, Object> saveResult = userService.saveUserPreferScore(username);
-            result.put("preferType", saveResult.get("type"));
-            result.put("preferScore", saveResult.get("score"));
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
@@ -108,10 +102,8 @@ public class UserController {
     }
 
     @GetMapping("/like/book/{username}")
-    public ResponseEntity getUserLikeBooks(@PathVariable String username, int size, int page) {
-        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
-        PageRequest pageRequest = PageRequest.of(size, page);
-        HashMap<String, Object> result = userService.findUserLikeBooks(username, pageRequest);
+    public ResponseEntity getUserLikeBooks(@PathVariable String username) {
+        HashMap<String, Object> result = userService.findUserLikeBooks(username, 0);
         if (result == null) {
             result.put("message", "fail");
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
@@ -121,4 +113,76 @@ public class UserController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    @PostMapping("/taste/{username}")
+    public ResponseEntity saveUserTaste(@RequestBody UserTasteReqDto userTasteReqDto, @PathVariable String username) {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        Boolean check = userService.saveUserTaste(userTasteReqDto, username);
+
+        if (check != true) {
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+        } else {
+            result.put("message", "success");
+            Boolean checkCover = userService.saveUserBookCover(userTasteReqDto, username);
+            HashMap<String, Object> saveResult = userService.saveUserPreferScore(username);
+            result.put("preferType", saveResult.get("type"));
+            result.put("preferScore", saveResult.get("score"));
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/like/book/all/{username}")
+    public ResponseEntity getAllUserLikeBooks(@PathVariable String username) {
+        HashMap<String, Object> result = userService.findUserLikeBooks(username, 1);
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/review/pre/{username}")
+    public ResponseEntity getUserReviews(@PathVariable String username) {
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+//        PageRequest pageRequest = PageRequest.of(page, size);
+        HashMap<String, Object> result = userService.findUserReviews(username, 0);
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/review/all/{username}")
+    public ResponseEntity getAllUserReviews(@PathVariable String username) {
+        // page : 요청할 페이지 번호, size : 한 페이지 당 조회 할 개수
+//        PageRequest pageRequest = PageRequest.of(page, size);
+        HashMap<String, Object> result = userService.findUserReviews(username, 1);
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/prefer/cover")
+    public ResponseEntity getBookCovers() {
+        HashMap<String, Object> result = userService.findBookCovers();
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("message", "success");
+
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 }

@@ -33,7 +33,10 @@ spring:
           '[/**]':
             allowedOrigins:
               - "http://localhost:3000"
+              - "http://j8b306.p.ssafy.io:3000"
               - "https://localhost:3000"
+              - "https://j8b306.p.ssafy.io:3000"
+              - "https://j8b306.p.ssafy.io"
             allow-credentials: true   #추가
             allowedHeaders:
               - x-requested-with
@@ -72,7 +75,7 @@ spring:
 #          filters:
 #            - CustomFilter
         - id: booklet-recommand-service
-          uri: lb://RECOMMAND-SERVICE # recom-service의 name
+          uri: lb://RECOM-SERVICE # recom-service의 name
           predicates:
             - Path=/api/v1/recom/**
 #          filters:
