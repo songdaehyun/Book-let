@@ -18,7 +18,7 @@ export const postLike = async (data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/like`,
+			url: `/book/like`,
 			data: data,
 		});
 
