@@ -75,6 +75,21 @@ public class UserController {
         }
     }
 
+    @GetMapping("/follow/{username}")
+    public ResponseEntity follow(@PathVariable String username) {
+
+        HashMap<String, Object> result = userService.findfollowInfo(username);
+
+        if (result == null) {
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
     @GetMapping("/prefer/hashtag")
     public ResponseEntity getAllHashtag() {
 

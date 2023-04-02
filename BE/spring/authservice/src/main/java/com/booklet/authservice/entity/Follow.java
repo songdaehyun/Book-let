@@ -1,11 +1,13 @@
 package com.booklet.authservice.entity;
 
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Setter
+@Getter
 @Table(name="follow")
 public class Follow {
     @Id

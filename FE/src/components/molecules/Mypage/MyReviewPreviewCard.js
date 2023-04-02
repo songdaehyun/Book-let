@@ -15,27 +15,27 @@ function MyReviewPreviewCard({ review }) {
 	return (
 		<MyReviewPreviewCardBox>
 			<MyReviewPreviewBookInfoBox>
-				<img src={review.bookImgPath} />
+				<img src={review?.cover} alt="cover" />
 				<div>
 					<Text size="14" weight="600" marginBottom="4">
-						{review.bookTitle}
+						{review?.title}
 					</Text>
-					<Text size="12">{review.authorName}</Text>
+					<Text size="12">{review?.author}</Text>
 					<Text size="12" color="var(--gray-500)">
-						{review.bookPublisher}
+						{review?.publisher}
 					</Text>
 				</div>
 			</MyReviewPreviewBookInfoBox>
 			<Hr top="8" bottom="8" />
 			<MyReviewPreviewReviewInfoBox>
 				<div>
-					<RatingLabel rating={parseInt(review.reviewGrade)} />
+					<RatingLabel rating={parseInt(review?.rating)} />
 					<Text size="14" marginTop="8" marginBottom="8">
-						{review.reviewContent}
+						{review?.content}
 					</Text>
 				</div>
 				<Text size="12" color="var(--gray-500)">
-					{dateTimeSeparation(review.createdDate)}
+					{dateTimeSeparation(review?.date)}
 				</Text>
 			</MyReviewPreviewReviewInfoBox>
 		</MyReviewPreviewCardBox>

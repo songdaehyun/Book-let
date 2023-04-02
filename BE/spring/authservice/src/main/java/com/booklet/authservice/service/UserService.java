@@ -15,6 +15,8 @@ public interface UserService {
     public HashMap<String, Object> findUserInfo(String username);
     // 팔로우
     public boolean following(FollowReqDto followReqDto);
+    // 팔로윙 수 조회
+    public HashMap<String, Object> findfollowInfo(String username);
     // 문장취향 등록
     public boolean saveUserTaste(UserTasteReqDto userTasteReqDto, String username);
     // 책 커버 등록

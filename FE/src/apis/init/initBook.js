@@ -16,6 +16,21 @@ export const initBook = (raw) => {
 	};
 };
 
+export const initMyReviews = (raw) => {
+	return raw?.map((review) => {
+		return {
+			cover: review?.bookImgPath,
+			title: raw?.bookTitle,
+			author: raw?.authorName,
+			publisher: raw?.bookPublisher,
+			isbn: raw?.bookIsbn,
+			rating: raw?.reviewGrade,
+			content: raw?.reviewContent,
+			date: raw?.createdDate,
+		};
+	});
+};
+
 export const initReview = (raw) => {
 	return raw?.map((review) => {
 		return {
@@ -33,10 +48,10 @@ export const initReview = (raw) => {
 export const initBookSearch = (raw) => {
 	return raw?.map((book) => {
 		return {
-			author: book?.authorName, 
-			cover: book?.bookImage, 
-			bId: book?.bookIsbn, 
-			title: book?.bookTitle, 
+			author: book?.authorName,
+			cover: book?.bookImage,
+			bId: book?.bookIsbn,
+			title: book?.bookTitle,
 		};
 	});
 };
