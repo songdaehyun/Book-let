@@ -1,7 +1,9 @@
 package com.booklet.authservice.controller;
 
 import com.booklet.authservice.config.auth.PrincipalDetails;
+import com.booklet.authservice.entity.Book;
 import com.booklet.authservice.entity.Hashtag;
+import com.booklet.authservice.repository.BookRepository;
 import com.booklet.authservice.repository.HashtagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 
@@ -26,24 +30,33 @@ import java.util.Map;
 public class TestController {
 
     public static final String UPLOAD_DIR = "uploads/";
+    private final BookRepository bookRepository;
+
+    @GetMapping("/entity")
+    public @ResponseBody String tabletest(){
+        Book book = bookRepository.findRandomBook();
+        System.out.println(book.toString());
+        System.out.println(book.getAuthor().toString());
+        System.out.println(book.getAuthor().getAuthorName().toString());
+        return book.getAuthor().getAuthorName().toString();
+    }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        System.out.println(System.getProperty("user.dir"));
         try {
-            // 파일을 저장할 디렉토리가 있는지 확인하고 없으면 생성
-            Path uploadPath = Paths.get(UPLOAD_DIR);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
+            // 파일 저장 경로 설정
+            String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads/";
+            // 파일의 원래 이름
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            // 파일 저장 경로와 파일명 결합
+            Path targetPath = Paths.get(UPLOAD_DIRECTORY).resolve(fileName);
+            // 파일 저장
+            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            // 업로드한 파일을 디렉토리에 저장
-            Path filePath = uploadPath.resolve(file.getOriginalFilename());
-            file.transferTo(filePath);
-
-            // 파일 저장에 성공하면 파일 이름 반환
-            return ResponseEntity.ok(file.getOriginalFilename());
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.ok("File uploaded successfully: " + fileName);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file: " + e.getMessage());
         }
     }
 

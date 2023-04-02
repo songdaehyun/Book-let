@@ -66,7 +66,7 @@ def book_detail(book_isbn):
     try:
         ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
     except :
-        ratingScore = None 
+        ratingScore = 0 # 평가 기본값 0
 
     print('책 세부내용 조회 책 이름 : ',book.get('title'))
 
@@ -91,16 +91,14 @@ def author_info(name, bookEntity):
         idx = name.index(',')
         name = name[:idx]
 
-    # print('수정 이름 : ',name)
+    print('수정 이름 : ',name)
+    # Author 객체를 가져오거나 생성 //참고 created = true : 생성한거, false면 기존꺼
+    author, created = Author.objects.get_or_create(author_name=name)
 
-    if not Author.objects.filter(author_name = name).exists():
-        author = Author.objects.create(
-            author_name = name 
-        )
-    else:
-        author = Author.objects.filter(author_name = name)
-    
-    bookEntity.author.add(author)
+    print("author : ", author)
+    print("bookEntity : ", bookEntity)
+    bookEntity.author = author
+    bookEntity.save()
     # 작가 저장
     return
 
@@ -138,16 +136,13 @@ def genre_save(book_info, bookEntity):
                     genre_name = '시'
                 else:
                     genre_name = raw_name[idx2 + 1 : idx3]
-        
-    if not Genre.objects.filter(genre_name=genre_name).exists():
-        # 장르 생성
-        genre = Genre.objects.create(
-            # genre_id = book_info.get('genre_id'),
-            genre_name = genre_name
-        )
-
-        # 장르와 책 연결
-        bookEntity.genres.add(genre.genre_id)
+    
+    # Genre 객체를 가져오거나 생성
+    genre, created = Genre.objects.get_or_create(genre_name=genre_name)
+    
+    # 장르와 책 연결
+    book_genre = BookGenre(book_isbn=bookEntity, genre=genre)
+    book_genre.save()
     return
 
 
@@ -157,8 +152,8 @@ def insert_db(request):
     context = {
         'result' : '완료' 
     }
-    # start = 0
-    start = 15
+    start = 0
+    # start = 15
     end = 100
     for i in range(start, end):
         for j in range(4): # 분기마다 처리
@@ -196,15 +191,16 @@ def insert_db(request):
                     print('isbn이상으로인해 패스합니다.', book.get(isbn), book.get('title'))
                     continue
                 print(f'작업 중 인 도서 : {book.get("isbn13")}, {book.get("title")}')
+
                 # 책 데이터 저장
                 if not Book.objects.filter(pk=book.get(isbn)).exists():
-                        # 책 디테일 불러오기
+                    # 책 디테일 불러오기
                     book_info = book_detail(book.get(isbn))
                     # 책 세부 요소 확인
                     try : 
                         grade = book_info.get('grade')/2
                     except :
-                        grade = None
+                        grade = 0 # 기본값
                     # 책 저장
                     bookEntity = Book.objects.create(
                         book_isbn = book.get(isbn),
@@ -212,10 +208,9 @@ def insert_db(request):
                         book_publisher = book.get('publisher'),
                         book_price = book.get('priceStandard'),
                         book_description = book.get('description'),
-                        # book_score = None,
                         book_grade = grade,  # 5점 만점으로 변경
                         book_image = book.get('cover'),
-                        # book_author = author_info(book.get('author'))
+                        # book_author = author_info(book.get('author')) # 테이블로 변경
                     )
                     # 저자 및 장르 저장
                     # print('저자 세이브')
@@ -223,27 +218,22 @@ def insert_db(request):
                     # print('장르 세이브')
                     genre_save(book_info, bookEntity)
 
-                    bookauthor = BookAuthor.objects.get()
 
         
     return JsonResponse(context)
 
-# 감성점수 측정
-@api_view(["POST"])
-def paragraph_score(request):
-    paragraph = request.data.get('paragraph')
-    data = import_data()
-    score, state = check(paragraph, data)
-    context = {
-        "score" : score,
-        "state" : state
-    }
-
-    return JsonResponse(context)
-
-@api_view(["GET"])
-def book_isbn_score(request):
-    return
+# # 감성점수 측정
+# @api_view(["POST"])
+# def paragraph_score(request):
+#     paragraph = request.data.get('paragraph')
+#     data = import_data()
+#     score, state = check(paragraph, data)
+#     context = {
+#         "score" : score,
+#         "state" : state
+#     }
+# 
+#     return JsonResponse(context)
 
 # 감성점수 분석을 위한 세팅
 base_titles = []
