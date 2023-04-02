@@ -74,9 +74,10 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(commentId).orElseGet(Comment::new);
         if (comment.getCommentId() == null) return false;
         // 댓글 디비에 존재하는거 확인함
-        commentRepository.delete(comment);
-        
-//          // 대댓글 후순위 로직        
+//        commentRepository.delete(comment);
+        commentRepository.deleteById(commentId);
+
+//          // 대댓글 후순위 로직
 //        if (comment.getCommentDepth() == 0) { // 부모 댓글이면 자식 댓글이 있는지 확인
 //            if (commentRepository.countByCommentGroup(comment.getCommentGroup()) > 1) {
 //                // 있으면
