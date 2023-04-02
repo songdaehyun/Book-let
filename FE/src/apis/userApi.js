@@ -44,8 +44,8 @@ export const getMyReview = async (uName) => {
 	try {
 		const res = await api.get(`/user/review/all/${uName}`);
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
