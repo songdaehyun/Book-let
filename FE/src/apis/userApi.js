@@ -73,7 +73,6 @@ export const getMyLike = async (uName) => {
 	}
 };
 
-
 export const getFollow = async (uName) => {
 	try {
 		const res = await api({
@@ -118,8 +117,8 @@ export const getCoverExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/cover");
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
