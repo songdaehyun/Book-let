@@ -18,6 +18,6 @@ public class UserReviewsResDto {
     private String bookPublisher;
     private String bookIsbn;
     private float reviewGrade;
-    private String reivewContent;
+    private String reviewContent;
     private LocalDateTime createdDate;
 }
