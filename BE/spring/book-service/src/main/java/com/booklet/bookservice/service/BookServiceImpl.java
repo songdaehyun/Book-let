@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService{
         List<BookSearchRes> list =new ArrayList<>();
         Slice<Book> books = bookRepository.findByBookTitleContaining(title,pageable);
         System.out.println(books.getContent());
-        list = books.getContent().stream().map(i->new BookSearchRes(i.getBookTitle(), i.getBookIsbn(), "김이박", i.getBookImage())).collect(toList());
+        list = books.getContent().stream().map(i->new BookSearchRes(i.getBookTitle(), i.getBookIsbn(), i.getAuthor().getAuthorName(), i.getBookImage())).collect(toList());
         result.put("bookList", list);
         result.put("hasNext", books.hasNext());
         return result;
