@@ -46,3 +46,17 @@ export const initBookSearch = (raw) => {
 		}),
 	};
 };
+
+export const initAuthorBooks = (raw) => {
+	return {
+		hasNextPage: raw?.hasNext,
+		contents: raw?.authorBooks?.map((book) => {
+			return {
+				author: book?.authorName,
+				cover: book?.bookImage,
+				bId: book?.bookIsbn,
+				title: book?.bookTitle,
+			};
+		}),
+	};
+};
