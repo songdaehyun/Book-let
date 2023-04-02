@@ -71,7 +71,6 @@ export const SentenceBookSearchBarBox = styled.div`
 		width: 100%;
 
 		padding: 0;
-		/* margin-bottom: 8px; */
 
 		background-color: transparent;
 		border: none;
