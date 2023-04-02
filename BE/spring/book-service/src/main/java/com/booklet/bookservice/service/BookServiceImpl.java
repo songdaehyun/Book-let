@@ -72,7 +72,7 @@ public class BookServiceImpl implements BookService{
         // 회원이 책을 좋아하는지 여부
         BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(userId, bookIsbn).orElseGet(BookLikes::new);
         if(bookLikes.getBookLikeId()!=null) bookInfo.setBookLike(true);
-        else bookInfo.setBookLike(false);
+        if(bookLikes.getBookLikeId()==null) bookInfo.setBookLike(false);
         // 책의 좋아요 수
         bookInfo.setLikesNumber(bookLikesRepository.countBookLikesByBook(book));
         // 책을 좋아요하는 회원들 사진 3개
