@@ -80,8 +80,11 @@ public class CommentController {
     /** 댓글 삭제 **/
     @DeleteMapping("/{commentId}")
     public ResponseEntity deleteComment(@PathVariable Long commentId) throws Exception{
-        if(commentService.deleteComment(commentId))  return new ResponseEntity("success", HttpStatus.ACCEPTED);
-
-        return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);
+        HashMap<String, Object> result = new HashMap<>();
+        if(commentService.deleteComment(commentId)) {
+            result.put("message", "success");
+        }
+        else result.put("message","fail");
+        return new ResponseEntity(result, HttpStatus.ACCEPTED);
     }
 }
