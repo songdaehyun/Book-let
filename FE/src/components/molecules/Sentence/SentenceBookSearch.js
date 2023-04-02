@@ -36,7 +36,7 @@ function SentenceBookSearch({ selectedBook, setSelectedBook }) {
 		(async () => {
 			await getBookSearch(word, 10, 0)
 				.then(initBookSearch)
-				.then((res) => setSearchBooks(res));
+				.then((res) => setSearchBooks(res?.contents));
 		})();
 
 		// 더미
