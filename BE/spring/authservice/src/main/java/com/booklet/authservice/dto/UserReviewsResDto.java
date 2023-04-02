@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class UserReviewsResDto {
+    private Long reviewId;
     private String bookImgPath;
     private String bookTitle;
     private String authorName;

@@ -283,6 +283,7 @@ public class UserServiceImpl implements UserService{
             }
             Book book = review.getBook();
             UserReviewsResDto userReviewsResDto = UserReviewsResDto.builder()
+                    .reviewId(review.getReviewId())
                     .bookImgPath(book.getBookImage())
                     .bookTitle(book.getBookTitle())
                     .bookPublisher(book.getBookPublisher())
