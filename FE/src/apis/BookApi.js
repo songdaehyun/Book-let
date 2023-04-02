@@ -39,8 +39,8 @@ export const getBookSearch = async (title, size, page) => {
 			url: `/book/search?bookTitle=${titleParam}&size=${size}&page=${page}`,
 		});
 
-		console.log(res.data.bookList);
-		return res.data.bookList;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
