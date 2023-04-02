@@ -66,10 +66,11 @@ public class UserServiceImpl implements UserService{
         User following = userRepository.findByUsername(followReqDto.getFollowingUsername());
 
         // 유저가 있는지 확인
-        if (user == null || following == null) {
-            log.info("유저없음");
+        if (user == null || user.getUsername() == followReqDto.getUsername()) {
+            log.info("유저가 없거나 본인입니다.");
             return false;
         }
+
         log.info("user : {}", user.getUsername().toString());
         log.info("following : {}", following.getUsername().toString());
         Follow test = followRepository.findByFollowerAndFollowing(user, following);
@@ -91,6 +92,50 @@ public class UserServiceImpl implements UserService{
 
             return true;
         }
+    }
+
+    @Override
+    public HashMap<String, Object> findfollowInfo(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return null;}
+
+        List<Follow> followings = followRepository.findAllByFollowing(user);
+        List<Follow> followers = followRepository.findAllByFollower(user);
+
+        HashMap<String, Object> totalData = new HashMap<>();
+        List<FollowDto> followingsData = new ArrayList<>();
+        List<FollowDto> followersData = new ArrayList<>();
+
+        for(Follow following : followings) {
+            User followingUser = following.getFollower();
+            followingsData.add(FollowDto.builder()
+//                            .userImg(followingUser.getUserImage().getImagePath())
+                            .userImg("http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTHA8sTYngrF9FsGFcsv_vq3_ULeEG7DvrsIJLohckJnRPw4XBAx-Z9wQ6XOhMc-pzpaijFkpUWC86SKqE")
+                            .username(followingUser.getUsername())
+                            .nickname(followingUser.getNickname())
+                            .build());
+        }
+
+        for(Follow follower : followers) {
+            User followerUser = follower.getFollowing();
+            followersData.add(FollowDto.builder()
+//                            .userImg(followingUser.getUserImage().getImagePath())
+                    .userImg("http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTHA8sTYngrF9FsGFcsv_vq3_ULeEG7DvrsIJLohckJnRPw4XBAx-Z9wQ6XOhMc-pzpaijFkpUWC86SKqE")
+                    .username(followerUser.getUsername())
+                    .nickname(followerUser.getNickname())
+                    .build());
+        }
+
+        totalData.put("followingCnt", followings.size());
+        totalData.put("followings", followingsData);
+        totalData.put("followerCnt", followers.size());
+        totalData.put("followers", followersData);
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("data", totalData);
+        log.info("팔로워 정보", totalData);
+
+        return result;
     }
 
     @Override
