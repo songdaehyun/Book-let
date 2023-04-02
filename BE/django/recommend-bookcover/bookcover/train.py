@@ -1,6 +1,6 @@
 import pandas as pd
 import requests
-from skimage.metrics import structural_similarity as ssim
+# from skimage.metrics import structural_similarity as ssim
 import requests
 import numpy as np
 import cv2
@@ -56,7 +56,7 @@ def bookcover_recommendation(result_dataframe):
             resize_img2 = cv2.resize(origin_img2, (300, 300))
 
             # score = 이미지 간의 유사도(-1 ~ 1 사이, 1에 가까울수록 유사도 높음)
-            (score, diff) = ssim(resize_img1, resize_img2, full=True)
+            # (score, diff) = ssim(resize_img1, resize_img2, full=True)
 
             ssim_value["ssim_score"] = score
             ssim_value["book_image"] = image_src2
