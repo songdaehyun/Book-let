@@ -78,7 +78,7 @@ export const getFollow = async (uName) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/user/follow/${uName})`,
+			url: `/user/follow/${uName}`,
 		});
 
 		console.log(res.data.data);
