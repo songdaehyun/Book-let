@@ -10,12 +10,14 @@ import {
 	SentenceBookSearchInputBox,
 } from "../../../styles/Sentence/SentenceFormStyle";
 import { Container } from "../../../styles/common/ContainingsStyle";
+import { TextBtn } from "../../../styles/common/ButtonsStyle";
+import { BookSearchHeadingBox } from "../../../styles/Book/BookStyle";
 
 function BookSearch(props) {
 	const navigate = useNavigate();
+
 	const [searchWord, setSearchWord] = useState("");
 	const [searchBooks, setSearchBooks] = useState([]);
-
 	const [page, setPage] = useState(0);
 	const [isFetching, setFetching] = useState(false);
 	const [hasNextPage, setNextPage] = useState(true);
@@ -45,9 +47,12 @@ function BookSearch(props) {
 	};
 
 	const handleChangeSearchWord = (e) => {
-		console.log("뭐여");
 		setSearchWord(e.target.value);
 		setPage(0);
+	};
+
+	const handleClickCancel = () => {
+		navigate("/book");
 	};
 
 	useEffect(() => {
@@ -78,19 +83,22 @@ function BookSearch(props) {
 
 	return (
 		<Container marginTop="16" paddingLeft="16" paddingRight="16">
-			<SentenceBookSearchBarBox>
-				<SentenceBookSearchInputBox>
-					<img src={searchIcon} alt="search icon" />
-					<div>
-						<input
-							autoFocus
-							value={searchWord}
-							placeholder="책을 검색해주세요"
-							onChange={handleChangeSearchWord}
-						/>
-					</div>
-				</SentenceBookSearchInputBox>
-			</SentenceBookSearchBarBox>
+			<BookSearchHeadingBox>
+				<SentenceBookSearchBarBox>
+					<SentenceBookSearchInputBox>
+						<img src={searchIcon} alt="search icon" />
+						<div>
+							<input
+								autoFocus
+								value={searchWord}
+								placeholder="책을 검색해주세요"
+								onChange={handleChangeSearchWord}
+							/>
+						</div>
+					</SentenceBookSearchInputBox>
+				</SentenceBookSearchBarBox>
+				<TextBtn onClick={handleClickCancel}>취소</TextBtn>
+			</BookSearchHeadingBox>
 			<div>
 				{searchBooks?.length === 0 ? (
 					<Text color="var(--gray-500)">검색 결과가 없습니다.</Text>
