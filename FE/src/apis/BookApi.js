@@ -44,12 +44,40 @@ export const getAuthorBooks = async (aId, size, page) => {
 };
 
 // 도서 추천
+export const getCoverBookRecomPre = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/cover/pre/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 export const getCoverBookRecom = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
 			url: `/recom/cover/${uId}`,
 		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getRatingBookRecomPre = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/score/pre/${uId}`,
+					});
 
 		console.log(res.data);
 		return res.data;
@@ -89,6 +117,20 @@ export const getBookSearch = async (title, size, page) => {
 	}
 };
 
+export const getLikeBookRecomPre = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/like/pre/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};			
+
 export const getLikeBookRecom = async (uId) => {
 	try {
 		const res = await api({
@@ -109,6 +151,20 @@ export const getReview = async (isbn, size, page) => {
 		const res = await api({
 			method: "GET",
 			url: `/review/${isbn}?size=${size}&page=${page}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getGenreBookRecomPre = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/genre/pre/${uId}`,
 		});
 
 		console.log(res.data);
