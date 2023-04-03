@@ -66,12 +66,15 @@ public class ReviewServiceImpl implements ReviewService{
     public boolean saveReview(ReviewDto req) {
         Long result = 0L;
         try {
+            Book book = bookRepository.findById(req.getBookIsbn()).orElseGet(Book::new);
+            if(book.getBookIsbn()==null) return false;
             Review review = Review.builder()
                     .reviewContent(req.getContent())
                     .reviewGrade(req.getGrade())
-                    .book(bookRepository.findById(req.getBookIsbn()).orElse(null))
+                    .book(book)
                     .user(userRepository.findById(req.getUserId()).orElse(null))
                     .build();
+            setNewBookGrade(book, req.getGrade());
             result = reviewRepository.save(review).getReviewId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +102,29 @@ public class ReviewServiceImpl implements ReviewService{
             reviewRepository.deleteById(reviewId);
         } catch (Exception e) {
 //            log.info("error : {}", e.getStackTrace());
+            return false;
+        }
+        return true;
+    }
+
+    private boolean setNewBookGrade(Book book, float newGrade){
+        try{
+            int ReviewCnt = reviewRepository.countByBook(book);
+            if(ReviewCnt==0){
+                if(book.getBookGrade()==0){
+                    book.updateBookGrade(newGrade);
+                    bookRepository.save(book);
+                }else{
+                    book.updateBookGrade((book.getBookGrade()+newGrade)/2);
+                    bookRepository.save(book);
+                }
+            }else {
+                float sum = book.getBookGrade() * ReviewCnt;
+                sum += newGrade;
+                book.updateBookGrade(sum / (ReviewCnt + 1));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
         return true;

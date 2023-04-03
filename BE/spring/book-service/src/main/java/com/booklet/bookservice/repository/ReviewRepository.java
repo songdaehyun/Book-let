@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Slice<Review> findReviewByBook(Book book, Pageable pageable);
+    int countByBook(Book book);
 
 }
 
