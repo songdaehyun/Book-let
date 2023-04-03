@@ -62,7 +62,7 @@ export const getCoverBookRecom = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/recom/cover/${uId}`,
+			url: `/recom/cover/all/${uId}`,
 		});
 
 		console.log(res.data);
@@ -90,10 +90,10 @@ export const getRatingBookRecom = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/recom/score/${uId}`,
+			url: `/recom/score/all/${uId}`,
 		});
 
-		console.log(res.data);
+		console.log(res);
 		return res.data;
 	} catch (err) {
 		console.error(err);
@@ -135,7 +135,7 @@ export const getLikeBookRecom = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/recom/like/${uId}`,
+			url: `/recom/like/all/${uId}`,
 		});
 
 		console.log(res.data);
@@ -178,10 +178,10 @@ export const getGenreBookRecom = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/recom/genre/${uId}`,
+			url: `/recom/genre/all/${uId}`,
 		});
 
-		console.log(res.data);
+		console.log(res);
 		return res.data;
 	} catch (err) {
 		console.error(err);
@@ -220,7 +220,7 @@ export const getUserBookRecom = async (uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/recom/user/${uId}`,
+			url: `/recom/user/all/${uId}`,
 		});
 
 		console.log(res.data);

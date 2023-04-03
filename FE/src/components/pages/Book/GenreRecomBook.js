@@ -5,7 +5,7 @@ import BookListTemplates from "../../templates/Book/BookListTemplates";
 import { Span } from "../../../styles/common/TextsStyle";
 
 import { getGenreBookRecom } from "../../../apis/BookApi";
-import { initBookRecom } from "../../../apis/init/initBook";
+import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
 import BannerImg from "../../../assets/images/Banner/genre-recom-book-banner.png";
 
 function GenreRecomBook(props) {
@@ -41,7 +41,7 @@ function GenreRecomBook(props) {
 	useEffect(() => {
 		(async () => {
 			await getGenreBookRecom(uName)
-				.then(initBookRecom)
+				.then(initBookRecomOther)
 				.then((res) => setRecom(res));
 		})();
 	}, []);
@@ -71,8 +71,8 @@ function GenreRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
-			type={recom.type}
-			books={recom.books}
+			type={recom?.type}
+			books={recom?.books}
 		/>
 	);
 }

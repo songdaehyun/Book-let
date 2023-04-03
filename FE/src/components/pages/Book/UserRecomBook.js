@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import BookListTemplates from "../../templates/Book/BookListTemplates";
 
@@ -88,8 +88,8 @@ function UserRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
-			type={recom.type}
-			books={recom.books}
+			type={recom?.type}
+			books={recom?.books}
 		/>
 	);
 }

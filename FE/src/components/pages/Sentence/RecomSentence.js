@@ -82,7 +82,7 @@ function RecomSentence(props) {
 				/>
 			</Container>
 			<Container marginTop="24" marginLeft="16" marginRight="16">
-				{recom.map((post, idx) => (
+				{recom?.map((post, idx) => (
 					<PreviewPostWithProfile key={idx} post={post} />
 				))}
 			</Container>

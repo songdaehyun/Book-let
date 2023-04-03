@@ -5,7 +5,7 @@ import BookListTemplates from "../../templates/Book/BookListTemplates";
 import { Span } from "../../../styles/common/TextsStyle";
 
 import { getRatingBookRecom } from "../../../apis/BookApi";
-import { initBookRecom } from "../../../apis/init/initBook";
+import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
 import BannerImg from "../../../assets/images/Banner/rating-recom-book-banner.png";
 
 function RatingRecomBook(props) {
@@ -54,7 +54,7 @@ function RatingRecomBook(props) {
 	useEffect(() => {
 		(async () => {
 			await getRatingBookRecom(uName)
-				.then(initBookRecom)
+				.then(initBookRecomOther)
 				.then((res) => setBooks(res));
 		})();
 	}, []);
@@ -84,8 +84,8 @@ function RatingRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
-			type={books.type}
-			books={books.recommend}
+			type={books?.type}
+			books={books?.books}
 		/>
 	);
 }
