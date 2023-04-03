@@ -42,7 +42,7 @@ function Comment({ comment, type, getCommentApiCall }) {
 
 	const deleteCommentApiCall = () => {
 		(async () => {
-			await deleteComment(sId).then((res) => {
+			await deleteComment(comment?.cId).then((res) => {
 				if (res === "success") {
 					getCommentApiCall();
 				}
