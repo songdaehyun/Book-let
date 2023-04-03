@@ -2,12 +2,10 @@ package com.booklet.bookservice.service;
 
 import com.booklet.bookservice.dto.BookDetailRes;
 import com.booklet.bookservice.dto.BookDto;
+import com.booklet.bookservice.dto.BookListDto;
 import com.booklet.bookservice.dto.BookSearchRes;
 import com.booklet.bookservice.entity.*;
-import com.booklet.bookservice.repository.BookLikesRepository;
-import com.booklet.bookservice.repository.BookRepository;
-import com.booklet.bookservice.repository.UserImageRepository;
-import com.booklet.bookservice.repository.UserRepository;
+import com.booklet.bookservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -35,6 +33,9 @@ public class BookServiceImpl implements BookService{
     private final UserRepository userRepository;
     private final BookLikesRepository bookLikesRepository;
     private final UserImageRepository userImageRepository;
+    private final BookGenreRepository bookGenreRepository;
+    private final AuthorRepository authorRepository;
+
     @Override
     public Book findBook(String bookIsbn){
         Book book = bookRepository.findById(bookIsbn).orElseGet(Book::new);
@@ -47,7 +48,7 @@ public class BookServiceImpl implements BookService{
         List<BookSearchRes> list =new ArrayList<>();
         Slice<Book> books = bookRepository.findByBookTitleContaining(title,pageable);
         System.out.println(books.getContent());
-        list = books.getContent().stream().map(i->new BookSearchRes(i.getBookTitle(), i.getBookIsbn(), "김이박", i.getBookImage())).collect(toList());
+        list = books.getContent().stream().map(i->new BookSearchRes(i.getBookTitle(), i.getBookIsbn(), i.getAuthor().getAuthorName(), i.getBookImage())).collect(toList());
         result.put("bookList", list);
         result.put("hasNext", books.hasNext());
         return result;
@@ -62,24 +63,19 @@ public class BookServiceImpl implements BookService{
         mapper.getConfiguration().setAmbiguityIgnored(true);
         // 도서 정보
         BookDetailRes bookInfo = new ModelMapper().map(book, BookDetailRes.class);
-        List<String> genres = new ArrayList<>();
-        genres.add("판타지");
-        genres.add("호러");
+        List<String> genres = bookGenreRepository.findBookGenreNameByBook(book);
         bookInfo.setGenreNames(genres);
         // 저자
         Author author = book.getAuthor();
-//        bookInfo.setAuthorId(author.getAuthorId());
-//        bookInfo.setAuthorName(book.getAuthor().getAuthorName());
-        bookInfo.setAuthorId(1L);
-        bookInfo.setAuthorName("김이박"); // 임시
+        bookInfo.setAuthorId(author.getAuthorId());
+        bookInfo.setAuthorName(book.getAuthor().getAuthorName());
         // author의 다른 책 5권
-//        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getAuthor().getAuthorId(), PageRequest.of(0,5))); // 임시
-        bookInfo.setAuthorOtherBooks(bookRepository.findTop5BooksByBookPublisher(book.getBookPublisher(), PageRequest.of(0,5))); // 임시
-
+        bookInfo.setAuthorOtherBooks(bookRepository.findBooksByAuthor(book.getBookIsbn(), book.getAuthor(), PageRequest.of(0,5))); // 임시
         // 회원이 책을 좋아하는지 여부
-        BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(userId, bookIsbn).orElseGet(BookLikes::new);
+        BookLikes bookLikes = bookLikesRepository.findByUserIdAndParagraphId(user.getUserId(), bookIsbn).orElseGet(BookLikes::new);
+
         if(bookLikes.getBookLikeId()!=null) bookInfo.setBookLike(true);
-        else bookInfo.setBookLike(false);
+        if(bookLikes.getBookLikeId()==null) bookInfo.setBookLike(false);
         // 책의 좋아요 수
         bookInfo.setLikesNumber(bookLikesRepository.countBookLikesByBook(book));
         // 책을 좋아요하는 회원들 사진 3개
@@ -91,4 +87,19 @@ public class BookServiceImpl implements BookService{
         bookInfo.setLikesUserImages(userImageList);
         return bookInfo;
     }
+
+    @Override
+    public HashMap<String, Object> findAuthorBook(Long authorId, Pageable pageable) {
+        HashMap<String, Object> result = new HashMap<>();
+        List<BookListDto> list =new ArrayList<>();
+        Author author = authorRepository.findById(authorId).orElseGet(Author::new);
+        if(author.getAuthorId()== null) return result;
+        Slice<Book> books = bookRepository.findBooksByAuthor(author,pageable);
+        list = books.getContent().stream().map(i->new BookListDto(i.getBookTitle(), i.getBookIsbn(), i.getAuthor().getAuthorName(), i.getBookImage())).collect(toList());
+        result.put("authorBooks", list);
+        result.put("hasNext", books.hasNext());
+        return result;
+    }
+
+
 }
