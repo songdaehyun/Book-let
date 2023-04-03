@@ -202,6 +202,20 @@ export const deleteReview = async (rId) => {
 	}
 };
 
+export const getUserBookRecomPre = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/user/pre/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 export const getUserBookRecom = async (uId) => {
 	try {
 		const res = await api({
