@@ -75,3 +75,18 @@ export const initAuthorBooks = (raw) => {
 		}),
 	};
 };
+
+export const initBookRecom = (raw) => {
+	return {
+		type: raw?.recommendType,
+		genre: raw?.genreName,
+		books: raw?.map((book) => {
+			return {
+				cover: book?.recommend?.bookImgPath,
+				title: book?.recommend?.bookTitle,
+				author: book?.recommend?.authorName,
+				isbn: book?.recommend?.bookIsbn,
+			};
+		}),
+	};
+};

@@ -114,6 +114,12 @@ export const getScrapCount = async (uId) => {
 	}
 };
 
+// export const getSentenceRecom = async (uId) => {
+// 	try {
+// 		const res = await api({
+// 			method: "GET",
+// 			url: `/recom/paragraph/${uId}`,
+
 // 댓글 api
 export const postComment = async (data) => {
 	try {
