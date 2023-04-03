@@ -5,8 +5,8 @@ import Empty from "../../molecules/Empty";
 
 import MyFollowList from "./MyFollowList";
 
-function MyFollowingTab(props) {
-	const users = [
+function MyFollowingTab(users) {
+	// const users = [
 		// {
 		// 	userId: 1,
 		// 	nickname: "지희",
@@ -22,7 +22,7 @@ function MyFollowingTab(props) {
 		// 	nickname: "지희",
 		// 	userImage: "https://avatars.githubusercontent.com/u/51085309?v=4",
 		// },
-	];
+	// ];
 
 	const isArrEmpty = useArr();
 

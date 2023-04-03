@@ -12,6 +12,15 @@ eureka:
     service-url:
       defaultZone: http://j8b306.p.ssafy.io:8761/eureka  # http://localhost:8761/eureka #
 
+cloud:
+  aws:
+    s3:
+      bucket: pjbooklet
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIA3HXUHACC2QTVP7F4
+      secretKey: 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
 
 spring:
   application:
@@ -31,11 +40,6 @@ spring:
     url: jdbc:mysql://j8b306.p.ssafy.io:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
     username: booklet
     password: qnrwjrqnrwjr!qnrfpt
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
-#    username: root
-#    password: bms1226@
   # swagger
   mvc:
     pathmatch:

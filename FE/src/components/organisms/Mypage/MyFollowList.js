@@ -6,16 +6,17 @@ import UserProfile from "../../molecules/UserProfile";
 function MyFollowList({ users, type }) {
 	return (
 		<Container marginTop="24">
-			{users.map((user) =>
+			{users?.users?.map((user, idx) =>
 				type === "following" ? (
 					<ProfileWithFollow
-						uId={user.uid}
+						key={idx}
+						uId={user.username}
 						nickname={user.nickname}
-						profileImg={user.userImage}
+						profileImg={user.userImg}
 						isFollowed={true}
 					/>
 				) : (
-					<UserProfile nickname={user.nickname} profileImg={user.userImage} />
+					<UserProfile key={idx} nickname={user.nickname} profileImg={user.userImage} />
 				)
 			)}
 		</Container>
