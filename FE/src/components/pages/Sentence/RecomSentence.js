@@ -8,7 +8,7 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 
 import BannerImg from "../../../assets/images/Banner/reco-sentence-banner.png";
 // import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
-import { initScrappedList } from "../../../apis/init/initSentence";
+import { initSentenceList } from "../../../apis/init/initSentence";
 import { getSentenceRecom } from "../../../apis/sentenceApi";
 
 function RecomSentence(props) {
@@ -19,7 +19,7 @@ function RecomSentence(props) {
 	useEffect(() => {
 		(async () => {
 			await getSentenceRecom(uId)
-				.then(initScrappedList)
+				.then(initSentenceList)
 				.then((res) => setRecom(res));
 		})();
 	}, []);
