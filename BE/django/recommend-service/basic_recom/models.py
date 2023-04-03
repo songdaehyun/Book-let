@@ -102,3 +102,22 @@ class Genre(models.Model):
 
 
 
+class Paragraph(models.Model):
+    paragraph_id = models.BigAutoField(primary_key=True)
+    created_date = models.DateTimeField(blank=True, null=True)
+    modified_date = models.DateTimeField(blank=True, null=True)
+    book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
+    paragraph_color = models.CharField(max_length=30)
+    paragraph_content = models.CharField(max_length=301)
+    paragraph_page = models.IntegerField()
+    scrap_count = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey('Userr', models.DO_NOTHING)
+    paragraph_score = models.IntegerField(blank=True, null=True)
+    paragraph_score_type = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'paragraph'
+
+
+
