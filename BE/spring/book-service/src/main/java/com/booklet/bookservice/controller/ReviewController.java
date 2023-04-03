@@ -83,7 +83,7 @@ public class ReviewController {
         if (review == null) return new ResponseEntity("not found", HttpStatus.NOT_FOUND);
         try {
             review.updateReview(req.getContent(), req.getGrade());
-            result.put("paragraphId", reviewService.updateReview(review));
+            result.put("message", reviewService.updateReview(review));
             return new ResponseEntity(result, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity("fail", HttpStatus.BAD_REQUEST);

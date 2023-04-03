@@ -1,13 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	DetailSentenceBottomInfo,
 	DetailSentenceBottomInfoContainer,
 	DetailSentenceContainer,
-	SentenceContentBox
+	SentenceContentBox,
 } from "../../../styles/Sentence/DetailSentenceStyle";
 
-function DetailSentence({ title, author, content, page, color, cover }) {
+function DetailSentence({ isbn, title, author, cover, content, page, color }) {
+	const navigate = useNavigate();
+
+	const MoveToBook = () => {
+		navigate(`/book/${isbn}`);
+	};
+
 	return (
 		<DetailSentenceContainer color={color}>
 			<SentenceContentBox>
@@ -19,9 +27,9 @@ function DetailSentence({ title, author, content, page, color, cover }) {
 				<hr />
 				<DetailSentenceBottomInfoContainer>
 					<div>
-						<img src={cover} alt="book cover" />
+						<img onClick={MoveToBook} src={cover} alt="book cover" />
 						<div>
-							<Text marginBottom="8">
+							<Text marginBottom="8" onClick={MoveToBook}>
 								<Span font="jeju">『 </Span>
 								{title}
 								<Span font="jeju"> 』</Span>

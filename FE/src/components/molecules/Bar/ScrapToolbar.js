@@ -6,16 +6,17 @@ import ReactionInfo from "../ReactionInfo";
 import { Text } from "../../../styles/common/TextsStyle";
 import { ReactionInfoContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
-function ScrapToolbar({ post, isMy }) {
+function ScrapToolbar({ sId, isScraped, scrapImgs, scrapCount, date, isMy }) {
+	console.log(isMy)
 	return (
 		<ReactionInfoContainer>
-			<ReactionInfo info={post} type="scrap" />
+			<ReactionInfo imgs={scrapImgs} count={scrapCount} type="scrap" />
 			{isMy ? (
 				<Text size="14" color="var(--gray-500)">
-					{post.createdDate}
+					{date}
 				</Text>
 			) : (
-				<ScrapButton isScraped={post.userScrapted} />
+				!isMy && <ScrapButton sId={sId} isScraped={isScraped} />
 			)}
 		</ReactionInfoContainer>
 	);

@@ -17,7 +17,7 @@ public interface ParagraphService {
     public boolean isExist(Long paragraphId);
     public Paragraph findParagraphEntity(Long paragraphId);  // 문장 entity 자체
 
-    public Map<String, Object> findParagraph(Long paragraphId);    // 문장 1개 조회
+    public Map<String, Object> findParagraph(Long paragraphId, Long UserId);    // 문장 1개 조회
 
     public HashMap<String, Object> findParagraphs(User user, Pageable pageable);    // user 본인이 등록한 문장 목록 조회
 

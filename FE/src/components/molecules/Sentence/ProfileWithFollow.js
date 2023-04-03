@@ -4,11 +4,17 @@ import FollowButton from "../../atoms/Button/FollowButton";
 
 import UserProfile from "../UserProfile";
 
-function ProfileWithFollow({ nickname, profileImg, isFollowed, setIsFollowed }) {
+function ProfileWithFollow({ nickname, profileImg, isFollowed, setIsFollowed, isMy }) {
 	return (
 		<UserProfileBox>
 			<UserProfile nickname={nickname} profileImg={profileImg} />
-			<FollowButton isFollowed={isFollowed} setIsFollowed={setIsFollowed} />
+			{!isMy && (
+				<FollowButton
+					nickname={nickname}
+					isFollowed={isFollowed}
+					setIsFollowed={setIsFollowed}
+				/>
+			)}
 		</UserProfileBox>
 	);
 }

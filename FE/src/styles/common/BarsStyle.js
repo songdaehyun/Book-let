@@ -98,6 +98,8 @@ export const TabBarBox = styled.div`
 	border-top: 0.5px solid var(--gray-300);
 	background-color: white;
 
+	z-index: 50;
+
 	> div {
 		display: flex;
 		flex-direction: column;

@@ -1,38 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 import EmotionTag from "../../../components/atoms/Join/EmotionTag";
 import ActionsNavigationBar from "../../molecules/Bar/ActionsNavigationBar";
 import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 
+import { join } from "../../../apis/authApi";
+import { initTag } from "../../../apis/init/initUser";
+import { getTagExample, postTaste } from "../../../apis/userApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import { TagsContainer } from "../../../styles/User/JoinStyle";
 
 function JoinTag(props) {
 	// 더미 데이터
-	const tags = [
-		{ id: 1, title: "공격적" },
-		{ id: 2, title: "낙천적" },
-		{ id: 3, title: "대담한" },
-		{ id: 4, title: "조심스러운" },
-		{ id: 5, title: "호기심 많은" },
-		{ id: 6, title: "용감한" },
-	];
+	// const tags = [
+	// 	{ id: 1, title: "공격적" },
+	// 	{ id: 2, title: "낙천적" },
+	// 	{ id: 3, title: "대담한" },
+	// 	{ id: 4, title: "조심스러운" },
+	// 	{ id: 5, title: "호기심 많은" },
+	// 	{ id: 6, title: "용감한" }
+	// ];
 
 	const navagate = useNavigate();
 
+	const { id, nickname, email, pw, age, gender } = useSelector((state) => state.join);
+	const { selectedCover } = useSelector((state) => state.user);
+
+	const [tags, setTags] = useState([]);
 	const [selectedTag, setSelectedTag] = useState([]);
 	const [isTargetValidConfirmed, setIsTargetValidConfirmed] = useState(false);
 	const [next, setNext] = useState("");
 
-	const handleClickTag = (id) => {
-		if (!selectedTag.includes(id)) {
+	useEffect(() => {
+		(async () => {
+			await getTagExample()
+				.then(initTag)
+				.then((res) => setTags(res));
+		})();
+	}, []);
+
+	useEffect(() => {
+		console.log(tags);
+	}, [tags]);
+
+	const handleClickTag = (title) => {
+		if (!selectedTag.includes(title)) {
 			// 선택되지 않은 태그라면 선택
-			setSelectedTag([...selectedTag, id]);
+			setSelectedTag([...selectedTag, title]);
 		} else {
 			// 선택된 태그라면 해제
-			setSelectedTag(selectedTag.filter((tagId) => tagId !== id));
+			setSelectedTag(selectedTag.filter((tagTitle) => tagTitle !== title));
 		}
 	};
 
@@ -56,10 +77,53 @@ function JoinTag(props) {
 		navagate("/join/4");
 	};
 
+	const joinData = {
+		username: id,
+		nickname: nickname,
+		password: pw,
+		email: email,
+		age: parseInt(age),
+		sex: gender,
+	};
+
+	const tasteData = {
+		tastes: selectedTag,
+		bookCovers: selectedCover,
+	};
+
+	const postTasteApiCall = (uName, data) => {
+		(async () => {
+			await postTaste(uName, data).then((res) => {
+				if (res === "success") {
+					// 회원가입 완료
+					navagate("/login");
+				}
+			});
+		})();
+	};
+
+	const joinApiCall = (data) => {
+		(async () => {
+			await join(data).then((res) => {
+				if (res === "success") {
+					postTasteApiCall(id, tasteData);
+				}
+			});
+		})();
+	};
+
 	const handleClickNext = () => {
 		if (isTargetValidConfirmed) {
-			// 회원가입 완료
-			navagate("/");
+			if (
+				id !== "" &&
+				nickname !== "" &&
+				pw !== "" &&
+				email !== "" &&
+				age !== "" &&
+				gender !== ""
+			) {
+				joinApiCall(joinData);
+			}
 		}
 	};
 
@@ -93,13 +157,13 @@ function JoinTag(props) {
 					</Text>
 				</Container>
 				<TagsContainer>
-					{tags.map((tag) => (
-						<div onClick={() => handleClickTag(tag.id)}>
+					{tags?.map((tag) => (
+						<div onClick={() => handleClickTag(tag.title)}>
 							<EmotionTag
-								onClick={() => handleClickTag(tag.id)}
+								onClick={() => handleClickTag(tag.title)}
 								id={tag.id}
 								title={tag.title}
-								isSelected={selectedTag.includes(tag.id) ? true : false}
+								isSelected={selectedTag.includes(tag.title) ? true : false}
 							/>
 						</div>
 					))}

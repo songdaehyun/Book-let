@@ -1,6 +1,7 @@
 package com.booklet.paragraphservice.controller;
 
 import com.booklet.paragraphservice.dto.paragraph.ParagraphCreateReq;
+import com.booklet.paragraphservice.dto.paragraph.ParagraphReq;
 import com.booklet.paragraphservice.dto.paragraph.ParagraphUpdateReq;
 import com.booklet.paragraphservice.entity.Paragraph;
 import com.booklet.paragraphservice.entity.User;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +48,10 @@ public class ParagraphController {
     }
 
     @GetMapping("/{paragraphId}")
-    public ResponseEntity getOneParagraph(@PathVariable("paragraphId") Long paragraphId) {
+    public ResponseEntity getOneParagraph(@PathVariable Long paragraphId, @RequestParam Long userId) {
         try {
             Map<String, Object> result = new HashMap<>();
-            result = paragraphService.findParagraph(paragraphId);
+            result = paragraphService.findParagraph(paragraphId, userId);
             if (result == null) {
                 String message = "not found";
 //                result.put("message", "not found");

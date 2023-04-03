@@ -9,78 +9,101 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import { CoversContainer, CoverWrapper, CricleCheckWrapper } from "../../../styles/User/JoinStyle";
 
-import cover1 from "../../../assets/images/dummy/cover/cover-img (1).png";
-import cover10 from "../../../assets/images/dummy/cover/cover-img (10).png";
-import cover2 from "../../../assets/images/dummy/cover/cover-img (2).png";
-import cover3 from "../../../assets/images/dummy/cover/cover-img (3).png";
-import cover4 from "../../../assets/images/dummy/cover/cover-img (4).png";
-import cover5 from "../../../assets/images/dummy/cover/cover-img (5).png";
-import cover6 from "../../../assets/images/dummy/cover/cover-img (6).png";
-import cover7 from "../../../assets/images/dummy/cover/cover-img (7).png";
-import cover8 from "../../../assets/images/dummy/cover/cover-img (8).png";
-import cover9 from "../../../assets/images/dummy/cover/cover-img (9).png";
+import { useDispatch, useSelector } from "react-redux";
+import { initCover } from "../../../apis/init/initUser";
+import { getCoverExample } from "../../../apis/userApi";
+import { addSelectedCover, deleteSelectedCover } from "../../../reducer/user";
+
+// import cover1 from "../../../assets/images/dummy/cover/cover-img (1).png";
+// import cover10 from "../../../assets/images/dummy/cover/cover-img (10).png";
+// import cover2 from "../../../assets/images/dummy/cover/cover-img (2).png";
+// import cover3 from "../../../assets/images/dummy/cover/cover-img (3).png";
+// import cover4 from "../../../assets/images/dummy/cover/cover-img (4).png";
+// import cover5 from "../../../assets/images/dummy/cover/cover-img (5).png";
+// import cover6 from "../../../assets/images/dummy/cover/cover-img (6).png";
+// import cover7 from "../../../assets/images/dummy/cover/cover-img (7).png";
+// import cover8 from "../../../assets/images/dummy/cover/cover-img (8).png";
+// import cover9 from "../../../assets/images/dummy/cover/cover-img (9).png";
 
 function JoinCover(props) {
 	// 더미 데이터
-	const covers = [
-		{
-			id: 1,
-			img: cover1,
-		},
-		{
-			id: 2,
-			img: cover2,
-		},
-		{
-			id: 3,
-			img: cover3,
-		},
-		{
-			id: 4,
-			img: cover4,
-		},
-		{
-			id: 5,
-			img: cover5,
-		},
-		{
-			id: 6,
-			img: cover6,
-		},
-		{
-			id: 7,
-			img: cover7,
-		},
-		{
-			id: 8,
-			img: cover8,
-		},
-		{
-			id: 9,
-			img: cover9,
-		},
-		{
-			id: 10,
-			img: cover10,
-		},
-	];
+	// const dummy = [
+	// 	{
+	// 		id: 1,
+	// 		img: cover1,
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		img: cover2,
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		img: cover3,
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		img: cover4,
+	// 	},
+	// 	{
+	// 		id: 5,
+	// 		img: cover5,
+	// 	},
+	// 	{
+	// 		id: 6,
+	// 		img: cover6,
+	// 	},
+	// 	{
+	// 		id: 7,
+	// 		img: cover7,
+	// 	},
+	// 	{
+	// 		id: 8,
+	// 		img: cover8,
+	// 	},
+	// 	{
+	// 		id: 9,
+	// 		img: cover9,
+	// 	},
+	// 	{
+	// 		id: 10,
+	// 		img: cover10,
+	// 	},
+	// ];
 
 	const navagate = useNavigate();
+	const dispatch = useDispatch();
 
-	const [selectedCover, setSelectedCover] = useState([]);
+	// 도서 커버 보기들
+	const [covers, setCovers] = useState([]);
+	// 선택한 도서 커버들
+	const { selectedCover } = useSelector((state) => state.user);
+	// const [selectedCover, setSelectedCover] = useState([]);
 	const [isCoverValidConfirmed, setIsCoverValidConfirmed] = useState(false);
 	const [next, setNext] = useState("");
+
+	useEffect(() => {
+		// setCovers(dummy);
+		(async () => {
+			await getCoverExample()
+				.then(initCover)
+				.then((res) => {
+					setCovers(res);
+				});
+		})();
+	}, []);
 
 	const handleClickCover = (id) => {
 		if (!selectedCover.includes(id)) {
 			// 선택 안 했으면 선택, 배열에 추가
-			setSelectedCover([...selectedCover, id]);
+			// setSelectedCover([...selectedCover, id]);
+			dispatch(addSelectedCover(id));
 		} else {
 			// 선택되어있으면 선택 해제, 배열에서 삭제
 
 			// cover.id와 id가 일치하지 않는 원소만 추출해서 새로운 배열을 반환
 			// cover.id === id인 원소만 제거함.
-			setSelectedCover(selectedCover.filter((coverId) => coverId !== id));
+			// setSelectedCover(selectedCover.filter((coverId) => coverId !== id));
+			dispatch(deleteSelectedCover(id));
 		}
 	};
 
@@ -109,6 +132,14 @@ function JoinCover(props) {
 	const handleClickPre = () => {
 		navagate("/join/3");
 	};
+
+	useEffect(() => {
+		(async () => {
+			await getCoverExample()
+				.then(initCover)
+				.then((res) => setCovers(res));
+		})();
+	}, []);
 
 	useEffect(() => {
 		coverValidTest();
@@ -140,7 +171,7 @@ function JoinCover(props) {
 					</Text>
 				</Container>
 				<CoversContainer>
-					{covers.map((cover) => {
+					{covers?.map((cover) => {
 						return (
 							<CoverWrapper
 								key={cover.id}

@@ -1,9 +1,23 @@
 import React from "react";
+import { postFollow } from "../../../apis/userApi";
 import { FollowBtn } from "../../../styles/common/ButtonsStyle";
 
-function FollowButton({ isFollowed, setIsFollowed }) {
+function FollowButton({ nickname, isFollowed, setIsFollowed }) {
+	const uName = localStorage.getItem("userName");
+
 	const handleClickFollow = () => {
-        setIsFollowed(!isFollowed);
+		const data = {
+			username: uName,
+			followingUsername: nickname,
+		};
+
+		(async () => {
+			await postFollow(data).then((res) => {
+				if (res === "success") {
+					setIsFollowed(!isFollowed);
+				}
+			});
+		})();
 	};
 
 	return (

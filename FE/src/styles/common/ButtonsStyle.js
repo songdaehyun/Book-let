@@ -95,10 +95,15 @@ export const CommentUploadBtn = styled.button`
 	justify-content: center;
 	align-items: center;
 
-	background-color: white;
-
+	background-color: ${(props) => (props.isValid ? "white" : "var(--gray-100)")};
+	
 	:active {
 		background-color: var(--gray-100);
+	}
+	
+	svg {
+		fill: ${(props) => (props.isValid ? 'var(--primary-600)' : "var(--gray-500)")};
+		
 	}
 `;
 

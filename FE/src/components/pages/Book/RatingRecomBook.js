@@ -1,49 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import BookListTemplates from "../../templates/Book/BookListTemplates";
 
 import { Span } from "../../../styles/common/TextsStyle";
 
+import { getRatingBookRecom } from "../../../apis/BookApi";
+import { initBookRecom } from "../../../apis/init/initBook";
 import BannerImg from "../../../assets/images/Banner/rating-recom-book-banner.png";
 
 function RatingRecomBook(props) {
 	const nickname = "루피는 좋아";
 
-	const books = {
-		recommendType: "score",
-		recommend: [
-			{
-				bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-				bookTitle: "별의 커비 디스커버리 2",
-				authorName: "가리노 타우",
-				bookIsbn: 9791164798957,
-			},
-			{
-				bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-				bookTitle: "별의 커비 디스커버리 2",
-				authorName: "가리노 타우",
-				bookIsbn: 9791164798957,
-			},
-			{
-				bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-				bookTitle: "별의 커비 디스커버리 2",
-				authorName: "가리노 타우",
-				bookIsbn: 9791164798957,
-			},
-			{
-				bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-				bookTitle: "별의 커비 디스커버리 2",
-				authorName: "가리노 타우",
-				bookIsbn: 9791164798957,
-			},
-			{
-				bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-				bookTitle: "별의 커비 디스커버리 2",
-				authorName: "가리노 타우",
-				bookIsbn: 9791164798957,
-			},
-		],
-	};
+	// const books = {
+	// 	recommendType: "score",
+	// 	recommend: [
+	// 		{
+	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
+	// 			bookTitle: "별의 커비 디스커버리 2",
+	// 			authorName: "가리노 타우",
+	// 			bookIsbn: 9791164798957,
+	// 		},
+	// 		{
+	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
+	// 			bookTitle: "별의 커비 디스커버리 2",
+	// 			authorName: "가리노 타우",
+	// 			bookIsbn: 9791164798957,
+	// 		},
+	// 		{
+	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
+	// 			bookTitle: "별의 커비 디스커버리 2",
+	// 			authorName: "가리노 타우",
+	// 			bookIsbn: 9791164798957,
+	// 		},
+	// 		{
+	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
+	// 			bookTitle: "별의 커비 디스커버리 2",
+	// 			authorName: "가리노 타우",
+	// 			bookIsbn: 9791164798957,
+	// 		},
+	// 		{
+	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
+	// 			bookTitle: "별의 커비 디스커버리 2",
+	// 			authorName: "가리노 타우",
+	// 			bookIsbn: 9791164798957,
+	// 		},
+	// 	],
+	// };
+
+	const uId = localStorage.getItem("userId");
+
+	const [books, setBooks] = useState();
+
+	useEffect(() => {
+		(async () => {
+			await getRatingBookRecom(uId)
+				.then(initBookRecom)
+				.then((res) => setBooks(res));
+		})();
+	}, []);
 
 	const bannerInfo = {
 		title: (
@@ -70,6 +84,7 @@ function RatingRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
+			type={books.type}
 			books={books.recommend}
 		/>
 	);

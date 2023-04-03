@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container } from "../../../styles/common/ContainingsStyle";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
@@ -6,30 +6,46 @@ import MyReviewList from "../../organisms/Mypage/MyReviewList";
 
 import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
+import { getMyReview } from "../../../apis/userApi";
+import { initMyReviews } from "../../../apis/init/initBook";
 
 function MyReview(props) {
-	const reviews = [
-		// {
-		// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
-		// 	bookTitle: "목련 만두",
-		// 	authorName: "백유연",
-		// 	bookPublisher: "웅진주니어",
-		// 	bookIsbn: 9788901269061,
-		// 	reviewGrade: 4.5,
-		// 	reviewContent: "꽃과 만두라니 너무 아름답지 않나요??",
-		// 	createdDate: "2023-03-9T11:11:11",
-		// },
-		// {
-		// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
-		// 	bookTitle: "목련 만두",
-		// 	authorName: "백유연",
-		// 	bookPublisher: "웅진주니어",
-		// 	bookIsbn: 9788901269061,
-		// 	reviewGrade: 4.5,
-		// 	reviewContent: "꽃과 만두라니 너무 아름답지 않나요??",
-		// 	createdDate: "2023-03-9T11:11:11",
-		// },
-	];
+	const [reviews, setReviews] = useState([]);
+
+	// const reviews = [
+	// {
+	// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
+	// 	bookTitle: "목련 만두",
+	// 	authorName: "백유연",
+	// 	bookPublisher: "웅진주니어",
+	// 	bookIsbn: 9788901269061,
+	// 	reviewGrade: 4.5,
+	// 	reviewContent: "꽃과 만두라니 너무 아름답지 않나요??",
+	// 	createdDate: "2023-03-9T11:11:11",
+	// },
+	// {
+	// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
+	// 	bookTitle: "목련 만두",
+	// 	authorName: "백유연",
+	// 	bookPublisher: "웅진주니어",
+	// 	bookIsbn: 9788901269061,
+	// 	reviewGrade: 4.5,
+	// 	reviewContent: "꽃과 만두라니 너무 아름답지 않나요??",
+	// 	createdDate: "2023-03-9T11:11:11",
+	// },
+	// ];
+
+	const uName = localStorage.getItem("userName");
+
+	useEffect(() => {
+		(async () => {
+			await getMyReview(uName)
+				.then(initMyReviews)
+				.then((res) => {
+					setReviews(res);
+				});
+		})();
+	}, []);
 
 	const isArrEmpty = useArr();
 
