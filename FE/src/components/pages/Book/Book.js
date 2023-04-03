@@ -6,7 +6,7 @@ import {
 	getRatingBookRecomPre,
 	getUserBookRecomPre,
 } from "../../../apis/BookApi";
-import { initBookRecom } from "../../../apis/init/initBook";
+import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
 import useAsync from "../../../hooks/useAsync";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span } from "../../../styles/common/TextsStyle";
@@ -20,16 +20,16 @@ function Book(props) {
 	const [userState] = useAsync(getUserBookRecomPre, uName, initBookRecom, []);
 	const { loading: userLoading, data: userBooks, error: userError } = userState;
 
-	const [likeState] = useAsync(getLikeBookRecomPre, uName, initBookRecom, []);
+	const [likeState] = useAsync(getLikeBookRecomPre, uName, initBookRecomOther, []);
 	const { loading: likeLoading, data: likeBooks, error: likeError } = likeState;
 
 	const [coverState] = useAsync(getCoverBookRecomPre, uName, initBookRecom, []);
 	const { loading: coverLoading, data: coverBooks, error: coverError } = coverState;
 
-	const [genreState] = useAsync(getGenreBookRecomPre, uName, initBookRecom, []);
+	const [genreState] = useAsync(getGenreBookRecomPre, uName, initBookRecomOther, []);
 	const { loading: genreLoading, data: genreBooks, error: genreError } = genreState;
 
-	const [ratingState] = useAsync(getRatingBookRecomPre, uName, initBookRecom, []);
+	const [ratingState] = useAsync(getRatingBookRecomPre, uName, initBookRecomOther, []);
 	const { loading: ratingLoading, data: ratingBooks, error: ratingError } = ratingState;
 
 	const userRecomTitle = (
