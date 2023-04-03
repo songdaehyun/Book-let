@@ -43,6 +43,35 @@ export const getAuthorBooks = async (aId, size, page) => {
 	}
 };
 
+// 도서 추천
+export const getCoverBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/cover/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getRatingBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/score/${uId}`,
+					});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 export const getBookSearch = async (title, size, page) => {
 	// const titleParam = decodeURI(decodeURIComponent(title));
 	const titleParam = encodeURIComponent(title);
@@ -60,6 +89,20 @@ export const getBookSearch = async (title, size, page) => {
 	}
 };
 
+export const getLikeBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/like/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};			
+
 // 리뷰 api
 export const getReview = async (isbn, size, page) => {
 	try {
@@ -75,11 +118,39 @@ export const getReview = async (isbn, size, page) => {
 	}
 };
 
+export const getGenreBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/genre/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 export const deleteReview = async (rId) => {
 	try {
 		const res = await api({
 			method: "DELETE",
 			url: `/review/${rId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getUserBookRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/user/${uId}`,
 		});
 
 		console.log(res.data);

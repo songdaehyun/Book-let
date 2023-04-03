@@ -68,6 +68,7 @@ function DetailPost() {
 				.then(initSentence)
 				.then((res) => {
 					setPost(res);
+					setIsFollowed(res?.isFollowed);
 				});
 		})();
 	};
@@ -102,7 +103,7 @@ function DetailPost() {
 				isScraped={post?.isScraped}
 				scrapImgs={post?.scrapImgs}
 				scrapCount={post?.scrapCount}
-				isFollowed={post?.isFollowed}
+				isFollowed={isFollowed}
 				setIsFollowed={setIsFollowed}
 				isbn={post?.isbn}
 				title={post?.title}

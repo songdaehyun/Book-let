@@ -35,6 +35,7 @@ public class BookServiceImpl implements BookService{
     private final UserImageRepository userImageRepository;
     private final BookGenreRepository bookGenreRepository;
     private final AuthorRepository authorRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     public Book findBook(String bookIsbn){
@@ -85,6 +86,11 @@ public class BookServiceImpl implements BookService{
             userImageList.add(userImageRepository.findUserImageByUser(u));
         }
         bookInfo.setLikesUserImages(userImageList);
+        // 이미 리뷰를 작성 하였는가?
+        Review review = reviewRepository.findReviewByUserAndBook(user, book).orElseGet(Review::new);
+        if(review.getReviewId()!=null){
+            bookInfo.setIsReview(true);
+        }else if(review.getReviewId()==null) bookInfo.setIsReview(false);
         return bookInfo;
     }
 

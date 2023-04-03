@@ -1,20 +1,28 @@
 package com.booklet.authservice.controller;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.booklet.authservice.config.auth.PrincipalDetails;
+import com.booklet.authservice.entity.Book;
 import com.booklet.authservice.entity.Hashtag;
+import com.booklet.authservice.repository.BookRepository;
 import com.booklet.authservice.repository.HashtagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +31,74 @@ import java.util.Map;
 @RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestController {
+
+    public static final String UPLOAD_DIR = "uploads/";
+    private final BookRepository bookRepository;
+
+    @GetMapping("/entity")
+    public @ResponseBody String tabletest(){
+        Book book = bookRepository.findRandomBook();
+        System.out.println(book.toString());
+        System.out.println(book.getAuthor().toString());
+        System.out.println(book.getAuthor().getAuthorName().toString());
+        return book.getAuthor().getAuthorName().toString();
+    }
+
+    private final AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @PostMapping("/awsupload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = file.getOriginalFilename();
+            String fileUrl = "https://" + bucket + "/test" +fileName;
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+            return ResponseEntity.ok(fileUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        System.out.println(System.getProperty("user.dir"));
+        try {
+            // 파일 저장 경로 설정
+            String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads/";
+            // 파일의 원래 이름
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            // 파일 저장 경로와 파일명 결합
+            Path targetPath = Paths.get(UPLOAD_DIRECTORY).resolve(fileName);
+            // 파일 저장
+            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+            return ResponseEntity.ok("File uploaded successfully: " + fileName);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<?> getImage(@PathVariable("filename") String filename) {
+        try {
+            // 이미지 파일을 불러옴
+            Path imagePath = Paths.get(UPLOAD_DIR, filename);
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+
+            // 이미지 바이트 배열을 반환
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
+
     // Tip : JWT를 사용하면 UserDetailsService를 호출하지 않기 때문에 @AuthenticationPrincipal 사용
     // 불가능.
     // 왜냐하면 @AuthenticationPrincipal은 UserDetailsService에서 리턴될 때 만들어지기 때문이다.

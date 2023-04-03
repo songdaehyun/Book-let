@@ -41,4 +41,7 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+    public void updateBookGrade(float newGrade){
+        this.bookGrade = newGrade;
+    }
 }

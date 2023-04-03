@@ -134,6 +134,14 @@ function JoinCover(props) {
 	};
 
 	useEffect(() => {
+		(async () => {
+			await getCoverExample()
+				.then(initCover)
+				.then((res) => setCovers(res));
+		})();
+	}, []);
+
+	useEffect(() => {
 		coverValidTest();
 		console.log(selectedCover);
 	}, [selectedCover]);

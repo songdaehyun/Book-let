@@ -8,8 +8,8 @@ export const join = async (data) => {
 			data: data,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.log(err);
 	}

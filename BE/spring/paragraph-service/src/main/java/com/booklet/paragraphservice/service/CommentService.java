@@ -9,4 +9,6 @@ import java.util.List;
 public interface CommentService {
     public Long saveComment(CommentDto commentDto); // 댓글 등록
     public List<CommentListDto> findComments(Paragraph paragraph);
+    public boolean updateComment(Long commentId, String commentContent);
+    public boolean deleteComment(Long CommentId);
 }

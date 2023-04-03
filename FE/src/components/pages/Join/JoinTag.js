@@ -28,6 +28,7 @@ function JoinTag(props) {
 	const navagate = useNavigate();
 
 	const { id, nickname, email, pw, age, gender } = useSelector((state) => state.join);
+	const { selectedCover } = useSelector((state) => state.user);
 
 	const [tags, setTags] = useState([]);
 	const [selectedTag, setSelectedTag] = useState([]);
@@ -46,13 +47,13 @@ function JoinTag(props) {
 		console.log(tags);
 	}, [tags]);
 
-	const handleClickTag = (id) => {
-		if (!selectedTag.includes(id)) {
+	const handleClickTag = (title) => {
+		if (!selectedTag.includes(title)) {
 			// 선택되지 않은 태그라면 선택
-			setSelectedTag([...selectedTag, id]);
+			setSelectedTag([...selectedTag, title]);
 		} else {
 			// 선택된 태그라면 해제
-			setSelectedTag(selectedTag.filter((tagId) => tagId !== id));
+			setSelectedTag(selectedTag.filter((tagTitle) => tagTitle !== title));
 		}
 	};
 
@@ -76,25 +77,36 @@ function JoinTag(props) {
 		navagate("/join/4");
 	};
 
-	const joinApiCall = (data) => {
+	const joinData = {
+		username: id,
+		nickname: nickname,
+		password: pw,
+		email: email,
+		age: parseInt(age),
+		sex: gender,
+	};
+
+	const tasteData = {
+		tastes: selectedTag,
+		bookCovers: selectedCover,
+	};
+
+	const postTasteApiCall = (uName, data) => {
 		(async () => {
-			await join(data).then((res) => {
-				if (res?.status === 201) {
-					return true;
+			await postTaste(uName, data).then((res) => {
+				if (res === "success") {
+					// 회원가입 완료
+					navagate("/login");
 				}
-				// if (res?.status === 201) {
-				// 	// 회원가입 완료
-				// 	navagate("/");
-				// }
 			});
 		})();
 	};
 
-	const postTasteApiCall = (data) => {
+	const joinApiCall = (data) => {
 		(async () => {
-			await postTaste(data).then((res) => {
-				if (res?.status === 201) {
-					return true;
+			await join(data).then((res) => {
+				if (res === "success") {
+					postTasteApiCall(id, tasteData);
 				}
 			});
 		})();
@@ -102,20 +114,15 @@ function JoinTag(props) {
 
 	const handleClickNext = () => {
 		if (isTargetValidConfirmed) {
-			const joinData = {
-				username: id,
-				nickname: nickname,
-				password: pw,
-				email: email,
-				age: parseInt(age),
-				sex: gender,
-			};
-
-			const tasteData = tags;
-
-			if (joinApiCall(joinData) && postTasteApiCall(tasteData)) {
-				// 회원가입 완료
-				navagate("/");
+			if (
+				id !== "" &&
+				nickname !== "" &&
+				pw !== "" &&
+				email !== "" &&
+				age !== "" &&
+				gender !== ""
+			) {
+				joinApiCall(joinData);
 			}
 		}
 	};
@@ -151,12 +158,12 @@ function JoinTag(props) {
 				</Container>
 				<TagsContainer>
 					{tags?.map((tag) => (
-						<div onClick={() => handleClickTag(tag.id)}>
+						<div onClick={() => handleClickTag(tag.title)}>
 							<EmotionTag
-								onClick={() => handleClickTag(tag.id)}
+								onClick={() => handleClickTag(tag.title)}
 								id={tag.id}
 								title={tag.title}
-								isSelected={selectedTag.includes(tag.id) ? true : false}
+								isSelected={selectedTag.includes(tag.title) ? true : false}
 							/>
 						</div>
 					))}
