@@ -16,4 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c where c.paragraph=:paragraph order by c.commentGroup")
     public List<Comment> findCommentsByParagraph(Paragraph paragraph);
 
+    @Query("select count(*) from Comment c where c.commentGroup=:commentGroup")
+    public int countByCommentGroup(Long commentGroup);
+
 }

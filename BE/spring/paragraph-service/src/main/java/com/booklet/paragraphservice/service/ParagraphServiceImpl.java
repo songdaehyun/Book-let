@@ -2,10 +2,7 @@ package com.booklet.paragraphservice.service;
 
 import com.booklet.paragraphservice.dto.*;
 import com.booklet.paragraphservice.dto.paragraph.*;
-import com.booklet.paragraphservice.entity.Book;
-import com.booklet.paragraphservice.entity.Follow;
-import com.booklet.paragraphservice.entity.Paragraph;
-import com.booklet.paragraphservice.entity.User;
+import com.booklet.paragraphservice.entity.*;
 import com.booklet.paragraphservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,30 +45,31 @@ public class ParagraphServiceImpl implements ParagraphService {
             result = paragraphRepository.save(paragraph).getParagraphId();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
         return result;
     }
 
     @Override
     public boolean isExist(Long paragraphId) {
-        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
-        if (paragraph == null) return false;
+//        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElseGet(Paragraph::new);
+        if (paragraph.getParagraphId() == null) return false;
         return true;
     }
 
     public Paragraph findParagraphEntity(Long paragraphId) {
-        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+//        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElseGet(Paragraph::new);
         return paragraph;
     }
 
     @Override
     public Map<String, Object> findParagraph(Long paragraphId, Long userId) { // 한개의 문장 상세 보기
-        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElse(null);
+        Paragraph paragraph = paragraphRepository.findById(paragraphId).orElseGet(Paragraph::new);
         User me = userRepository.findById(userId).orElseGet(User::new);
         Map<String, Object> result = new HashMap<>();
 
-        if (paragraph == null) return null;
+        if (paragraph.getParagraphId() == null) return result;
         Book book = paragraph.getBook();
         User user = paragraph.getUser();
         try {
@@ -81,8 +79,8 @@ public class ParagraphServiceImpl implements ParagraphService {
             ParagraphDto paragraphDto = new ModelMapper().map(paragraph, ParagraphDto.class);
             // 책 정보
             BookDto bookDto = new ModelMapper().map(book, BookDto.class);
-//            bookDto.setBookAuthor(book.getAuthor().getAuthorName());
-            bookDto.setBookAuthor("김이박");
+            bookDto.setBookAuthor(book.getAuthor().getAuthorName());
+//            bookDto.setBookAuthor("김이박");
             // 작성자 정보
             UserInfoDto userDto = new ModelMapper().map(user, UserInfoDto.class);
             userDto.setUserImage(userImageRepository.findUserImageByUser(user));
@@ -122,8 +120,8 @@ public class ParagraphServiceImpl implements ParagraphService {
                 int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
                 // 4. 해당 paragraph book Info
                 Book book = p.getBook();
-//                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), book.getAuthor().getAuthorName()));
-                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), "김이박"));
+                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), book.getAuthor().getAuthorName()));
+//                listDto.add(new ParagraphListDto(p, scrapInfo, commentCnt, book.getBookIsbn(), book.getBookTitle(), "김이박"));
 
             }
             result.put("paragraphs", listDto);
@@ -137,17 +135,16 @@ public class ParagraphServiceImpl implements ParagraphService {
 
     @Override
     public HashMap<String, Object> findFollowParagraph(User user, Pageable pageable) {
-
+        HashMap<String, Object> result = new HashMap<>();
         try {
             // 1. 해당 user가 following한 user들의 paragraph
             Slice<Paragraph> paragraphs = paragraphRepository.findParagraphJoinFollow(user, pageable);
             // 2. scrap 정보, 댓글 수, 해당 user 정보
-            return getStringObjectHashMap(paragraphs, user);
-
+            result = getStringObjectHashMap(paragraphs, user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     @Override
@@ -182,8 +179,8 @@ public class ParagraphServiceImpl implements ParagraphService {
             int commentCnt = commentRepository.countByParagraphId(p.getParagraphId());
             // 4. 해당 paragraph book Info
             Book book = p.getBook();
-            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), "김이박", book.getBookTitle()));
-//            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), book.getAuthor().getAuthorName(), book.getBookTitle()));
+//            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), "김이박", book.getBookTitle()));
+            listDto.add(new ParagraphCommonListDto(userDto, p, scrapInfo, commentCnt, book.getBookIsbn(), book.getAuthor().getAuthorName(), book.getBookTitle()));
 
         }
         HashMap<String, Object> result = new HashMap<>();
@@ -215,10 +212,10 @@ public class ParagraphServiceImpl implements ParagraphService {
         // 스크랩 정보
         ParagraphScrapDto scrapInfo;
         // 1. 스크랩한 사람들의 이미지 3개
-        ArrayList<User> userList = scrapRepository.findTop3ScrapUserImages(paragraphId);
+        List<Scrap> scrapList = scrapRepository.findTop3ByParagraph(paragraph);
         ArrayList<String> userImageList = new ArrayList<>();
-        for (User u : userList) {
-            userImageList.add(userImageRepository.findUserImageByUser(u));
+        for (Scrap s : scrapList) {
+            userImageList.add(userImageRepository.findUserImageByUser(s.getUser()));
         }
 
         // 2. 스크랩 count

@@ -73,7 +73,6 @@ export const getMyLike = async (uName) => {
 	}
 };
 
-
 export const getFollow = async (uName) => {
 	try {
 		const res = await api({
@@ -96,8 +95,8 @@ export const postFollow = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res?.data?.message);
+		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
 	}

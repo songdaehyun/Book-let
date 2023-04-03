@@ -159,11 +159,11 @@ export const getComment = async (sId) => {
 	}
 };
 
-export const deleteComment = async (sId) => {
+export const deleteComment = async (cId) => {
 	try {
 		const res = await api({
 			method: "DELETE",
-			url: `/comment/${sId}`,
+			url: `/comment/${cId}`,
 		});
 
 		console.log(res);

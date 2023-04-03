@@ -34,7 +34,7 @@ function MyFollowerTab(users) {
 
 	return (
 		<div>
-			{isArrEmpty(users) ? (
+			{isArrEmpty(users?.users) ? (
 				<Empty
 					title={emptyInfo.title}
 					subTitle={emptyInfo.subTitle}
