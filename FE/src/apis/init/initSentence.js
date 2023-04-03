@@ -32,6 +32,7 @@
 export const initSentence = (raw) => {
 	return {
 		uId: raw?.user?.userId,
+		uName: raw?.user?.username,
 		nickname: raw?.user.nickname,
 		profileImg: raw?.user?.userImage,
 		isFollowed: raw?.user?.isFollowing,
