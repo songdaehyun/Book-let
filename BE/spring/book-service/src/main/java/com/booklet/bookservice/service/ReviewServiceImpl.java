@@ -39,12 +39,19 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public HashMap<String, Object> findReviews(Book book, Pageable pageable) { // 책의 리뷰 리스트
+    public HashMap<String, Object> findReviews(Book book, Long userId, Pageable pageable) { // 책의 리뷰 리스트
+        HashMap<String, Object> result = new HashMap<>();
+        User me = userRepository.findById(userId).orElseGet(User::new);
         List<ReviewListDto> listDto = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setAmbiguityIgnored(true);
         Slice<Review> reviews = reviewRepository.findReviewByBook(book, pageable);
-
+        Review myReview = reviewRepository.findReviewByUserAndBook(me, book).orElseGet(Review::new);
+        if(myReview.getReviewId()!=null){
+            result.put("reviewed", true);
+        }else if(myReview.getReviewId()==null){
+            result.put("reviewed", false);
+        }
         try {
             for(Review review : reviews){
                 UserDto userDto = new ModelMapper().map(review.getUser(), UserDto.class);
@@ -55,7 +62,6 @@ public class ReviewServiceImpl implements ReviewService{
             e.printStackTrace();
             return null;
         }
-        HashMap<String, Object> result = new HashMap<>();
         result.put("reviews", listDto);
         result.put("hasNextPage", reviews.hasNext());
         return result;

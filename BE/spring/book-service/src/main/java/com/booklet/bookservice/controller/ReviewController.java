@@ -4,6 +4,7 @@ import com.booklet.bookservice.dto.ReviewCreateReq;
 import com.booklet.bookservice.dto.ReviewDto;
 import com.booklet.bookservice.entity.Book;
 import com.booklet.bookservice.entity.Review;
+import com.booklet.bookservice.entity.User;
 import com.booklet.bookservice.service.BookService;
 import com.booklet.bookservice.service.ReviewService;
 import com.booklet.bookservice.service.ReviewServiceImpl;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +51,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{bookIsbn}")
-    public ResponseEntity getReviews(@PathVariable String bookIsbn, int page, int size) throws Exception {
+    public ResponseEntity getReviews(@PathVariable String bookIsbn, @RequestParam Long userId, int page, int size) throws Exception {
         try {
             Map<String, Object> result = new HashMap<>();
             Book book = bookService.findBook(bookIsbn);
@@ -59,7 +61,7 @@ public class ReviewController {
             }
             PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "reviewId"));
 
-            result = reviewService.findReviews(book, pageRequest);
+            result = reviewService.findReviews(book, userId, pageRequest);
             if (result == null) {
                 String message = "not found";
 //                result.put("message", "not found");
