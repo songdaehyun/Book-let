@@ -21,8 +21,8 @@ function MyFollow(props) {
 			await getFollow(uName).then((res) => {
 				setFollowings(res?.followings);
 				setFollowers(res?.followers);
-				setFollowingCnt(res?.followingCnt);
-				setFollowerCnt(res?.followerCnt);
+				setFollowingCnt(res?.followingsCnt);
+				setFollowerCnt(res?.followersCnt);
 			});
 		})();
 	}, []);
