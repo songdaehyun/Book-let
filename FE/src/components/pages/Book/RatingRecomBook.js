@@ -47,13 +47,13 @@ function RatingRecomBook(props) {
 	// 	],
 	// };
 
-	const uId = localStorage.getItem("userId");
+	const uName = localStorage.getItem("userName");
 
 	const [books, setBooks] = useState();
 
 	useEffect(() => {
 		(async () => {
-			await getRatingBookRecom(uId)
+			await getRatingBookRecom(uName)
 				.then(initBookRecom)
 				.then((res) => setBooks(res));
 		})();

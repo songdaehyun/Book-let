@@ -53,13 +53,13 @@ function UserRecomBook(props) {
 	// 		},
 	// 	],
 	// };
-	const uId = localStorage.getItem("userId");
+	const uName = localStorage.getItem("userName");
 
 	const [recom, setRecom] = useState();
 
 	useEffect(() => {
 		(async () => {
-			await getUserBookRecom(uId)
+			await getUserBookRecom(uName)
 				.then(initBookRecom)
 				.then((res) => setRecom(res));
 		})();
