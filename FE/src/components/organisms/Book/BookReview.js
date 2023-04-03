@@ -38,16 +38,15 @@ function BookReview() {
 	// 	})();
 	// };
 
-	const { data, isFetching } = useInfiniteScroll(bId, getReview, 5, initReview);
-	// const { data: reviews, isFetching } = useInfiniteScroll(bId, getReview, 5, initReview);
+	const {
+		data,
+		apiCall: reviewApiCall,
+		isFetching,
+	} = useInfiniteScroll(bId, getReview, 5, initReview);
 
 	useEffect(() => {
 		setReviews(data);
 	}, [data]);
-
-	useEffect(() => {
-		console.log(reviews);
-	}, [reviews]);
 
 	return (
 		<Container marginTop="24">
@@ -59,15 +58,12 @@ function BookReview() {
 				<Span>{reviews?.length || 0}</Span>
 			</Text>
 			<InputRatingSection />
-			<CommentInput
-				type="리뷰"
-				setComments={setReviews}
-			/>
+			<CommentInput type="리뷰" setComments={setReviews} getCommentApiCall={reviewApiCall} />
 			<CommentList
 				comments={reviews}
 				type="리뷰"
 				setComments={setReviews}
-				// getCommentApiCall={getReviewApiCall}
+				getCommentApiCall={reviewApiCall}
 			/>
 		</Container>
 	);
