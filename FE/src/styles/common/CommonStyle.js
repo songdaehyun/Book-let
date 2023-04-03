@@ -78,6 +78,7 @@ export const CommentInputBox = styled.div`
 export const CommentBox = styled.div`
 	display: flex;
 
+	margin-left: ${(props) => props.depth === 1 && "72"}px;
 	margin-bottom: 24px;
 
 	img {

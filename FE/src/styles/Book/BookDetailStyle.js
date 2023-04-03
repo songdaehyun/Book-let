@@ -49,3 +49,15 @@ export const CommentBtnBox = styled.div`
 	display: flex;
 	gap: 16px;
 `;
+
+export const ReplyBox = styled.div`
+	display: flex;
+
+	> div:first-child {
+		flex: 1;
+	}
+
+	button {
+		margin-left: 16px;
+	}
+`;
