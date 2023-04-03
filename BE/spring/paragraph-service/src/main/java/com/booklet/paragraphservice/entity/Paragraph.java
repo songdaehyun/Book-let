@@ -43,12 +43,14 @@ public class Paragraph extends BaseTimeEntity{
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Paragraph( User user,Book book,String paragraphColor,int paragraphPage, String paragraphContent){
+    public Paragraph( User user,Book book,String paragraphColor,int paragraphPage, String paragraphContent, double paragraphScore, String paragraphScoreType){
 
         this.user = user;
         this.paragraphContent = paragraphContent;
         this.paragraphColor = paragraphColor;
         this.paragraphPage = paragraphPage;
+        this.paragraphScore = paragraphScore;
+        this.paragraphScoreType = paragraphScoreType;
 
         this.book = book;
     }
