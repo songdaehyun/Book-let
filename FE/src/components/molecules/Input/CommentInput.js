@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
-import { getReview, postReview } from "../../../apis/BookApi";
-import { initReview } from "../../../apis/init/initBook";
+import { postReview } from "../../../apis/BookApi";
 import { postComment } from "../../../apis/sentenceApi";
-import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import useRating from "../../../hooks/useRating";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
 
@@ -43,14 +41,12 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 				await postComment(data).then((res) => {
 					if (res === "success") {
 						getCommentApiCall();
-						setComment("")
+						setComment("");
 					}
 				});
 			})();
 		}
 	};
-
-	const { apiCall: reviewApiCall } = useInfiniteScroll(bId, getReview, 5, initReview, true);
 
 	const reviewSubmit = () => {
 		const data = {
@@ -64,8 +60,8 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 			(async () => {
 				await postReview(data).then((res) => {
 					if (res === "success") {
-						// 댓글 조회 api call
-						reviewApiCall().then((res) => {
+						// 리뷰 조회 api call
+						getCommentApiCall(true).then((res) => {
 							setComments(res);
 						});
 						// 댓글, 별점 초기화
