@@ -1,11 +1,17 @@
 package com.booklet.recomservice.util;
 
+import com.booklet.recomservice.dto.CoverDataDto;
 import com.booklet.recomservice.dto.DataDto;
+import com.booklet.recomservice.entity.Book;
 import com.booklet.recomservice.entity.User;
+import com.booklet.recomservice.repository.BookRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.HttpHead;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -19,35 +25,31 @@ import java.util.*;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class RequestTools {
 
+    private final BookRepository bookRepository;
     RestTemplate restTemplate = new RestTemplate();
 
-    public List<Object> getRecomCover(User user) {
-        List<Object> result = new ArrayList<>();
+    public CoverDataDto getRecomCover(String isbn) {
+        Book book = bookRepository.findByBookIsbn(isbn);
         System.out.println("함수 실행");
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://192.168.31.234:8000/api/v1/recom/image")
-                .queryParam("book_isbn","309316496").queryParam("book_image", "https://image.aladin.co.kr/product/27926/76/cover/8962475812_1.jpg");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://192.168.31.193:8000/cover_recom/image")
+                .queryParam("book_isbn",isbn).queryParam("book_image", book.getBookImage());
         String url = builder.toUriString();
         System.out.println("url : "+url);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-//                getForEntity(url, String.class);
-        JSONObject jsonObject = new JSONObject(response);
-        System.out.println(jsonObject.toString());
-        System.out.println(jsonObject.get("body"));
-        System.out.println(jsonObject.get("body").getClass().toString());
-        JSONArray dataArr = jsonObject.getJSONObject("body").getJSONArray("data");
-        System.out.println(dataArr);
+        try {
+            CoverDataDto coverDataDto = restTemplate.getForObject(url, CoverDataDto.class);
+            return coverDataDto;
 
-        System.out.println("GET 요청 결과: " + response);
-        System.out.println(response.getBody());
-        System.out.println(dataArr.toString());
-
-        return result;
+        } catch (Exception e){
+            log.warn("요청 변환에 실패하였습니다");
+            return null;
+        }
     }
 
     public List<String> getRecombooks(String type, User user) {
@@ -74,7 +76,8 @@ public class RequestTools {
                 setting = "profile";
                 break;
         }
-        String url = "https://j8b306.p.ssafy.io:8083/basic_recom/" + setting + "/";
+//        String url = "https://j8b306.p.ssafy.io/basic_recom/" + setting + "/";
+        String url = "http://192.168.31.193:8000/basic_recom/" + setting + "/";
 
         RestTemplate restTemplate = new RestTemplate();
         try {

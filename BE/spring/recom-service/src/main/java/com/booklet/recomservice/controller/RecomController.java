@@ -18,9 +18,9 @@ public class RecomController {
 
     private final RecomService recomService;
 
-    @GetMapping("/score/{username}")
+    @GetMapping("/score/pre/{username}")
     public ResponseEntity findScoreRecomBook(@PathVariable String username){
-        HashMap<String, Object> result = recomService.getBookRecom("score",username);
+        HashMap<String, Object> result = recomService.getBookRecom("score",username, 0);
         if (result == null) {
             HashMap<String, Object> failResult = new HashMap<>();
             failResult.put("message", "fail");
@@ -31,9 +31,22 @@ public class RecomController {
         }
     }
 
-    @GetMapping("/like/{username}")
+    @GetMapping("/score/all/{username}")
+    public ResponseEntity findAllScoreRecomBook(@PathVariable String username){
+        HashMap<String, Object> result = recomService.getBookRecom("score",username, 1);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/like/pre/{username}")
     public ResponseEntity findLikeRecomBook(@PathVariable String username){
-        HashMap<String, Object> result = recomService.getBookRecom("like",username);
+        HashMap<String, Object> result = recomService.getBookRecom("like",username, 0);
         if (result == null) {
             HashMap<String, Object> failResult = new HashMap<>();
             failResult.put("message", "fail");
@@ -44,9 +57,9 @@ public class RecomController {
         }
     }
 
-    @GetMapping("/genre/{username}")
-    public ResponseEntity findGenreRecomBook(@PathVariable String username) {
-        HashMap<String, Object> result = recomService.getBookRecom("genre", username);
+    @GetMapping("/like/all/{username}")
+    public ResponseEntity findAllLikeRecomBook(@PathVariable String username){
+        HashMap<String, Object> result = recomService.getBookRecom("like",username, 1);
         if (result == null) {
             HashMap<String, Object> failResult = new HashMap<>();
             failResult.put("message", "fail");
@@ -56,9 +69,36 @@ public class RecomController {
             return new ResponseEntity(result, HttpStatus.OK);
         }
     }
-    @GetMapping("/user/{username}")
+
+
+    @GetMapping("/genre/pre/{username}")
+    public ResponseEntity findGenreRecomBook(@PathVariable String username) {
+        HashMap<String, Object> result = recomService.getBookRecom("genre", username, 0);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/genre/all/{username}")
+    public ResponseEntity findAllGenreRecomBook(@PathVariable String username) {
+        HashMap<String, Object> result = recomService.getBookRecom("genre", username, 1);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(failResult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
+    }
+    @GetMapping("/user/pre/{username}")
     public ResponseEntity findUserRecomBook(@PathVariable String username){
-        HashMap<String, Object> result = recomService.getBookRecom("user",username);
+        HashMap<String, Object> result = recomService.getBookRecom("user",username, 0);
         if (result == null) {
             HashMap<String, Object> failResult = new HashMap<>();
             failResult.put("message", "fail");
@@ -69,9 +109,35 @@ public class RecomController {
         }
     }
 
-    @GetMapping("/cover/{username}")
+    @GetMapping("/user/all/{username}")
+    public ResponseEntity findAllUserRecomBook(@PathVariable String username){
+        HashMap<String, Object> result = recomService.getBookRecom("user",username, 1);
+        if (result == null) {
+            HashMap<String, Object> failResult = new HashMap<>();
+            failResult.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/cover/pre/{username}")
     public ResponseEntity findRecomBookCover(@PathVariable String username){
-        HashMap<String, Object> result = recomService.getBookCoverRecom(username);
+        HashMap<String, Object> result = recomService.getBookCoverRecom(username, 0);
+        if (result == null) {
+            HashMap<String, Object> failresult = new HashMap<>();
+            failresult.put("message", "fail");
+            return new ResponseEntity<>(failresult, HttpStatus.BAD_REQUEST);
+        } else {
+            result.put("message", "success");
+            return new ResponseEntity(result, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/cover/all/{username}")
+    public ResponseEntity findallRecomBookCover(@PathVariable String username){
+        HashMap<String, Object> result = recomService.getBookCoverRecom(username, 1);
         if (result == null) {
             HashMap<String, Object> failresult = new HashMap<>();
             failresult.put("message", "fail");
