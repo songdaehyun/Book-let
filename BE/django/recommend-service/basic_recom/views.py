@@ -169,7 +169,7 @@ def like_book(request):
     
     random_book = random.choice(liked_books)
 
-    print(random_book.book_id)
+    print(random_book.book_isbn.book_isbn)
 
 
     # 엑셀 파일 경로 지정
@@ -215,7 +215,7 @@ def like_book(request):
         return sorted_sim_books
     
     final_result = []
-    for i in content(random_book.book_id):
+    for i in content(random_book.book_isbn.book_isbn):
         final_result.append(int(df_content.loc[df_content['index'] == i[0], 'book_isbn'].iloc[0]))
 
 
@@ -244,7 +244,7 @@ def star_book(request):
     #isbn은 int로
     tmp_data = []
     for obj in reviewed_books:
-        tmp_data.append({'isbn':int(obj.book_isbn),'book': 'songD', 'id': user_email,'star': obj.review_grade})
+        tmp_data.append({'isbn':int(obj.book_isbn.book_isbn),'book': 'songD', 'id': user_email,'star': obj.review_grade})
     tmp_df = pd.DataFrame(tmp_data)
     
     # 엑셀 파일 경로 지정
@@ -313,9 +313,9 @@ def category_book(request):
     user_liked_list = []
     isbn_list = []
     for i in liked_books:
-        book_isbn = i.book_id
+        book_isbn = i.book_isbn
         book = BookGenre.objects.get(book_isbn = book_isbn)
-        book_genre_id = book.genre_id.genre_id 
+        book_genre_id = book.genre_id
         user_liked_list.append(book_genre_id)
         isbn_list.append(book_isbn)
 
