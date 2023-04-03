@@ -71,20 +71,30 @@ public class CommentController {
     @PutMapping
     public ResponseEntity updateComment(@RequestBody CommentUpdateReq request) throws Exception {
         HashMap<String, Object> result = new HashMap<>();
+        HttpStatus status;
         if(commentService.updateComment(request.getCommentId(), request.getCommentContent())){
+            status = HttpStatus.ACCEPTED;
             result.put("message", "success");
-        }else result.put("message","fail");
-        return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        }else {
+            status = HttpStatus.BAD_REQUEST;
+            result.put("message","fail");
+        }
+        return new ResponseEntity(result,status);
     }
 
     /** 댓글 삭제 **/
     @DeleteMapping("/{commentId}")
     public ResponseEntity deleteComment(@PathVariable Long commentId) throws Exception{
         HashMap<String, Object> result = new HashMap<>();
+        HttpStatus status;
         if(commentService.deleteComment(commentId)) {
+            status = HttpStatus.ACCEPTED;
             result.put("message", "success");
         }
-        else result.put("message","fail");
-        return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        else {
+            status = HttpStatus.BAD_REQUEST;
+            result.put("message","fail");
+        }
+        return new ResponseEntity(result,status);
     }
 }
