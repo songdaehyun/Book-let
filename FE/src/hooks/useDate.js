@@ -23,7 +23,11 @@ export default function useDate() {
 		// 오늘 날짜라면 시간을, 오늘 날짜가 아니라면 날짜를 리턴
 		if (seperatedDate) {
 			if (seperatedDate[0] === today) {
-				return seperatedDate[1];
+				// times[0] is hour
+				// times[1] is minute
+				const times = seperatedDate[1].split(".")[0].split(":");
+
+				return times[0] + "시 " + times[1] + "분";
 			} else {
 				return seperatedDate[0].replaceAll("-", ".");
 			}
