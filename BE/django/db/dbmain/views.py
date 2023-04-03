@@ -12,6 +12,8 @@ import pandas as pd
 import os
 import shutil
 import csv
+
+from .scores import isbn_lst
 # Create your views here.
 
 
@@ -21,13 +23,6 @@ KEY_NUM = 0
 BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
 MAIN = 'ItemList.aspx'
 DETAIL = 'ItemLookUp.aspx'
-
-# @api_view(['GET'])
-# def test(request):
-#     context = {
-#          'content' : '잘 도착했음'
-#     }
-#     return JsonResponse(context)
 
 @api_view(['GET'])
 def test(request):
@@ -91,12 +86,11 @@ def author_info(name, bookEntity):
         idx = name.index(',')
         name = name[:idx]
 
-    print('수정 이름 : ',name)
+    # print('수정 이름 : ',name)
     # Author 객체를 가져오거나 생성 //참고 created = true : 생성한거, false면 기존꺼
     author, created = Author.objects.get_or_create(author_name=name)
+    
 
-    print("author : ", author)
-    print("bookEntity : ", bookEntity)
     bookEntity.author = author
     bookEntity.save()
     # 작가 저장
@@ -145,8 +139,7 @@ def genre_save(book_info, bookEntity):
     # 장르와 책 연결
     book_genre = BookGenre(book_isbn=bookEntity, genre=genre)
     book_genre.save()
-    book = Book(book_isbn=bookEntity, genre=genre)
-    book.save()
+    bookEntity.save()
     return
 
 
@@ -238,6 +231,82 @@ def insert_db(request):
 #     }
 # 
 #     return JsonResponse(context)
+@api_view(['GET'])
+def save_isbn(request):
+    import_data()
+    print('DB lst 저장하러 왔습니다.')
+    context = {
+        'result' : '완료' 
+    }
+    isbns = isbn_lst.isbn_lst
+    size = len(isbns)
+    cnt = 0
+    for target_isbn in isbns:
+        cnt += 1
+        target_isbn = str(target_isbn)
+        if Book.objects.filter(book_isbn=target_isbn).exists():
+            tmp_book = Book.objects.get(book_isbn=target_isbn)
+            print("이미 책이 존재하므로 넘김니다.", tmp_book.book_title, tmp_book.book_isbn)
+            continue
+        response = requests.get(
+        BASE_URL + DETAIL,
+        params={
+            'ttbkey' : ALA_API_KEY[KEY_NUM],
+            'itemIdType' : 'ISBN',
+            'ItemId' : target_isbn,
+            'output' : 'js',
+            'Version' : 20131101,
+            'OptResult' : 'ratingInfo,reviewList'
+        }
+        ).json()
+        book = response.get('item')[0]
+        # reivewList = book.get('reviewList')
+        try:
+            ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
+        except :
+            ratingScore = 0 # 평가 기본값 0
+
+        print('책 세부내용 조회 책 이름 : ',book.get('title'))
+
+        book_info = {
+            'grade' : ratingScore,
+            'genre_id' : book.get('categoryId'),
+            'genre_name' : book.get('categoryName')
+        }
+        
+        isbn = 'isbn13'
+        if book.get(isbn) == '':
+            isbn = 'isbn'
+            print('isbn13없으므로 패스합니다 : ', book.get('title'))
+            continue
+        elif len(book.get(isbn)) < 13 or book.get(isbn)[0]=='G':
+            print('isbn이상으로인해 패스합니다.', book.get(isbn), book.get('title'))
+            continue
+        print(f'작업 중 인 도서 : {book.get("isbn13")}, {book.get("title")}, 진행상황 : {cnt}/{size}')
+
+        try : 
+            grade = book_info.get('grade')/2
+        except :
+            grade = 0 # 기본값
+        # 책 저장
+        bookEntity = Book.objects.create(
+            book_isbn = book.get(isbn),
+            book_title = book.get('title'),
+            book_publisher = book.get('publisher'),
+            book_price = book.get('priceStandard'),
+            book_description = book.get('description'),
+            book_grade = grade,  # 5점 만점으로 변경
+            book_image = book.get('cover'),
+            # book_author = author_info(book.get('author')) # 테이블로 변경
+        )
+        # 저자 및 장르 저장
+        # print('저자 세이브')
+        author_info(book.get('author'), bookEntity)
+        print('장르 세이브')
+        genre_save(book_info, bookEntity)
+
+    return JsonResponse(context)
+
 
 # 감성점수 분석을 위한 세팅
 base_titles = []
