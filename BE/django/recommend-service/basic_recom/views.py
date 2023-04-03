@@ -155,20 +155,6 @@ def insert_db5(request):
     return Response(data=a, status=200, content_type='application/json')
     
 
-
-@api_view(['GET'])
-def show_all_book(request):
-
-    # 엑셀 파일 경로 지정
-    excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', 'df_book.xlsx')
-    # 엑셀 파일을 데이터프레임으로 변환
-    df = pd.read_excel(excel_file_path)
-    book_list = df['isbn'].tolist()
-    response_data = json.dumps(book_list)
-    return HttpResponse(response_data, content_type='application/json')
-
-
-
 @api_view(['POST'])
 def like_book(request):
     
@@ -460,16 +446,46 @@ def profile_book(request):
 
     
 
-# 이 코드는 Django ORM을 사용하여 데이터베이스에서 쿼리셋을 가져와서 book_isbn 속성이 isbn_list에 속하지 않는 레코드만 필터링하는 예시 코드입니다.
+@api_view(['POST'])
+def sentence(request):
 
-# 여기서 exclude 함수는 Q 객체를 사용하여 book_isbn 속성이 isbn_list에 속하지 않는 레코드를 제외하도록 지정합니다.
+    sentence = request.data.get('sentence')
+    sentence = str(sentence)
 
-# Q(book_isbn__in=isbn_list)는 book_isbn 속성이 isbn_list에 속하는 레코드를 선택하는 조건입니다. 여기서 __in은 book_isbn 속성이 isbn_list의 값 중 하나와 일치하는지 확인하도록 지정합니다.
-
-# 따라서 exclude(Q(book_isbn__in=isbn_list))는 book_isbn 속성이 isbn_list에 속하지 않는 레코드를 선
-
-@api_view(['GET'])
-def test(request):
-    a = {'recom_list': 'hi'}
     
+    # 엑셀 파일 경로 지정
+    excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', 'score_list.csv')
+    # 엑셀 파일을 데이터프레임으로 변환
+    df = pd.read_csv(excel_file_path, usecols=['WRD_NM', 'AFRM_SCORE_VALUE', 'NEGA_SCORE_VALUE'])
+
+
+    def paragraph_to_score(para):
+        pos_list = []
+        neg_list = []
+        
+        okt = Okt()
+        print(okt.pos(para, stem=True))
+        for word, pos in okt.pos(para, stem=True):
+            if word in df['WRD_NM'].values:
+                row = df.loc[df['WRD_NM'] == word]
+                pos_list.append(row['AFRM_SCORE_VALUE'].values[0])
+                neg_list.append(row['NEGA_SCORE_VALUE'].values[0])
+            else:
+                pass
+        print(pos_list, neg_list)
+        pos = sum(pos_list)
+        neg = sum(neg_list)
+        
+        print(pos, neg)
+        
+        if pos >= neg:
+            state = 1
+            return {'state' : state, 'score': {'pos':pos, 'neg':neg}}
+        else:
+            state = 0
+            return {'state' : state, 'score': {'pos':pos, 'neg':neg}}
+        
+    a = paragraph_to_score(sentence)
     return Response(data=a, status=200, content_type='application/json')
+
+
