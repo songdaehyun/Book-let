@@ -9,7 +9,7 @@ import InputRatingSection from "../../molecules/Book/InputRatingSection";
 import CommentInput from "../../molecules/Input/CommentInput";
 import CommentList from "../../molecules/Sentence/CommentList";
 
-function BookReview() {
+function BookReview({ isReviewed }) {
 	const { bId } = useParams();
 
 	const [reviews, setReviews] = useState();
@@ -58,7 +58,12 @@ function BookReview() {
 				<Span>{reviews?.length || 0}</Span>
 			</Text>
 			<InputRatingSection />
-			<CommentInput type="리뷰" setComments={setReviews} getCommentApiCall={reviewApiCall} />
+			<CommentInput
+				type="리뷰"
+				isReviewed={isReviewed}
+				setComments={setReviews}
+				getCommentApiCall={reviewApiCall}
+			/>
 			<CommentList
 				comments={reviews}
 				type="리뷰"
