@@ -40,6 +40,12 @@ function Book(props) {
 			이 많이 읽고 있어요
 		</>
 	);
+	const userRecomErrTitle = (
+		<>
+			같은 연령대와 성별에서
+			<br /> 많이 읽고 있어요
+		</>
+	);
 
 	const ratingRecomTitle = (
 		<>
@@ -62,6 +68,7 @@ function Book(props) {
 			는 어때요?
 		</>
 	);
+	const genreRecomErrTitle = <>오늘 이런 장르는 어때요?</>;
 
 	const coverRecomTitle = <>좋아하실만한 표지의 책이에요</>;
 
@@ -83,6 +90,7 @@ function Book(props) {
 				<BookHeading />
 				<PreviewBookSection
 					title={userRecomTitle}
+					errTitle={userRecomErrTitle}
 					books={userBooks}
 					path="recom/user"
 					loading={userLoading}
@@ -106,6 +114,7 @@ function Book(props) {
 				/>
 				<PreviewBookSection
 					title={genreRecomTitle}
+					errTitle={genreRecomErrTitle}
 					books={genreBooks}
 					path="recom/genre"
 					emptyInfo={emptyInfo}
