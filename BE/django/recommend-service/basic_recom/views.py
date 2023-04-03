@@ -15,7 +15,8 @@ from .models import Userr, Review, BookLikes, Book, Genre, BookGenre, Paragraph
 import random
 from django.db import connection
 import statistics
-from django.db.models import Q
+from django.db.models import Q, F
+
 
 
 # Create your views here.
@@ -507,14 +508,14 @@ def sentence_recom(request):
     paragraph_score_list = result_queryset.values_list('paragraph_score', flat=True)
     paragraph_score_list = list(paragraph_score_list)
 
-    result_queryset = result_queryset.order_by('abs(paragraph_score - %s)' % user_score)
+    result_queryset = result_queryset.annotate(diff=abs(F('paragraph_score') - user_score))
+
+    result_queryset = result_queryset.order_by()
 
     id_list = list(result_queryset.values_list('paragraph_id', flat=True))
 
     a = {'recom_list': id_list}
     
     return Response(data=a, status=200, content_type='application/json')
-
-
 
 
