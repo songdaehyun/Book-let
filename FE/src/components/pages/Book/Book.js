@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
 	getCoverBookRecom,
+	getCoverBookRecomPre,
 	getGenreBookRecom,
+	getGenreBookRecomPre,
 	getLikeBookRecom,
+	getLikeBookRecomPre,
 	getRatingBookRecom,
+	getRatingBookRecomPre,
 	getUserBookRecom,
+	getUserBookRecomPre,
 } from "../../../apis/BookApi";
 import { initBookRecom } from "../../../apis/init/initBook";
 import { Container } from "../../../styles/common/ContainingsStyle";
@@ -158,35 +163,35 @@ function Book(props) {
 
 	const getUserRecomApiCall = () => {
 		(async () => {
-			await getUserBookRecom(uName)
+			await getUserBookRecomPre(uName)
 				.then(initBookRecom)
 				.then((res) => setUserBooks(res));
 		})();
 	};
 	const getRatingRecomApiCall = () => {
 		(async () => {
-			await getRatingBookRecom(uName)
+			await getRatingBookRecomPre(uName)
 				.then(initBookRecom)
 				.then((res) => setRatingBooks(res));
 		})();
 	};
 	const getLikeRecomApiCall = () => {
 		(async () => {
-			await getLikeBookRecom(uName)
+			await getLikeBookRecomPre(uName)
 				.then(initBookRecom)
 				.then((res) => setLikeBooks(res));
 		})();
 	};
 	const getGenreRecomApiCall = () => {
 		(async () => {
-			await getGenreBookRecom(uName)
+			await getGenreBookRecomPre(uName)
 				.then(initBookRecom)
 				.then((res) => setGenreBooks(res));
 		})();
 	};
 	const getCoverRecomApiCall = () => {
 		(async () => {
-			await getCoverBookRecom(uName)
+			await getCoverBookRecomPre(uName)
 				.then(initBookRecom)
 				.then((res) => setCoverBooks(res));
 		})();
