@@ -31,9 +31,9 @@ function PreviewScrapSentence(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getScrappedPost(id, 0, 3)
-				.then(initScrappedList)
-				.then((res) => setSentences(res));
+			await getScrappedPost(id, 3, 0)
+				.then(initSentenceList)
+				.then((res) => setSentences(res?.contents));
 		})();
 	}, []);
 

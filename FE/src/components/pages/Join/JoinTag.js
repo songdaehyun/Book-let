@@ -9,7 +9,7 @@ import JoinProgressBar from "../../molecules/Bar/JoinProgressBar";
 
 import { join } from "../../../apis/authApi";
 import { initTag } from "../../../apis/init/initUser";
-import { getTagExample } from "../../../apis/userApi";
+import { getTagExample, postTaste } from "../../../apis/userApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import { TagsContainer } from "../../../styles/User/JoinStyle";
@@ -38,11 +38,13 @@ function JoinTag(props) {
 		(async () => {
 			await getTagExample()
 				.then(initTag)
-				.then((res) => {
-					setTags(res);
-				});
+				.then((res) => setTags(res));
 		})();
 	}, []);
+
+	useEffect(() => {
+		console.log(tags);
+	}, [tags]);
 
 	const handleClickTag = (id) => {
 		if (!selectedTag.includes(id)) {
@@ -74,25 +76,55 @@ function JoinTag(props) {
 		navagate("/join/4");
 	};
 
+	const joinApiCall = (data) => {
+		(async () => {
+			await join(data).then((res) => {
+				if (res?.status === 201) {
+					return true;
+				}
+				// if (res?.status === 201) {
+				// 	// 회원가입 완료
+				// 	navagate("/");
+				// }
+			});
+		})();
+	};
+
+	const postTasteApiCall = (data) => {
+		(async () => {
+			await postTaste(data).then((res) => {
+				if (res?.status === 201) {
+					return true;
+				}
+			});
+		})();
+	};
+
 	const handleClickNext = () => {
 		if (isTargetValidConfirmed) {
-			const data = {
+			const joinData = {
 				username: id,
 				nickname: nickname,
 				password: pw,
 				email: email,
-				age: age,
+				age: parseInt(age),
 				sex: gender,
 			};
 
-			(async () => {
-				await join(data).then((res) => {
-					if (res?.status === 201) {
-						// 회원가입 완료
-						navagate("/");
-					}
-				});
-			})();
+			const tasteData = tags;
+
+			if (
+				id !== "" &&
+				nickname !== "" &&
+				pw !== "" &&
+				email !== "" &&
+				age !== "" &&
+				gender !== ""
+			)
+				if (joinApiCall(joinData) && postTasteApiCall(tasteData)) {
+					// 회원가입 완료
+					navagate("/");
+				}
 		}
 	};
 
@@ -126,7 +158,7 @@ function JoinTag(props) {
 					</Text>
 				</Container>
 				<TagsContainer>
-					{tags.map((tag) => (
+					{tags?.map((tag) => (
 						<div onClick={() => handleClickTag(tag.id)}>
 							<EmotionTag
 								onClick={() => handleClickTag(tag.id)}

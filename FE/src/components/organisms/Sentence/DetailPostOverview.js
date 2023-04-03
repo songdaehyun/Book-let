@@ -34,6 +34,7 @@ function DetailPostOverview({
 }) {
 	const navigate = useNavigate();
 	const dateTimeSeparation = useDate();
+	const isMy = parseInt(localStorage.getItem("userId")) === uId;
 
 	const [isOpen, setIsOpen] = useState(false);
 	const openPopup = () => {
@@ -52,8 +53,6 @@ function DetailPostOverview({
 		})();
 	};
 
-	const isMy = localStorage.getItem("userId") === uId;
-
 	return (
 		<>
 			<DetailSentence
@@ -68,18 +67,19 @@ function DetailPostOverview({
 			<Container marginTop="16" paddingLeft="16" paddingRight="16">
 				<ScrapToolbar
 					sId={sId}
+					nickname={nickname}
 					isScraped={isScraped}
 					scrapImgs={scrapImgs}
 					scrapCount={scrapCount}
-					isMy={false}
+					isMy={isMy}
 				/>
 				<Container marginTop="24">
 					<ProfileWithFollow
-						uId={uId}
 						nickname={nickname}
 						profileImg={profileImg}
 						isFollowed={isFollowed}
 						setIsFollowed={setIsFollowed}
+						isMy={isMy}
 					/>
 				</Container>
 				<DetailPostDateBox>

@@ -12,7 +12,7 @@
 //     "scrapInfo": {
 //         "scrapUserImages": [],
 //         "scrapCount": 0,
-//         "userScrape": 0
+//         "userScrap": 0
 //     },
 //     "book": {
 //         "bookIsbn": "2090000063035",
@@ -34,6 +34,7 @@ export const initSentence = (raw) => {
 		uId: raw?.user?.userId,
 		nickname: raw?.user.nickname,
 		profileImg: raw?.user?.userImage,
+		isFollowed: raw?.user?.isFollowing,
 
 		isbn: raw?.book?.bookIsbn,
 		title: raw?.book?.bookTitle,
@@ -46,78 +47,53 @@ export const initSentence = (raw) => {
 		color: raw?.paragraph?.paragraphColor,
 		date: raw?.paragraph?.createdDate,
 
-		isScraped: raw?.scrapInfo?.userScrape,
+		isScraped: raw?.scrapInfo?.userScrap,
 		scrapImgs: raw?.scrapInfo?.scrapUserImages,
 		scrapCount: raw?.scrapInfo?.scrapCount,
 	};
 };
 
 export const initSentenceList = (raw) => {
-	return raw?.map((sentence) => {
-		return {
-			nickname: sentence?.user?.nickname,
-			profileImg: sentence?.user?.userImage,
+	return {
+		hasNextPage: raw?.hasNextPage,
+		contents: raw?.paragraphs?.map((sentence) => {
+			return {
+				nickname: sentence?.userInfo?.nickname,
+				profileImg: sentence?.userInfo?.userImage,
 
-			isbn: sentence?.book?.bookIsbn,
-			title: sentence?.book?.bookTitle,
-			author: sentence?.book?.bookAuthor,
-			cover: sentence?.book?.bookImage,
+				isbn: sentence?.bookIsbn,
+				title: sentence?.bookTitle,
+				author: sentence?.bookAuthor,
+				cover: sentence?.bookImage || sentence?.book?.bookImage,
 
-			sId: sentence?.paragraph?.paragraphId,
-			content: sentence?.paragraph?.paragraphContent,
-			page: sentence?.paragraph?.paragraphPage,
-			color: sentence?.paragraph?.paragraphColor,
-			date: sentence?.paragraph?.createdDate,
+				sId: sentence?.paragraphId,
+				content: sentence?.paragraphContent,
+				page: sentence?.paragraphPage,
+				color: sentence?.paragraphColor,
+				date: sentence?.createdDate,
 
-			isScraped: sentence?.scrapInfo?.userScrape,
-			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
-			scrapCount: sentence?.scrapInfo?.scrapCount,
+				isScraped: sentence?.scrapInfo?.userScrap,
+				scrapImgs: sentence?.scrapInfo?.scrapUserImages,
+				scrapCount: sentence?.scrapInfo?.scrapCount,
 
-			commentCnt: sentence?.paragraphId?.commentCnt,
-		};
-	});
+				commentCnt: sentence?.commentCnt,
+			};
+		}),
+	};
 };
 
-export const initMyPost = (raw) => {
-	return raw?.map((sentence) => {
+export const initComment = (raw) => {
+	return raw?.map((comment) => {
 		return {
-			isbn: sentence?.book?.bookIsbn,
-			title: sentence?.book?.bookTitle,
-			author: sentence?.book?.bookAuthor,
-			cover: sentence?.book?.bookImage,
-
-			sId: sentence?.paragraphId,
-			content: sentence?.paragraphContent,
-			page: sentence?.paragraphPage,
-			color: sentence?.paragraphColor,
-			date: sentence?.createdDate,
-
-			isScraped: sentence?.paragraphScrapDto?.userScrape,
-			scrapImgs: sentence?.paragraphScrapDto?.scrapUserImages,
-			scrapCount: sentence?.paragraphScrapDto?.scrapCount,
-
-			commentCnt: sentence?.commentCnt,
-		};
-	});
-};
-
-export const initScrappedList = (raw) => {
-	return raw?.map((sentence) => {
-		return {
-			nickname: sentence?.userInfo?.nickname,
-			profileImg: sentence?.userInfo?.userImage,
-
-			sId: sentence?.paragraphId,
-			content: sentence?.paragraphContent,
-			page: sentence?.paragraphPage,
-			color: sentence?.paragraphColor,
-			date: sentence?.createdDate,
-
-			isScraped: sentence?.scrapInfo?.userScrape,
-			scrapImgs: sentence?.scrapInfo?.scrapUserImages,
-			scrapCount: sentence?.scrapInfo?.scrapCount,
-
-			commentCnt: sentence?.commentCnt,
+			uId: comment?.userId,
+			cId: comment?.commentId,
+			img: comment?.userImage,
+			nickname: comment?.nickname,
+			img: comment?.userImage,
+			content: comment?.commentContent,
+			date: comment?.createdDate,
+			group: comment?.commentGroup,
+			depth: comment?.commentDepth,
 		};
 	});
 };

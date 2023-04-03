@@ -59,19 +59,9 @@ export const SentenceBookSearchBarBox = styled.div`
 	padding: 16px;
 	margin-bottom: 24px;
 
-	display: flex;
-
 	background: var(--gray-50);
 	border: 0.5px solid var(--gray-500);
 	border-radius: 8px;
-
-	img {
-		width: 14px;
-		height: 14px;
-
-		margin-right: 16px;
-		margin-top: 4px;
-	}
 
 	> div {
 		width: 100%;
@@ -81,7 +71,6 @@ export const SentenceBookSearchBarBox = styled.div`
 		width: 100%;
 
 		padding: 0;
-		margin-bottom: 8px;
 
 		background-color: transparent;
 		border: none;
@@ -94,12 +83,48 @@ export const SentenceBookSearchBarBox = styled.div`
 	}
 `;
 
+export const SentenceBookSearchInputBox = styled.div`
+	display: flex;
+
+	img {
+		width: 14px;
+		height: 14px;
+
+		margin-right: 16px;
+		margin-top: 4px;
+	}
+
+	> div {
+		> div:nth-child(2) {
+			margin-top: 8px;
+		}
+	}
+`;
+
+export const SentenceBookSearchResultBox = styled.div`
+	display: flex;
+
+	img {
+		width: 44px;
+
+		margin-right: 16px;
+	}
+
+	> div {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
+`;
+
 export const SentenceBookAutoSearchBox = styled.div`
 	width: 100%;
 
 	padding: 15px;
+	row-gap: 24px;
 
 	display: ${(props) => (props.isOpen ? "flex" : "none")};
+	flex-direction: column;
 	position: absolute;
 	z-index: 3;
 

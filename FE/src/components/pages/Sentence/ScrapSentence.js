@@ -9,10 +9,11 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 
 // import LoopyImg from "../../../assets/images/dummy/loopy-img.png";
 
-import { initScrappedList } from "../../../apis/init/initSentence";
+import { initScrappedList, initSentenceList } from "../../../apis/init/initSentence";
 import { getScrappedPost } from "../../../apis/sentenceApi";
 import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 
 function ScrapSentence(props) {
 	// 더미 데이터
@@ -53,8 +54,6 @@ function ScrapSentence(props) {
 
 	const id = localStorage.getItem("userId");
 
-	const [posts, setPosts] = useState();
-
 	const isArrEmpty = useArr();
 
 	const emptyInfo = {
@@ -70,13 +69,7 @@ function ScrapSentence(props) {
 		path: "/sentence/recommand",
 	};
 
-	useEffect(() => {
-		(async () => {
-			await getScrappedPost(id, 0, 5)
-				.then(initScrappedList)
-				.then((res) => setPosts(res));
-		})();
-	}, []);
+	const { data: posts, isFetching } = useInfiniteScroll(id, getScrappedPost, 5, initSentenceList);
 
 	return (
 		<>
@@ -95,10 +88,10 @@ function ScrapSentence(props) {
 						<>
 							<UserProfile
 								file
-								nickname={post.nickname}
-								profileImg={post.profileImg}
+								nickname={post?.nickname}
+								profileImg={post?.profileImg}
 							/>
-							<PreviewPost key={post.id} post={post} isMy={false} />
+							<PreviewPost key={post?.id} post={post} isMy={false} />
 						</>
 					))
 				)}

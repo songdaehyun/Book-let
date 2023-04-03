@@ -44,3 +44,8 @@ export const CommentDateBox = styled.div`
 	margin-left: auto;
 	float: right;
 `;
+
+export const CommentBtnBox = styled.div`
+	display: flex;
+	gap: 16px;
+`;

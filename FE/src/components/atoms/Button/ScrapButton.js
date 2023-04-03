@@ -10,7 +10,7 @@ function ScrapButton({ sId, isScraped }) {
 	const [isButtonScrapped, setIsButtonScrapped] = useState();
 
 	useEffect(() => {
-		setIsButtonScrapped(isScraped);
+		setIsButtonScrapped(isScraped ? true : false);
 	}, [isScraped]);
 
 	const handleClickScrap = () => {

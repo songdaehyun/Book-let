@@ -59,3 +59,16 @@ export const BookListBox = styled.div`
 	column-gap: 16px;
 	row-gap: 24px;
 `;
+
+export const BookSearchHeadingBox = styled.div`
+	display: flex;
+
+	> div:first-child {
+		flex: 1;
+	}
+
+	button {
+		margin-bottom: 24px;
+		margin-left: 16px;
+	}
+`;

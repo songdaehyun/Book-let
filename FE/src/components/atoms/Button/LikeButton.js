@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { postLike } from "../../../apis/BookApi";
 import { LikeBtn } from "../../../styles/common/ButtonsStyle";
 
 function LikeButton({ isLiked }) {
+	const { bId } = useParams();
+	const uId = localStorage.getItem("userId");
 	const [isButtonLiked, setIsButtonLiked] = useState();
 
 	useEffect(() => {
@@ -10,9 +13,14 @@ function LikeButton({ isLiked }) {
 	}, [isLiked]);
 
 	const handleClickLike = () => {
+		const data = {
+			bookIsbn: bId,
+			userId: uId,
+		};
+
 		(async () => {
-			await postLike().then((res) => {
-				if (res) {
+			await postLike(data).then((res) => {
+				if (res === "like") {
 					setIsButtonLiked(!isButtonLiked);
 				}
 			});

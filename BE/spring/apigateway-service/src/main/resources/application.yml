@@ -33,7 +33,10 @@ spring:
           '[/**]':
             allowedOrigins:
               - "http://localhost:3000"
+              - "http://j8b306.p.ssafy.io:3000"
               - "https://localhost:3000"
+              - "https://j8b306.p.ssafy.io:3000"
+              - "https://j8b306.p.ssafy.io"
             allow-credentials: true   #추가
             allowedHeaders:
               - x-requested-with
@@ -55,14 +58,14 @@ spring:
         - id: booklet-user-service
           uri: lb://USER-SERVICE # user-service의 namef
           predicates:
-            - Path=/api/v1/auth/**
+            - Path=/api/v1/auth/**, /api/v1/user/**
 #          filters:
 #            - CustomFilter
         - id: booklet-paragraph-service
           uri: lb://PARAGRAPH-SERVICE # paragraph-service의 name
           predicates:
-            - Path=/api/v1/sns/**
-            - Path=/api/v1/scrap/**
+            - Path=/api/v1/sns/**, /api/v1/comment/**
+
 #          filters:
 #            - CustomFilter
         - id: booklet-book-service
@@ -72,7 +75,7 @@ spring:
 #          filters:
 #            - CustomFilter
         - id: booklet-recommand-service
-          uri: lb://RECOMMAND-SERVICE # recom-service의 name
+          uri: lb://RECOM-SERVICE # recom-service의 name
           predicates:
             - Path=/api/v1/recom/**
 #          filters:

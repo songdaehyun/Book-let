@@ -15,13 +15,35 @@ export const postTaste = async (data) => {
 	}
 };
 
-export const getMyInfo = async () => {
+export const getMyInfo = async (uName) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/user/`,
+			url: `/user/${uName}`,
 		});
 
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getMyPreviewReview = async (uName) => {
+	try {
+		const res = await api.get(`/user/review/pre/${uName}`);
+
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getMyReview = async (uName) => {
+	try {
+		const res = await api.get(`/user/review/all/${uName}`);
+
 		console.log(res.data);
 		return res.data;
 	} catch (err) {
@@ -29,34 +51,52 @@ export const getMyInfo = async () => {
 	}
 };
 
-export const getMyReview = async () => {
+export const getMyPreviewLike = async (uName) => {
 	try {
-		const res = await api.get("/user/review");
+		const res = await api.get(`/user/like/book/${uName}`);
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-export const getMyLike = async () => {
+export const getMyLike = async (uName) => {
 	try {
-		const res = await api.get("/user/like/book");
+		const res = await api.get(`/user/like/book/all/${uName}`);
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-export const postFollow = async (uId) => {
+export const getFollow = async (uName) => {
 	try {
-		const res = await api.get(`/user/follow/${uId}`);
+		const res = await api({
+			method: "GET",
+			url: `/user/follow/${uName}`,
+		});
 
-		console.log(res);
-		return res;
+		console.log(res.data.data);
+		return res.data.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const postFollow = async (data) => {
+	try {
+		const res = await api({
+			method: "POST",
+			url: `/user/follow`,
+			data: data,
+		});
+
+		console.log(res?.data?.message);
+		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
 	}
@@ -66,8 +106,8 @@ export const getTagExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/hashtag");
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data.data);
+		return res.data.data;
 	} catch (err) {
 		console.log(err);
 	}

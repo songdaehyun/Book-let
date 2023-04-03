@@ -1,24 +1,25 @@
 import api from "./index";
 
-export const getBook = async (isbn) => {
+export const getBook = async (bId, uId) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/book/${isbn}`,
+			url: `/book/${bId}?userId=${uId}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
 };
 
-export const postLike = async (isbn) => {
+export const postLike = async (data) => {
 	try {
 		const res = await api({
 			method: "POST",
-			url: `/like/${isbn}`,
+			url: `/book/like`,
+			data: data,
 		});
 
 		console.log(res);
@@ -28,15 +29,15 @@ export const postLike = async (isbn) => {
 	}
 };
 
-export const getBookSearch = async (title) => {
+export const getAuthorBooks = async (aId, size, page) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/search/${title}`,
+			url: `/book/author/${aId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
@@ -62,6 +63,23 @@ export const getRatingBookRecom = async (uId) => {
 		const res = await api({
 			method: "GET",
 			url: `/recom/score/${uId}`,
+					});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const getBookSearch = async (title, size, page) => {
+	// const titleParam = decodeURI(decodeURIComponent(title));
+	const titleParam = encodeURIComponent(title);
+
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/book/search?bookTitle=${titleParam}&size=${size}&page=${page}`,
 		});
 
 		console.log(res.data);
@@ -76,6 +94,21 @@ export const getLikeBookRecom = async (uId) => {
 		const res = await api({
 			method: "GET",
 			url: `/recom/like/${uId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};			
+
+// 리뷰 api
+export const getReview = async (isbn, size, page) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/review/${isbn}?size=${size}&page=${page}`,
 		});
 
 		console.log(res.data);
@@ -99,6 +132,20 @@ export const getGenreBookRecom = async (uId) => {
 	}
 };
 
+export const deleteReview = async (rId) => {
+	try {
+		const res = await api({
+			method: "DELETE",
+			url: `/review/${rId}`,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 export const getUserBookRecom = async (uId) => {
 	try {
 		const res = await api({
@@ -108,6 +155,21 @@ export const getUserBookRecom = async (uId) => {
 
 		console.log(res.data);
 		return res.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+export const postReview = async (data) => {
+	try {
+		const res = await api({
+			method: "POST",
+			url: `/review`,
+			data: data,
+		});
+
+		console.log(res.data.message);
+		return res.data.message;
 	} catch (err) {
 		console.error(err);
 	}
