@@ -1,4 +1,5 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
+import { Loading } from "../common/CommonStyle";
 
 export const BookHeadingBox = styled.div`
 	display: flex;
@@ -72,16 +73,6 @@ export const BookSearchHeadingBox = styled.div`
 		margin-left: 16px;
 	}
 `;
-
-const Loading = keyframes`
-	  0% {
-    transform: translateX(0);
-  }
-  50%,
-  100% {
-    transform: translateX(460px);
-  }
-  `;
 
 export const PreviewBookSkeletonBox = styled.div`
 	display: flex;
