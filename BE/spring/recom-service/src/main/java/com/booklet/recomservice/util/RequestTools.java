@@ -33,15 +33,15 @@ public class RequestTools {
 
     public CoverDataDto getRecomCover(String isbn) {
         Book book = bookRepository.findByBookIsbn(isbn);
-        System.out.println("함수 실행");
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://192.168.31.193:8000/cover_recom/image")
+        log.info("Django 서버로 책 추천 요청 준비");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://j8b306.p.ssafy.io/cover_recom/image")
                 .queryParam("book_isbn",isbn).queryParam("book_image", book.getBookImage());
         String url = builder.toUriString();
-        System.out.println("url : "+url);
+        log.info("url : "+url);
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
 //        HttpEntity<String> entity = new HttpEntity<>(headers);
-
+;
         try {
             CoverDataDto coverDataDto = restTemplate.getForObject(url, CoverDataDto.class);
             return coverDataDto;
@@ -53,6 +53,7 @@ public class RequestTools {
     }
 
     public List<String> getRecombooks(String type, User user) {
+        log.info("Django 서버로 기본 추천 요청 준비");
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("user_id", user.getId().toString());
         HttpHeaders headers = new HttpHeaders();
@@ -78,15 +79,16 @@ public class RequestTools {
         }
         String url = "https://j8b306.p.ssafy.io/basic_recom/" + setting + "/";
 //        String url = "http://192.168.31.193:8000/basic_recom/" + setting + "/";
+        log.info("url" + url);
 
         RestTemplate restTemplate = new RestTemplate();
         try {
             DataDto response = restTemplate.postForObject(url, requestEntity, DataDto.class);
-            response.getRecom_list();
+            log.info("요청에 대한 응답 변환 성공" + response.toString());
             return response.getRecom_list();
 
         } catch (Exception e){
-            log.info("요청 변환에 실패하였습니다" + restTemplate.postForObject(url, requestEntity, String.class));
+            log.warn("요청 변환에 실패하였습니다" + restTemplate.postForObject(url, requestEntity, String.class));
             return null;
         }
     }

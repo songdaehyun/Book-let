@@ -31,6 +31,8 @@ spring:
     url: jdbc:mysql://j8b306.p.ssafy.io:3306/booklet_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: booklet
     password: qnrwjrqnrwjr!qnrfpt
+    hikari:
+      leak-detection-threshold: 2000
   # swagger
   mvc:
     pathmatch:
