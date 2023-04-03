@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { initMyReviews } from "../../../apis/init/initBook";
 import { getMyPreviewReview, getMyReview } from "../../../apis/userApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 
@@ -35,9 +36,11 @@ function MyReviewPreviewSection(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getMyPreviewReview(uName).then((res) => {
-				setReviews(res);
-			});
+			await getMyPreviewReview(uName)
+				.then(initMyReviews)
+				.then((res) => {
+					setReviews(res);
+				});
 		})();
 	}, []);
 

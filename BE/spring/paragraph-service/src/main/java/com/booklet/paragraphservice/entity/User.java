@@ -20,5 +20,7 @@ public class User {
 
     @Column
     String nickname;
+    @Column
+    String username;
 
 }

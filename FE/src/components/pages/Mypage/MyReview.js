@@ -7,6 +7,7 @@ import MyReviewList from "../../organisms/Mypage/MyReviewList";
 import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
 import { getMyReview } from "../../../apis/userApi";
+import { initMyReviews } from "../../../apis/init/initBook";
 
 function MyReview(props) {
 	const [reviews, setReviews] = useState([]);
@@ -38,9 +39,11 @@ function MyReview(props) {
 
 	useEffect(() => {
 		(async () => {
-			await getMyReview(uName).then((res) => {
-				setReviews(res);
-			});
+			await getMyReview(uName)
+				.then(initMyReviews)
+				.then((res) => {
+					setReviews(res);
+				});
 		})();
 	}, []);
 

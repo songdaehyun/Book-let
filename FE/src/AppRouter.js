@@ -25,6 +25,7 @@ import GenreRecomBook from "./components/pages/Book/GenreRecomBook";
 import LikeRecomBook from "./components/pages/Book/LikeRecomBook";
 import RatingRecomBook from "./components/pages/Book/RatingRecomBook";
 import UserRecomBook from "./components/pages/Book/UserRecomBook";
+import BookSearch from "./components/pages/Book/BookSearch";
 
 // 마이 페이지
 import DeleteMyAccount from "./components/pages/Mypage/DeleteMyAccount";
@@ -69,6 +70,7 @@ function AppRouter(props) {
 					element={isAuth ? <WriteSentence /> : <Navigate to="/login" />}
 				/>
 				{/* 도서 */}
+				<Route path="/book/search" element={<BookSearch />} />
 				<Route path="/book" element={isAuth ? <Book /> : <Navigate to="/login" />} />
 				<Route
 					path="/book/recom/user"

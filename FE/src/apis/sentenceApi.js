@@ -114,6 +114,20 @@ export const getScrapCount = async (uId) => {
 	}
 };
 
+export const getSentenceRecom = async (uId) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/paragraph/${uId}`,
+		});
+
+		console.log(res?.data);
+		return res?.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 // 댓글 api
 export const postComment = async (data) => {
 	try {
@@ -159,11 +173,11 @@ export const getComment = async (sId) => {
 	}
 };
 
-export const deleteComment = async (sId) => {
+export const deleteComment = async (cId) => {
 	try {
 		const res = await api({
 			method: "DELETE",
-			url: `/comment/${sId}`,
+			url: `/comment/${cId}`,
 		});
 
 		console.log(res);

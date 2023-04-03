@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getReview } from "../../../apis/BookApi";
 import { initReview } from "../../../apis/init/initBook";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span, Text } from "../../../styles/common/TextsStyle";
 import InputRatingSection from "../../molecules/Book/InputRatingSection";
@@ -27,19 +28,26 @@ function BookReview() {
 	// 	},
 	// ];
 
-	const getReviewApiCall = () => {
-		(async () => {
-			await getReview(bId, 5, 0)
-				.then((res) => initReview(res))
-				.then((res) => {
-					setReviews(res);
-				});
-		})();
-	};
+	// const getReviewApiCall = () => {
+	// 	(async () => {
+	// 		await getReview(bId, 5, 0)
+	// 			.then((res) => initReview(res))
+	// 			.then((res) => {
+	// 				setReviews(res);
+	// 			});
+	// 	})();
+	// };
+
+	const { data, isFetching } = useInfiniteScroll(bId, getReview, 5, initReview);
+	// const { data: reviews, isFetching } = useInfiniteScroll(bId, getReview, 5, initReview);
 
 	useEffect(() => {
-		getReviewApiCall();
-	}, []);
+		setReviews(data);
+	}, [data]);
+
+	useEffect(() => {
+		console.log(reviews);
+	}, [reviews]);
 
 	return (
 		<Container marginTop="24">
@@ -51,8 +59,16 @@ function BookReview() {
 				<Span>{reviews?.length || 0}</Span>
 			</Text>
 			<InputRatingSection />
-			<CommentInput type="리뷰" getCommentApiCall={getReviewApiCall} />
-			<CommentList comments={reviews} type="review" getCommentApiCall={getReviewApiCall}/>
+			<CommentInput
+				type="리뷰"
+				setComments={setReviews}
+			/>
+			<CommentList
+				comments={reviews}
+				type="리뷰"
+				setComments={setReviews}
+				// getCommentApiCall={getReviewApiCall}
+			/>
 		</Container>
 	);
 }

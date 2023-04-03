@@ -1,16 +1,25 @@
 package com.booklet.authservice.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.booklet.authservice.config.auth.PrincipalDetails;
 import com.booklet.authservice.dto.*;
 import com.booklet.authservice.entity.User;
+import com.booklet.authservice.entity.UserImage;
+import com.booklet.authservice.repository.UserImageRepository;
 import com.booklet.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Slf4j
@@ -21,6 +30,14 @@ public class AuthServiceImpl implements AuthService{
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private PrincipalDetails principalDetails;
+    private final UserImageRepository userImageRepository;
+
+//    public static final String UPLOAD_DIR = "uploads/";
+    private final AmazonS3Client amazonS3Client;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
 
     @Override
     public HashMap<String, Object> signUp(SignUpReqDto signUpReqDto) {
@@ -32,6 +49,11 @@ public class AuthServiceImpl implements AuthService{
             User user = modelMapper.map(signUpReqDto, User.class);
             user.setRole("ROLE_USER");
             userRepository.save(user);
+            UserImage userImage = new UserImage();
+            userImage.setUser(user);
+            userImage.setModifiedDate(LocalDateTime.now());
+            userImage.setImagePath("https://pjbooklet.s3.ap-northeast-2.amazonaws.com/defaultImg.png");
+            userImageRepository.save(userImage);
 
 
             SignUpResDto signUpResDto = modelMapper.map(user, SignUpResDto.class);
@@ -44,6 +66,66 @@ public class AuthServiceImpl implements AuthService{
         }
         return null;
 
+    }
+
+    @Override
+    public HashMap<String, Object> updateUser(ChangeUserInfoReq changeUserInfoReq, String username) {
+        try {
+            HashMap<String, Object> result = new HashMap<>();
+            User user = userRepository.findByUsername(username);
+            if (user==null) {return null;}
+            user.setUsername(changeUserInfoReq.getUsername());
+            user.setNickname(changeUserInfoReq.getNickname());
+            user.setEmail(changeUserInfoReq.getEmail());
+            user.setAge(changeUserInfoReq.getAge());
+            user.setSex(changeUserInfoReq.getSex());
+            userRepository.save(user);
+
+            result.put("data", changeUserInfoReq);
+            log.info("회원정보 수정 완료 : "+user.getUsername());
+            return result;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    @Override
+    public HashMap<String, Object> saveUserImg(MultipartFile file, String username) {
+        log.info("유저 프로필 이미지 저장 진입"+username);
+        User user = userRepository.findByUsername(username);
+        if (user==null) {return null;}
+            HashMap<String, Object> result = new HashMap<>();
+
+        try {
+            UserImage userImage = userImageRepository.findByUser(user);
+            if (userImage == null) {
+                userImage = new UserImage();
+            }
+            String fileName = file.getOriginalFilename();
+            String fileUrl = "https://" + bucket + "/test" +fileName;
+            String userUrl = "https://pjbooklet.s3.ap-northeast-2.amazonaws.com/" + fileName;
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            userImage.setImagePath(userUrl);
+            userImage.setModifiedDate(LocalDateTime.now());
+            userImage.setUser(user);
+//            userImage.setImgId(0L); // 먼지 모르겠지만 오류 방지용으로 집어넣음
+            userImageRepository.save(userImage);
+            amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+            log.info("유저 이미지 저장 완료! : " + userUrl);
+            HashMap<String, Object> items = new HashMap<>();
+            items.put("userImg", userUrl);
+            result.put("data", items);
+
+            return result;
+        } catch (IOException e) {
+            log.info("유저 이미지 저장 실패 : ", user.getUsername());
+            e.printStackTrace();
+            return null;}
     }
 
     @Override

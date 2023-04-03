@@ -16,7 +16,7 @@ import csv
 
 
 # 알라딘 키
-ALA_API_KEY = ['ttbjoyksj940955001', 'ttbjoyksj940955001', 'ttbgoflwla921118001', 'ttbcjg050341002001']
+ALA_API_KEY = ['ttbjoyksj940955001', 'ttbgoflwla921118001', 'ttbcjg050341002001']
 KEY_NUM = 0
 BASE_URL = 'http://www.aladin.co.kr/ttb/api/'
 MAIN = 'ItemList.aspx'
@@ -136,6 +136,8 @@ def genre_save(book_info, bookEntity):
                     genre_name = '시'
                 else:
                     genre_name = raw_name[idx2 + 1 : idx3]
+    if genre_name == None:
+        genre_name = "기타"
     
     # Genre 객체를 가져오거나 생성
     genre, created = Genre.objects.get_or_create(genre_name=genre_name)
@@ -143,6 +145,8 @@ def genre_save(book_info, bookEntity):
     # 장르와 책 연결
     book_genre = BookGenre(book_isbn=bookEntity, genre=genre)
     book_genre.save()
+    book = Book(book_isbn=bookEntity, genre=genre)
+    book.save()
     return
 
 

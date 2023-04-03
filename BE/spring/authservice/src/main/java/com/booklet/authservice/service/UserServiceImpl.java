@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
         try {
             HashMap<String, Object> result = new HashMap<>();
             GetUserInfoResDto getUserInfoResDto = new GetUserInfoResDto().builder()
-                            .imgPath("http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTHA8sTYngrF9FsGFcsv_vq3_ULeEG7DvrsIJLohckJnRPw4XBAx-Z9wQ6XOhMc-pzpaijFkpUWC86SKqE")
+                            .imgPath(user.getUserImage().getImagePath())
                             .nickname(user.getNickname())
                             .follower(followRepository.findAllByFollower(user).size())
                             .following(followRepository.findAllByFollowing(user).size())
@@ -66,10 +66,11 @@ public class UserServiceImpl implements UserService{
         User following = userRepository.findByUsername(followReqDto.getFollowingUsername());
 
         // 유저가 있는지 확인
-        if (user == null || following == null) {
-            log.info("유저없음");
+        if (user == null || user.getUsername() == followReqDto.getUsername()) {
+            log.info("유저가 없거나 본인입니다.");
             return false;
         }
+
         log.info("user : {}", user.getUsername().toString());
         log.info("following : {}", following.getUsername().toString());
         Follow test = followRepository.findByFollowerAndFollowing(user, following);
@@ -91,6 +92,48 @@ public class UserServiceImpl implements UserService{
 
             return true;
         }
+    }
+
+    @Override
+    public HashMap<String, Object> findfollowInfo(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {return null;}
+
+        List<Follow> followings = followRepository.findAllByFollowing(user);
+        List<Follow> followers = followRepository.findAllByFollower(user);
+
+        HashMap<String, Object> totalData = new HashMap<>();
+        List<FollowDto> followingsData = new ArrayList<>();
+        List<FollowDto> followersData = new ArrayList<>();
+
+        for(Follow following : followings) {
+            User followingUser = following.getFollower();
+            followingsData.add(FollowDto.builder()
+                            .userImg(followingUser.getUserImage().getImagePath())
+                            .username(followingUser.getUsername())
+                            .nickname(followingUser.getNickname())
+                            .build());
+        }
+
+        for(Follow follower : followers) {
+            User followerUser = follower.getFollowing();
+            followersData.add(FollowDto.builder()
+                            .userImg(followerUser.getUserImage().getImagePath())
+                            .username(followerUser.getUsername())
+                            .nickname(followerUser.getNickname())
+                            .build());
+        }
+
+        totalData.put("followersCnt", followings.size());
+        totalData.put("followers", followingsData);
+        totalData.put("followingsCnt", followers.size());
+        totalData.put("followings", followersData);
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("data", totalData);
+        log.info("팔로워 정보", totalData);
+
+        return result;
     }
 
     @Override
@@ -195,10 +238,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public HashMap<String, Object> findUserLikeBooks(String username, int type) {
         User user = userRepository.findByUsername(username);
-        System.out.println("진입 : " + user.getUsername());
-        HashMap<String, Object> result = new HashMap<>();
 
         if (user == null) {return null;}
+        System.out.println("진입 : " + user.getUsername());
+        HashMap<String, Object> result = new HashMap<>();
 
         List<BookLikes> tmps = bookLikesRepository.findAllByUser(user);
         List<UserLikeBooksResDto> items = new ArrayList<>();
@@ -215,16 +258,12 @@ public class UserServiceImpl implements UserService{
                     .bookIsbn(book.getBookIsbn())
                     .bookImgPath(book.getBookImage())
                     .bookTitle(book.getBookTitle())
-//                    .authorName(book.getAuthor().getAuthorName());
+                    .authorName(book.getAuthor().getAuthorName())
                     .build();
-            try {
-                userLikeBooksResDto.setAuthorName(book.getAuthor().getAuthorName());
-            } catch (Exception e) {
-
-            }
             cnt += 1;
             items.add(userLikeBooksResDto);
         }
+        result.put("totalCnt", tmps.size());
         result.put("data", items);
 
         return result;
@@ -244,19 +283,16 @@ public class UserServiceImpl implements UserService{
             }
             Book book = review.getBook();
             UserReviewsResDto userReviewsResDto = UserReviewsResDto.builder()
+                    .reviewId(review.getReviewId())
                     .bookImgPath(book.getBookImage())
                     .bookTitle(book.getBookTitle())
                     .bookPublisher(book.getBookPublisher())
                     .bookIsbn(book.getBookIsbn())
+                    .authorName(book.getAuthor().getAuthorName())
                     .reviewGrade(review.getReviewGrade())
-                    .reivewContent(review.getReviewContent())
+                    .reviewContent(review.getReviewContent())
                     .createdDate(review.getCreatedDate())
                     .build();
-            try {
-                userReviewsResDto.setAuthorName(book.getAuthor().getAuthorName());
-            } catch (Exception e) {
-                log.info("작가 찾기 실패");
-            }
             cnt += 1;
             items.add(userReviewsResDto);
         }
