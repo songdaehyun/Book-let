@@ -27,7 +27,10 @@ public class Paragraph extends BaseTimeEntity{
 
     @Column
     private int paragraphPage;
-
+    @Column
+    private double paragraphScore;
+    @Column
+    private String paragraphScoreType;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
