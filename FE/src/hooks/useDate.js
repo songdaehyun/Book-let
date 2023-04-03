@@ -18,7 +18,7 @@ export default function useDate() {
 			day = "0" + day;
 		}
 
-		const today = year + "." + month + "." + day;
+		const today = year + "-" + month + "-" + day;
 
 		// 오늘 날짜라면 시간을, 오늘 날짜가 아니라면 날짜를 리턴
 		if (seperatedDate) {
