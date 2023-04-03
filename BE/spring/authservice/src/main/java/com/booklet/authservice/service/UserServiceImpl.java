@@ -47,8 +47,8 @@ public class UserServiceImpl implements UserService{
             GetUserInfoResDto getUserInfoResDto = new GetUserInfoResDto().builder()
                             .imgPath(user.getUserImage().getImagePath())
                             .nickname(user.getNickname())
-                            .follower(followRepository.findAllByFollower(user).size())
-                            .following(followRepository.findAllByFollowing(user).size())
+                            .follower(following.size())
+                            .following(follower.size())
                             .email(user.getEmail())
                             .build();
             result.put("data",getUserInfoResDto);
