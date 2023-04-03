@@ -73,30 +73,30 @@ public class CommentServiceImpl implements CommentService {
     public boolean deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseGet(Comment::new);
         if (comment.getCommentId() == null) return false;
-        // 댓글 디비에 존재하는거 확인함
-//        commentRepository.delete(comment);
-        commentRepository.deleteById(commentId);
+//        // 댓글 디비에 존재하는거 확인함
+////        commentRepository.delete(comment);
+//        commentRepository.deleteById(commentId);
+          // 대댓글 후순위 로직
+        if (comment.getCommentDepth() == 0) { // 부모 댓글이면 자식 댓글이 있는지 확인
+            if (commentRepository.countByCommentGroup(comment.getCommentGroup()) > 1) {
+                // 있으면
+                comment.updateCommentUpdate("");
+                commentRepository.save(comment);
+            } else { // 없으면
+                commentRepository.delete(comment);
+            }
+        } else { // 자식 댓글은 그냥 삭제
+            Long parentId = comment.getCommentGroup();
+            commentRepository.delete(comment);
+            // 삭제하고 부모댓글에 자식 댓글이 남았는지 확인
+            if (commentRepository.countByCommentGroup(parentId) == 1) {
+                // 본인만 남았다면
+                Comment parent = commentRepository.findById(parentId).orElseGet(Comment::new);
+                if (parent.getCommentId() == null) return false;
+                commentRepository.delete(parent);
+            }
+        }
 
-//          // 대댓글 후순위 로직
-//        if (comment.getCommentDepth() == 0) { // 부모 댓글이면 자식 댓글이 있는지 확인
-//            if (commentRepository.countByCommentGroup(comment.getCommentGroup()) > 1) {
-//                // 있으면
-//                comment.updateCommentUpdate("");
-//                commentRepository.save(comment);
-//            } else { // 없으면
-//                commentRepository.delete(comment);
-//            }
-//        } else { // 자식 댓글은 그냥 삭제
-//            Long parentId = comment.getCommentGroup();
-//            commentRepository.delete(comment);
-//            // 삭제하고 부모댓글에 자식 댓글이 남았는지 확인
-//            if (commentRepository.countByCommentGroup(parentId) == 1) {
-//                // 본인만 남았다면
-//                Comment parent = commentRepository.findById(parentId).orElseGet(Comment::new);
-//                if (parent.getCommentId() == null) return false;
-//                commentRepository.delete(parent);
-//            }
-//        }
         return true;
     }
 
