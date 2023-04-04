@@ -1,14 +1,14 @@
 server:
-#  port: 9999
-  port: 0
+  port: 9999
+#  port: 0
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
-    register-with-eureka: true  # true
-    fetch-registry: true  # true
-#    register-with-eureka: false
-#    fetch-registry: false
+#    register-with-eureka: true  # true
+#    fetch-registry: true  # true
+    register-with-eureka: false
+    fetch-registry: false
     service-url:
       defaultZone: http://j8b306.p.ssafy.io:8761/eureka  # http://localhost:8761/eureka #
 
@@ -21,7 +21,6 @@ cloud:
     credentials:
       accessKey: AKIA3HXUHACC2QTVP7F4
       secretKey: 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
-
 spring:
   application:
     name: user-service
@@ -37,10 +36,14 @@ spring:
       max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j8b306.p.ssafy.io:3306/booklet_db?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://j8b306.p.ssafy.io:3306/booklet_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: booklet
     password: qnrwjrqnrwjr!qnrfpt
   # swagger
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  redis:
+    host: localhost # 3.38.106.18
+    port: 6379
+    password: "bnrwjrbnrwjr"

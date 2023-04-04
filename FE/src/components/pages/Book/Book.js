@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-	getCoverBookRecom,
-	getGenreBookRecom,
-	getLikeBookRecom,
-	getRatingBookRecom,
-	getUserBookRecom,
+	getCoverBookRecomPre,
+	getGenreBookRecomPre,
+	getLikeBookRecomPre,
+	getRatingBookRecomPre,
+	getUserBookRecomPre,
 } from "../../../apis/BookApi";
 import { initBookRecom } from "../../../apis/init/initBook";
+import useAsync from "../../../hooks/useAsync";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span } from "../../../styles/common/TextsStyle";
 import TabBar from "../../molecules/Bar/TabBar";
@@ -16,196 +17,33 @@ import PreviewBookSection from "../../organisms/Book/PreviewBookSection";
 function Book(props) {
 	const uName = localStorage.getItem("userName");
 
-	const [userBooks, setUserBooks] = useState();
-	const [ratingBooks, setRatingBooks] = useState();
-	const [likeBooks, setLikeBooks] = useState();
-	const [genreBooks, setGenreBooks] = useState();
-	const [coverBooks, setCoverBooks] = useState();
+	const [userState] = useAsync(getUserBookRecomPre, uName, initBookRecom, []);
+	const { loading: userLoading, data: userBooks, error: userError } = userState;
 
-	// 더미 데이터
-	// const uName = "루피는 좋아";
-	// const userBooks = {
-	// 	recommendType: "user",
-	// 	// 1: 남, 2: 여
-	// 	sex: 1,
-	// 	age: 20,
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
-	// const ratingBooks = {
-	// 	recommendType: "score",
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
-	// const likeBooks = {
-	// 	recommendType: "like",
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
-	// const genreBooks = {
-	// 	recommendType: "genre",
-	// 	genreName: "창작동화",
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
-	// const coverBooks = {
-	// 	recommendType: "bookCover",
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117417122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327164/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117337122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327961/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
+	const [likeState] = useAsync(getLikeBookRecomPre, uName, initBookRecom, []);
+	const { loading: likeLoading, data: likeBooks, error: likeError } = likeState;
 
-	const getUserRecomApiCall = () => {
-		(async () => {
-			await getUserBookRecom(uName)
-				.then(initBookRecom)
-				.then((res) => setUserBooks(res));
-		})();
-	};
-	const getRatingRecomApiCall = () => {
-		(async () => {
-			await getRatingBookRecom(uName)
-				.then(initBookRecom)
-				.then((res) => setRatingBooks(res));
-		})();
-	};
-	const getLikeRecomApiCall = () => {
-		(async () => {
-			await getLikeBookRecom(uName)
-				.then(initBookRecom)
-				.then((res) => setLikeBooks(res));
-		})();
-	};
-	const getGenreRecomApiCall = () => {
-		(async () => {
-			await getGenreBookRecom(uName)
-				.then(initBookRecom)
-				.then((res) => setGenreBooks(res));
-		})();
-	};
-	const getCoverRecomApiCall = () => {
-		(async () => {
-			await getCoverBookRecom(uName)
-				.then(initBookRecom)
-				.then((res) => setCoverBooks(res));
-		})();
-	};
+	const [coverState] = useAsync(getCoverBookRecomPre, uName, initBookRecom, []);
+	const { loading: coverLoading, data: coverBooks, error: coverError } = coverState;
 
-	useEffect(() => {
-		getUserRecomApiCall();
-		getLikeRecomApiCall();
-		getCoverRecomApiCall();
-		getGenreRecomApiCall();
-		getRatingRecomApiCall();
-	}, []);
+	const [genreState] = useAsync(getGenreBookRecomPre, uName, initBookRecom, []);
+	const { loading: genreLoading, data: genreBooks, error: genreError } = genreState;
+
+	const [ratingState] = useAsync(getRatingBookRecomPre, uName, initBookRecom, []);
+	const { loading: ratingLoading, data: ratingBooks, error: ratingError } = ratingState;
 
 	const userRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{userBooks?.age}세 {userBooks?.sex === 1 ? "남성" : "여성"}
+				{userBooks?.age}세 {userBooks?.gender}
 			</Span>
 			이 많이 읽고 있어요
+		</>
+	);
+	const userRecomErrTitle = (
+		<>
+			같은 연령대와 성별에서
+			<br /> 많이 읽고 있어요
 		</>
 	);
 
@@ -225,27 +63,71 @@ function Book(props) {
 		<>
 			오늘&nbsp;
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{genreBooks?.genreName}
+				{genreBooks?.genre}
 			</Span>
-			는 어때요?
+			&nbsp;분야는 어때요?
 		</>
 	);
+	const genreRecomErrTitle = <>오늘 이런 장르는 어때요?</>;
 
 	const coverRecomTitle = <>좋아하실만한 표지의 책이에요</>;
+
+	const emptyInfo = {
+		title: `아직 관련 내역이 없어요`,
+		subTitle: (
+			<>
+				좋아요와 리뷰를 남겨주시면
+				<br /> 마음에 들 추천을 해드릴게요
+			</>
+		),
+		buttonLabel: "책 탐색하러 가기",
+		path: "/book/search",
+	};
 
 	return (
 		<>
 			<Container paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
 				<BookHeading />
-				<PreviewBookSection title={userRecomTitle} books={userBooks} path="recom/user" />
+				<PreviewBookSection
+					title={userRecomTitle}
+					errTitle={userRecomErrTitle}
+					books={userBooks}
+					path="recom/user"
+					loading={userLoading}
+					error={userError}
+				/>
 				<PreviewBookSection
 					title={ratingRecomTitle}
 					books={ratingBooks}
 					path="recom/rating"
+					emptyInfo={emptyInfo}
+					loading={ratingLoading}
+					error={ratingError}
 				/>
-				<PreviewBookSection title={likeRecomTitle} books={likeBooks} path="recom/like" />
-				<PreviewBookSection title={genreRecomTitle} books={genreBooks} path="recom/genre" />
-				<PreviewBookSection title={coverRecomTitle} books={coverBooks} path="recom/cover" />
+				<PreviewBookSection
+					title={likeRecomTitle}
+					books={likeBooks}
+					path="recom/like"
+					emptyInfo={emptyInfo}
+					loading={likeLoading}
+					error={likeError}
+				/>
+				<PreviewBookSection
+					title={genreRecomTitle}
+					errTitle={genreRecomErrTitle}
+					books={genreBooks}
+					path="recom/genre"
+					emptyInfo={emptyInfo}
+					loading={genreLoading}
+					error={genreError}
+				/>
+				<PreviewBookSection
+					title={coverRecomTitle}
+					books={coverBooks}
+					path="recom/cover"
+					loading={coverLoading}
+					error={coverError}
+				/>
 			</Container>
 			<TabBar selected={2} />
 		</>

@@ -39,23 +39,29 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public HashMap<String, Object> findReviews(Book book, Pageable pageable) { // 책의 리뷰 리스트
+    public HashMap<String, Object> findReviews(Book book, Long userId, Pageable pageable) { // 책의 리뷰 리스트
+        HashMap<String, Object> result = new HashMap<>();
+        User me = userRepository.findById(userId).orElseGet(User::new);
         List<ReviewListDto> listDto = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setAmbiguityIgnored(true);
         Slice<Review> reviews = reviewRepository.findReviewByBook(book, pageable);
-
+        Review myReview = reviewRepository.findReviewByUserAndBook(me, book).orElseGet(Review::new);
+        if(myReview.getReviewId()!=null){
+            result.put("reviewed", true);
+        }else if(myReview.getReviewId()==null){
+            result.put("reviewed", false);
+        }
         try {
             for(Review review : reviews){
                 UserDto userDto = new ModelMapper().map(review.getUser(), UserDto.class);
                 userDto.setUserImage(userImageRepository.findUserImageByUser(review.getUser()));
-                listDto.add(new ReviewListDto(userDto, review.getReviewId(), review.getReviewContent(), review.getReviewGrade(), review.getCreatedDate()));
+                listDto.add(new ReviewListDto(userDto, review.getReviewId(), review.getReviewContent(), review.getReviewGrade(), review.getModifiedDate()));
             }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        HashMap<String, Object> result = new HashMap<>();
         result.put("reviews", listDto);
         result.put("hasNextPage", reviews.hasNext());
         return result;
@@ -66,12 +72,15 @@ public class ReviewServiceImpl implements ReviewService{
     public boolean saveReview(ReviewDto req) {
         Long result = 0L;
         try {
+            Book book = bookRepository.findById(req.getBookIsbn()).orElseGet(Book::new);
+            if(book.getBookIsbn()==null) return false;
             Review review = Review.builder()
                     .reviewContent(req.getContent())
                     .reviewGrade(req.getGrade())
-                    .book(bookRepository.findById(req.getBookIsbn()).orElse(null))
+                    .book(book)
                     .user(userRepository.findById(req.getUserId()).orElse(null))
                     .build();
+            setNewBookGrade(book, req.getGrade());
             result = reviewRepository.save(review).getReviewId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +94,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     public boolean updateReview(Review review) {
         try{
+            setNewBookGrade(review.getBook(), review.getReviewGrade());
             reviewRepository.save(review);
         }catch(Exception e){
            return false;
@@ -99,6 +109,29 @@ public class ReviewServiceImpl implements ReviewService{
             reviewRepository.deleteById(reviewId);
         } catch (Exception e) {
 //            log.info("error : {}", e.getStackTrace());
+            return false;
+        }
+        return true;
+    }
+
+    private boolean setNewBookGrade(Book book, float newGrade){
+        try{
+            int ReviewCnt = reviewRepository.countByBook(book);
+            if(ReviewCnt==0){
+                if(book.getBookGrade()==0){
+                    book.updateBookGrade(newGrade);
+                    bookRepository.save(book);
+                }else{
+                    book.updateBookGrade((book.getBookGrade()+newGrade)/2);
+                    bookRepository.save(book);
+                }
+            }else {
+                float sum = book.getBookGrade() * ReviewCnt;
+                sum += newGrade;
+                book.updateBookGrade(sum / (ReviewCnt + 1));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
         return true;

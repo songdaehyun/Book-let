@@ -13,6 +13,7 @@ export const initBook = (raw) => {
 		likeCnt: raw?.likesNumber,
 		likeProfileImg: raw?.likesUserImages,
 		rating: raw?.bookGrade,
+		isReviewed: raw?.reviewed,
 	};
 };
 
@@ -79,13 +80,31 @@ export const initAuthorBooks = (raw) => {
 export const initBookRecom = (raw) => {
 	return {
 		type: raw?.recommendType,
+		age: raw?.age,
+		gender: raw?.sex === 1 ? "남성" : "여성",
 		genre: raw?.genreName,
-		books: raw?.map((book) => {
+		books: raw?.recommend?.map((book) => {
 			return {
-				cover: book?.recommend?.bookImgPath,
-				title: book?.recommend?.bookTitle,
-				author: book?.recommend?.authorName,
-				isbn: book?.recommend?.bookIsbn,
+				cover: book?.bookImgPath,
+				title: book?.bookTitle,
+				author: book?.authorName,
+				isbn: book?.bookIsbn,
+			};
+		}),
+	};
+};
+
+export const initBookRecomOther = (raw) => {
+	console.log(raw);
+	return {
+		type: raw?.recommendType,
+		genre: raw?.genreName,
+		books: raw?.data?.map((book) => {
+			return {
+				cover: book?.bookImgPath,
+				title: book?.bookTitle,
+				author: book?.authorName,
+				isbn: book?.bookIsbn,
 			};
 		}),
 	};

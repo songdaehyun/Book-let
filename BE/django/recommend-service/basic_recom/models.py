@@ -4,12 +4,36 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
+class Author(models.Model):
+    author_id = models.BigAutoField(primary_key=True)
+    author_name = models.CharField(max_length=32)
+
+    class Meta:
+        managed = False
+        db_table = 'author'
+
+
+class Book(models.Model):
+    book_isbn = models.CharField(primary_key=True, max_length=16)
+    book_title = models.CharField(max_length=256)
+    book_publisher = models.CharField(max_length=50)
+    book_price = models.IntegerField()
+    book_description = models.TextField()
+    book_grade = models.FloatField()
+    book_image = models.TextField(blank=True, null=True)
+    author = models.ForeignKey(Author, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'book'
+
+
 class Review(models.Model):
     review_id = models.BigAutoField(primary_key=True)
     review_content = models.CharField(max_length=255, blank=True, null=True)
     review_grade = models.FloatField()
-    user_id = models.BigIntegerField()
-    book_isbn = models.CharField(max_length=32)
+    user = models.ForeignKey('Userr', models.DO_NOTHING)
+    book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
     created_date = models.DateTimeField(blank=True, null=True)
     modified_date = models.DateTimeField(blank=True, null=True)
 
@@ -19,9 +43,7 @@ class Review(models.Model):
 
 
 class Userr(models.Model):
-
     user_id = models.BigAutoField(primary_key=True)
-    created_at = models.DateTimeField()
     email = models.CharField(unique=True, max_length=64)
     username = models.CharField(unique=True, max_length=32)
     nickname = models.CharField(unique=True, max_length=32)
@@ -31,6 +53,10 @@ class Userr(models.Model):
     age = models.IntegerField()
     sex = models.IntegerField()
     prefer_score = models.IntegerField(blank=True, null=True)
+    created_date = models.DateTimeField(blank=True, null=True)
+    role = models.CharField(max_length=255, blank=True, null=True)
+    type = models.IntegerField(blank=True, null=True)
+    prefer_type = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -42,8 +68,8 @@ class Userr(models.Model):
 
 class BookLikes(models.Model):
     book_like_id = models.BigAutoField(primary_key=True)
-    book_id = models.BigIntegerField()
-    user_id = models.BigIntegerField()
+    user = models.ForeignKey('Userr', models.DO_NOTHING)
+    book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
 
     class Meta:
         managed = False
@@ -51,26 +77,12 @@ class BookLikes(models.Model):
 
 
 
-class Book(models.Model):
-    book_isbn = models.CharField(primary_key=True, max_length=16)
-    book_title = models.CharField(max_length=256)
-    book_publisher = models.CharField(max_length=50)
-    book_price = models.IntegerField()
-    book_description = models.TextField()
-    book_grade = models.TextField(blank=True, null=True)
-    book_image = models.TextField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'book'
-
-
 
 
 class BookGenre(models.Model):
     book_genre_id = models.BigAutoField(primary_key=True)
     book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
-    genre_id = models.ForeignKey('Genre', models.DO_NOTHING)
+    genre = models.ForeignKey('Genre', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -90,21 +102,22 @@ class Genre(models.Model):
 
 
 
-class Author(models.Model):
-    author_id = models.BigAutoField(primary_key=True)
-    author_name = models.CharField(max_length=32)
-
-    class Meta:
-        managed = False
-        db_table = 'author'
-
-
-
-class BookAuthor(models.Model):
-    book_author_id = models.BigAutoField(db_column='book_author_id', primary_key=True)  # Field name made lowercase.
-    author_id = models.ForeignKey(Author, models.DO_NOTHING, db_column='author_id')  # Field name made lowercase.
+class Paragraph(models.Model):
+    paragraph_id = models.BigAutoField(primary_key=True)
+    created_date = models.DateTimeField(blank=True, null=True)
+    modified_date = models.DateTimeField(blank=True, null=True)
     book_isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='book_isbn')
+    paragraph_color = models.CharField(max_length=30)
+    paragraph_content = models.CharField(max_length=301)
+    paragraph_page = models.IntegerField()
+    scrap_count = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey('Userr', models.DO_NOTHING)
+    paragraph_score = models.FloatField(blank=True, null=True)
+    paragraph_score_type = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'book_author'
+        db_table = 'paragraph'
+
+
+

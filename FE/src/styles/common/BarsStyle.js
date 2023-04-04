@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Loading } from "./CommonStyle";
 
 export const ActionsNavigationBarWrapper = styled.div`
 	width: 100%;
@@ -115,5 +116,44 @@ export const TabBarItemBox = styled.div`
 
 	div:last-child {
 		color: ${(props) => (props.isSelected ? "var(--primary-600)" : "var(--gray-500)")};
+	}
+`;
+
+export const MoreBarSkeletonBox = styled.div`
+	display: flex;
+	width: 100%;
+	height: 28px;
+	margin-bottom: 16px;
+
+	> div {
+		background-color: var(--gray-200);
+		border-radius: 4px;
+		position: relative;
+
+		overflow: hidden;
+		position: relative;
+
+		::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 8px;
+			height: 100%;
+
+			background-color: #f1f3f5;
+			box-shadow: 0 0 16px 16px #f1f3f5;
+
+			animation: ${Loading} 3s infinite linear;
+		}
+	}
+
+	> div:first-child {
+		flex: 1;
+		margin-right: 16px;
+	}
+
+	> div:nth-child(2) {
+		width: 28px;
 	}
 `;

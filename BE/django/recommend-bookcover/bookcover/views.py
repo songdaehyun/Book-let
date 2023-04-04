@@ -72,15 +72,20 @@ def image_recommend(request):   # 예측 기능 수행
 
         # response = bookcover_recommendation(image_spec)
 
+        
         # ssim을 사용하지 않는 경우 Bookinfomodel ~ response 활성화
         result = BookInfoModel.objects.filter(
             feeling=image_classification
         ).order_by(
             '?'
-        )[:20]
+        )[:2]
+
+        print(result)
         # 20개 항목을 무작위로 추출
-        result = list(result.values())
-        response = {input_isbn : result}
+        response = {
+            "item1" : result[0].book_isbn,
+            "item2" : result[1].book_isbn,
+        }
 
 
         # Return the response as a JSON object

@@ -11,11 +11,15 @@ from konlpy.tag import Okt
 import json
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
-from .models import Userr, Review, BookLikes, Book, Genre, BookGenre
+from .models import Userr, Review, BookLikes, Book, Genre, BookGenre, Paragraph
 import random
 from django.db import connection
 import statistics
-from django.db.models import Q
+from django.db.models import Q, F, FloatField, Value
+from django.db.models.functions import Abs
+
+
+
 
 
 # Create your views here.
@@ -155,20 +159,6 @@ def insert_db5(request):
     return Response(data=a, status=200, content_type='application/json')
     
 
-
-@api_view(['GET'])
-def show_all_book(request):
-
-    # 엑셀 파일 경로 지정
-    excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', 'df_book.xlsx')
-    # 엑셀 파일을 데이터프레임으로 변환
-    df = pd.read_excel(excel_file_path)
-    book_list = df['isbn'].tolist()
-    response_data = json.dumps(book_list)
-    return HttpResponse(response_data, content_type='application/json')
-
-
-
 @api_view(['POST'])
 def like_book(request):
     
@@ -183,7 +173,7 @@ def like_book(request):
     
     random_book = random.choice(liked_books)
 
-    print(random_book.book_id)
+    print(random_book.book_isbn.book_isbn)
 
 
     # 엑셀 파일 경로 지정
@@ -225,11 +215,11 @@ def like_book(request):
         cosine_sim = cosine_similarity(count_matrix)
 
         sim_books = list(enumerate(cosine_sim[index]))
-        sorted_sim_books = sorted(sim_books,key=lambda x:x[1],reverse=True)[1:6]
+        sorted_sim_books = sorted(sim_books,key=lambda x:x[1],reverse=True)[1:11]
         return sorted_sim_books
     
     final_result = []
-    for i in content(random_book.book_id):
+    for i in content(random_book.book_isbn.book_isbn):
         final_result.append(int(df_content.loc[df_content['index'] == i[0], 'book_isbn'].iloc[0]))
 
 
@@ -258,7 +248,7 @@ def star_book(request):
     #isbn은 int로
     tmp_data = []
     for obj in reviewed_books:
-        tmp_data.append({'isbn':int(obj.book_isbn),'book': 'songD', 'id': user_email,'star': obj.review_grade})
+        tmp_data.append({'isbn':int(obj.book_isbn.book_isbn),'book': 'songD', 'id': user_email,'star': obj.review_grade})
     tmp_df = pd.DataFrame(tmp_data)
     
     # 엑셀 파일 경로 지정
@@ -299,10 +289,10 @@ def star_book(request):
         predictions.append((book_id, algo.predict(user_email, book_id).est))
     
     predictions.sort(key=lambda x: x[1], reverse=True)
-    print(predictions[5:10])
+    print(predictions[5:15])
 
     final_result = []
-    for i in predictions[5:10]:
+    for i in predictions[5:15]:
         final_result.append(int(i[0]))
     
     a = {'recom_list' : final_result,
@@ -327,9 +317,9 @@ def category_book(request):
     user_liked_list = []
     isbn_list = []
     for i in liked_books:
-        book_isbn = i.book_id
+        book_isbn = i.book_isbn
         book = BookGenre.objects.get(book_isbn = book_isbn)
-        book_genre_id = book.genre_id.genre_id 
+        book_genre_id = book.genre_id
         user_liked_list.append(book_genre_id)
         isbn_list.append(book_isbn)
 
@@ -345,8 +335,8 @@ def category_book(request):
 
     # QuerySet을 리스트로 변환
     book_list = list(books)
-    # 랜덤으로 5개의 책 뽑기
-    random_books = random.sample(book_list, 5)
+    # 랜덤으로 10개의 책 뽑기
+    random_books = random.sample(book_list, 10)
 
     result = []
     for j in random_books:
@@ -443,6 +433,11 @@ def profile_book(request):
     age = user.age
     age = (int(age) // 10) * 10
 
+    if age < 10:
+        age = 10
+    elif age > 50:
+        age = 50
+
     if gender == 1:
         gender = 'male'
     else:
@@ -450,7 +445,7 @@ def profile_book(request):
 
     excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', f'book_{age}_{gender}_data.xlsx')
     df = pd.read_excel(excel_file_path)
-    SAMPLE_SIZE = 5
+    SAMPLE_SIZE = 10
     sample_df = df['isbn13'].sample(n=SAMPLE_SIZE)
     sample_list = sample_df.values.tolist()
 
@@ -460,16 +455,113 @@ def profile_book(request):
 
     
 
-# 이 코드는 Django ORM을 사용하여 데이터베이스에서 쿼리셋을 가져와서 book_isbn 속성이 isbn_list에 속하지 않는 레코드만 필터링하는 예시 코드입니다.
+@api_view(['POST'])
+def sentence(request):
 
-# 여기서 exclude 함수는 Q 객체를 사용하여 book_isbn 속성이 isbn_list에 속하지 않는 레코드를 제외하도록 지정합니다.
+    sentence = request.data.get('sentence')
+    sentence = str(sentence)
 
-# Q(book_isbn__in=isbn_list)는 book_isbn 속성이 isbn_list에 속하는 레코드를 선택하는 조건입니다. 여기서 __in은 book_isbn 속성이 isbn_list의 값 중 하나와 일치하는지 확인하도록 지정합니다.
+    
+    # 엑셀 파일 경로 지정
+    excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', 'score_list.csv')
+    # 엑셀 파일을 데이터프레임으로 변환
+    df = pd.read_csv(excel_file_path, usecols=['WRD_NM', 'AFRM_SCORE_VALUE', 'NEGA_SCORE_VALUE'])
 
-# 따라서 exclude(Q(book_isbn__in=isbn_list))는 book_isbn 속성이 isbn_list에 속하지 않는 레코드를 선
 
-@api_view(['GET'])
-def test(request):
-    a = {'recom_list': 'hi'}
+    def paragraph_to_score(para):
+        pos_list = []
+        neg_list = []
+        
+        para_list = para.split()
+        new_para_list = []
+        
+        for para_factor in para_list:
+            if len(para_factor) > 1 and para_factor[-1] in "은는이가의":
+                para_factor = para_factor[:len(para_factor)-1]
+                new_para_list.append(para_factor)
+
+        print(new_para_list)
+
+        for word in new_para_list:
+            if word in df['WRD_NM'].values:
+                row = df.loc[df['WRD_NM'] == word]
+                pos_list.append(row['AFRM_SCORE_VALUE'].values[0])
+                neg_list.append(row['NEGA_SCORE_VALUE'].values[0])
+            else:
+                pass
+        # for word, pos in okt.pos(para, stem=True):
+        #     if word in df['WRD_NM'].values:
+        #         row = df.loc[df['WRD_NM'] == word]
+        #         pos_list.append(row['AFRM_SCORE_VALUE'].values[0])
+        #         neg_list.append(row['NEGA_SCORE_VALUE'].values[0])
+        #     else:
+        #         pass
+        print(pos_list, neg_list)
+        pos = sum(pos_list)
+        neg = sum(neg_list)
+        
+        print(pos, neg)
+        
+        if pos >= neg:
+            state = 1
+            return {'state' : state, 'score': {'pos':pos, 'neg':neg}}
+        else:
+            state = 0
+            return {'state' : state, 'score': {'pos':pos, 'neg':neg}}
+        
+    a = paragraph_to_score(sentence)
+    return Response(data=a, status=200, content_type='application/json')
+
+
+
+
+@api_view(['POST'])
+def sentence_recom(request):
+
+    user_id = request.data.get('user_id')
+    user = Userr.objects.get(user_id=user_id)
+
+    user_score = user.prefer_score
+    user_type =  user.prefer_type
+    user_paragraph = Paragraph.objects.filter(user_id=user_id)
+
+    if not user_paragraph:
+        b = {'recom_list' : "스크랩한 문장이 없어서 추천을 할 수 없습니다.",
+             'result' : False}
+        return Response(data=b, status=200, content_type='application/json')
+
+    print(user_paragraph)
+
+    paragraph_same_type = Paragraph.objects.filter(paragraph_score_type=user_type)
+
+    if not paragraph_same_type:
+        b = {'recom_list' : "유저의 타입과 일치하는 문장이 없어서 추천을 할 수 없습니다.",
+             'result' : False}
+        return Response(data=b, status=200, content_type='application/json')
+
+    print(paragraph_same_type)
+
+    result_queryset = paragraph_same_type.exclude(paragraph_id__in=user_paragraph)
+
+    if not result_queryset:
+        b = {'recom_list' : "유저가 문장을 다 수집해서 추천을 할 수 없습니다.",
+             'result' : False}
+        return Response(data=b, status=200, content_type='application/json')
+
+    print(result_queryset)
+
+    result_queryset = result_queryset.annotate(
+    diff=Abs(F('paragraph_score') - Value(user_score, output_field=FloatField()))
+)
+    result_queryset = result_queryset.order_by('-diff')
+
+    print(result_queryset)
+
+    result = result_queryset.values_list('paragraph_id', flat=True)
+
+    a = {'recom_list': list(result),
+         'result' : True}
     
     return Response(data=a, status=200, content_type='application/json')
+
+
