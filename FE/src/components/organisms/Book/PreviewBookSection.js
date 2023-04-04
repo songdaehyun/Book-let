@@ -9,8 +9,10 @@ import PreviewBookSkeleton from "../../molecules/Book/PreviewBookSkeleton";
 import PreviewSwiperBook from "../../molecules/Book/PreviewSwiperBook";
 import Empty from "../../molecules/Empty";
 
-function PreviewBookSection({ title, errTitle, books, path, emptyInfo, loading, error }) {
+function PreviewBookSection({ title, type, errTitle, books, path, emptyInfo, loading, error }) {
 	const isArrEmpty = useArr();
+
+	console.log(books)
 
 	return (
 		<Container marginTop="40" marginBottom="48">
@@ -32,16 +34,16 @@ function PreviewBookSection({ title, errTitle, books, path, emptyInfo, loading, 
 					/>
 				</>
 			)}
-			{books?.books &&
-				(books?.type !== "bookCover" ? (
+			{books &&
+				(type !== "bookCover" ? (
 					<>
 						<MoreBar title={title} path={path} />
-						<PreviewSwiperBook books={books?.books} emptyInfo={emptyInfo} />
+						<PreviewSwiperBook books={books} emptyInfo={emptyInfo} />
 					</>
 				) : (
 					<>
 						<MoreBar title={title} path={path} />
-						<PreviewBookCoverList books={books?.books}></PreviewBookCoverList>
+						<PreviewBookCoverList books={books}></PreviewBookCoverList>
 					</>
 				))}
 		</Container>
