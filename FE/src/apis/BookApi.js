@@ -22,8 +22,8 @@ export const postLike = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}

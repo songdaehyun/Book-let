@@ -10,7 +10,7 @@ import { CommentInputBox } from "../../../styles/common/CommonStyle";
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
-function CommentInput({ type, getCommentApiCall, setComments }) {
+function CommentInput({ type, isReviewed, getCommentApiCall, setComments }) {
 	const { sId } = useParams();
 	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
@@ -85,13 +85,16 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 		<>
 			<CommentInputBox>
 				<input
+					disabled={isReviewed}
 					value={comment}
 					onChange={handleChange}
 					maxLength={limit}
 					placeholder={
 						type === "댓글"
 							? "댓글을 작성해주세요"
-							: type === "리뷰" && "리뷰를 작성해주세요"
+							: type === "리뷰" && isReviewed
+							? "작성된 리뷰가 있습니다"
+							: "리뷰를 작성해주세요"
 					}
 				></input>
 				<div onClick={type === "댓글" ? commentSubmit : type === "리뷰" && reviewSubmit}>
