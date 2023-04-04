@@ -39,7 +39,7 @@ export const initReview = (raw) => {
 		contents: raw?.reviews?.map((review) => {
 			return {
 				uId: review?.userInfo?.userId,
-				commentId: review?.reviewId,
+				cId: review?.reviewId,
 				nickname: review?.userInfo?.nickname,
 				img: review?.userInfo?.userImage,
 				content: review?.reviewContent,
