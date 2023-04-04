@@ -8,6 +8,7 @@ function PreviewBookSkeleton(props) {
                 <PreviewBookSkeletonItemBox>
                     <div></div>
                     <div></div>
+                    <div></div>
                 </PreviewBookSkeletonItemBox>
             ))}
         </PreviewBookSkeletonBox>

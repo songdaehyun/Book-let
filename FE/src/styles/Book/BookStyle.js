@@ -112,8 +112,13 @@ export const PreviewBookSkeletonItemBox = styled.div`
 		height: 160px;
 		margin-bottom: 16px;
 	}
-
+	
 	> div:nth-child(2) {
 		height: 16px;
+		margin-bottom: 4px;
+	}
+
+	> div:nth-child(3) {
+		height: 14px;
 	}
 `;
