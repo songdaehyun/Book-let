@@ -10,13 +10,9 @@ export default function useInfiniteScroll(id, api, size, init, isRefetching) {
 		// const apiCall = useCallback( async (isRefetching) => {
 		return (async () => {
 			const result = await api(id, isRefetching ? size * page : size, isRefetching ? 0 : page)
+				.then(init)
 				.then((res) => {
-					res?.contents !== undefined && init(res);
-				})
-				.then((res) => {
-					res?.contents !== undefined && isRefetching
-						? setData(res?.contents)
-						: setData(data.concat(res?.contents));
+					isRefetching ? setData(res?.contents) : setData(data.concat(res?.contents));
 					setNextPage(res?.hasNextPage);
 					setFetching(false);
 
