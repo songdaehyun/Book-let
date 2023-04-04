@@ -112,7 +112,7 @@ class Paragraph(models.Model):
     paragraph_page = models.IntegerField()
     scrap_count = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey('Userr', models.DO_NOTHING)
-    paragraph_score = models.IntegerField(blank=True, null=True)
+    paragraph_score = models.FloatField(blank=True, null=True)
     paragraph_score_type = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
