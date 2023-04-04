@@ -74,9 +74,6 @@ public class RequestTools {
             case "user":
                 setting = "profile";
                 break;
-            case "sentence":
-                setting = "sentence/recom";
-                break;
         }
         String url = "https://j8b306.p.ssafy.io/basic_recom/" + setting + "/";
         log.info("url" + url);
