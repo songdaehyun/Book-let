@@ -94,6 +94,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     public boolean updateReview(Review review) {
         try{
+            setNewBookGrade(review.getBook(), review.getReviewGrade());
             reviewRepository.save(review);
         }catch(Exception e){
            return false;
