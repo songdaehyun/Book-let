@@ -24,7 +24,7 @@ public class RequestTools {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("sentence", paragraphContent);
 
-        String url = "https://j8b306.p.ssafy.io/basic_recom/sentence/cal";
+        String url = "https://j8b306.p.ssafy.io/basic_recom/sentence/cal/";
 //        String url = "http://192.168.31.193:8000/basic_recom/sentence/cal/";
 
         // create header
