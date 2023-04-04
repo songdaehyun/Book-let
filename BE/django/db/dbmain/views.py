@@ -56,7 +56,12 @@ def book_detail(book_isbn):
         'OptResult' : 'ratingInfo,reviewList'
      }
     ).json()
-    book = response.get('item')[0]
+
+    try:
+        book = response.get('item')[0]
+    except:
+        return None
+    
     # reivewList = book.get('reviewList')
     try:
         ratingScore = book.get('subInfo').get('ratingInfo').get('ratingScore')
@@ -132,7 +137,7 @@ def genre_save(book_info, bookEntity):
                     genre_name = raw_name[idx2 + 1 : idx3]
     if genre_name == None:
         genre_name = "기타"
-    
+
     # Genre 객체를 가져오거나 생성
     genre, created = Genre.objects.get_or_create(genre_name=genre_name)
     
@@ -219,18 +224,82 @@ def insert_db(request):
         
     return JsonResponse(context)
 
-# # 감성점수 측정
-# @api_view(["POST"])
-# def paragraph_score(request):
-#     paragraph = request.data.get('paragraph')
-#     data = import_data()
-#     score, state = check(paragraph, data)
-#     context = {
-#         "score" : score,
-#         "state" : state
-#     }
-# 
-#     return JsonResponse(context)
+
+@api_view(['GET'])
+def insert_new(request):
+    print('신규 도서 DB 저장하러 왔습니다.')
+    context = {
+        'result' : '신규 도서 완료' 
+    }
+    start = 0
+    end = 100
+    for i in range(start, end):
+        print('#'*50)
+        print(f'신규서적 들어갑니다! : {i}번째')
+        print('#'*50)
+        try:
+            response = requests.get(
+                BASE_URL + MAIN,
+                params={
+                    'ttbkey' : ALA_API_KEY[KEY_NUM],
+                    'QueryType' : 'ItemNewSpecial',
+                    'MaxResults' : 50,
+                    'start' : i,
+                    'SearchTarget' : 'Book',
+                    'output' : 'js',
+                    'Version' : 20131101,
+                    'cover' : 'Big'
+                }
+            ).json()
+        except:
+            print(f"요청 실패로 인해 넘어갑니다 : {i}번째")
+            continue
+
+        book_list = response.get('item')
+        for book in book_list:
+            isbn = 'isbn13'
+            if book.get(isbn) == '':
+                isbn = 'isbn'
+                print('isbn13없으므로 패스합니다 : ', book.get('title'))
+                continue
+            elif len(book.get(isbn)) < 13 or book.get(isbn)[0]=='G':
+                print('isbn이상으로인해 패스합니다.', book.get(isbn), book.get('title'))
+                continue
+            print(f'작업 중 인 도서 : {book.get("isbn13")}, {book.get("title")}')
+
+            # 책 데이터 저장
+            if not Book.objects.filter(pk=book.get(isbn)).exists():
+                # 책 디테일 불러오기
+                book_info = book_detail(book.get(isbn))
+                if book_info == None:
+                    continue
+                # 책 세부 요소 확인
+                try : 
+                    grade = book_info.get('grade')/2
+                except :
+                    grade = 0 # 기본값
+                # 책 저장
+                bookEntity = Book.objects.create(
+                    book_isbn = book.get(isbn),
+                    book_title = book.get('title'),
+                    book_publisher = book.get('publisher'),
+                    book_price = book.get('priceStandard'),
+                    book_description = book.get('description'),
+                    book_grade = grade,  # 5점 만점으로 변경
+                    book_image = book.get('cover'),
+                    # book_author = author_info(book.get('author')) # 테이블로 변경
+                )
+                # 저자 및 장르 저장
+                # print('저자 세이브')
+                author_info(book.get('author'), bookEntity)
+                # print('장르 세이브')
+                genre_save(book_info, bookEntity)
+
+
+        
+    return JsonResponse(context)
+
+
 @api_view(['GET'])
 def save_isbn(request):
     import_data()
@@ -364,55 +433,3 @@ def check(content, scores):
         state = 0
 
     return score, state
-
-
-# def get_title():
-#     # for _ in range(1):
-#     #     i = '02'
-#     for i in range(3, 13):
-#         if i == 9:
-#             continue
-#         if i < 10:
-#             i = '0' + str(i)
-#         else:
-#             i = str(i)
-        
-#         FILE = os.path.join(DATA_DIR, f'NL_BO_BEST_BOOK_HISTORY_ARCHIVE_2021{i}.csv')
-#         try:
-#             with open(FILE, 'rt', encoding="UTF8") as f:
-#                 reader = csv.reader(f)
-#                 for r in reader:
-#                     base_titles.append(r[5])
-#                 # title만 뽑자
-#                 # f.closed
-
-
-#         except FileNotFoundError as e:
-#             print(f"`{FILE}` 가 존재하지 않습니다.")
-#             exit(1)
-
-
-# def get_detail():
-#     # for _ in range(1):
-#     #     i = '02'
-#     for i in range(3, 13):
-#         if i == 9:
-#             continue
-#         if i < 10:
-#             i = '0' + str(i)
-#         else:
-#             i = str(i)
-        
-#         FILE = os.path.join(DATA_DIR, f'NL_BO_BEST_BOOK_HISTORY_ARCHIVE_2021{i}.csv')
-#         try:
-#             with open(FILE, 'rt', encoding="UTF8") as f:
-#                 reader = csv.reader(f)
-#                 for r in reader:
-#                     base_contents.append((r[5], r[7]))
-
-
-#         except FileNotFoundError as e:
-#             print(f"`{FILE}` 가 존재하지 않습니다.")
-#             exit(1)
-
-
