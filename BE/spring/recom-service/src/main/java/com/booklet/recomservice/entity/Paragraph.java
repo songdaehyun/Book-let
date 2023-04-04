@@ -1,10 +1,13 @@
 package com.booklet.recomservice.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name="paragraph")
 public class Paragraph extends BaseTimeEntity{
     @Id
@@ -14,6 +17,7 @@ public class Paragraph extends BaseTimeEntity{
 
     @Column(length = 301, nullable = false)
     private String paragraphContent;
+
     @Column
     private String paragraphColor;
 
