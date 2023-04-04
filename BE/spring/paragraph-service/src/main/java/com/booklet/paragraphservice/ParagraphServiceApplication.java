@@ -13,7 +13,7 @@ import java.util.TimeZone;
 public class ParagraphServiceApplication {
 	// 한국 시간설정
 	void started() {
-		TimeZone.setDefault(TimeZone.getTimeZone("KST"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(ParagraphServiceApplication.class, args);
