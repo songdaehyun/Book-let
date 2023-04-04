@@ -93,7 +93,9 @@ public class CommentServiceImpl implements CommentService {
                 // 본인만 남았다면
                 Comment parent = commentRepository.findById(parentId).orElseGet(Comment::new);
                 if (parent.getCommentId() == null) return false;
-                commentRepository.delete(parent);
+                if(parent.getCommentContent().equals("")){ // 삭제된 댓글이면
+                    commentRepository.delete(parent);
+                }
             }
         }
 
