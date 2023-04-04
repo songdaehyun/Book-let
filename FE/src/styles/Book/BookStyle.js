@@ -81,8 +81,6 @@ export const PreviewBookSkeletonBox = styled.div`
 `;
 
 export const PreviewBookSkeletonItemBox = styled.div`
-	width: 30%;
-
 	> div {
 		background-color: var(--gray-200);
 		border-radius: 4px;
@@ -109,7 +107,7 @@ export const PreviewBookSkeletonItemBox = styled.div`
 	}
 
 	> div:first-child {
-		height: 160px;
+		height: 200px;
 		margin-bottom: 16px;
 	}
 	
