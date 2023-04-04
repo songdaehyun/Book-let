@@ -5,10 +5,10 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
-    register-with-eureka: true  # true
-    fetch-registry: true  # true
-#    register-with-eureka: false
-#    fetch-registry: false
+#    register-with-eureka: true  # true
+#    fetch-registry: true  # true
+    register-with-eureka: false
+    fetch-registry: false
     service-url:
       defaultZone: http://j8b306.p.ssafy.io:8761/eureka  # http://localhost:8761/eureka #
 
@@ -44,5 +44,6 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   redis:
-    host: localhost
+    host: localhost # 3.38.106.18
     port: 6379
+    password: "bnrwjrbnrwjr"

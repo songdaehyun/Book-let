@@ -1,8 +1,11 @@
 package com.booklet.recomservice.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name="user_image")
 public class UserImage extends BaseTimeEntity{
     @Id
