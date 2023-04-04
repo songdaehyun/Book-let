@@ -18,21 +18,21 @@ function MasonryBookList({ books }) {
 		<ListBookCoverMasonryBox>
 			{books.map((book) => {
 				return (
-					<PreviewBookMasonryOverviewBox key={book.bookIsbn}>
+					<PreviewBookMasonryOverviewBox key={book?.isbn}>
 						<img
-							src={book.bookImgPath || book.cover}
+							src={book?.bookImgPath || book?.cover}
 							alt="book"
-							onClick={() => handleClick(book.bookIsbn)}
+							onClick={() => handleClick(book?.isbn)}
 						/>
 						<Text
 							weight="600"
 							marginBottom="4"
-							onClick={() => handleClick(book.bookIsbn)}
+							onClick={() => handleClick(book?.isbn)}
 						>
-							{book.bookTitle}
+							{book?.bookTitle}
 						</Text>
 						<Text size="14" color="var(--gray-500)">
-							{book.authorName}
+							{book?.authorName}
 						</Text>
 					</PreviewBookMasonryOverviewBox>
 				);
