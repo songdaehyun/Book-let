@@ -106,7 +106,7 @@ function BookDetail(props) {
 
 			<Container paddingLeft="16" paddingRight="16">
 				<BookRatingInfo rating={parseInt(book?.rating)} />
-				<BookReview />
+				<BookReview isReviewed={book?.isReviewed} />
 			</Container>
 		</>
 	);

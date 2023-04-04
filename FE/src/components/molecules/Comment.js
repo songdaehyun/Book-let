@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { deleteReview, getReview } from "../../apis/BookApi";
-import { initReview } from "../../apis/init/initBook";
+import { deleteReview } from "../../apis/BookApi";
 import { deleteComment } from "../../apis/sentenceApi";
 import defaultImg from "../../assets/images/user-default-img.png";
 import useDate from "../../hooks/useDate";
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import {
 	CommentBtnBox,
 	CommentDateBox,
@@ -60,14 +58,12 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 		})();
 	};
 
-	const { apiCall: reviewApiCall } = useInfiniteScroll(bId, getReview, 5, initReview);
-
 	const deleteReviewApiCall = () => {
 		(async () => {
 			await deleteReview(comment?.commentId).then((res) => {
 				if (res === "success") {
-					// 댓글 조회 api call
-					reviewApiCall().then((res) => {
+					// 리뷰 조회 api call
+					getCommentApiCall(true).then((res) => {
 						console.log(res);
 						setComments(res);
 					});

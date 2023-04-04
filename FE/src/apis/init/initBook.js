@@ -13,6 +13,7 @@ export const initBook = (raw) => {
 		likeCnt: raw?.likesNumber,
 		likeProfileImg: raw?.likesUserImages,
 		rating: raw?.bookGrade,
+		isReviewed: raw?.reviewed,
 	};
 };
 

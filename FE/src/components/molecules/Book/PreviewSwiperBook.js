@@ -19,12 +19,11 @@ function PreviewSwiperBook({ books }) {
 			modules={[FreeMode]}
 			className="mySwiper"
 		>
-			{books?.books &&
-				books?.map((book, idx) => (
-					<SwiperSlide>
-						<PreviewBookOverview key={idx} book={book} />
-					</SwiperSlide>
-				))}
+			{books?.map((book, idx) => (
+				<SwiperSlide>
+					<PreviewBookOverview key={idx} book={book} />
+				</SwiperSlide>
+			))}
 		</Swiper>
 	);
 }

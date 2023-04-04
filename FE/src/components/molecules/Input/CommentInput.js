@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
-import { getReview, postReview } from "../../../apis/BookApi";
-import { initReview } from "../../../apis/init/initBook";
+import { postReview } from "../../../apis/BookApi";
 import { postComment } from "../../../apis/sentenceApi";
-import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import useRating from "../../../hooks/useRating";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
 
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
-function CommentInput({ type, getCommentApiCall, setComments, reply }) {
+function CommentInput({ type, isReviewed, getCommentApiCall, setComments, reply }) {
 	const { sId } = useParams();
 	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
@@ -55,8 +53,6 @@ function CommentInput({ type, getCommentApiCall, setComments, reply }) {
 		}
 	};
 
-	const { apiCall: reviewApiCall } = useInfiniteScroll(bId, getReview, 5, initReview, true);
-
 	const reviewSubmit = () => {
 		const data = {
 			content: comment,
@@ -69,8 +65,8 @@ function CommentInput({ type, getCommentApiCall, setComments, reply }) {
 			(async () => {
 				await postReview(data).then((res) => {
 					if (res === "success") {
-						// 댓글 조회 api call
-						reviewApiCall().then((res) => {
+						// 리뷰 조회 api call
+						getCommentApiCall(true).then((res) => {
 							setComments(res);
 						});
 						// 댓글, 별점 초기화
@@ -94,13 +90,16 @@ function CommentInput({ type, getCommentApiCall, setComments, reply }) {
 		<>
 			<CommentInputBox>
 				<input
+					disabled={isReviewed}
 					value={comment}
 					onChange={handleChange}
 					maxLength={limit}
 					placeholder={
 						type === "댓글"
 							? "댓글을 작성해주세요"
-							: type === "리뷰" && "리뷰를 작성해주세요"
+							: type === "리뷰" && isReviewed
+							? "작성된 리뷰가 있습니다"
+							: "리뷰를 작성해주세요"
 					}
 				></input>
 				<div onClick={type === "댓글" ? commentSubmit : type === "리뷰" && reviewSubmit}>
