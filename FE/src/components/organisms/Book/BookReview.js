@@ -11,6 +11,7 @@ import CommentList from "../../molecules/Sentence/CommentList";
 
 function BookReview({ isReviewed }) {
 	const { bId } = useParams();
+	const uId = localStorage.getItem("userId");
 
 	const [reviews, setReviews] = useState();
 	// const reviews = [
@@ -42,7 +43,7 @@ function BookReview({ isReviewed }) {
 		data,
 		apiCall: reviewApiCall,
 		isFetching,
-	} = useInfiniteScroll(bId, getReview, 5, initReview);
+	} = useInfiniteScroll({ bId, uId }, getReview, 5, initReview);
 
 	useEffect(() => {
 		setReviews(data);
