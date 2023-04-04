@@ -8,12 +8,14 @@ import {
 	CommentBtnBox,
 	CommentDateBox,
 	CommentHeadingBox,
+	ReplyBox,
 } from "../../styles/Book/BookDetailStyle";
 import { TextBtn } from "../../styles/common/ButtonsStyle";
 import { CommentBox } from "../../styles/common/CommonStyle";
 import { Text } from "../../styles/common/TextsStyle";
 import ReplyTextButton from "../atoms/Button/ReplyTextButton";
 import RatingLabel from "../atoms/RatingLabel";
+import CommentInput from "../molecules/Input/CommentInput";
 import ModalLayer from "../organisms/ModalLayer";
 
 function Comment({ comment, type, setComments, getCommentApiCall }) {
@@ -22,6 +24,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 
 	const dateTimeSeparation = useDate();
 	const [isOpen, setIsOpen] = useState(false);
+	const [isReplyWriting, setIsReplyWriting] = useState(false);
 
 	const openPopup = () => {
 		setIsOpen(true);
@@ -31,6 +34,10 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 		setIsOpen(false);
 
 		type === "댓글" ? deleteCommentApiCall() : type === "리뷰" && deleteReviewApiCall();
+	};
+
+	const handleClickReplyWritingOrCancel = () => {
+		setIsReplyWriting(!isReplyWriting);
 	};
 
 	const isMy = () => {
@@ -67,7 +74,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 
 	return (
 		<>
-			<CommentBox>
+			<CommentBox depth={comment?.depth}>
 				<img
 					src={comment?.img ? comment?.img : defaultImg}
 					alt="Profile of the user who commented"
@@ -76,6 +83,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 				<div>
 					<CommentHeadingBox>
 						<Text weight="600">{comment?.nickname}</Text>
+
 						{type === "리뷰" ? (
 							<RatingLabel rating={parseInt(comment?.rating)} />
 						) : (
@@ -86,7 +94,15 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 							</CommentDateBox>
 						)}
 					</CommentHeadingBox>
-					<Text marginBottom="12">{comment?.content}</Text>
+
+					{comment?.content === "" ? (
+						<Text color="var(--gray-500)" marginBottom="12">
+							삭제된 댓글입니다
+						</Text>
+					) : (
+						<Text marginBottom="12">{comment?.content}</Text>
+					)}
+
 					{type === "리뷰" ? (
 						<>
 							{isMy() && <TextBtn onClick={openPopup}>삭제</TextBtn>}
@@ -98,10 +114,37 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 						</>
 					) : (
 						<div>
-							<CommentBtnBox>
-								<ReplyTextButton label="답글쓰기" />
-								{isMy() && <TextBtn onClick={openPopup}>삭제</TextBtn>}
-							</CommentBtnBox>
+							{isReplyWriting ? (
+								// 대댓글 작성바
+								<ReplyBox>
+									<div>
+										<CommentInput
+											type="댓글"
+											getCommentApiCall={getCommentApiCall}
+											reply={{
+												isReply: true,
+												cId: comment?.cId,
+												setIsReplyWriting: setIsReplyWriting,
+											}}
+										/>
+									</div>
+									<TextBtn onClick={handleClickReplyWritingOrCancel}>
+										취소
+									</TextBtn>
+								</ReplyBox>
+							) : (
+								<>
+									<CommentBtnBox>
+										{comment?.depth == 0 && (
+											<div onClick={handleClickReplyWritingOrCancel}>
+												<ReplyTextButton label="답글쓰기" />
+											</div>
+										)}
+
+										{isMy() && comment?.content !== "" && <TextBtn onClick={openPopup}>삭제</TextBtn>}
+									</CommentBtnBox>
+								</>
+							)}
 						</div>
 					)}
 				</div>

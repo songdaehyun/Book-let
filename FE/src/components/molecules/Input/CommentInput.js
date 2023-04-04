@@ -10,7 +10,7 @@ import { CommentInputBox } from "../../../styles/common/CommonStyle";
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
-function CommentInput({ type, isReviewed, getCommentApiCall, setComments }) {
+function CommentInput({ type, isReviewed, getCommentApiCall, setComments, reply }) {
 	const { sId } = useParams();
 	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
@@ -33,7 +33,7 @@ function CommentInput({ type, isReviewed, getCommentApiCall, setComments }) {
 			paragraphId: parseInt(sId),
 			userId: uId,
 			commentContent: comment,
-			parentCommentId: 0, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
+			parentCommentId: !reply?.isReply ? 0 : reply?.cId, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
 		};
 
 		if (comment !== "") {
@@ -42,6 +42,11 @@ function CommentInput({ type, isReviewed, getCommentApiCall, setComments }) {
 					if (res === "success") {
 						getCommentApiCall();
 						setComment("");
+
+						// 대댓글이라면 작성 완료 후 작성바 close
+						if (reply?.isReply) {
+							reply?.setIsReplyWriting(false);
+						}
 					}
 				});
 			})();

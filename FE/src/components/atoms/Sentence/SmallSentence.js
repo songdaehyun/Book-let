@@ -10,14 +10,21 @@ function SmallSentence({ sentence }) {
 	const navigate = useNavigate();
 
 	const handleClickSentence = () => {
-		navigate(`/sentence/${sentence.sId}`);
+		navigate(`/sentence/${sentence?.sId}`);
 	};
 
 	return (
-		<SmallSentenceContainer onClick={handleClickSentence} color={sentence.color}>
+		<SmallSentenceContainer onClick={handleClickSentence} color={sentence?.color}>
 			<SmallSentenceContent>
 				<Text font="jeju" height="22">
-					{sentence.content}
+					{sentence?.content?.split("\n").map((line) => {
+						return (
+							<span>
+								{line}
+								<br />
+							</span>
+						);
+					})}
 				</Text>
 			</SmallSentenceContent>
 		</SmallSentenceContainer>

@@ -2,13 +2,13 @@ import React from "react";
 import { postFollow } from "../../../apis/userApi";
 import { FollowBtn } from "../../../styles/common/ButtonsStyle";
 
-function FollowButton({ nickname, isFollowed, setIsFollowed }) {
-	const uName = localStorage.getItem("userName");
+function FollowButton({ uName, nickname, isFollowed, setIsFollowed }) {
+	const myUName = localStorage.getItem("userName");
 
 	const handleClickFollow = () => {
 		const data = {
-			username: uName,
-			followingUsername: nickname,
+			username: myUName,
+			followingUsername: uName,
 		};
 
 		(async () => {

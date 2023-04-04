@@ -180,8 +180,8 @@ export const deleteComment = async (cId) => {
 			url: `/comment/${cId}`,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res?.data?.message);
+		return res?.data?.message;
 	} catch (err) {
 		console.error(err);
 	}

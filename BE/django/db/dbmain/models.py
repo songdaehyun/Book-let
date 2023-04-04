@@ -19,7 +19,7 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    book_isbn = models.CharField(primary_key=True, max_length=16)
+    book_isbn = models.CharField(primary_key=True, max_length=32)
     book_title = models.CharField(max_length=256)
     book_publisher = models.CharField(max_length=50)
     book_price = models.IntegerField()
