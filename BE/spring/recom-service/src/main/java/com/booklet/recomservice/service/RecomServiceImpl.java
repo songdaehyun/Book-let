@@ -60,7 +60,8 @@ public class RecomServiceImpl implements RecomService{
                         .bookIsbn(book.getBookIsbn())
                         .bookTitle(book.getBookTitle())
                         .build());
-                if (setting==0 && recommend.size() >= 3) {break;}
+
+                if (setting==0 && recommend.size() >= 5) {break;}
             }
             
             result.put("recommendType","bookCover");
