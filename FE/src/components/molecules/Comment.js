@@ -145,7 +145,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 											</div>
 										)}
 
-										{isMy() && <TextBtn onClick={openPopup}>삭제</TextBtn>}
+										{isMy() && comment?.content !== "" && <TextBtn onClick={openPopup}>삭제</TextBtn>}
 									</CommentBtnBox>
 								</>
 							)}
