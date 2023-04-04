@@ -20,7 +20,7 @@ function MasonryBookList({ books }) {
 				return (
 					<PreviewBookMasonryOverviewBox key={book.bookIsbn}>
 						<img
-							src={book.bookImgPath}
+							src={book.bookImgPath || book.cover}
 							alt="book"
 							onClick={() => handleClick(book.bookIsbn)}
 						/>
