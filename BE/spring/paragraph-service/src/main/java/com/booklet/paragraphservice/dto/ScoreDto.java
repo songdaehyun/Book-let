@@ -10,7 +10,10 @@ import lombok.*;
 public class ScoreDto {
     int state;
     Score score;
-    static class Score{
+
+
+    @Getter
+    public class Score{
         double pos;
         double neg;
     }
