@@ -6,7 +6,7 @@ import {
 	getRatingBookRecomPre,
 	getUserBookRecomPre,
 } from "../../../apis/BookApi";
-import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
+import { initBookRecom } from "../../../apis/init/initBook";
 import useAsync from "../../../hooks/useAsync";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Span } from "../../../styles/common/TextsStyle";
@@ -17,25 +17,25 @@ import PreviewBookSection from "../../organisms/Book/PreviewBookSection";
 function Book(props) {
 	const uName = localStorage.getItem("userName");
 
-	const [userState] = useAsync(getUserBookRecomPre, uName, initBookRecomOther, []);
+	const [userState] = useAsync(getUserBookRecomPre, uName, initBookRecom, []);
 	const { loading: userLoading, data: userBooks, error: userError } = userState;
 
-	const [likeState] = useAsync(getLikeBookRecomPre, uName, initBookRecomOther, []);
+	const [likeState] = useAsync(getLikeBookRecomPre, uName, initBookRecom, []);
 	const { loading: likeLoading, data: likeBooks, error: likeError } = likeState;
 
 	const [coverState] = useAsync(getCoverBookRecomPre, uName, initBookRecom, []);
 	const { loading: coverLoading, data: coverBooks, error: coverError } = coverState;
 
-	const [genreState] = useAsync(getGenreBookRecomPre, uName, initBookRecomOther, []);
+	const [genreState] = useAsync(getGenreBookRecomPre, uName, initBookRecom, []);
 	const { loading: genreLoading, data: genreBooks, error: genreError } = genreState;
 
-	const [ratingState] = useAsync(getRatingBookRecomPre, uName, initBookRecomOther, []);
+	const [ratingState] = useAsync(getRatingBookRecomPre, uName, initBookRecom, []);
 	const { loading: ratingLoading, data: ratingBooks, error: ratingError } = ratingState;
 
 	const userRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{userBooks?.age}세 {userBooks?.sex === 1 ? "남성" : "여성"}
+				{userBooks?.age}세 {userBooks?.gender}
 			</Span>
 			이 많이 읽고 있어요
 		</>
@@ -63,9 +63,9 @@ function Book(props) {
 		<>
 			오늘&nbsp;
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{genreBooks?.genreName}
+				{genreBooks?.genre}
 			</Span>
-			는 어때요?
+			&nbsp;분야는 어때요?
 		</>
 	);
 	const genreRecomErrTitle = <>오늘 이런 장르는 어때요?</>;
