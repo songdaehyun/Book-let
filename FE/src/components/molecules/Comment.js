@@ -99,7 +99,13 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 						)}
 					</CommentHeadingBox>
 
-					<Text marginBottom="12">{comment?.content}</Text>
+					{comment?.content === "" ? (
+						<Text color="var(--gray-500)" marginBottom="12">
+							삭제된 댓글입니다
+						</Text>
+					) : (
+						<Text marginBottom="12">{comment?.content}</Text>
+					)}
 
 					{type === "리뷰" ? (
 						<>
