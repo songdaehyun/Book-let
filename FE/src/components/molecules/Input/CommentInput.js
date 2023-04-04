@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
-import { getReview, postReview } from "../../../apis/BookApi";
-import { initReview } from "../../../apis/init/initBook";
+import { postReview } from "../../../apis/BookApi";
 import { postComment } from "../../../apis/sentenceApi";
-import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import useRating from "../../../hooks/useRating";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
 
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
-function CommentInput({ type, getCommentApiCall, setComments }) {
+function CommentInput({ type, isReviewed, getCommentApiCall, setComments, reply }) {
 	const { sId } = useParams();
 	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
@@ -35,7 +33,7 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 			paragraphId: parseInt(sId),
 			userId: uId,
 			commentContent: comment,
-			parentCommentId: 0, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
+			parentCommentId: !reply?.isReply ? 0 : reply?.cId, // 0이면 부모댓글, 1~n : 아기 댓글이 부모댓글의 아이디를 보냄
 		};
 
 		if (comment !== "") {
@@ -43,14 +41,17 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 				await postComment(data).then((res) => {
 					if (res === "success") {
 						getCommentApiCall();
-						setComment("")
+						setComment("");
+
+						// 대댓글이라면 작성 완료 후 작성바 close
+						if (reply?.isReply) {
+							reply?.setIsReplyWriting(false);
+						}
 					}
 				});
 			})();
 		}
 	};
-
-	const { apiCall: reviewApiCall } = useInfiniteScroll(bId, getReview, 5, initReview, true);
 
 	const reviewSubmit = () => {
 		const data = {
@@ -64,8 +65,8 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 			(async () => {
 				await postReview(data).then((res) => {
 					if (res === "success") {
-						// 댓글 조회 api call
-						reviewApiCall().then((res) => {
+						// 리뷰 조회 api call
+						getCommentApiCall(true).then((res) => {
 							setComments(res);
 						});
 						// 댓글, 별점 초기화
@@ -89,13 +90,16 @@ function CommentInput({ type, getCommentApiCall, setComments }) {
 		<>
 			<CommentInputBox>
 				<input
+					disabled={isReviewed}
 					value={comment}
 					onChange={handleChange}
 					maxLength={limit}
 					placeholder={
 						type === "댓글"
 							? "댓글을 작성해주세요"
-							: type === "리뷰" && "리뷰를 작성해주세요"
+							: type === "리뷰" && isReviewed
+							? "작성된 리뷰가 있습니다"
+							: "리뷰를 작성해주세요"
 					}
 				></input>
 				<div onClick={type === "댓글" ? commentSubmit : type === "리뷰" && reviewSubmit}>

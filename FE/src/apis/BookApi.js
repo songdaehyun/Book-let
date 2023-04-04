@@ -22,8 +22,8 @@ export const postLike = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
-		return res;
+		console.log(res.data);
+		return res.data;
 	} catch (err) {
 		console.error(err);
 	}
@@ -146,11 +146,13 @@ export const getLikeBookRecom = async (uId) => {
 };
 
 // 리뷰 api
-export const getReview = async (isbn, size, page) => {
+export const getReview = async (id, size, page) => {
+	const isbn = id?.bId;
+	const uId = id?.uId;
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/review/${isbn}?size=${size}&page=${page}`,
+			url: `/review/${isbn}?userId=${uId}&size=${size}&page=${page}`,
 		});
 
 		console.log(res.data);

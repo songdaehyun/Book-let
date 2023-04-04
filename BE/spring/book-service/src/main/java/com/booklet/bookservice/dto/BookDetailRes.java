@@ -27,8 +27,10 @@ public class BookDetailRes {
     private int likesNumber;
     // 좋아요 한 유저들의 사진 리스트
     private List<String> likesUserImages;
+    private boolean reviewed;
 
     public void setBookLike(boolean flag){
         this.bookLike = flag;
     }
+    public void setIsReview(boolean flag){this.reviewed = flag;}
 }
