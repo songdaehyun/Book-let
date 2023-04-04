@@ -21,7 +21,9 @@ function LikeButton({ isLiked }) {
 		(async () => {
 			await postLike(data).then((res) => {
 				if (res === "like") {
-					setIsButtonLiked(!isButtonLiked);
+					setIsButtonLiked(true);
+				} else if (res === "cancel") {
+					setIsButtonLiked(false);
 				}
 			});
 		})();

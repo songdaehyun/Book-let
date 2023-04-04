@@ -97,6 +97,7 @@ function DetailPost() {
 			<ReturnNavigationBar title={post?.title} />
 			<DetailPostOverview
 				uId={post?.uId}
+				uName={post?.uName}
 				nickname={post?.nickname}
 				profileImg={post?.profileImg}
 				date={post?.date}

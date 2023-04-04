@@ -44,5 +44,6 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   redis:
-    host: localhost
+    host: localhost # 3.38.106.18
     port: 6379
+    password: "bnrwjrbnrwjr"

@@ -16,6 +16,7 @@ import ModalLayer from "../ModalLayer";
 function DetailPostOverview({
 	uId,
 	nickname,
+	uName,
 	profileImg,
 	date,
 	isScraped,
@@ -75,6 +76,7 @@ function DetailPostOverview({
 				/>
 				<Container marginTop="24">
 					<ProfileWithFollow
+						uName={uName}
 						nickname={nickname}
 						profileImg={profileImg}
 						isFollowed={isFollowed}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import BookListTemplates from "../../templates/Book/BookListTemplates";
 
@@ -43,13 +43,13 @@ function CoverRecomBook(props) {
 	// 	],
 	// };
 
-	const uId = localStorage.getItem("userId");
+	const uName = localStorage.getItem("userName");
 
 	const [recom, setRecom] = useState();
 
 	useEffect(() => {
 		(async () => {
-			await getCoverBookRecom(uId)
+			await getCoverBookRecom(uName)
 				.then(initBookRecom)
 				.then((res) => setRecom(res));
 		})();
@@ -77,8 +77,8 @@ function CoverRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
-			type={recom.type}
-			books={recom.books}
+			type={recom?.type}
+			books={recom?.books}
 		/>
 	);
 }

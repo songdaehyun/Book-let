@@ -1,10 +1,12 @@
 package com.booklet.recomservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name="comment")
 public class Comment extends BaseTimeEntity {
     @Id

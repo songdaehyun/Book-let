@@ -22,7 +22,7 @@ function PreviewBookCoverList({ books }) {
 				return (
 					<CoverWrapper key={book.bookIsbn} bottom="16">
 						<img
-							src={book.bookImgPath}
+							src={book.cover} alt="cover"
 							onClick={() => handleClickCover(book.bookIsbn)}
 						/>
 					</CoverWrapper>

@@ -8,6 +8,7 @@ import MasonryBookList from "../../organisms/Book/MasonryBookList";
 import { Container } from "../../../styles/common/ContainingsStyle";
 
 function BookListTemplates({ title, subTitle, img, books, type }) {
+	console.log(books)
 	return (
 		<div>
 			<ReturnNavigationBar />
