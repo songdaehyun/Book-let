@@ -13,7 +13,7 @@ import { Container, ValidLabelContainer } from "../../../styles/common/Containin
 import { DefaultInput } from "../../../styles/common/InputsStyle";
 import { Label } from "../../../styles/common/TextsStyle";
 
-const JoinBasicForm = forwardRef((props, ref) => {
+const JoinBasicForm = forwardRef(({ type, curInfo }, ref) => {
 	useImperativeHandle(ref, () => ({
 		allConfirmTest,
 	}));
@@ -106,13 +106,18 @@ const JoinBasicForm = forwardRef((props, ref) => {
 		}
 
 		// 닉네임 중복 체크
-		(async () => {
-			await checkNickname(nickname)
-				.then((res) => initCheck(res))
-				.then((res) => {
-					setNicknameDuplicationValid(res);
-				});
-		})();
+		// 수정일 때 내 닉네임 대해서는 체크하지 않고 유효성 성공
+		if (type === "edit" && nickname === curInfo?.nickname) {
+			setNicknameDuplicationValid("success");
+		} else {
+			(async () => {
+				await checkNickname(nickname)
+					.then((res) => initCheck(res))
+					.then((res) => {
+						setNicknameDuplicationValid(res);
+					});
+			})();
+		}
 
 		// if (true) {
 		// 	setNicknameDuplicationValid("success");
@@ -135,13 +140,18 @@ const JoinBasicForm = forwardRef((props, ref) => {
 		}
 
 		// 이메일 중복 체크
-		(async () => {
-			await checkEmail(email)
-				.then((res) => initCheck(res))
-				.then((res) => {
-					setEmailDuplicationValid(res);
-				});
-		})();
+		// 수정일 때 내 이메일 대해서는 체크하지 않고 유효성 성공
+		if (type === "edit" && email === curInfo?.email) {
+			setEmailDuplicationValid("success");
+		} else {
+			(async () => {
+				await checkEmail(email)
+					.then((res) => initCheck(res))
+					.then((res) => {
+						setEmailDuplicationValid(res);
+					});
+			})();
+		}
 
 		// if (true) {
 		// 	setEmailDuplicationValid("success");
@@ -188,44 +198,46 @@ const JoinBasicForm = forwardRef((props, ref) => {
 	};
 
 	function allConfirmTest() {
-		return (
-			idValidTest() &&
-			nicknameValidTest() &&
-			emailValidTest() &&
-			pwValidTest() &&
-			pwConfirmValidTest()
-		);
+		return type === "edit"
+			? nicknameValidTest() && emailValidTest()
+			: idValidTest() &&
+					nicknameValidTest() &&
+					emailValidTest() &&
+					pwValidTest() &&
+					pwConfirmValidTest();
 	}
 
 	return (
 		<div>
-			<Container marginTop="32" marginBottom="24">
-				<Label size="14" weight="600">
-					아이디
-					<DefaultInput
-						placeholder="아이디를 입력해주세요"
-						value={id}
-						onChange={hadleChangeId}
-						onBlur={idValidTest}
-						marginTop="8"
-						marginBottom="8"
-					></DefaultInput>
-				</Label>
-				<ValidLabelContainer>
-					<ValidLabel state={idCntValid}>
-						<CricleCheck />
-						<span>12자 이내</span>
-					</ValidLabel>
-					<ValidLabel state={idIncludeValid}>
-						<CricleCheck />
-						<span>영문 포함</span>
-					</ValidLabel>
-					<ValidLabel state={idDuplicationValid}>
-						<CricleCheck />
-						<span>중복 확인</span>
-					</ValidLabel>
-				</ValidLabelContainer>
-			</Container>
+			{type !== "edit" && (
+				<Container marginTop="32" marginBottom="24">
+					<Label size="14" weight="600">
+						아이디
+						<DefaultInput
+							placeholder="아이디를 입력해주세요"
+							value={id}
+							onChange={hadleChangeId}
+							onBlur={idValidTest}
+							marginTop="8"
+							marginBottom="8"
+						></DefaultInput>
+					</Label>
+					<ValidLabelContainer>
+						<ValidLabel state={idCntValid}>
+							<CricleCheck />
+							<span>12자 이내</span>
+						</ValidLabel>
+						<ValidLabel state={idIncludeValid}>
+							<CricleCheck />
+							<span>영문 포함</span>
+						</ValidLabel>
+						<ValidLabel state={idDuplicationValid}>
+							<CricleCheck />
+							<span>중복 확인</span>
+						</ValidLabel>
+					</ValidLabelContainer>
+				</Container>
+			)}
 
 			<Container marginTop="32" marginBottom="24">
 				<Label size="14" weight="600">
@@ -275,51 +287,55 @@ const JoinBasicForm = forwardRef((props, ref) => {
 				</ValidLabelContainer>
 			</Container>
 
-			<Container marginTop="32" marginBottom="24">
-				<Label size="14" weight="600">
-					비밀번호
-					<DefaultInput
-						type="password"
-						placeholder="비밀번호를 입력해주세요"
-						value={pw}
-						onChange={hadleChangePw}
-						onBlur={pwValidTest}
-						marginTop="8"
-						marginBottom="8"
-					></DefaultInput>
-				</Label>
-				<ValidLabelContainer>
-					<ValidLabel state={pwCntValid}>
-						<CricleCheck />
-						<span>8-16자 이내</span>
-					</ValidLabel>
-					<ValidLabel state={pwIncludeValid}>
-						<CricleCheck />
-						<span>특수문자 포함</span>
-					</ValidLabel>
-				</ValidLabelContainer>
-			</Container>
+			{type !== "edit" && (
+				<>
+					<Container marginTop="32" marginBottom="24">
+						<Label size="14" weight="600">
+							비밀번호
+							<DefaultInput
+								type="password"
+								placeholder="비밀번호를 입력해주세요"
+								value={pw}
+								onChange={hadleChangePw}
+								onBlur={pwValidTest}
+								marginTop="8"
+								marginBottom="8"
+							></DefaultInput>
+						</Label>
+						<ValidLabelContainer>
+							<ValidLabel state={pwCntValid}>
+								<CricleCheck />
+								<span>8-16자 이내</span>
+							</ValidLabel>
+							<ValidLabel state={pwIncludeValid}>
+								<CricleCheck />
+								<span>특수문자 포함</span>
+							</ValidLabel>
+						</ValidLabelContainer>
+					</Container>
 
-			<Container marginTop="32" marginBottom="24">
-				<Label size="14" weight="600">
-					비밀번호 확인
-					<DefaultInput
-						type="password"
-						placeholder="비밀번호를 재입력해주세요"
-						value={pwConfirm}
-						onChange={hadleChangePwConfirm}
-						onBlur={pwConfirmValidTest}
-						marginTop="8"
-						marginBottom="8"
-					></DefaultInput>
-				</Label>
-				<ValidLabelContainer>
-					<ValidLabel state={pwSameValid}>
-						<CricleCheck />
-						<span>비밀번호 일치</span>
-					</ValidLabel>
-				</ValidLabelContainer>
-			</Container>
+					<Container marginTop="32" marginBottom="24">
+						<Label size="14" weight="600">
+							비밀번호 확인
+							<DefaultInput
+								type="password"
+								placeholder="비밀번호를 재입력해주세요"
+								value={pwConfirm}
+								onChange={hadleChangePwConfirm}
+								onBlur={pwConfirmValidTest}
+								marginTop="8"
+								marginBottom="8"
+							></DefaultInput>
+						</Label>
+						<ValidLabelContainer>
+							<ValidLabel state={pwSameValid}>
+								<CricleCheck />
+								<span>비밀번호 일치</span>
+							</ValidLabel>
+						</ValidLabelContainer>
+					</Container>
+				</>
+			)}
 		</div>
 	);
 });
