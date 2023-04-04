@@ -9,7 +9,7 @@ import InputRatingSection from "../../molecules/Book/InputRatingSection";
 import CommentInput from "../../molecules/Input/CommentInput";
 import CommentList from "../../molecules/Sentence/CommentList";
 
-function BookReview({ isReviewed }) {
+function BookReview({}) {
 	const { bId } = useParams();
 	const uId = localStorage.getItem("userId");
 
@@ -41,6 +41,7 @@ function BookReview({ isReviewed }) {
 
 	const {
 		data,
+		isReviewed,
 		apiCall: reviewApiCall,
 		isFetching,
 	} = useInfiniteScroll({ bId, uId }, getReview, 5, initReview);

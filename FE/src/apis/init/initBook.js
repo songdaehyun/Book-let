@@ -35,6 +35,7 @@ export const initMyReviews = (raw) => {
 export const initReview = (raw) => {
 	return {
 		hasNextPage: raw?.hasNextPage,
+		isReviewed: raw?.reviewed,
 		contents: raw?.reviews?.map((review) => {
 			return {
 				uId: review?.userInfo?.userId,
