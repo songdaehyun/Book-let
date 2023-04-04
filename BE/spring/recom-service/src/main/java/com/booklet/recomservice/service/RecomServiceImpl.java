@@ -32,8 +32,62 @@ public class RecomServiceImpl implements RecomService{
     @Override
     public HashMap<String, Object> getBookCoverRecom(String username) {
         User user = userRepository.findByUsername(username);
-        requestTools.getRecomCover(user);
-        return null;
+        if (user == null) {return null;}
+        HashMap<String, Object> result = new HashMap<>();
+        ArrayList<RecomResDto> recommend = new ArrayList<>();
+
+        List<BookCover> bookCovers = bookCoverRepository.findAllByUser(user);
+        int cnt = 0;
+        // 좋아요 누른 녀석이 없다면
+        if (bookCovers.size() == 0) {
+            log.info("추천 책 커버 정보가 없어 랜덤한 커버로 응답합니다.");
+            for (int i = 0; i < 10; i ++) {
+                Book book = bookRepository.findRandomBook();
+                recommend.add(RecomResDto.builder()
+                        .authorName(book.getAuthor().getAuthorName())
+                        .bookImgPath(book.getBookImage())
+                        .bookIsbn(book.getBookIsbn())
+                        .bookTitle(book.getBookTitle())
+                        .build());
+                if (setting==0 && recommend.size() >= 5) {break;}
+            }
+            
+            result.put("recommendType","bookCover");
+            result.put("recommend", recommend);
+            return result;
+        }
+        // 좋아요 누른 녀석이 있다면
+        for (BookCover bookCover : bookCovers) {
+            CoverDataDto coverDataDto = requestTools.getRecomCover(bookCover.getBookIsbn());
+
+            Book firstBook = bookRepository.findByBookIsbn(coverDataDto.getItem1());
+            recommend.add(RecomResDto.builder()
+                    .authorName(firstBook.getAuthor().getAuthorName())
+                    .bookImgPath(firstBook.getBookImage())
+                    .bookIsbn(firstBook.getBookIsbn())
+                    .bookTitle(firstBook.getBookTitle())
+                    .build());
+            if (setting==0 && recommend.size() >= 3) {
+                break;
+            }
+            Book secondBook = bookRepository.findByBookIsbn(coverDataDto.getItem2());
+            recommend.add(RecomResDto.builder()
+                    .authorName(secondBook.getAuthor().getAuthorName())
+                    .bookImgPath(secondBook.getBookImage())
+                    .bookIsbn(secondBook.getBookIsbn())
+                    .bookTitle(secondBook.getBookTitle())
+                    .build());
+            if (setting==0 && recommend.size() >= 5) {
+                break;
+            }
+        }
+
+        result.put("recommendType","bookCover");
+        result.put("recommend", recommend);
+        return result;
+
+
+
     }
 
     @Override
