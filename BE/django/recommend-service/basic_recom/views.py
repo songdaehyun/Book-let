@@ -11,11 +11,12 @@ from konlpy.tag import Okt
 import json
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
-from .models import Userr, Review, BookLikes, Book, Genre, BookGenre
+from .models import Userr, Review, BookLikes, Book, Genre, BookGenre, Paragraph
 import random
 from django.db import connection
 import statistics
-from django.db.models import Q
+from django.db.models import Q, F
+
 
 
 # Create your views here.
@@ -169,7 +170,7 @@ def like_book(request):
     
     random_book = random.choice(liked_books)
 
-    print(random_book.book_id)
+    print(random_book.book_isbn.book_isbn)
 
 
     # 엑셀 파일 경로 지정
@@ -211,11 +212,11 @@ def like_book(request):
         cosine_sim = cosine_similarity(count_matrix)
 
         sim_books = list(enumerate(cosine_sim[index]))
-        sorted_sim_books = sorted(sim_books,key=lambda x:x[1],reverse=True)[1:6]
+        sorted_sim_books = sorted(sim_books,key=lambda x:x[1],reverse=True)[1:11]
         return sorted_sim_books
     
     final_result = []
-    for i in content(random_book.book_id):
+    for i in content(random_book.book_isbn.book_isbn):
         final_result.append(int(df_content.loc[df_content['index'] == i[0], 'book_isbn'].iloc[0]))
 
 
@@ -244,7 +245,7 @@ def star_book(request):
     #isbn은 int로
     tmp_data = []
     for obj in reviewed_books:
-        tmp_data.append({'isbn':int(obj.book_isbn),'book': 'songD', 'id': user_email,'star': obj.review_grade})
+        tmp_data.append({'isbn':int(obj.book_isbn.book_isbn),'book': 'songD', 'id': user_email,'star': obj.review_grade})
     tmp_df = pd.DataFrame(tmp_data)
     
     # 엑셀 파일 경로 지정
@@ -285,10 +286,10 @@ def star_book(request):
         predictions.append((book_id, algo.predict(user_email, book_id).est))
     
     predictions.sort(key=lambda x: x[1], reverse=True)
-    print(predictions[5:10])
+    print(predictions[5:15])
 
     final_result = []
-    for i in predictions[5:10]:
+    for i in predictions[5:15]:
         final_result.append(int(i[0]))
     
     a = {'recom_list' : final_result,
@@ -313,9 +314,9 @@ def category_book(request):
     user_liked_list = []
     isbn_list = []
     for i in liked_books:
-        book_isbn = i.book_id
+        book_isbn = i.book_isbn
         book = BookGenre.objects.get(book_isbn = book_isbn)
-        book_genre_id = book.genre_id.genre_id 
+        book_genre_id = book.genre_id
         user_liked_list.append(book_genre_id)
         isbn_list.append(book_isbn)
 
@@ -331,8 +332,8 @@ def category_book(request):
 
     # QuerySet을 리스트로 변환
     book_list = list(books)
-    # 랜덤으로 5개의 책 뽑기
-    random_books = random.sample(book_list, 5)
+    # 랜덤으로 10개의 책 뽑기
+    random_books = random.sample(book_list, 10)
 
     result = []
     for j in random_books:
@@ -436,7 +437,7 @@ def profile_book(request):
 
     excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', f'book_{age}_{gender}_data.xlsx')
     df = pd.read_excel(excel_file_path)
-    SAMPLE_SIZE = 5
+    SAMPLE_SIZE = 10
     sample_df = df['isbn13'].sample(n=SAMPLE_SIZE)
     sample_list = sample_df.values.tolist()
 
@@ -486,6 +487,35 @@ def sentence(request):
             return {'state' : state, 'score': {'pos':pos, 'neg':neg}}
         
     a = paragraph_to_score(sentence)
+    return Response(data=a, status=200, content_type='application/json')
+
+
+
+
+@api_view(['POST'])
+def sentence_recom(request):
+
+    user_id = request.data.get('user_id')
+    user = Userr.objects.get(user_id=user_id)
+
+    user_score = user.prefer_score
+    user_type =  user.prefer_type
+    user_paragraph = Paragraph.objects.filter(user_id == user_id)
+
+    paragraph_same_type = Paragraph.objects.filter(paragraph_score_type == user_type)
+    result_queryset = paragraph_same_type.exclude(id__in=user_paragraph)
+
+    paragraph_score_list = result_queryset.values_list('paragraph_score', flat=True)
+    paragraph_score_list = list(paragraph_score_list)
+
+    result_queryset = result_queryset.annotate(diff=abs(F('paragraph_score') - user_score))
+
+    result_queryset = result_queryset.order_by()
+
+    id_list = list(result_queryset.values_list('paragraph_id', flat=True))
+
+    a = {'recom_list': id_list}
+    
     return Response(data=a, status=200, content_type='application/json')
 
 

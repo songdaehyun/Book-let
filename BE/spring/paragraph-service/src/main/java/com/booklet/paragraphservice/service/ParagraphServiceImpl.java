@@ -41,6 +41,8 @@ public class ParagraphServiceImpl implements ParagraphService {
                     .paragraphColor(req.getParagraphColor())
                     .book(bookRepository.findById(req.getBookIsbn()).orElse(null))
                     .user(userRepository.findById(req.getUserId()).orElse(null))
+                    .paragraphScore(0.5)
+                    .paragraphScoreType("P")
                     .build();
             result = paragraphRepository.save(paragraph).getParagraphId();
         } catch (Exception e) {

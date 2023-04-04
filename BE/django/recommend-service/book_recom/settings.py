@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'book_recom.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'basic_recom',  # DB 이름
+        'NAME': 'booklet_db',  # DB 이름
         'USER': 'booklet',  # DB에 접속할 때 쓰는 사용자명
         'PASSWORD': 'qnrwjrqnrwjr!qnrfpt',  # DB에 접속할 때 쓰는 비밀번호
         'HOST': 'j8b306.p.ssafy.io',  # 서버 주소

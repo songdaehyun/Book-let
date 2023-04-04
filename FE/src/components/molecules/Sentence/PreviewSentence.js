@@ -18,7 +18,14 @@ function PreviewSentence({ post }) {
 		<PreviewSentenceContainer onClick={handleClickSentence} color={post?.color}>
 			<PreviewSentenceContent>
 				<Text font="jeju" height="28">
-					{post?.content}
+					{post?.content?.split('\n').map((line) => {
+						return (
+							<span>
+								{line}
+								<br />
+							</span>
+						)
+					})}
 				</Text>
 				<PreviewSentenceBottonContent>
 					<div>
