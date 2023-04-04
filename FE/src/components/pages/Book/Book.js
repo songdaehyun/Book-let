@@ -17,7 +17,7 @@ import PreviewBookSection from "../../organisms/Book/PreviewBookSection";
 function Book(props) {
 	const uName = localStorage.getItem("userName");
 
-	const [userState] = useAsync(getUserBookRecomPre, uName, initBookRecom, []);
+	const [userState] = useAsync(getUserBookRecomPre, uName, initBookRecomOther, []);
 	const { loading: userLoading, data: userBooks, error: userError } = userState;
 
 	const [likeState] = useAsync(getLikeBookRecomPre, uName, initBookRecomOther, []);
