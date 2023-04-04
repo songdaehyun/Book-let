@@ -59,7 +59,7 @@ function BookReview({}) {
 				</Span>
 				<Span>{reviews?.length || 0}</Span>
 			</Text>
-			<InputRatingSection />
+			{!isReviewed && <InputRatingSection />}
 			<CommentInput
 				type="리뷰"
 				isReviewed={isReviewed}
