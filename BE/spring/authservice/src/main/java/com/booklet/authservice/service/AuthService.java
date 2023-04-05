@@ -23,4 +23,6 @@ public interface AuthService {
     public HashMap<String, Object> checkEmail(String email);
     // 비밀번호 재설정
     public HashMap<String, Object> setPw(SetPwReqDto setPwReqDto, Authentication authentication);
+    // 회원 탈퇴
+    public Boolean deleteUser(String username);
 }

@@ -200,4 +200,12 @@ public class AuthServiceImpl implements AuthService{
        }
 
     }
+
+    @Override
+    public Boolean deleteUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user==null) {return false;}
+        userRepository.delete(user);
+        return true;
+    }
 }
