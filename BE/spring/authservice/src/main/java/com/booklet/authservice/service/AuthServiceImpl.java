@@ -73,7 +73,7 @@ public class AuthServiceImpl implements AuthService{
         try {
             HashMap<String, Object> result = new HashMap<>();
             User user = userRepository.findByUsername(username);
-            if (user==null||principalDetails.getUsername() != user.getUsername()) {return null;}
+            if (user==null) {return null;}
             user.setUsername(changeUserInfoReq.getUsername());
             user.setNickname(changeUserInfoReq.getNickname());
             user.setEmail(changeUserInfoReq.getEmail());
