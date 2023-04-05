@@ -17,7 +17,7 @@ function ReturnNavigationBar({ title }) {
 	return (
 		<ReturnNavigationBarContainer>
 			<div onClick={handleClickReturn}>
-				<img src={ArrowIcon} />
+				<img src={ArrowIcon} alt="arrow icon" />
 			</div>
 			<Text>{title}</Text>
 		</ReturnNavigationBarContainer>
