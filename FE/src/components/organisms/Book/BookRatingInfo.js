@@ -6,6 +6,9 @@ import RatingStar from "../../atoms/Icon/RatingStar";
 function BookRatingInfo({ rating }) {
 	return (
 		<div>
+			<Text color="var(--gray-400)" size="14" marginBottom="8">
+				해당 도서의 알라딘 평점이 반영되었습니다
+			</Text>
 			<Text marginBottom="8">
 				평균 평점
 				<Span weight="bold" marginLeft="8">

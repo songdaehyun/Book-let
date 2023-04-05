@@ -246,3 +246,20 @@ export const postReview = async (data) => {
 		console.error(err);
 	}
 };
+
+export const updateReview = async (cId, data) => {
+	try {
+		const res = await api({
+			method: "PUT",
+			url: `/review/${cId}`,
+			data: data,
+		});
+
+		console.log(res.data.message);
+		return res.data.message;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+

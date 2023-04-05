@@ -64,6 +64,7 @@ public class BookServiceImpl implements BookService{
         mapper.getConfiguration().setAmbiguityIgnored(true);
         // 도서 정보
         BookDetailRes bookInfo = new ModelMapper().map(book, BookDetailRes.class);
+        bookInfo.setBookGrade(book.getBookLetGrade());
         List<String> genres = bookGenreRepository.findBookGenreNameByBook(book);
         bookInfo.setGenreNames(genres);
         // 저자

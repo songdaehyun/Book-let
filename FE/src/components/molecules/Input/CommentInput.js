@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
-import { postReview } from "../../../apis/BookApi";
+import { postReview, updateReview } from "../../../apis/BookApi";
 import { postComment } from "../../../apis/sentenceApi";
 import useRating from "../../../hooks/useRating";
 import { CommentInputBox } from "../../../styles/common/CommonStyle";
@@ -10,12 +10,22 @@ import { CommentInputBox } from "../../../styles/common/CommonStyle";
 import CommentUploadButton from "../../atoms/Button/CommentUploadButton";
 import WordCountText from "../../atoms/WordCountText";
 
-function CommentInput({ type, isReviewed, getCommentApiCall, setComments, reply }) {
+function CommentInput({
+	type,
+	value,
+	isReviewed,
+	isEditing,
+	getCommentApiCall,
+	setComments,
+	reply,
+	editRId,
+	setIsEditing,
+}) {
 	const { sId } = useParams();
 	const uId = localStorage.getItem("userId");
 	const { bId } = useParams();
 
-	const [comment, setComment] = useState("");
+	const [comment, setComment] = useState(value ? value : "");
 	const [isCommentValid, setIsCommentValid] = useState(false);
 	const { selectedRating } = useSelector((state) => state.book);
 	const limit = 100;
@@ -78,6 +88,32 @@ function CommentInput({ type, isReviewed, getCommentApiCall, setComments, reply 
 		}
 	};
 
+	const reviewUpdate = () => {
+		const data = {
+			content: comment,
+			grade: selectedRating,
+			userId: uId,
+			bookIsbn: bId,
+		};
+
+		if (comment !== "" && selectedRating !== 0) {
+			(async () => {
+				await updateReview(editRId, data).then((res) => {
+					if (res === "success") {
+						// 리뷰 조회 api call
+						getCommentApiCall(true).then((res) => {
+							setComments(res);
+						});
+						// 댓글, 별점 초기화
+						setComment("");
+						selectRating(0);
+						setIsEditing(false);
+					}
+				});
+			})();
+		}
+	};
+
 	useEffect(() => {
 		if (type === "댓글") {
 			setIsCommentValid(comment !== "");
@@ -102,7 +138,15 @@ function CommentInput({ type, isReviewed, getCommentApiCall, setComments, reply 
 							: "리뷰를 작성해주세요"
 					}
 				></input>
-				<div onClick={type === "댓글" ? commentSubmit : type === "리뷰" && reviewSubmit}>
+				<div
+					onClick={
+						type === "댓글"
+							? commentSubmit
+							: type === "리뷰" && isEditing
+							? reviewUpdate
+							: reviewSubmit
+					}
+				>
 					<CommentUploadButton isCommentValid={isCommentValid} />
 				</div>
 			</CommentInputBox>

@@ -74,6 +74,7 @@ public class ReviewServiceImpl implements ReviewService{
         try {
             Book book = bookRepository.findById(req.getBookIsbn()).orElseGet(Book::new);
             if(book.getBookIsbn()==null) return false;
+
             Review review = Review.builder()
                     .reviewContent(req.getContent())
                     .reviewGrade(req.getGrade())
@@ -106,6 +107,8 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     public boolean deleteReview(Long reviewId) {
         try {
+            Review review = reviewRepository.findById(reviewId).orElseGet(Review::new);
+            setBackGrade(review);
             reviewRepository.deleteById(reviewId);
         } catch (Exception e) {
 //            log.info("error : {}", e.getStackTrace());
@@ -116,19 +119,54 @@ public class ReviewServiceImpl implements ReviewService{
 
     private boolean setNewBookGrade(Book book, float newGrade){
         try{
+
             int ReviewCnt = reviewRepository.countByBook(book);
             if(ReviewCnt==0){
-                if(book.getBookGrade()==0){
+                if(book.getBookGrade()==0){  // 알라딘 평점 없음 .BookletGrade에 저장
                     book.updateBookGrade(newGrade);
                     bookRepository.save(book);
-                }else{
+                }else{ // 평점 있으면 가져와서 새로운 그레이드랑 해서 bookletGrade
                     book.updateBookGrade((book.getBookGrade()+newGrade)/2);
                     bookRepository.save(book);
                 }
-            }else {
-                float sum = book.getBookGrade() * ReviewCnt;
+            }else { // 리뷰가 여러개 이미 있어
+                float sum;
+                if(book.getBookGrade()==0) {
+                    sum = book.getBookLetGrade() * ReviewCnt;
+                }else {
+                    sum = book.getBookLetGrade() * (ReviewCnt+1);
+                }
                 sum += newGrade;
                 book.updateBookGrade(sum / (ReviewCnt + 1));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean setBackGrade(Review review){
+        try{
+            Book book = review.getBook();
+            int ReviewCnt = reviewRepository.countByBook(book);
+            if(ReviewCnt==1){ // 책의 리뷰가 나만 있을 때
+                if(book.getBookGrade()==0){  // 알라딘 평점 없음 .BookletGrade에 저장
+                    book.updateBookGrade(0);
+                    bookRepository.save(book);
+                }else{ // 알라딘 평점 있으면 알라딘 평점으로 갱신
+                    book.updateBookGrade(book.getBookGrade());
+                    bookRepository.save(book);
+                }
+            }else { // 리뷰가 여러개 이미 있어
+                float sum;
+                if(book.getBookGrade()==0) {
+                    sum = book.getBookLetGrade() * ReviewCnt;
+                }else {
+                    sum = book.getBookLetGrade() * (ReviewCnt+1);
+                }
+                sum -= review.getReviewGrade();
+                book.updateBookGrade(sum / (ReviewCnt - 1));
             }
         }catch (Exception e){
             e.printStackTrace();
