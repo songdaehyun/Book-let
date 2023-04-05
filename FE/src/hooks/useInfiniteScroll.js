@@ -5,6 +5,7 @@ export default function useInfiniteScroll(id, api, size, init, isRefetching) {
 	const [data, setData] = useState([]);
 	const [isFetching, setFetching] = useState(false);
 	const [hasNextPage, setNextPage] = useState(true);
+	const [isReviewed, setIsReviewed] = useState(false);
 
 	const apiCall = async (isRefetching) => {
 		// const apiCall = useCallback( async (isRefetching) => {
@@ -15,6 +16,9 @@ export default function useInfiniteScroll(id, api, size, init, isRefetching) {
 					isRefetching ? setData(res?.contents) : setData(data.concat(res?.contents));
 					setNextPage(res?.hasNextPage);
 					setFetching(false);
+
+					// 리뷰 조회 시 리뷰 작성 여부 
+					setIsReviewed(res?.isReviewed);
 
 					return isRefetching ? res?.contents : data.concat(res?.contents);
 				});
@@ -44,5 +48,5 @@ export default function useInfiniteScroll(id, api, size, init, isRefetching) {
 		else if (!hasNextPage) setFetching(false);
 	}, [isFetching]);
 
-	return { page, data, isFetching, hasNextPage, apiCall };
+	return { page, data, isFetching, hasNextPage, isReviewed, apiCall };
 }
