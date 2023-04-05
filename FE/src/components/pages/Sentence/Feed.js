@@ -6,7 +6,7 @@ import FeedTab from "../../molecules/Tab/FeedTab";
 
 import { useNavigate } from "react-router-dom";
 import { TextBtn } from "../../../styles/common/ButtonsStyle";
-import { Container } from "../../../styles/common/ContainingsStyle";
+import { Container, OverflowHiddenBox } from "../../../styles/common/ContainingsStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 import { FeedHeadingBox } from "../../../styles/Sentence/FeedTabStyle";
 import TabBar from "../../molecules/Bar/TabBar";
@@ -22,7 +22,7 @@ function Feed(props) {
 
 	return (
 		<>
-			<Container paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
+			<OverflowHiddenBox paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
 				<Text size="24" weight="bold" marginBottom="24">
 					Feed
 				</Text>
@@ -31,7 +31,7 @@ function Feed(props) {
 					<TextBtn onClick={handleClickWrite}>문장 쓰기</TextBtn>
 				</FeedHeadingBox>
 				{selectedItem === 1 ? <FeedMyTab /> : <FeedExplore />}
-			</Container>
+			</OverflowHiddenBox>
 			<TabBar selected={1} />
 		</>
 	);
