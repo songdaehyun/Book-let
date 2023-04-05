@@ -77,6 +77,20 @@ export const updateMyImg = async (uName, data) => {
 	}
 };
 
+export const defaultImgSetting = async (uName) => {
+	try {
+		const res = await api({
+			method: "DELETE",
+			url: `/auth/update/img/${uName}`,
+		});
+
+		console.log(res?.data?.message);
+		return res?.data?.message;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export const deleteMyAccount = async (uId) => {
 	try {
 		const res = await api({
