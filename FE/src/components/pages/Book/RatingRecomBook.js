@@ -7,6 +7,7 @@ import { Span } from "../../../styles/common/TextsStyle";
 import { getRatingBookRecom } from "../../../apis/BookApi";
 import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
 import BannerImg from "../../../assets/images/Banner/rating-recom-book-banner.png";
+import useAsync from "../../../hooks/useAsync";
 
 function RatingRecomBook(props) {
 	const nickname = "루피는 좋아";
@@ -49,15 +50,18 @@ function RatingRecomBook(props) {
 
 	const uName = localStorage.getItem("userName");
 
-	const [books, setBooks] = useState();
+	// const [books, setBooks] = useState();
 
-	useEffect(() => {
-		(async () => {
-			await getRatingBookRecom(uName)
-				.then(initBookRecomOther)
-				.then((res) => setBooks(res));
-		})();
-	}, []);
+	// useEffect(() => {
+	// 	(async () => {
+	// 		await getRatingBookRecom(uName)
+	// 			.then(initBookRecomOther)
+	// 			.then((res) => setBooks(res));
+	// 	})();
+	// }, []);
+
+	const [state] = useAsync(getRatingBookRecom, uName, initBookRecom, []);
+	const { loading, data: recom, error } = state;
 
 	const bannerInfo = {
 		title: (
@@ -79,13 +83,28 @@ function RatingRecomBook(props) {
 		img: BannerImg,
 	};
 
+	const emptyInfo = {
+		title: `아직 관련 내역이 없어요`,
+		subTitle: (
+			<>
+				좋아요와 리뷰를 남겨주시면
+				<br /> 마음에 들 추천을 해드릴게요
+			</>
+		),
+		buttonLabel: "책 탐색하러 가기",
+		path: "/book/search",
+	};
+
 	return (
 		<BookListTemplates
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
-			type={books?.type}
-			books={books?.books}
+			type={recom?.type}
+			books={recom?.books}
+			emptyInfo={emptyInfo}
+			loading={loading}
+			error={error}
 		/>
 	);
 }

@@ -120,4 +120,14 @@ class Paragraph(models.Model):
         db_table = 'paragraph'
 
 
+class Scrap(models.Model):
+    scrap_id = models.BigAutoField(primary_key=True)
+    paragraph = models.ForeignKey(Paragraph, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey('Userr', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'scrap'
+
+
 

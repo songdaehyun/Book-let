@@ -20,10 +20,10 @@ function PreviewBookCoverList({ books }) {
 		<PreviewBookCoverMasonryBox>
 			{books.map((book) => {
 				return (
-					<CoverWrapper key={book.bookIsbn} bottom="16">
+					<CoverWrapper key={book?.isbn} bottom="16">
 						<img
-							src={book.cover} alt="cover"
-							onClick={() => handleClickCover(book.bookIsbn)}
+							src={book?.cover} alt="cover"
+							onClick={() => handleClickCover(book?.isbn)}
 						/>
 					</CoverWrapper>
 				);
