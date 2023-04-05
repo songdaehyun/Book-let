@@ -80,6 +80,8 @@ export const initAuthorBooks = (raw) => {
 export const initBookRecom = (raw) => {
 	return {
 		type: raw?.recommendType,
+		age: raw?.age,
+		gender: raw?.sex === 1 ? "남성" : "여성",
 		genre: raw?.genreName,
 		books: raw?.recommend?.map((book) => {
 			return {

@@ -74,9 +74,6 @@ public class RequestTools {
             case "user":
                 setting = "profile";
                 break;
-            case "sentence":
-                setting = "sentence/recom";
-                break;
         }
         String url = "https://j8b306.p.ssafy.io/basic_recom/" + setting + "/";
         log.info("url" + url);
@@ -111,7 +108,9 @@ public class RequestTools {
             log.info("요청에 대한 응답 변환 성공" + response.toString());
             return response.getRecom_list();
         } catch (Exception e){
-            log.warn("요청 변환에 실패하였습니다");
+            String response = restTemplate.postForObject(url, requestEntity, String.class);
+            log.warn("요청 변환에 실패하였습니다" + response);
+            System.out.println();
             return null;
         }
     }

@@ -60,7 +60,7 @@ export const ReturnNavigationBarContainer = styled.div`
 	z-index: 50;
 
 	> div:first-child {
-		width: auto;
+		width: 10px;
 		height: 16px;
 	}
 
