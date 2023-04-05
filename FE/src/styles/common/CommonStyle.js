@@ -88,6 +88,7 @@ export const CommentBox = styled.div`
 		margin-right: 24px;
 
 		border-radius: 50%;
+		object-fit: cover;
 	}
 
 	> div:nth-child(2) {

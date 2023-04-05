@@ -27,6 +27,18 @@ export const PreviewBookOverviewBox = styled.div`
 		filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2));
 		border-radius: 0px 5px 5px 0px;
 	}
+
+	// 도서 제목
+	> div:nth-child(2) {
+		max-height: 38.4px;
+		overflow: hidden;
+	}
+	
+	// 저자명
+	> div:nth-child(3) {
+		max-height: 16px;
+		overflow: hidden;
+	}
 `;
 
 export const BookCoverMoreBox = styled.div`

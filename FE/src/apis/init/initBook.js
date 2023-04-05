@@ -6,7 +6,7 @@ export const initBook = (raw) => {
 		author: raw?.authorName,
 		publisher: raw?.bookPublisher,
 		genres: raw?.genreNames,
-		description: raw?.description,
+		description: raw?.bookDescription,
 		isbn: raw?.bookIsbn,
 		authorOtherBooks: raw?.authorOtherBooks,
 		isLiked: raw?.bookLike,

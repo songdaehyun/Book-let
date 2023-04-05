@@ -71,6 +71,7 @@ function RatingRecomBook(props) {
 				높은 평점을 주실 책이에요
 			</>
 		),
+		errTitle: <>높은 평점을 주실 책이에요</>,
 		subTitle: <>예상 평점이 높은 도서를 추천해드려요</>,
 		img: BannerImg,
 	};
@@ -89,7 +90,7 @@ function RatingRecomBook(props) {
 
 	return (
 		<BookListTemplates
-			title={bannerInfo.title}
+			title={recom?.nickname ? bannerInfo.title : bannerInfo.errTitle}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
 			type={recom?.type}

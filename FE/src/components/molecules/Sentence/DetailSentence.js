@@ -19,16 +19,16 @@ function DetailSentence({ isbn, title, author, cover, content, page, color }) {
 	return (
 		<DetailSentenceContainer color={color}>
 			<SentenceContentBox>
-				<Text font="jeju" size="18" height="32">
+				<div>
 					{content?.split("\n").map((line) => {
 						return (
-							<span>
+							<Span font="jeju" height="28">
 								{line}
 								<br />
-							</span>
+							</Span>
 						);
 					})}
-				</Text>
+				</div>
 			</SentenceContentBox>
 			<DetailSentenceBottomInfo>
 				<hr />

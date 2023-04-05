@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Text } from "../../../styles/common/TextsStyle";
 import {
 	PreviewSentenceBottonContent,
 	PreviewSentenceContainer,
 	PreviewSentenceContent,
 } from "../../../styles/Sentence/PostPreviewStyle";
+import { Span, Text } from "../../../styles/common/TextsStyle";
 
 function PreviewSentence({ post }) {
 	const navigate = useNavigate();
@@ -17,16 +17,16 @@ function PreviewSentence({ post }) {
 	return (
 		<PreviewSentenceContainer onClick={handleClickSentence} color={post?.color}>
 			<PreviewSentenceContent>
-				<Text font="jeju" height="28">
-					{post?.content?.split('\n').map((line) => {
+				<div>
+					{post?.content?.split("\n").map((line) => {
 						return (
-							<span>
+							<Span font="jeju" height="28">
 								{line}
 								<br />
-							</span>
-						)
+							</Span>
+						);
 					})}
-				</Text>
+				</div>
 				<PreviewSentenceBottonContent>
 					<div>
 						<Text size="12" weight="bold" marginBottom="4">

@@ -36,7 +36,7 @@ export const PreviewBookMasonryOverviewBox = styled.div`
 	display: inline-flex;
 	flex-direction: column;
 	width: 100%;
-	margin-bottom: 16px;
+	margin-bottom: 24px;
 	// overflow: hidden;
 
 	img {
@@ -59,6 +59,7 @@ export const BookListBox = styled.div`
 	grid-template-columns: 1fr 1fr 1fr;
 	column-gap: 16px;
 	row-gap: 24px;
+	align-items: baseline;
 `;
 
 export const BookSearchHeadingBox = styled.div`

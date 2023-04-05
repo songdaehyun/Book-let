@@ -1,6 +1,6 @@
 import React from "react";
 import { SeparationBar } from "../../../styles/common/BarsStyle";
-import { Container } from "../../../styles/common/ContainingsStyle";
+import { Container, OverflowHiddenBox } from "../../../styles/common/ContainingsStyle";
 import TabBar from "../../molecules/Bar/TabBar";
 import MyAccountSetSection from "../../organisms/Mypage/MyAccountSetSection";
 import MyInfoSetSection from "../../organisms/Mypage/MyInfoSetSection";
@@ -12,7 +12,7 @@ import UserInfoOverview from "../../organisms/Mypage/UserInfoOverview";
 function Mypage(props) {
 	return (
 		<>
-			<Container paddingBottom="67">
+			<OverflowHiddenBox paddingBottom="67">
 				<UserInfoOverview />
 				<SeparationBar />
 				<MyReviewPreviewSection />
@@ -20,7 +20,7 @@ function Mypage(props) {
 				<MyInfoSetSection />
 				<MyAccountSetSection />
 				<MypageFooter />
-			</Container>
+			</OverflowHiddenBox>
 			<TabBar selected={3} />
 		</>
 	);
