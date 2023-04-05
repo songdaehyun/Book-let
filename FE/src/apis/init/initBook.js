@@ -84,6 +84,7 @@ export const initBookRecom = (raw) => {
 		age: raw?.age,
 		gender: raw?.sex === 1 ? "남성" : "여성",
 		genre: raw?.genreName,
+		nickname: raw?.nickname,
 		books: raw?.recommend?.map((book) => {
 			return {
 				cover: book?.bookImgPath,
