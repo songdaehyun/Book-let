@@ -22,7 +22,7 @@ function MyAccountSetSection(props) {
 			<div onClick={handleClickLogout}>
 				<MoreBar title="로그아웃" />
 			</div>
-			<MoreBar title="탈퇴" path="delete-account" />
+			{/* <MoreBar title="탈퇴" path="delete-account" /> */}
 		</Container>
 	);
 }
