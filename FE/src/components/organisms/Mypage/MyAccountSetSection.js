@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../../apis/authApi";
 import { Container } from "../../../styles/common/ContainingsStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 
@@ -10,17 +9,9 @@ function MyAccountSetSection(props) {
 	const navigate = useNavigate();
 
 	const handleClickLogout = () => {
-		(async () => {
-			await logout().then((res) => {
-				console.log(res.status);
-
-				if (res.status === 201) {
-					// 로컬 스토리지 초기화
-					localStorage.clear();
-					navigate("/login");
-				}
-			});
-		})();
+		// 로컬 스토리지 초기화
+		localStorage.clear();
+		navigate("/login");
 	};
 
 	return (
