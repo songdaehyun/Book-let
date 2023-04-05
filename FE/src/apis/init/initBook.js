@@ -28,6 +28,7 @@ export const initMyReviews = (raw) => {
 			rating: review?.reviewGrade,
 			content: review?.reviewContent,
 			date: review?.createdDate,
+			rId: review?.reviewId,
 		};
 	});
 };

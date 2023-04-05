@@ -73,12 +73,10 @@ public class AuthServiceImpl implements AuthService{
         try {
             HashMap<String, Object> result = new HashMap<>();
             User user = userRepository.findByUsername(username);
-            if (user==null) {return null;}
+            if (user==null||principalDetails.getUsername() != user.getUsername()) {return null;}
             user.setUsername(changeUserInfoReq.getUsername());
             user.setNickname(changeUserInfoReq.getNickname());
             user.setEmail(changeUserInfoReq.getEmail());
-            user.setAge(changeUserInfoReq.getAge());
-            user.setSex(changeUserInfoReq.getSex());
             userRepository.save(user);
 
             result.put("data", changeUserInfoReq);
@@ -94,13 +92,17 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public HashMap<String, Object> saveUserImg(MultipartFile file, String username) {
-        log.info("유저 프로필 이미지 저장 진입"+username);
+        log.info("유저 프로필 이미지 저장 진입 : "+username);
         User user = userRepository.findByUsername(username);
-        if (user==null) {return null;}
-            HashMap<String, Object> result = new HashMap<>();
-
+        if (user==null) {
+            log.warn("없는 유저 입니다" + user.toString());
+            return null;
+        }
+        HashMap<String, Object> result = new HashMap<>();
+        System.out.println("ㅇㅁㅇ!!!!!!");
         try {
             UserImage userImage = userImageRepository.findByUser(user);
+            System.out.println("ㅇㅅㅇ");
             if (userImage == null) {
                 userImage = new UserImage();
             }
@@ -113,6 +115,7 @@ public class AuthServiceImpl implements AuthService{
             userImage.setImagePath(userUrl);
             userImage.setModifiedDate(LocalDateTime.now());
             userImage.setUser(user);
+            System.out.println("ㅇㅁㅇ");
 //            userImage.setImgId(0L); // 먼지 모르겠지만 오류 방지용으로 집어넣음
             userImageRepository.save(userImage);
             amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
@@ -123,9 +126,21 @@ public class AuthServiceImpl implements AuthService{
 
             return result;
         } catch (IOException e) {
+            System.out.println("ㅇㅁㅇ");
             log.info("유저 이미지 저장 실패 : ", user.getUsername());
             e.printStackTrace();
             return null;}
+    }
+
+    @Override
+    public Boolean deleteUserImg(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return false;
+        }
+        user.getUserImage().setImagePath("https://pjbooklet.s3.ap-northeast-2.amazonaws.com/defaultImg.png");
+        user.getUserImage().setModifiedDate(LocalDateTime.now());
+        return true;
     }
 
     @Override
@@ -184,5 +199,13 @@ public class AuthServiceImpl implements AuthService{
             return null;
        }
 
+    }
+
+    @Override
+    public Boolean deleteUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user==null) {return false;}
+        userRepository.delete(user);
+        return true;
     }
 }

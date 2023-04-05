@@ -3,17 +3,18 @@ import React, { useState } from "react";
 import useDate from "../../../hooks/useDate";
 import { TextBtn } from "../../../styles/common/ButtonsStyle";
 
-import { Text } from "../../../styles/common/TextsStyle";
+import { deleteReview } from "../../../apis/BookApi";
 import {
 	MyReviewDetailBox,
 	MyReviewDetailHeadingBox,
 	MyReviewPreviewBookInfoBox,
 	MyReviewPreviewReviewInfoBox,
 } from "../../../styles/Mypage/MypageStyle";
+import { Text } from "../../../styles/common/TextsStyle";
 import RatingLabel from "../../atoms/RatingLabel";
 import ModalLayer from "../../organisms/ModalLayer";
 
-function MyReviewDetail({ review }) {
+function MyReviewDetail({ review, getMyReviewsApiCall }) {
 	const dateTimeSeparation = useDate();
 
 	// 더미
@@ -22,8 +23,19 @@ function MyReviewDetail({ review }) {
 		setIsOpen(true);
 	};
 
+	const deleteReviewApiCall = () => {
+		setIsOpen(false);
+		(async () => {
+			await deleteReview(review?.rId).then((res) => {
+				if (res === "success") {
+					getMyReviewsApiCall();
+				}
+			});
+		})();
+	};
+
 	const handleClickDelete = () => {
-		console.log("삭제");
+		deleteReviewApiCall();
 	};
 
 	return (

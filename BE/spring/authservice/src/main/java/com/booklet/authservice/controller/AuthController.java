@@ -47,6 +47,21 @@ public class AuthController {
         }
     }
 
+    @DeleteMapping ("/delete/{username}")
+    public ResponseEntity deleteUser(@PathVariable String username) {
+        HashMap<String, Object> result = new HashMap<>();
+        Boolean chk = authService.deleteUser(username);
+
+        if (chk == true) {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping("/update/{username}")
     public ResponseEntity updateUser(@RequestBody ChangeUserInfoReq changeUserInfoReq, @PathVariable String username) {
 
@@ -72,9 +87,27 @@ public class AuthController {
 
         if (result != null) {
             result.put("message", "success");
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            return new ResponseEntity<>(result, HttpStatus.OK);
 
         } else {
+            result = new HashMap<>();
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/update/img/{username}")
+    public ResponseEntity DeleteUserImg(@PathVariable String username) {
+        HashMap<String, Object> result = new HashMap<>();
+
+        Boolean bool = authService.deleteUserImg(username);
+
+        if (bool == true) {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+            result = new HashMap<>();
             result.put("message", "fail");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
