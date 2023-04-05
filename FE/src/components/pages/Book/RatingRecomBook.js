@@ -75,8 +75,6 @@ function RatingRecomBook(props) {
 		),
 		subTitle: (
 			<>
-				아직 읽지 않으신 것 중에서
-				<br />
 				예상 평점이 높은 도서를 추천해드려요
 			</>
 		),
