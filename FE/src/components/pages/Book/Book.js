@@ -47,6 +47,7 @@ function Book(props) {
 		</>
 	);
 
+	const ratingRecomErrTitle = <>높은 평점을 주실 책이에요</>;
 	const ratingRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
@@ -98,6 +99,7 @@ function Book(props) {
 				/>
 				<PreviewBookSection
 					title={ratingRecomTitle}
+					errTitle={ratingRecomErrTitle}
 					books={ratingBooks?.books}
 					path="recom/rating"
 					emptyInfo={emptyInfo}
