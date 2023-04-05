@@ -59,6 +59,7 @@ export const BookListBox = styled.div`
 	grid-template-columns: 1fr 1fr 1fr;
 	column-gap: 16px;
 	row-gap: 24px;
+	align-items: baseline;
 `;
 
 export const BookSearchHeadingBox = styled.div`
