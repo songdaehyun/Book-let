@@ -50,7 +50,7 @@ function Book(props) {
 	const ratingRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{uName}
+				{ratingBooks?.nickname}
 			</Span>
 			님이 <br />
 			높은 평점을 주실 책이에요

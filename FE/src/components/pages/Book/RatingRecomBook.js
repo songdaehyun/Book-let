@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import BookListTemplates from "../../templates/Book/BookListTemplates";
 
 import { Span } from "../../../styles/common/TextsStyle";
 
 import { getRatingBookRecom } from "../../../apis/BookApi";
-import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
+import { initBookRecom } from "../../../apis/init/initBook";
 import BannerImg from "../../../assets/images/Banner/rating-recom-book-banner.png";
 import useAsync from "../../../hooks/useAsync";
 
 function RatingRecomBook(props) {
-	const nickname = "루피는 좋아";
-
 	// const books = {
 	// 	recommendType: "score",
 	// 	recommend: [
@@ -67,19 +65,13 @@ function RatingRecomBook(props) {
 		title: (
 			<>
 				<Span size="19" weight="bold" color="var(--primary-600)">
-					{nickname}
+					{recom?.nickname}
 				</Span>
 				님이 <br />
 				높은 평점을 주실 책이에요
 			</>
 		),
-		subTitle: (
-			<>
-				아직 읽지 않으신 것 중에서
-				<br />
-				예상 평점이 높은 도서를 추천해드려요
-			</>
-		),
+		subTitle: <>예상 평점이 높은 도서를 추천해드려요</>,
 		img: BannerImg,
 	};
 
