@@ -24,6 +24,7 @@ public class Book {
     private String bookDescription;
 
     private float bookGrade;
+    private float bookLetGrade;
 
     @Column
     private String bookImage;
@@ -42,6 +43,6 @@ public class Book {
     private List<Review> reviews = new ArrayList<>();
 
     public void updateBookGrade(float newGrade){
-        this.bookGrade = newGrade;
+        this.bookLetGrade = newGrade;
     }
 }
