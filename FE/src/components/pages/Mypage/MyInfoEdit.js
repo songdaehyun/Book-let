@@ -80,9 +80,6 @@ function MyInfoEdit(props) {
 				username: uName,
 				nickname: nickname,
 				email: email,
-				// 더미
-				age: 26,
-				sex: 1,
 			};
 
 			(async () => {
