@@ -47,6 +47,21 @@ public class AuthController {
         }
     }
 
+    @DeleteMapping ("/delete/{username}")
+    public ResponseEntity deleteUser(@PathVariable String username) {
+        HashMap<String, Object> result = new HashMap<>();
+        Boolean chk = authService.deleteUser(username);
+
+        if (chk == true) {
+            result.put("message", "success");
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+            result.put("message", "fail");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping("/update/{username}")
     public ResponseEntity updateUser(@RequestBody ChangeUserInfoReq changeUserInfoReq, @PathVariable String username) {
 
