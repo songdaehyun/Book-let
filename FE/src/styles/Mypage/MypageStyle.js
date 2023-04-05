@@ -208,15 +208,31 @@ export const PicturePreview = styled.img`
 	border-radius: 50px;
 
 	position: relative; */
+
+	border: 1px solid var(--gray-300);
+	border-radius: 50%;
 `;
 
-export const UploadButton = styled.img`
+export const UploadButton = styled.div`
 	position: absolute;
 	top: 80%;
 	left: 90%;
 	transform: translate(-50%, -50%);
 	width: 40px;
 	height: 40px;
+
+	background-color: white;
+	color: var(--primary-600);
+	font-weight: bold;
+	font-size: 22px;
+	border-radius: 50%;
+	border: 1px solid var(--gray-300);
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	padding-bottom: 2px;
+	padding-left: 2px;
 `;
 
 export const UploadPictureBox = styled.div`
@@ -225,9 +241,9 @@ export const UploadPictureBox = styled.div`
 
 	position: relative;
 
-	border: 1px solid var(--gray-300);
-	border-radius: 50%;
-	overflow: hidden;
+	/* border: 1px solid var(--gray-300); */
+	/* border-radius: 50%; */
+	/* overflow: hidden; */
 `;
 
 export const UploadPictureEmptyBox = styled.div`
@@ -240,8 +256,16 @@ export const UploadPictureEmptyBox = styled.div`
 	justify-content: center;
 	align-items: center;
 
+	border: 1px solid var(--gray-300);
+	border-radius: 50%;
+
 	img {
 		width: 32px;
 		height: auto;
 	}
+`;
+
+export const DefaultImgSettingBtnBox = styled.div`
+	display: flex;
+	justify-content: flex-end;
 `;

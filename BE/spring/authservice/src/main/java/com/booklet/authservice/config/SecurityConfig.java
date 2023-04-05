@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -40,7 +41,10 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/auth/user")
                 .access("hasRole('USER')")
                 .anyRequest().permitAll()
-                .and().logout().logoutUrl("/api/v1/auth/logout")
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/auth/logout"))
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
                 .and().build();
     }
 

@@ -1,17 +1,18 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
 	ImageInput,
 	PicturePreview,
 	PictureSection,
+	UploadButton,
 	UploadPictureBox,
 	UploadPictureEmptyBox,
 	UploadPictureSection,
 } from "../../../styles/Mypage/MypageStyle";
 
-import pictureIcon from '../../../assets/icons/picture-icon.png';
+import pictureIcon from "../../../assets/icons/picture-icon.png";
 
-function UploadProfileImage(props) {
-	const [imageFile, setImageFile] = useState("");
+function UploadProfileImage({ imageFile, setImageFile }) {
+	// const [imageFile, setImageFile] = useState("");
 	const [imagePreview, setImagePreview] = useState(null);
 	// const [imageFile, setImageFile] = useRecoilState(storeImageFileState);
 	// const [imagePreview, setImagePreview] = useRecoilState(storeImagePreviewState);
@@ -21,6 +22,10 @@ function UploadProfileImage(props) {
 	// if (!imagePreview && img && img.img?.split("-")[10] !== "null.png") {
 	// 	setImagePreview(img?.img);
 	// }
+
+	useEffect(() => {
+		setImagePreview(imageFile);
+	}, [imageFile]);
 
 	const onUploadImage = useCallback(() => {
 		const file = imageRef.current.files[0];
@@ -46,10 +51,10 @@ function UploadProfileImage(props) {
 						<PicturePreview src={imagePreview} alt="photoPreview" />
 					) : (
 						<UploadPictureEmptyBox>
-                            <img src={pictureIcon} alt="photo icon" />
-                        </UploadPictureEmptyBox>
+							<img src={pictureIcon} alt="photo icon" />
+						</UploadPictureEmptyBox>
 					)}
-					{/* <UploadButton src={PlusButton} alt={PlusButton} /> */}
+					<UploadButton>+</UploadButton>
 				</UploadPictureBox>
 			</PictureSection>
 		</UploadPictureSection>

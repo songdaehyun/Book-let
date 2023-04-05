@@ -4,10 +4,10 @@ import { Container } from "../../../styles/common/ContainingsStyle";
 import ReturnNavigationBar from "../../molecules/Bar/ReturnNavigationBar";
 import MyReviewList from "../../organisms/Mypage/MyReviewList";
 
+import { initMyReviews } from "../../../apis/init/initBook";
+import { getMyReview } from "../../../apis/userApi";
 import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
-import { getMyReview } from "../../../apis/userApi";
-import { initMyReviews } from "../../../apis/init/initBook";
 
 function MyReview(props) {
 	const [reviews, setReviews] = useState([]);
@@ -37,7 +37,7 @@ function MyReview(props) {
 
 	const uName = localStorage.getItem("userName");
 
-	useEffect(() => {
+	const getMyReviewsApiCall = () => {
 		(async () => {
 			await getMyReview(uName)
 				.then(initMyReviews)
@@ -45,6 +45,10 @@ function MyReview(props) {
 					setReviews(res);
 				});
 		})();
+	};
+
+	useEffect(() => {
+		getMyReviewsApiCall();
 	}, []);
 
 	const isArrEmpty = useArr();
@@ -74,7 +78,7 @@ function MyReview(props) {
 						path={emptyInfo.path}
 					/>
 				) : (
-					<MyReviewList reviews={reviews} />
+					<MyReviewList reviews={reviews} getMyReviewsApiCall={getMyReviewsApiCall} />
 				)}
 			</Container>
 		</div>

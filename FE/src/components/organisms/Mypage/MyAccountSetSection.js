@@ -15,7 +15,8 @@ function MyAccountSetSection(props) {
 				console.log(res.status);
 
 				if (res.status === 201) {
-					// 로그인 토큰 삭제 
+					// 로컬 스토리지 초기화
+					localStorage.clear();
 					navigate("/login");
 				}
 			});
