@@ -11,7 +11,7 @@ from konlpy.tag import Okt
 import json
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
-from .models import Userr, Review, BookLikes, Book, Genre, BookGenre, Paragraph
+from .models import Userr, Review, BookLikes, Book, Genre, BookGenre, Paragraph, Scrap
 import random
 from django.db import connection
 import statistics
@@ -172,10 +172,7 @@ def like_book(request):
         return Response(data=b, status=200, content_type='application/json')
     
     random_book = random.choice(liked_books)
-
-    print(random_book.book_isbn.book_isbn)
-
-
+    
     # 엑셀 파일 경로 지정
     # excel_file_path = os.path.join(os.getcwd(),'basic_recom', 'excel', 'df_book.xlsx')
     # print(excel_file_path)
@@ -191,7 +188,7 @@ def like_book(request):
     df_content.reset_index(inplace=True, drop=True)
     df_content['index'] = [i for i in range(df_content.shape[0])]
 
-    print(df_content)
+    
 
     def content(book_isbn):
         #isbn은 int로
@@ -277,7 +274,7 @@ def star_book(request):
     
     # #특정 유저가 이미 읽은 책 목록
     filterd_df = df_star.loc[df_star['id'] == user_email]
-    print(filterd_df)
+    
 
     # #유저가 읽지 않은 책 목록
     no_user_read = df_star.loc[~df_star['isbn'].isin(filterd_df['isbn'])]['isbn'].unique()
@@ -289,7 +286,7 @@ def star_book(request):
         predictions.append((book_id, algo.predict(user_email, book_id).est))
     
     predictions.sort(key=lambda x: x[1], reverse=True)
-    print(predictions[5:15])
+    
 
     final_result = []
     for i in predictions[5:15]:
@@ -499,6 +496,12 @@ def sentence(request):
         print(pos_list, neg_list)
         pos = sum(pos_list)
         neg = sum(neg_list)
+
+        if pos != 0:
+            pos = pos/len(pos_list)
+
+        if neg != 0:
+            neg = neg/len(pos_list)
         
         print(pos, neg)
         
@@ -523,41 +526,36 @@ def sentence_recom(request):
 
     user_score = user.prefer_score
     user_type =  user.prefer_type
-    user_paragraph = Paragraph.objects.filter(user_id=user_id)
 
-    if not user_paragraph:
-        b = {'recom_list' : "스크랩한 문장이 없어서 추천을 할 수 없습니다.",
+    paragraphs = Paragraph.objects.exclude(user=user)
+
+    print('유저가 작성하지 않은 문장들')
+    print(paragraphs)
+
+    if not paragraphs:
+        b = {'recom_list' : "유저가 모든 문장을 작성 했습니다",
              'result' : False}
         return Response(data=b, status=200, content_type='application/json')
 
-    print(user_paragraph)
+    paragraphs = paragraphs.filter(paragraph_score_type=user_type)
 
-    paragraph_same_type = Paragraph.objects.filter(paragraph_score_type=user_type)
+    print('유저와 같은 타입의 문장들')
+    print(paragraphs)
+    
 
-    if not paragraph_same_type:
+    if not paragraphs:
         b = {'recom_list' : "유저의 타입과 일치하는 문장이 없어서 추천을 할 수 없습니다.",
              'result' : False}
         return Response(data=b, status=200, content_type='application/json')
 
-    print(paragraph_same_type)
-
-    result_queryset = paragraph_same_type.exclude(paragraph_id__in=user_paragraph)
-
-    if not result_queryset:
-        b = {'recom_list' : "유저가 문장을 다 수집해서 추천을 할 수 없습니다.",
-             'result' : False}
-        return Response(data=b, status=200, content_type='application/json')
-
-    print(result_queryset)
-
-    result_queryset = result_queryset.annotate(
+    paragraphs = paragraphs.annotate(
     diff=Abs(F('paragraph_score') - Value(user_score, output_field=FloatField()))
 )
-    result_queryset = result_queryset.order_by('-diff')
+    paragraphs = paragraphs.order_by('diff')
 
-    print(result_queryset)
+    print(paragraphs)
 
-    result = result_queryset.values_list('paragraph_id', flat=True)
+    result = paragraphs.values_list('paragraph_id', flat=True)
 
     a = {'recom_list': list(result),
          'result' : True}
