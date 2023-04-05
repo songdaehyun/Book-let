@@ -5,6 +5,7 @@ import BookListTemplates from "../../templates/Book/BookListTemplates";
 import { getLikeBookRecom } from "../../../apis/BookApi";
 import { initBookRecom, initBookRecomOther } from "../../../apis/init/initBook";
 import BannerImg from "../../../assets/images/Banner/like-recom-book-banner.png";
+import useAsync from "../../../hooks/useAsync";
 
 function LikeRecomBook(props) {
 	// const books = {
@@ -45,15 +46,18 @@ function LikeRecomBook(props) {
 
 	const uName = localStorage.getItem("userName");
 
-	const [recom, setRecom] = useState();
+	// const [recom, setRecom] = useState();
 
-	useEffect(() => {
-		(async () => {
-			await getLikeBookRecom(uName)
-				.then(initBookRecomOther)
-				.then((res) => setRecom(res));
-		})();
-	}, []);
+	// useEffect(() => {
+	// 	(async () => {
+	// 		await getLikeBookRecom(uName)
+	// 			.then(initBookRecomOther)
+	// 			.then((res) => setRecom(res));
+	// 	})();
+	// }, []);
+
+	const [likeState] = useAsync(getLikeBookRecom, uName, initBookRecom, []);
+	const { loading, data: recom, error } = likeState;
 
 	const bannerInfo = {
 		title: (
@@ -89,8 +93,11 @@ function LikeRecomBook(props) {
 			title={bannerInfo.title}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
+			emptyInfo={emptyInfo}
 			type={recom?.type}
 			books={recom?.books}
+			loading={loading}
+			error={error}
 		/>
 	);
 }

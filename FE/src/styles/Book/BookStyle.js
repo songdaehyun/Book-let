@@ -81,8 +81,6 @@ export const PreviewBookSkeletonBox = styled.div`
 `;
 
 export const PreviewBookSkeletonItemBox = styled.div`
-	width: 30%;
-
 	> div {
 		background-color: var(--gray-200);
 		border-radius: 4px;
@@ -109,10 +107,10 @@ export const PreviewBookSkeletonItemBox = styled.div`
 	}
 
 	> div:first-child {
-		height: 160px;
+		height: 200px;
 		margin-bottom: 16px;
 	}
-	
+
 	> div:nth-child(2) {
 		height: 16px;
 		margin-bottom: 4px;
@@ -121,4 +119,8 @@ export const PreviewBookSkeletonItemBox = styled.div`
 	> div:nth-child(3) {
 		height: 14px;
 	}
+`;
+
+export const BookListSkeletonItemBox = styled(PreviewBookSkeletonItemBox)`
+	width: 30%;
 `;

@@ -114,11 +114,24 @@ export const getScrapCount = async (uId) => {
 	}
 };
 
-export const getSentenceRecom = async (uId) => {
+export const getSentenceRecom = async (uName) => {
 	try {
 		const res = await api({
 			method: "GET",
-			url: `/recom/paragraph/${uId}`,
+			url: `/recom/paragraph/all/${uName}`,
+		});
+
+		console.log(res?.data);
+		return res?.data;
+	} catch (err) {
+		console.error(err);
+	}
+};
+export const getSentenceRecomPreview = async (uName) => {
+	try {
+		const res = await api({
+			method: "GET",
+			url: `/recom/paragraph/pre/${uName}`,
 		});
 
 		console.log(res?.data);

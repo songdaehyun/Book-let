@@ -13,6 +13,8 @@ public interface AuthService {
     public HashMap<String, Object> updateUser(ChangeUserInfoReq changeUserInfoReq, String username);
     // 회원 이미지 설정
     public HashMap<String, Object> saveUserImg(MultipartFile file, String username);
+    // 회원 이미지 삭제(기본값 설정)
+    public Boolean deleteUserImg(String username);
     // 아이디 중복 확인
     public HashMap<String, Object> checkUsername(String username);
     // 닉네임 중복 확인
