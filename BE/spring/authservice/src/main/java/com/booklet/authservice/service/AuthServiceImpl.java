@@ -73,7 +73,7 @@ public class AuthServiceImpl implements AuthService{
         try {
             HashMap<String, Object> result = new HashMap<>();
             User user = userRepository.findByUsername(username);
-            if (user==null||principalDetails.getUsername() != user.getUsername()) {return null;}
+            if (user==null) {return null;}
             user.setUsername(changeUserInfoReq.getUsername());
             user.setNickname(changeUserInfoReq.getNickname());
             user.setEmail(changeUserInfoReq.getEmail());
@@ -140,6 +140,8 @@ public class AuthServiceImpl implements AuthService{
         }
         user.getUserImage().setImagePath("https://pjbooklet.s3.ap-northeast-2.amazonaws.com/defaultImg.png");
         user.getUserImage().setModifiedDate(LocalDateTime.now());
+        userRepository.save(user);
+        log.info("유저 기본 이미지로 변경" + user.getUserImage().getImagePath());
         return true;
     }
 
