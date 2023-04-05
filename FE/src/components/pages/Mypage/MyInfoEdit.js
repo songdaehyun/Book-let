@@ -19,6 +19,7 @@ function MyInfoEdit(props) {
 
 	const { nickname, email } = useSelector((state) => state.join);
 	const [imageFile, setImageFile] = useState("");
+	const [curImg, setCurImg] = useState("");
 	const [curNickname, setCurNickname] = useState("");
 	const [curEmail, setCurEmail] = useState("");
 
@@ -34,6 +35,7 @@ function MyInfoEdit(props) {
 				setCurEmail(res?.email);
 
 				setImageFile(res?.imgPath);
+				setCurImg(res?.imgPath);
 			});
 		})();
 	}, []);
@@ -43,18 +45,23 @@ function MyInfoEdit(props) {
 	};
 
 	const updateImgApiCall = () => {
-		// 이미지 요청 형식이 아직 없음
-		const data = {};
+		const formData = new FormData();
+
+		formData.append("file", imageFile);
 
 		(async () => {
-			await updateMyImg(uName, data).then((res) => navigate("/mypage"));
+			await updateMyImg(uName, formData).then((res) => {
+				if (res === "success") {
+					navigate("/mypage");
+				}
+			});
 		})();
 	};
 
 	const handleClickNext = () => {
 		if (allValidRef.current.allConfirmTest()) {
 			const data = {
-				username: uId,
+				username: uName,
 				nickname: nickname,
 				email: email,
 				// 더미
@@ -63,7 +70,16 @@ function MyInfoEdit(props) {
 			};
 
 			(async () => {
-				await updateMyInfo(uName, data).then((res) => updateImgApiCall());
+				await updateMyInfo(uName, data).then((res) => {
+					if (res === "success") {
+						// 이미지가 변경되었을 경우에만 수정 요청
+						if (curImg !== imageFile) {
+							updateImgApiCall();
+						} else {
+							navigate("/mypage");
+						}
+					}
+				});
 			})();
 		}
 	};
