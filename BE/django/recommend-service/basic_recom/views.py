@@ -275,7 +275,6 @@ def star_book(request):
     # #특정 유저가 이미 읽은 책 목록
     filterd_df = df_star.loc[df_star['id'] == user_email]
     
-
     # #유저가 읽지 않은 책 목록
     no_user_read = df_star.loc[~df_star['isbn'].isin(filterd_df['isbn'])]['isbn'].unique()
 
