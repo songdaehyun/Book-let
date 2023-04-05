@@ -264,3 +264,8 @@ export const UploadPictureEmptyBox = styled.div`
 		height: auto;
 	}
 `;
+
+export const DefaultImgSettingBtnBox = styled.div`
+	display: flex;
+	justify-content: flex-end;
+`;
