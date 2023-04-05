@@ -7,7 +7,7 @@ eureka:
   client:
     register-with-eureka: true  # true
     fetch-registry: true  # true
-#    register-with-eureka: false
+#    registe/r-with-eureka: false
 #    fetch-registry: false
     service-url:
       defaultZone: http://j8b306.p.ssafy.io:8761/eureka  # http://localhost:8761/eureka #
