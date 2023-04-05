@@ -1,8 +1,11 @@
 package com.booklet.recomservice.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name="book_genre")
 public class BookGenre {
     @Id

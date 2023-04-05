@@ -4,6 +4,7 @@ import com.booklet.paragraphservice.dto.*;
 import com.booklet.paragraphservice.dto.paragraph.*;
 import com.booklet.paragraphservice.entity.*;
 import com.booklet.paragraphservice.repository.*;
+import com.booklet.paragraphservice.util.RequestTools;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -34,20 +35,19 @@ public class ParagraphServiceImpl implements ParagraphService {
     @Override
     public Long saveParagraph(ParagraphCreateReq req) { // 문장 id 리턴
         Long result = 0L;
-        try {
+            RequestTools requestTools = new RequestTools();
+            HashMap<String, Object> score = requestTools.getScoreAndTyp(req.getParagraphContent());
             Paragraph paragraph = Paragraph.builder()
                     .paragraphContent(req.getParagraphContent())
                     .paragraphPage(req.getParagraphPage())
                     .paragraphColor(req.getParagraphColor())
                     .book(bookRepository.findById(req.getBookIsbn()).orElse(null))
                     .user(userRepository.findById(req.getUserId()).orElse(null))
-                    .paragraphScore(0.5)
-                    .paragraphScoreType("P")
+                    .paragraphScore((double)score.get("score"))
+                    .paragraphScoreType((String)score.get("type"))
                     .build();
             result = paragraphRepository.save(paragraph).getParagraphId();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return result;
     }
 

@@ -15,7 +15,10 @@ from .models import Userr, Review, BookLikes, Book, Genre, BookGenre, Paragraph
 import random
 from django.db import connection
 import statistics
-from django.db.models import Q, F
+from django.db.models import Q, F, FloatField, Value
+from django.db.models.functions import Abs
+
+
 
 
 
@@ -430,6 +433,11 @@ def profile_book(request):
     age = user.age
     age = (int(age) // 10) * 10
 
+    if age < 10:
+        age = 10
+    elif age > 50:
+        age = 50
+
     if gender == 1:
         gender = 'male'
     else:
@@ -464,15 +472,30 @@ def sentence(request):
         pos_list = []
         neg_list = []
         
-        okt = Okt()
-        print(okt.pos(para, stem=True))
-        for word, pos in okt.pos(para, stem=True):
+        para_list = para.split()
+        new_para_list = []
+        
+        for para_factor in para_list:
+            if len(para_factor) > 1 and para_factor[-1] in "은는이가의":
+                para_factor = para_factor[:len(para_factor)-1]
+                new_para_list.append(para_factor)
+
+        print(new_para_list)
+
+        for word in new_para_list:
             if word in df['WRD_NM'].values:
                 row = df.loc[df['WRD_NM'] == word]
                 pos_list.append(row['AFRM_SCORE_VALUE'].values[0])
                 neg_list.append(row['NEGA_SCORE_VALUE'].values[0])
             else:
                 pass
+        # for word, pos in okt.pos(para, stem=True):
+        #     if word in df['WRD_NM'].values:
+        #         row = df.loc[df['WRD_NM'] == word]
+        #         pos_list.append(row['AFRM_SCORE_VALUE'].values[0])
+        #         neg_list.append(row['NEGA_SCORE_VALUE'].values[0])
+        #     else:
+        #         pass
         print(pos_list, neg_list)
         pos = sum(pos_list)
         neg = sum(neg_list)
@@ -500,21 +523,44 @@ def sentence_recom(request):
 
     user_score = user.prefer_score
     user_type =  user.prefer_type
-    user_paragraph = Paragraph.objects.filter(user_id == user_id)
+    user_paragraph = Paragraph.objects.filter(user_id=user_id)
 
-    paragraph_same_type = Paragraph.objects.filter(paragraph_score_type == user_type)
-    result_queryset = paragraph_same_type.exclude(id__in=user_paragraph)
+    if not user_paragraph:
+        b = {'recom_list' : "스크랩한 문장이 없어서 추천을 할 수 없습니다.",
+             'result' : False}
+        return Response(data=b, status=200, content_type='application/json')
 
-    paragraph_score_list = result_queryset.values_list('paragraph_score', flat=True)
-    paragraph_score_list = list(paragraph_score_list)
+    print(user_paragraph)
 
-    result_queryset = result_queryset.annotate(diff=abs(F('paragraph_score') - user_score))
+    paragraph_same_type = Paragraph.objects.filter(paragraph_score_type=user_type)
 
-    result_queryset = result_queryset.order_by()
+    if not paragraph_same_type:
+        b = {'recom_list' : "유저의 타입과 일치하는 문장이 없어서 추천을 할 수 없습니다.",
+             'result' : False}
+        return Response(data=b, status=200, content_type='application/json')
 
-    id_list = list(result_queryset.values_list('paragraph_id', flat=True))
+    print(paragraph_same_type)
 
-    a = {'recom_list': id_list}
+    result_queryset = paragraph_same_type.exclude(paragraph_id__in=user_paragraph)
+
+    if not result_queryset:
+        b = {'recom_list' : "유저가 문장을 다 수집해서 추천을 할 수 없습니다.",
+             'result' : False}
+        return Response(data=b, status=200, content_type='application/json')
+
+    print(result_queryset)
+
+    result_queryset = result_queryset.annotate(
+    diff=Abs(F('paragraph_score') - Value(user_score, output_field=FloatField()))
+)
+    result_queryset = result_queryset.order_by('-diff')
+
+    print(result_queryset)
+
+    result = result_queryset.values_list('paragraph_id', flat=True)
+
+    a = {'recom_list': list(result),
+         'result' : True}
     
     return Response(data=a, status=200, content_type='application/json')
 

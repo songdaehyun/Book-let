@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const ValidLabel = styled.div`
 	margin-right: 12px;
@@ -225,3 +225,13 @@ export const UserImageBox = styled.div`
 	div {
 	}
 `;
+
+export const Loading = keyframes`
+	  0% {
+    transform: translateX(0);
+  }
+  50%,
+  100% {
+    transform: translateX(460px);
+  }
+  `;

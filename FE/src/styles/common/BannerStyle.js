@@ -13,6 +13,10 @@ export const TopBannerContainer = styled.div`
 	> div:first-child {
 		margin-right: 8px;
 	}
+`;
+
+export const BannerImgBox = styled.div`
+	height: 100%;
 
 	img {
 		width: auto;
