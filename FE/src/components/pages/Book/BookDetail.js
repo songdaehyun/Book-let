@@ -7,7 +7,7 @@ import BookDetailOverview from "../../molecules/Book/BookDetailOverview";
 import { getBook } from "../../../apis/BookApi";
 import { initBook } from "../../../apis/init/initBook";
 import { SeparationBar } from "../../../styles/common/BarsStyle";
-import { Container } from "../../../styles/common/ContainingsStyle";
+import { Container, OverflowHiddenBox } from "../../../styles/common/ContainingsStyle";
 import BookBuyButton from "../../atoms/Button/BookBuyButton";
 import LikeToolbar from "../../molecules/Bar/LikeToolbar";
 import AuthorOthreBookPreview from "../../organisms/Book/AuthorOtherBookPreview";
@@ -83,7 +83,7 @@ function BookDetail(props) {
 	return (
 		<>
 			<ReturnNavigationBar title={book?.title} />
-			<Container paddingLeft="16" paddingRight="16">
+			<OverflowHiddenBox paddingLeft="16" paddingRight="16">
 				<BookDetailOverview
 					cover={book?.cover}
 					title={book?.title}
@@ -101,7 +101,7 @@ function BookDetail(props) {
 				<BookBuyButton isbn={bId} />
 				<BookDescription description={book?.description} />
 				<AuthorOthreBookPreview aId={book?.aId} authorOtherBooks={book?.authorOtherBooks} />
-			</Container>
+			</OverflowHiddenBox>
 			<SeparationBar top="40" bottom="40" />
 
 			<Container paddingLeft="16" paddingRight="16">

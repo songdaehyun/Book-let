@@ -62,6 +62,8 @@ export const ReturnNavigationBarContainer = styled.div`
 	> div:first-child {
 		width: 10px;
 		height: 16px;
+
+		margin-right: 16px;
 	}
 
 	img {

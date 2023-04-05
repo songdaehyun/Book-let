@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Text } from "../../../styles/common/TextsStyle";
+import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	SmallSentenceContainer,
 	SmallSentenceContent,
@@ -16,16 +16,16 @@ function SmallSentence({ sentence }) {
 	return (
 		<SmallSentenceContainer onClick={handleClickSentence} color={sentence?.color}>
 			<SmallSentenceContent>
-				<Text font="jeju" height="22">
+				<div>
 					{sentence?.content?.split("\n").map((line) => {
 						return (
-							<span>
+							<Span font="jeju" height="22">
 								{line}
 								<br />
-							</span>
+							</Span>
 						);
 					})}
-				</Text>
+				</div>
 			</SmallSentenceContent>
 		</SmallSentenceContainer>
 	);

@@ -8,7 +8,7 @@ import {
 } from "../../../apis/BookApi";
 import { initBookRecom } from "../../../apis/init/initBook";
 import useAsync from "../../../hooks/useAsync";
-import { Container } from "../../../styles/common/ContainingsStyle";
+import { OverflowHiddenBox } from "../../../styles/common/ContainingsStyle";
 import { Span } from "../../../styles/common/TextsStyle";
 import TabBar from "../../molecules/Bar/TabBar";
 import BookHeading from "../../molecules/Book/BookHeading";
@@ -86,7 +86,7 @@ function Book(props) {
 
 	return (
 		<>
-			<Container paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
+			<OverflowHiddenBox paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
 				<BookHeading />
 				<PreviewBookSection
 					title={userRecomTitle}
@@ -129,7 +129,7 @@ function Book(props) {
 					loading={coverLoading}
 					error={coverError}
 				/>
-			</Container>
+			</OverflowHiddenBox>
 			<TabBar selected={2} />
 		</>
 	);
