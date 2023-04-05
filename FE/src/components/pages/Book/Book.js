@@ -50,7 +50,7 @@ function Book(props) {
 	const ratingRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
-				{uName}
+				{ratingBooks?.nickname}
 			</Span>
 			님이 <br />
 			높은 평점을 주실 책이에요
@@ -91,14 +91,14 @@ function Book(props) {
 				<PreviewBookSection
 					title={userRecomTitle}
 					errTitle={userRecomErrTitle}
-					books={userBooks}
+					books={userBooks?.books}
 					path="recom/user"
 					loading={userLoading}
 					error={userError}
 				/>
 				<PreviewBookSection
 					title={ratingRecomTitle}
-					books={ratingBooks}
+					books={ratingBooks?.books}
 					path="recom/rating"
 					emptyInfo={emptyInfo}
 					loading={ratingLoading}
@@ -106,7 +106,7 @@ function Book(props) {
 				/>
 				<PreviewBookSection
 					title={likeRecomTitle}
-					books={likeBooks}
+					books={likeBooks?.books}
 					path="recom/like"
 					emptyInfo={emptyInfo}
 					loading={likeLoading}
@@ -115,7 +115,7 @@ function Book(props) {
 				<PreviewBookSection
 					title={genreRecomTitle}
 					errTitle={genreRecomErrTitle}
-					books={genreBooks}
+					books={genreBooks?.books}
 					path="recom/genre"
 					emptyInfo={emptyInfo}
 					loading={genreLoading}
@@ -123,7 +123,8 @@ function Book(props) {
 				/>
 				<PreviewBookSection
 					title={coverRecomTitle}
-					books={coverBooks}
+					books={coverBooks?.books}
+					type={coverBooks?.type}
 					path="recom/cover"
 					loading={coverLoading}
 					error={coverError}

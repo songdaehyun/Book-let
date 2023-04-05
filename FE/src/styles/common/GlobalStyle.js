@@ -25,4 +25,8 @@ export const GlobalStyle = createGlobalStyle`
         font-family: Pretendard-Regular, "Arial", sans-serif;
         font-size: 16px;
     }
+
+    button {
+        color: black;
+    }
 `;

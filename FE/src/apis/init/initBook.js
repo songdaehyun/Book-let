@@ -28,6 +28,7 @@ export const initMyReviews = (raw) => {
 			rating: review?.reviewGrade,
 			content: review?.reviewContent,
 			date: review?.createdDate,
+			rId: review?.reviewId,
 		};
 	});
 };
@@ -35,10 +36,11 @@ export const initMyReviews = (raw) => {
 export const initReview = (raw) => {
 	return {
 		hasNextPage: raw?.hasNextPage,
+		isReviewed: raw?.reviewed,
 		contents: raw?.reviews?.map((review) => {
 			return {
 				uId: review?.userInfo?.userId,
-				commentId: review?.reviewId,
+				cId: review?.reviewId,
 				nickname: review?.userInfo?.nickname,
 				img: review?.userInfo?.userImage,
 				content: review?.reviewContent,
@@ -83,6 +85,7 @@ export const initBookRecom = (raw) => {
 		age: raw?.age,
 		gender: raw?.sex === 1 ? "남성" : "여성",
 		genre: raw?.genreName,
+		nickname: raw?.nickname,
 		books: raw?.recommend?.map((book) => {
 			return {
 				cover: book?.bookImgPath,

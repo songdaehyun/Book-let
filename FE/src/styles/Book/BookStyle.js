@@ -109,6 +109,7 @@ export const PreviewBookSkeletonItemBox = styled.div`
 	> div:first-child {
 		height: 200px;
 		margin-bottom: 16px;
+		border-radius: 0px 5px 5px 0px !important;
 	}
 
 	> div:nth-child(2) {
