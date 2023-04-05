@@ -3,6 +3,7 @@ import {
 	ImageInput,
 	PicturePreview,
 	PictureSection,
+	UploadButton,
 	UploadPictureBox,
 	UploadPictureEmptyBox,
 	UploadPictureSection,
@@ -53,7 +54,7 @@ function UploadProfileImage({ imageFile, setImageFile }) {
 							<img src={pictureIcon} alt="photo icon" />
 						</UploadPictureEmptyBox>
 					)}
-					{/* <UploadButton src={PlusButton} alt={PlusButton} /> */}
+					<UploadButton>+</UploadButton>
 				</UploadPictureBox>
 			</PictureSection>
 		</UploadPictureSection>
