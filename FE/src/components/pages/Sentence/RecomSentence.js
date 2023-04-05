@@ -12,15 +12,16 @@ import { initSentenceList } from "../../../apis/init/initSentence";
 import { getSentenceRecom } from "../../../apis/sentenceApi";
 
 function RecomSentence(props) {
-	const uId = localStorage.getItem("userId");
-
+	const uName = localStorage.getItem("userName");
 	const [recom, setRecom] = useState();
 
 	useEffect(() => {
 		(async () => {
-			await getSentenceRecom(uId)
+			await getSentenceRecom(uName)
 				.then(initSentenceList)
-				.then((res) => setRecom(res));
+				.then((res) => {
+					setRecom(res?.contents);
+				});
 		})();
 	}, []);
 

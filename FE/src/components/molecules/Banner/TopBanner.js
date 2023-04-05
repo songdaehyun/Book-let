@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TopBannerContainer } from "../../../styles/common/BannerStyle";
+import { BannerImgBox, TopBannerContainer } from "../../../styles/common/BannerStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 
 function TopBanner({ title, subTitle, img }) {
@@ -14,9 +14,9 @@ function TopBanner({ title, subTitle, img }) {
 					{subTitle}
 				</Text>
 			</div>
-			<div>
-				<img src={img} />
-			</div>
+			<BannerImgBox>
+				<img src={img} alt="banner" />
+			</BannerImgBox>
 		</TopBannerContainer>
 	);
 }
