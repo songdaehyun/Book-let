@@ -52,8 +52,8 @@ export const updateMyInfo = async (uName, data) => {
 			data: data,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res.data?.message);
+		return res.data?.message;
 	} catch (err) {
 		console.log(err);
 	}
@@ -64,11 +64,14 @@ export const updateMyImg = async (uName, data) => {
 		const res = await api({
 			method: "PUT",
 			url: `/auth/update/img/${uName}`,
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
 			data: data,
 		});
 
-		console.log(res.data);
-		return res.data;
+		console.log(res?.data?.message);
+		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
 	}
