@@ -36,7 +36,7 @@ export const PreviewBookMasonryOverviewBox = styled.div`
 	display: inline-flex;
 	flex-direction: column;
 	width: 100%;
-	margin-bottom: 16px;
+	margin-bottom: 24px;
 	// overflow: hidden;
 
 	img {
