@@ -44,12 +44,27 @@ export const logout = async () => {
 	}
 };
 
-export const updateMyInfo = async (uId) => {
+export const updateMyInfo = async (uName, data) => {
 	try {
 		const res = await api({
 			method: "PUT",
-			url: `/auth/update`,
-			data: uId,
+			url: `/auth/update/${uName}`,
+			data: data,
+		});
+
+		console.log(res.data);
+		return res.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const updateMyImg = async (uName, data) => {
+	try {
+		const res = await api({
+			method: "PUT",
+			url: `/auth/update/img/${uName}`,
+			data: data,
 		});
 
 		console.log(res.data);
