@@ -116,12 +116,12 @@ TF-IDF란 특정 문서에서 특정 단어의 중요도를 측정하는 방식�
 - 알라딘 API
 - 책의 상세정보들
 
-![알라딘](readme_image/aladin.png)
+![알라딘](readme_image/aladin.PNG)
 
 - 왓챠피디아 크롤링
 - 유저들이 평가한 별점 정보
 
-![왓챠](readme_image/watcha.png)
+![왓챠](readme_image/watcha.PNG)
 
 - 도서관 정보나루
 - 나이,성별에 따른 인기대출 도서 정보
