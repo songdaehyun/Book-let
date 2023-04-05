@@ -75,7 +75,7 @@ public class RequestTools {
                 setting = "profile";
                 break;
         }
-        String url = "https://j8b306.p.ssafy.io/basic_recom/" + setting + "/";
+        String url = "https://.p.ssafy.io/basij8b306c_recom/" + setting + "/";
         log.info("url" + url);
 
         RestTemplate restTemplate = new RestTemplate();

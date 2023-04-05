@@ -108,9 +108,7 @@ public class RecomServiceImpl implements RecomService{
         User user = userRepository.findByUsername(username);
         List<String> items = requestTools.getRecombooks(type, user);
 
-        if (items == null) {
-            return null;
-        }
+        if (items == null) { return null; }
         // items에서 책 디테일 뽑아서 주기
         List<RecomResDto> data = new ArrayList<>();
         int cnt = 0;
@@ -132,6 +130,8 @@ public class RecomServiceImpl implements RecomService{
         }
         if (type=="genre") {
             result.put("genreName", genre);
+        } else if (type == "score") {
+            result.put("nickname", user.getNickname());
         }
         result.put("recommend", data);
         return result;
