@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Span, Text } from "../../../styles/common/TextsStyle";
 import {
 	DetailSentenceBottomInfo,
 	DetailSentenceBottomInfoContainer,
 	DetailSentenceContainer,
 	SentenceContentBox,
 } from "../../../styles/Sentence/DetailSentenceStyle";
+import { Span, Text } from "../../../styles/common/TextsStyle";
 
 function DetailSentence({ isbn, title, author, cover, content, page, color }) {
 	const navigate = useNavigate();
@@ -30,7 +30,7 @@ function DetailSentence({ isbn, title, author, cover, content, page, color }) {
 					})}
 				</div>
 			</SentenceContentBox>
-			<DetailSentenceBottomInfo>
+			<DetailSentenceBottomInfo color={color}>
 				<hr />
 				<DetailSentenceBottomInfoContainer>
 					<div>

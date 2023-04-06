@@ -26,7 +26,7 @@ export const DetailSentenceBottomInfo = styled.div`
 		margin: 16px 0;
 		border: 0;
 		height: 0.5px;
-		background-color: ${(props) => props.color !== "#FEEB60" && "white"};
+		background-color: ${(props) => props.color === "#FEEB60" ? "black" : "white"};
 	}
 
 	img {
