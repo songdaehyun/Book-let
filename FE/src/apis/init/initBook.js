@@ -72,7 +72,7 @@ export const initAuthorBooks = (raw) => {
 			return {
 				author: book?.authorName,
 				cover: book?.bookImage,
-				bId: book?.bookIsbn,
+				isbn: book?.bookIsbn,
 				title: book?.bookTitle,
 			};
 		}),
