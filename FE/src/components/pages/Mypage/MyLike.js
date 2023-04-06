@@ -66,7 +66,7 @@ function MyLike(props) {
 	};
 
 	return (
-		<div>
+		<div> 
 			<ReturnNavigationBar title="좋아하는 도서" />
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
 				<MyLikeHeading count={books?.length} />
