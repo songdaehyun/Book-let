@@ -9,6 +9,7 @@ import DetailComment from "../../organisms/Sentence/DetailComment";
 import DetailPostOverview from "../../organisms/Sentence/DetailPostOverview";
 
 import { SeparationBar } from "../../../styles/common/BarsStyle";
+import TabBar from "../../molecules/Bar/TabBar";
 
 function DetailPost() {
 	// const comments = [
@@ -117,6 +118,7 @@ function DetailPost() {
 			/>
 			<SeparationBar />
 			<DetailComment comments={comments} getCommentApiCall={getCommentApiCall} />
+			<TabBar selected={1} />
 		</>
 	);
 }

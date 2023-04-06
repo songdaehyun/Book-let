@@ -59,21 +59,24 @@ export const ReturnNavigationBarContainer = styled.div`
 
 	z-index: 50;
 
+	// 화살표 wrapper
 	> div:first-child {
-		width: 10px;
-		height: 16px;
-
 		margin-right: 16px;
+		display: flex;
+		align-items: center;
 	}
 
 	img {
-		width: 100%;
-		height: 100%;
+		width: 10px;
+		height: 16px;
 	}
 
+	// 바의 텍스트
 	> div:last-child {
 		margin: auto;
 		padding-right: 10px;
+		max-height: 19.2px;
+		overflow: hidden;
 	}
 `;
 

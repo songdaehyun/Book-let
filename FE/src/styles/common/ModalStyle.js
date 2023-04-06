@@ -76,7 +76,7 @@ export const ModalTextGroupBox = styled.div`
 export const ModalTextBtn = styled(TextBtn)`
 	color: ${(props) => (props.color ? props.color : "black")};
 	font-size: 16px !important;
-	font-weight: bold;
+	font-weight: 600;
 `;
 
 export const ModalTitleBox = styled.div`

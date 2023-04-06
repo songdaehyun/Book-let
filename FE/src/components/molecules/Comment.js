@@ -183,7 +183,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 							) : (
 								<>
 									<CommentBtnBox>
-										{comment?.depth == 0 && (
+										{comment?.depth == 0 && comment?.content !== "" && (
 											<div onClick={handleClickReplyWritingOrCancel}>
 												<ReplyTextButton label="답글쓰기" />
 											</div>
