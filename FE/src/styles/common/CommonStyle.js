@@ -145,6 +145,8 @@ export const ReactionImgWrapper = styled.div`
 	> img {
 		width: 24px;
 		height: 24px;
+
+		object-fit: cover;
 	}
 `;
 
