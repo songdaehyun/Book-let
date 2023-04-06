@@ -6,7 +6,7 @@ import CommentList from "../../molecules/Sentence/CommentList";
 
 function DetailComment({ comments, getCommentApiCall }) {
 	return (
-		<Container marginTop="32" paddingLeft="16" paddingRight="16">
+		<Container marginTop="32" paddingLeft="16" paddingRight="16" paddingBottom="56">
 			<Container marginBottom="24">
 				<Span size="19" weight="bold">
 					댓글

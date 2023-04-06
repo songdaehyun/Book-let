@@ -28,7 +28,7 @@ function PreviewBookCoverList({ books }) {
 					</CoverWrapper>
 				);
 			})}
-			<BookCoverMoreBox onClick={handleClickMoreCover}>전체 보기</BookCoverMoreBox>
+			{/* <BookCoverMoreBox onClick={handleClickMoreCover}>전체 보기</BookCoverMoreBox> */}
 		</PreviewBookCoverMasonryBox>
 	);
 }

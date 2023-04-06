@@ -38,17 +38,10 @@ function SentenceBookSearch({ selectedBook, setSelectedBook }) {
 				.then(initBookSearch)
 				.then((res) => setSearchBooks(res?.contents));
 		})();
-
-		// 더미
-		// setSearchBooks([
-		// 	{ bId: 1, title: "제목1", author: "나1" },
-		// 	{ bId: 2, title: "제목2", author: "나2" },
-		// ]);
 	};
 
 	const handleChangeSearchWord = (e) => {
 		setSearchWord(e.target.value);
-
 		searchApiCall(e.target.value);
 	};
 
@@ -103,7 +96,7 @@ function SentenceBookSearch({ selectedBook, setSelectedBook }) {
 					<>
 						{searchBooks?.map((book) => (
 							<div key={book.bid} onClick={() => handleClickBook(book)}>
-								<Text marginBottom="4">{book?.title}</Text>
+								<Text marginBottom="4" weight="600">{book?.title}</Text>
 								<Text size="14" color="var(--gray-500)">
 									{book?.author}
 								</Text>

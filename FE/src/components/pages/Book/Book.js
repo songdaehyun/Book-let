@@ -8,7 +8,7 @@ import {
 } from "../../../apis/BookApi";
 import { initBookRecom } from "../../../apis/init/initBook";
 import useAsync from "../../../hooks/useAsync";
-import { Container } from "../../../styles/common/ContainingsStyle";
+import { OverflowHiddenBox } from "../../../styles/common/ContainingsStyle";
 import { Span } from "../../../styles/common/TextsStyle";
 import TabBar from "../../molecules/Bar/TabBar";
 import BookHeading from "../../molecules/Book/BookHeading";
@@ -47,6 +47,7 @@ function Book(props) {
 		</>
 	);
 
+	const ratingRecomErrTitle = <>높은 평점을 주실 책이에요</>;
 	const ratingRecomTitle = (
 		<>
 			<Span size="19" weight="bold" color="var(--primary-600)">
@@ -86,7 +87,12 @@ function Book(props) {
 
 	return (
 		<>
-			<Container paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
+			<OverflowHiddenBox
+				paddingTop="24"
+				paddingLeft="16"
+				paddingRight="16"
+				paddingBottom="51"
+			>
 				<BookHeading />
 				<PreviewBookSection
 					title={userRecomTitle}
@@ -95,22 +101,6 @@ function Book(props) {
 					path="recom/user"
 					loading={userLoading}
 					error={userError}
-				/>
-				<PreviewBookSection
-					title={ratingRecomTitle}
-					books={ratingBooks?.books}
-					path="recom/rating"
-					emptyInfo={emptyInfo}
-					loading={ratingLoading}
-					error={ratingError}
-				/>
-				<PreviewBookSection
-					title={likeRecomTitle}
-					books={likeBooks?.books}
-					path="recom/like"
-					emptyInfo={emptyInfo}
-					loading={likeLoading}
-					error={likeError}
 				/>
 				<PreviewBookSection
 					title={genreRecomTitle}
@@ -122,6 +112,23 @@ function Book(props) {
 					error={genreError}
 				/>
 				<PreviewBookSection
+					title={likeRecomTitle}
+					books={likeBooks?.books}
+					path="recom/like"
+					emptyInfo={emptyInfo}
+					loading={likeLoading}
+					error={likeError}
+				/>
+				<PreviewBookSection
+					title={ratingRecomTitle}
+					errTitle={ratingRecomErrTitle}
+					books={ratingBooks?.books}
+					path="recom/rating"
+					emptyInfo={emptyInfo}
+					loading={ratingLoading}
+					error={ratingError}
+				/>
+				<PreviewBookSection
 					title={coverRecomTitle}
 					books={coverBooks?.books}
 					type={coverBooks?.type}
@@ -129,7 +136,7 @@ function Book(props) {
 					loading={coverLoading}
 					error={coverError}
 				/>
-			</Container>
+			</OverflowHiddenBox>
 			<TabBar selected={2} />
 		</>
 	);

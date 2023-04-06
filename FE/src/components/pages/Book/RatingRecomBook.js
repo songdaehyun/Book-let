@@ -10,53 +10,7 @@ import BannerImg from "../../../assets/images/Banner/rating-recom-book-banner.pn
 import useAsync from "../../../hooks/useAsync";
 
 function RatingRecomBook(props) {
-	// const books = {
-	// 	recommendType: "score",
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
-
 	const uName = localStorage.getItem("userName");
-
-	// const [books, setBooks] = useState();
-
-	// useEffect(() => {
-	// 	(async () => {
-	// 		await getRatingBookRecom(uName)
-	// 			.then(initBookRecomOther)
-	// 			.then((res) => setBooks(res));
-	// 	})();
-	// }, []);
 
 	const [state] = useAsync(getRatingBookRecom, uName, initBookRecom, []);
 	const { loading, data: recom, error } = state;
@@ -71,6 +25,7 @@ function RatingRecomBook(props) {
 				높은 평점을 주실 책이에요
 			</>
 		),
+		errTitle: <>높은 평점을 주실 책이에요</>,
 		subTitle: <>예상 평점이 높은 도서를 추천해드려요</>,
 		img: BannerImg,
 	};
@@ -89,7 +44,7 @@ function RatingRecomBook(props) {
 
 	return (
 		<BookListTemplates
-			title={bannerInfo.title}
+			title={recom?.nickname ? bannerInfo.title : bannerInfo.errTitle}
 			subTitle={bannerInfo.subTitle}
 			img={bannerInfo.img}
 			type={recom?.type}

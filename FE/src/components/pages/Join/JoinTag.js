@@ -15,16 +15,6 @@ import { Span, Text } from "../../../styles/common/TextsStyle";
 import { TagsContainer } from "../../../styles/User/JoinStyle";
 
 function JoinTag(props) {
-	// 더미 데이터
-	// const tags = [
-	// 	{ id: 1, title: "공격적" },
-	// 	{ id: 2, title: "낙천적" },
-	// 	{ id: 3, title: "대담한" },
-	// 	{ id: 4, title: "조심스러운" },
-	// 	{ id: 5, title: "호기심 많은" },
-	// 	{ id: 6, title: "용감한" }
-	// ];
-
 	const navagate = useNavigate();
 
 	const { id, nickname, email, pw, age, gender } = useSelector((state) => state.join);
@@ -42,10 +32,6 @@ function JoinTag(props) {
 				.then((res) => setTags(res));
 		})();
 	}, []);
-
-	useEffect(() => {
-		console.log(tags);
-	}, [tags]);
 
 	const handleClickTag = (title) => {
 		if (!selectedTag.includes(title)) {
@@ -129,7 +115,6 @@ function JoinTag(props) {
 
 	useEffect(() => {
 		tagValidTest();
-		console.log(selectedTag);
 	}, [selectedTag]);
 
 	return (
@@ -145,7 +130,7 @@ function JoinTag(props) {
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
 				<JoinProgressBar step="5" />
 				<Container marginBottom="24">
-					<Text size="20" weight="bold" marginBottom="16" height="32">
+					<Text size="20" weight="600" marginBottom="16" height="32">
 						당신을 표현할 수 있는
 						<br /> 감성 태그를 선택해주세요
 					</Text>

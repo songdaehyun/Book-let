@@ -24,15 +24,11 @@ function MasonryBookList({ books }) {
 							alt="book"
 							onClick={() => handleClick(book?.isbn)}
 						/>
-						<Text
-							weight="600"
-							marginBottom="4"
-							onClick={() => handleClick(book?.isbn)}
-						>
-							{book?.bookTitle}
+						<Text weight="600" marginBottom="4" onClick={() => handleClick(book?.isbn)}>
+							{book?.title}
 						</Text>
 						<Text size="14" color="var(--gray-500)">
-							{book?.authorName}
+							{book?.author}
 						</Text>
 					</PreviewBookMasonryOverviewBox>
 				);

@@ -13,7 +13,7 @@ function PreviewComment({ post, isMy }) {
 	return (
 		<PreviewCommentContainer>
 			<div>
-				<img src={commentIcon} />
+				<img src={commentIcon} alt="comment"/>
 				<Text size="14" color="var(--gray-500)">
 					<Span size="14" weight="bold">
 						{post?.commentCnt}

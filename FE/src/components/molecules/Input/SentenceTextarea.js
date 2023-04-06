@@ -16,7 +16,7 @@ function SentenceTextarea({ content, setContent, background }) {
 				<textarea
 					value={content}
 					onChange={handleChangeContent}
-					placeholder="문장을 작성해주세요"
+					placeholder="마음에 드는 책 속 문장을 작성해주세요"
 				></textarea>
 			</SentenceTextareaBox>
 			<WordCountTextBox>

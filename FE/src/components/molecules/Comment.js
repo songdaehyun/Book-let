@@ -25,16 +25,11 @@ import ModalLayer from "../organisms/ModalLayer";
 import RatingSelect from "./Book/RatingSelect";
 
 function Comment({ comment, type, setComments, getCommentApiCall }) {
-	const { sId } = useParams();
-	const { bId } = useParams();
-	const uId = localStorage.getItem("userId");
-
 	const dateTimeSeparation = useDate();
 	const selectRating = useRating();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isReplyWriting, setIsReplyWriting] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
-	const { selectedRating } = useSelector((state) => state.book);
 
 	const openPopup = () => {
 		setIsOpen(true);
@@ -83,7 +78,6 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 				if (res === "success") {
 					// 리뷰 조회 api call
 					getCommentApiCall(true).then((res) => {
-						console.log(res);
 						setComments(res);
 					});
 				}
@@ -183,7 +177,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 							) : (
 								<>
 									<CommentBtnBox>
-										{comment?.depth == 0 && (
+										{comment?.depth == 0 && comment?.content !== "" && (
 											<div onClick={handleClickReplyWritingOrCancel}>
 												<ReplyTextButton label="답글쓰기" />
 											</div>

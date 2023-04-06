@@ -14,62 +14,7 @@ import { initCover } from "../../../apis/init/initUser";
 import { getCoverExample } from "../../../apis/userApi";
 import { addSelectedCover, deleteSelectedCover } from "../../../reducer/user";
 
-// import cover1 from "../../../assets/images/dummy/cover/cover-img (1).png";
-// import cover10 from "../../../assets/images/dummy/cover/cover-img (10).png";
-// import cover2 from "../../../assets/images/dummy/cover/cover-img (2).png";
-// import cover3 from "../../../assets/images/dummy/cover/cover-img (3).png";
-// import cover4 from "../../../assets/images/dummy/cover/cover-img (4).png";
-// import cover5 from "../../../assets/images/dummy/cover/cover-img (5).png";
-// import cover6 from "../../../assets/images/dummy/cover/cover-img (6).png";
-// import cover7 from "../../../assets/images/dummy/cover/cover-img (7).png";
-// import cover8 from "../../../assets/images/dummy/cover/cover-img (8).png";
-// import cover9 from "../../../assets/images/dummy/cover/cover-img (9).png";
-
 function JoinCover(props) {
-	// 더미 데이터
-	// const dummy = [
-	// 	{
-	// 		id: 1,
-	// 		img: cover1,
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		img: cover2,
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		img: cover3,
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		img: cover4,
-	// 	},
-	// 	{
-	// 		id: 5,
-	// 		img: cover5,
-	// 	},
-	// 	{
-	// 		id: 6,
-	// 		img: cover6,
-	// 	},
-	// 	{
-	// 		id: 7,
-	// 		img: cover7,
-	// 	},
-	// 	{
-	// 		id: 8,
-	// 		img: cover8,
-	// 	},
-	// 	{
-	// 		id: 9,
-	// 		img: cover9,
-	// 	},
-	// 	{
-	// 		id: 10,
-	// 		img: cover10,
-	// 	},
-	// ];
-
 	const navagate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -82,7 +27,6 @@ function JoinCover(props) {
 	const [next, setNext] = useState("");
 
 	useEffect(() => {
-		// setCovers(dummy);
 		(async () => {
 			await getCoverExample()
 				.then(initCover)
@@ -95,7 +39,6 @@ function JoinCover(props) {
 	const handleClickCover = (id) => {
 		if (!selectedCover.includes(id)) {
 			// 선택 안 했으면 선택, 배열에 추가
-			// setSelectedCover([...selectedCover, id]);
 			dispatch(addSelectedCover(id));
 		} else {
 			// 선택되어있으면 선택 해제, 배열에서 삭제
@@ -143,7 +86,6 @@ function JoinCover(props) {
 
 	useEffect(() => {
 		coverValidTest();
-		console.log(selectedCover);
 	}, [selectedCover]);
 
 	return (
@@ -159,7 +101,7 @@ function JoinCover(props) {
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
 				<JoinProgressBar step="4" />
 				<Container marginBottom="24">
-					<Text size="20" weight="bold" marginBottom="16" height="32">
+					<Text size="20" weight="600" marginBottom="16" height="32">
 						좋아하는 책이나
 						<br /> 마음에 드는 표지를 선택해주세요
 					</Text>

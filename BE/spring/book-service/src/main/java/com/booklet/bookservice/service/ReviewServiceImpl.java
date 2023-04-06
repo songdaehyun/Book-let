@@ -95,7 +95,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     public boolean updateReview(Review review) {
         try{
-            setNewBookGrade(review.getBook(), review.getReviewGrade());
+            updateNewBookGrade(review.getBook(), review.getReviewGrade(),review.getReviewGrade());
             reviewRepository.save(review);
         }catch(Exception e){
            return false;
@@ -124,21 +124,22 @@ public class ReviewServiceImpl implements ReviewService{
             if(ReviewCnt==0){
                 if(book.getBookGrade()==0){  // 알라딘 평점 없음 .BookletGrade에 저장
                     book.updateBookGrade(newGrade);
-                    bookRepository.save(book);
                 }else{ // 평점 있으면 가져와서 새로운 그레이드랑 해서 bookletGrade
                     book.updateBookGrade((book.getBookGrade()+newGrade)/2);
-                    bookRepository.save(book);
                 }
             }else { // 리뷰가 여러개 이미 있어
                 float sum;
                 if(book.getBookGrade()==0) {
                     sum = book.getBookLetGrade() * ReviewCnt;
+                    sum += newGrade;
+                    book.updateBookGrade(sum / (ReviewCnt + 1));
                 }else {
                     sum = book.getBookLetGrade() * (ReviewCnt+1);
+                    sum += newGrade;
+                    book.updateBookGrade(sum / (ReviewCnt + 2));
                 }
-                sum += newGrade;
-                book.updateBookGrade(sum / (ReviewCnt + 1));
             }
+            bookRepository.save(book);
         }catch (Exception e){
             e.printStackTrace();
             return false;
@@ -153,21 +154,54 @@ public class ReviewServiceImpl implements ReviewService{
             if(ReviewCnt==1){ // 책의 리뷰가 나만 있을 때
                 if(book.getBookGrade()==0){  // 알라딘 평점 없음 .BookletGrade에 저장
                     book.updateBookGrade(0);
-                    bookRepository.save(book);
                 }else{ // 알라딘 평점 있으면 알라딘 평점으로 갱신
                     book.updateBookGrade(book.getBookGrade());
-                    bookRepository.save(book);
                 }
             }else { // 리뷰가 여러개 이미 있어
                 float sum;
-                if(book.getBookGrade()==0) {
+                if(book.getBookGrade()==0) { // 알라딘 없음
                     sum = book.getBookLetGrade() * ReviewCnt;
-                }else {
+                    sum -= review.getReviewGrade();
+                    book.updateBookGrade(sum / (ReviewCnt - 1));
+                }else { // 알라딘 1명 추가
                     sum = book.getBookLetGrade() * (ReviewCnt+1);
+                    sum -= review.getReviewGrade();
+                    book.updateBookGrade(sum / (ReviewCnt));
                 }
-                sum -= review.getReviewGrade();
-                book.updateBookGrade(sum / (ReviewCnt - 1));
             }
+            bookRepository.save(book);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean updateNewBookGrade(Book book, float newGrade, float tempGrade){
+        try{
+
+            int ReviewCnt = reviewRepository.countByBook(book);
+            if(ReviewCnt==1){ //본인꺼만 있으면
+                if(book.getBookGrade()==0){  // 알라딘 평점 없음 .BookletGrade에 저장
+                    book.updateBookGrade(newGrade);
+                }else{ // 평점 있으면 가져와서 새로운 그레이드랑 해서 bookletGrade
+                    book.updateBookGrade((book.getBookGrade()+newGrade)/2);
+                }
+            }else if(ReviewCnt>1){ // 리뷰가 여러개 이미 있어
+                float sum;
+                if(book.getBookGrade()==0) { // 알라딘 없음
+                    sum = book.getBookLetGrade() * ReviewCnt;
+                    sum -= tempGrade;
+                    sum += newGrade;
+                    book.updateBookGrade(sum / (ReviewCnt));
+                }else { // 알라딘 한명 추가
+                    sum = book.getBookLetGrade() * (ReviewCnt+1);
+                    sum -= tempGrade;
+                    sum += newGrade;
+                    book.updateBookGrade(sum / (ReviewCnt + 1));
+                }
+            }
+            bookRepository.save(book);
         }catch (Exception e){
             e.printStackTrace();
             return false;
