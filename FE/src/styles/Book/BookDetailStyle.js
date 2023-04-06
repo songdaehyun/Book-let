@@ -32,6 +32,16 @@ export const RatingBox = styled.div`
 	display: flex;
 `;
 
+export const RatingEditBox = styled.div`
+	display: flex;
+	align-items: center;
+	
+	> div:nth-child(2) {
+		margin-top: 0;
+		margin-left: 8px;
+	}
+`
+
 export const CommentHeadingBox = styled.div`
 	margin-bottom: 4px;
 
@@ -43,6 +53,11 @@ export const CommentHeadingBox = styled.div`
 export const CommentDateBox = styled.div`
 	margin-left: auto;
 	float: right;
+`;
+
+export const CommentBtnsBox = styled.div`
+	display: flex;
+	gap: 16px;
 `;
 
 export const CommentBtnBox = styled.div`

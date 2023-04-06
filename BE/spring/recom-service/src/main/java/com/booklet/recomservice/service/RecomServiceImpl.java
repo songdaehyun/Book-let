@@ -106,11 +106,13 @@ public class RecomServiceImpl implements RecomService{
     public HashMap<String, Object> getBookRecom(String type, String username, int setting) {
         HashMap<String, Object> result = new HashMap<>();
         User user = userRepository.findByUsername(username);
+        if (user == null) { log.warn("없는 유저입니다."); return null;}
+        System.out.println(user.getNickname().toString());
+        System.out.println(user.toString());
         List<String> items = requestTools.getRecombooks(type, user);
 
         if (items == null) {
-            return null;
-        }
+            log.info("추천책이 없습니다");return null; }
         // items에서 책 디테일 뽑아서 주기
         List<RecomResDto> data = new ArrayList<>();
         int cnt = 0;
@@ -132,6 +134,8 @@ public class RecomServiceImpl implements RecomService{
         }
         if (type=="genre") {
             result.put("genreName", genre);
+        } else if (type == "score") {
+            result.put("nickname", user.getNickname());
         }
         result.put("recommend", data);
         return result;
@@ -186,6 +190,8 @@ public class RecomServiceImpl implements RecomService{
             paragraphsDtos.add(
                     ParagraphDto.builder()
                             .userInfo(userInfoDto)
+                            .bookTitle(paragraph.getBook().getBookTitle())
+                            .bookAuthor(paragraph.getBook().getAuthor().getAuthorName())
                             .paragraphId(paragraph.getParagraphId())
                             .paragraphContent(paragraph.getParagraphContent())
                             .paragraphPage(paragraph.getParagraphPage())

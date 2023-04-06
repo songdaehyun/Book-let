@@ -12,6 +12,10 @@ export const Container = styled.div`
 	margin-right: ${(props) => props.marginRight}px;
 `;
 
+export const OverflowHiddenBox = styled(Container)`
+	overflow: hidden;
+`;
+
 export const ValidWrapper = styled.div`
 	margin-top: 4px;
 `;

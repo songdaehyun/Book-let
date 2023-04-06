@@ -51,11 +51,12 @@ body {
 	--gray-900: #212529;
 
 	--red: #fa5252;
+	--pink: #ff8e99;
 	--brown: #b88962;
 	--green: #769676;
 	--yellow: #feeb60;
 	--blue: #9fa3d0;
-	--purple: #543466;
+	--purple: #71408d;
 
 	/* 회색 한 단계씩 짙게 한 버전 */
 	/* --gray-50: #f1f3f5;

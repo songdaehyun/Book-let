@@ -159,7 +159,7 @@ function JoinCover(props) {
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
 				<JoinProgressBar step="4" />
 				<Container marginBottom="24">
-					<Text size="20" weight="bold" marginBottom="16" height="32">
+					<Text size="20" weight="600" marginBottom="16" height="32">
 						좋아하는 책이나
 						<br /> 마음에 드는 표지를 선택해주세요
 					</Text>

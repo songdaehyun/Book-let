@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ParagraphDto {
     private UserInfoDto userInfo;
+    private String bookAuthor;
+    private String bookTitle;
     private Long paragraphId;
     private String paragraphContent;
     private int paragraphPage;

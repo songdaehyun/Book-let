@@ -3,8 +3,8 @@ import React from "react";
 import { ReturnNavigationBarContainer } from "../../../styles/common/BarsStyle";
 import { Text } from "../../../styles/common/TextsStyle";
 
-import ArrowIcon from "../../../assets/icons/left-arrow-icon.png";
 import { useNavigate } from "react-router-dom";
+import ArrowIcon from "../../../assets/icons/left-arrow-icon.png";
 
 function ReturnNavigationBar({ title }) {
 	const navigate = useNavigate();

@@ -53,6 +53,7 @@ public class RequestTools {
     public List<String> getRecombooks(String type, User user) {
         log.info("Django 서버로 기본 추천 요청 준비");
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        System.out.println(user.toString());
         formData.add("user_id", user.getId().toString());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -76,7 +77,7 @@ public class RequestTools {
                 break;
         }
         String url = "https://j8b306.p.ssafy.io/basic_recom/" + setting + "/";
-        log.info("url" + url);
+        log.info("url : " + url);
 
         RestTemplate restTemplate = new RestTemplate();
         try {

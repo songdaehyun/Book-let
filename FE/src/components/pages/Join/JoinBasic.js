@@ -33,7 +33,7 @@ function JoinBasic() {
 			/>
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
 				<JoinProgressBar step="1" />
-				<Text size="20" weight="bold">
+				<Text size="20" weight="600">
 					기본 정보를 입력해주세요
 				</Text>
 				<div>

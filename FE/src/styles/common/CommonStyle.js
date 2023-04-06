@@ -88,6 +88,7 @@ export const CommentBox = styled.div`
 		margin-right: 24px;
 
 		border-radius: 50%;
+		object-fit: cover;
 	}
 
 	> div:nth-child(2) {
@@ -144,6 +145,8 @@ export const ReactionImgWrapper = styled.div`
 	> img {
 		width: 24px;
 		height: 24px;
+
+		object-fit: cover;
 	}
 `;
 
@@ -220,6 +223,7 @@ export const UserImageBox = styled.div`
 	img {
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 	}
 
 	div {

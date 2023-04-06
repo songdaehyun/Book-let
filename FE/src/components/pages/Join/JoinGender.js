@@ -56,7 +56,7 @@ function JoinAge(props) {
 			/>
 			<JoinFullHeightContainer paddingTop="56" paddingLeft="16" paddingRight="16">
 				<JoinProgressBar step="2" />
-				<Text size="20" weight="bold" marginBottom="16">
+				<Text size="20" weight="600" marginBottom="16">
 					성별을 선택해주세요
 				</Text>
 				<Text size="14" color="var(--gray-500)" marginBottom="4">

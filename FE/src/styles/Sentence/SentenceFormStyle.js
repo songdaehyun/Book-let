@@ -78,7 +78,7 @@ export const SentenceBookSearchBarBox = styled.div`
 
 		::placeholder {
 			color: var(--gray-500);
-			font-weight: bold;
+			font-weight: 600;
 		}
 	}
 `;
@@ -149,6 +149,7 @@ export const SentencePageInputBox = styled.div`
 	padding: 12px 16px;
 
 	display: flex;
+	align-items: center;	
 
 	background-color: var(--gray-50);
 	border: 1px solid var(--gray-200);
