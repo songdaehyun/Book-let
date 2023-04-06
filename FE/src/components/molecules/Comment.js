@@ -129,7 +129,7 @@ function Comment({ comment, type, setComments, getCommentApiCall }) {
 							/>
 						</div>
 					) : (
-						<Text marginBottom="12">{comment?.content}</Text>
+						<Text marginBottom="12" height="24">{comment?.content}</Text>
 					)}
 
 					{type === "리뷰" ? (
