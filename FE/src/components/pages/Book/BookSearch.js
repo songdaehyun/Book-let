@@ -110,7 +110,7 @@ function BookSearch(props) {
 								onClick={() => handleClickBook(book)}
 								marginBottom="32"
 							>
-								<Text marginBottom="4">{book?.title}</Text>
+								<Text marginBottom="4" weight="600">{book?.title}</Text>
 								<Text size="14" color="var(--gray-500)">
 									{book?.author}
 								</Text>

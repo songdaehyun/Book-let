@@ -78,7 +78,7 @@ export const SentenceBookSearchBarBox = styled.div`
 
 		::placeholder {
 			color: var(--gray-500);
-			font-weight: bold;
+			font-weight: 600;
 		}
 	}
 `;

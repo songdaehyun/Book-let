@@ -103,7 +103,7 @@ function SentenceBookSearch({ selectedBook, setSelectedBook }) {
 					<>
 						{searchBooks?.map((book) => (
 							<div key={book.bid} onClick={() => handleClickBook(book)}>
-								<Text marginBottom="4">{book?.title}</Text>
+								<Text marginBottom="4" weight="600">{book?.title}</Text>
 								<Text size="14" color="var(--gray-500)">
 									{book?.author}
 								</Text>
