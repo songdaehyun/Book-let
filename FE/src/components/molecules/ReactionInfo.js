@@ -9,7 +9,7 @@ import { Span } from "../../styles/common/TextsStyle";
 
 import defaultImg from "../../assets/images/user-default-img.png";
 
-function ReactionInfo({ imgs, count, type }) {
+function ReactionInfo({ imgs, count, type, isMy }) {
 	const isImageEmpty = count === 0 ? true : false;
 
 	return (
@@ -26,9 +26,13 @@ function ReactionInfo({ imgs, count, type }) {
 			<ReactionContainer>
 				{isImageEmpty ? (
 					type === "scrap" ? (
-						<>아직 스크랩한 사용자가 없어요</>
+						isMy ? (
+							<>아직 스크랩한 사용자가 없어요</>
+						) : (
+							<>가장 먼저 스크랩을 남겨보세요</>
+						)
 					) : (
-						type === "like" && <>아직 좋아하는 사용자가 없어요</>
+						type === "like" && <>가장 먼저 좋아요를 남겨보세요</>
 					)
 				) : (
 					<>
