@@ -19,7 +19,7 @@ function SmallSentence({ sentence }) {
 				<div>
 					{sentence?.content?.split("\n").map((line) => {
 						return (
-							<Span font="jeju" height="22">
+							<Span font="jeju" size="14" height="26">
 								{line}
 								<br />
 							</Span>
