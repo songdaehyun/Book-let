@@ -145,7 +145,7 @@ function JoinTag(props) {
 			<Container paddingTop="56" paddingLeft="16" paddingRight="16">
 				<JoinProgressBar step="5" />
 				<Container marginBottom="24">
-					<Text size="20" weight="bold" marginBottom="16" height="32">
+					<Text size="20" weight="600" marginBottom="16" height="32">
 						당신을 표현할 수 있는
 						<br /> 감성 태그를 선택해주세요
 					</Text>

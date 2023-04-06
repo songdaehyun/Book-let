@@ -15,7 +15,7 @@ function ArrowButton({ title, path }) {
 
 	return (
 		<ArrowButtonContainer onClick={handleClickButton} bottom="16">
-			<Text size="19" weight="bold" height="28">
+			<Text size="19" weight="600" height="28">
 				{title}
 			</Text>
 			<RightArrow />

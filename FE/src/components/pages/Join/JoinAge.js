@@ -60,7 +60,7 @@ function JoinAge(props) {
 			/>
 			<JoinFullHeightContainer>
 				<JoinProgressBar step="3" />
-				<Text size="20" weight="bold" marginBottom="16">
+				<Text size="20" weight="600" marginBottom="16">
 					나이를 입력해주세요
 				</Text>
 				<Text size="14" color="var(--gray-500)" marginBottom="4">
