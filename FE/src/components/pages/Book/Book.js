@@ -87,7 +87,12 @@ function Book(props) {
 
 	return (
 		<>
-			<OverflowHiddenBox paddingTop="24" paddingLeft="16" paddingRight="16" paddingBottom="51">
+			<OverflowHiddenBox
+				paddingTop="24"
+				paddingLeft="16"
+				paddingRight="16"
+				paddingBottom="51"
+			>
 				<BookHeading />
 				<PreviewBookSection
 					title={userRecomTitle}
@@ -98,13 +103,13 @@ function Book(props) {
 					error={userError}
 				/>
 				<PreviewBookSection
-					title={ratingRecomTitle}
-					errTitle={ratingRecomErrTitle}
-					books={ratingBooks?.books}
-					path="recom/rating"
+					title={genreRecomTitle}
+					errTitle={genreRecomErrTitle}
+					books={genreBooks?.books}
+					path="recom/genre"
 					emptyInfo={emptyInfo}
-					loading={ratingLoading}
-					error={ratingError}
+					loading={genreLoading}
+					error={genreError}
 				/>
 				<PreviewBookSection
 					title={likeRecomTitle}
@@ -115,13 +120,13 @@ function Book(props) {
 					error={likeError}
 				/>
 				<PreviewBookSection
-					title={genreRecomTitle}
-					errTitle={genreRecomErrTitle}
-					books={genreBooks?.books}
-					path="recom/genre"
+					title={ratingRecomTitle}
+					errTitle={ratingRecomErrTitle}
+					books={ratingBooks?.books}
+					path="recom/rating"
 					emptyInfo={emptyInfo}
-					loading={genreLoading}
-					error={genreError}
+					loading={ratingLoading}
+					error={ratingError}
 				/>
 				<PreviewBookSection
 					title={coverRecomTitle}
