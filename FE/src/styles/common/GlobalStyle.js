@@ -22,7 +22,8 @@ export const GlobalStyle = createGlobalStyle`
 } 
 
     * {
-        font-family: Pretendard-Regular, "Arial", sans-serif;
+        font-family: Pretendard, "Arial", sans-serif;
+        /* font-family: Pretendard-Regular, "Arial", sans-serif; */
         font-size: 16px;
     }
 
