@@ -47,6 +47,12 @@ export const DetailSentenceBottomInfoContainer = styled.div`
 	> div:last-child {
 		margin-top: auto;
 	}
+
+	> div > div {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
 `;
 
 export const UserProfileBox = styled.div`

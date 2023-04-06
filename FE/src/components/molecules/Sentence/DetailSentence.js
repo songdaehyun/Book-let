@@ -37,14 +37,21 @@ function DetailSentence({ isbn, title, author, cover, content, page, color }) {
 						<img onClick={MoveToBook} src={cover} alt="book cover" />
 						<div>
 							<Text marginBottom="8" onClick={MoveToBook}>
-								<Span font="jeju">『 </Span>
-								{title}
-								<Span font="jeju"> 』</Span>
+								<Span font="jeju" size="14">
+									『{" "}
+								</Span>
+								<Span weight="600" size="14">
+									{title}
+								</Span>
+								<Span font="jeju" size="14">
+									{" "}
+									』
+								</Span>
 							</Text>
-							<Text>{author}</Text>
+							<Text size="14">{author}</Text>
 						</div>
 					</div>
-					<Text>P. {page}</Text>
+					<Text size="14">P. {page}</Text>
 				</DetailSentenceBottomInfoContainer>
 			</DetailSentenceBottomInfo>
 		</DetailSentenceContainer>
