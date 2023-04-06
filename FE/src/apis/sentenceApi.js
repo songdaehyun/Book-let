@@ -8,7 +8,6 @@ export const createPost = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.error(err);
@@ -22,7 +21,6 @@ export const getPost = async (sId, uId) => {
 			url: `/sns/paragraph/${sId}?userId=${uId}`,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -36,7 +34,6 @@ export const getMyPost = async (uId, size, page) => {
 			url: `/sns/paragraph/mylist/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -50,7 +47,6 @@ export const getFollowingPost = async (uId, size, page) => {
 			url: `/sns/paragraph/following/${uId}?size=${size}&page=${page}`,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -64,7 +60,6 @@ export const deletePost = async (sId) => {
 			url: `/sns/paragraph/${sId}`,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -79,7 +74,6 @@ export const postScrap = async (data) => {
 			data: data,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -93,7 +87,6 @@ export const getScrappedPost = async (uId, size, page) => {
 			url: `/sns/scrap/${uId}?page=${page}&size=${size}`,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -107,7 +100,6 @@ export const getScrapCount = async (uId) => {
 			url: `/sns/scrap/count/${uId}`,
 		});
 
-		console.log(res);
 		return res.data;
 	} catch (err) {
 		console.log(err);
@@ -121,7 +113,6 @@ export const getSentenceRecom = async (uName) => {
 			url: `/recom/paragraph/all/${uName}`,
 		});
 
-		console.log(res?.data);
 		return res?.data;
 	} catch (err) {
 		console.error(err);
@@ -134,7 +125,6 @@ export const getSentenceRecomPreview = async (uName) => {
 			url: `/recom/paragraph/pre/${uName}`,
 		});
 
-		console.log(res?.data);
 		return res?.data;
 	} catch (err) {
 		console.error(err);
@@ -150,7 +140,6 @@ export const postComment = async (data) => {
 			data: data,
 		});
 
-		console.log(res?.data);
 		return res?.data;
 	} catch (err) {
 		console.error(err);
@@ -165,7 +154,6 @@ export const postReply = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.error(err);
@@ -179,7 +167,6 @@ export const getComment = async (sId) => {
 			url: `/comment/${sId}`,
 		});
 
-		console.log(res.data);
 		return res.data;
 	} catch (err) {
 		console.error(err);
@@ -193,7 +180,6 @@ export const deleteComment = async (cId) => {
 			url: `/comment/${cId}`,
 		});
 
-		console.log(res?.data?.message);
 		return res?.data?.message;
 	} catch (err) {
 		console.error(err);
@@ -207,7 +193,6 @@ export const deleteReply = async (sId) => {
 			url: `/comment/reply/${sId}`,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.error(err);

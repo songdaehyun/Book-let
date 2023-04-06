@@ -8,7 +8,6 @@ export const postTaste = async (uName, data) => {
 			data: data,
 		});
 
-		console.log(res.data.message);
 		return res.data.message;
 	} catch (err) {
 		console.log(err);
@@ -22,7 +21,6 @@ export const getMyInfo = async (uName) => {
 			url: `/user/${uName}`,
 		});
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -33,7 +31,6 @@ export const getMyPreviewReview = async (uName) => {
 	try {
 		const res = await api.get(`/user/review/pre/${uName}`);
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -44,7 +41,6 @@ export const getMyReview = async (uName) => {
 	try {
 		const res = await api.get(`/user/review/all/${uName}`);
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -55,7 +51,6 @@ export const getMyPreviewLike = async (uName) => {
 	try {
 		const res = await api.get(`/user/like/book/${uName}`);
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -66,7 +61,6 @@ export const getMyLike = async (uName) => {
 	try {
 		const res = await api.get(`/user/like/book/all/${uName}`);
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -80,7 +74,6 @@ export const getFollow = async (uName) => {
 			url: `/user/follow/${uName}`,
 		});
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -95,7 +88,6 @@ export const postFollow = async (data) => {
 			data: data,
 		});
 
-		console.log(res?.data?.message);
 		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
@@ -106,7 +98,6 @@ export const getTagExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/hashtag");
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);
@@ -117,7 +108,6 @@ export const getCoverExample = async () => {
 	try {
 		const res = await api.get("/user/prefer/cover");
 
-		console.log(res.data.data);
 		return res.data.data;
 	} catch (err) {
 		console.log(err);

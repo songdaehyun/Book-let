@@ -7,7 +7,6 @@ import { Text } from "../../../styles/common/TextsStyle";
 import { ReactionInfoContainer } from "../../../styles/Sentence/PostPreviewStyle";
 
 function ScrapToolbar({ sId, isScraped, scrapImgs, scrapCount, date, isMy }) {
-	console.log(isMy)
 	return (
 		<ReactionInfoContainer>
 			<ReactionInfo imgs={scrapImgs} count={scrapCount} type="scrap" isMy={isMy} />

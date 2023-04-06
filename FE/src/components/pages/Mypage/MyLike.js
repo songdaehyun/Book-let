@@ -11,33 +11,6 @@ import useArr from "../../../hooks/useArr";
 import Empty from "../../molecules/Empty";
 
 function MyLike(props) {
-	// const books = [
-	// {
-	// 	bookIsbn: 9788901269061,
-	// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
-	// 	bookTitle: "목련 만두",
-	// 	authorName: "배고픈 사자",
-	// },
-	// {
-	// 	bookIsbn: 9788901269061,
-	// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
-	// 	bookTitle: "목련 만두",
-	// 	authorName: "배고픈 사자",
-	// },
-	// {
-	// 	bookIsbn: 9788901269061,
-	// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
-	// 	bookTitle: "목련 만두",
-	// 	authorName: "배고픈 사자",
-	// },
-	// {
-	// 	bookIsbn: 9788901269061,
-	// 	bookImgPath: "http://image.yes24.com/goods/117222565/BACK/XL",
-	// 	bookTitle: "목련 만두",
-	// 	authorName: "배고픈 사자",
-	// },
-	// ];
-
 	const [books, setBooks] = useState();
 
 	const uName = localStorage.getItem("userName");

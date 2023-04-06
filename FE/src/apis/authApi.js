@@ -8,7 +8,6 @@ export const join = async (data) => {
 			data: data,
 		});
 
-		console.log(res.data.message);
 		return res.data.message;
 	} catch (err) {
 		console.log(err);
@@ -23,7 +22,6 @@ export const login = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.log(err);
@@ -37,7 +35,6 @@ export const logout = async () => {
 			url: `/auth/logout`,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.log(err);
@@ -52,7 +49,6 @@ export const updateMyInfo = async (uName, data) => {
 			data: data,
 		});
 
-		console.log(res.data?.message);
 		return res.data?.message;
 	} catch (err) {
 		console.log(err);
@@ -70,7 +66,6 @@ export const updateMyImg = async (uName, data) => {
 			data: data,
 		});
 
-		console.log(res?.data?.message);
 		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
@@ -84,7 +79,6 @@ export const defaultImgSetting = async (uName) => {
 			url: `/auth/update/img/${uName}`,
 		});
 
-		console.log(res?.data?.message);
 		return res?.data?.message;
 	} catch (err) {
 		console.log(err);
@@ -98,7 +92,6 @@ export const deleteMyAccount = async (uId) => {
 			url: `/auth/delete`,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.log(err);
@@ -113,7 +106,6 @@ export const updateMyPw = async (data) => {
 			data: data,
 		});
 
-		console.log(res);
 		return res;
 	} catch (err) {
 		console.log(err);
@@ -127,7 +119,6 @@ export const checkId = async (data) => {
 			url: `/auth/check/username/${data}`,
 		});
 
-		console.log(res.data.message);
 		return res.data.message;
 	} catch (err) {
 		console.log(err);
@@ -141,7 +132,6 @@ export const checkNickname = async (data) => {
 			url: `/auth/check/nickname/${data}`,
 		});
 
-		console.log(res.data.message);
 		return res.data.message;
 	} catch (err) {
 		console.log(err);
@@ -155,7 +145,6 @@ export const checkEmail = async (data) => {
 			url: `/auth/check/email/${data}`,
 		});
 
-		console.log(res.data.message);
 		return res.data.message;
 	} catch (err) {
 		console.log(err);
