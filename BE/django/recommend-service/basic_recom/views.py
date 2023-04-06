@@ -337,7 +337,7 @@ def category_book(request):
     result = []
     for j in random_books:
         result.append(j.book_isbn.book_isbn)
-    print(result)
+    
     
     a = {'recom_list' : result,
          'result' : True }
@@ -476,7 +476,7 @@ def sentence(request):
                 para_factor = para_factor[:len(para_factor)-1]
                 new_para_list.append(para_factor)
 
-        print(new_para_list)
+        
 
         for word in new_para_list:
             if word in df['WRD_NM'].values:
@@ -492,7 +492,7 @@ def sentence(request):
         #         neg_list.append(row['NEGA_SCORE_VALUE'].values[0])
         #     else:
         #         pass
-        print(pos_list, neg_list)
+        
         pos = sum(pos_list)
         neg = sum(neg_list)
 
@@ -502,7 +502,7 @@ def sentence(request):
         if neg != 0:
             neg = neg/len(pos_list)
         
-        print(pos, neg)
+        
         
         if pos >= neg:
             state = 1
@@ -528,8 +528,7 @@ def sentence_recom(request):
 
     paragraphs = Paragraph.objects.exclude(user=user)
 
-    print('유저가 작성하지 않은 문장들')
-    print(paragraphs)
+    
 
     if not paragraphs:
         b = {'recom_list' : "유저가 모든 문장을 작성 했습니다",
@@ -538,8 +537,7 @@ def sentence_recom(request):
 
     paragraphs = paragraphs.filter(paragraph_score_type=user_type)
 
-    print('유저와 같은 타입의 문장들')
-    print(paragraphs)
+    
     
 
     if not paragraphs:
@@ -552,7 +550,7 @@ def sentence_recom(request):
 )
     paragraphs = paragraphs.order_by('diff')
 
-    print(paragraphs)
+    
 
     result = paragraphs.values_list('paragraph_id', flat=True)
 
