@@ -190,6 +190,8 @@ public class RecomServiceImpl implements RecomService{
             paragraphsDtos.add(
                     ParagraphDto.builder()
                             .userInfo(userInfoDto)
+                            .bookTitle(paragraph.getBook().getBookTitle())
+                            .bookAuthor(paragraph.getBook().getAuthor().getAuthorName())
                             .paragraphId(paragraph.getParagraphId())
                             .paragraphContent(paragraph.getParagraphContent())
                             .paragraphPage(paragraph.getParagraphPage())
