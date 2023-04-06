@@ -13,6 +13,11 @@ function SentenceColorRadioButtonGroup({ setBackground }) {
 			/>
 			<SentenceColorRadioButton
 				setBackground={setBackground}
+				value="#f783ac"
+				color="var(--pink)"
+			/>
+			<SentenceColorRadioButton
+				setBackground={setBackground}
 				value="#769676"
 				color="var(--green)"
 			/>
