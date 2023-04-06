@@ -10,68 +10,10 @@ import BannerImg from "../../../assets/images/Banner/user-recom-book-banner.png"
 import useAsync from "../../../hooks/useAsync";
 
 function UserRecomBook(props) {
-	// const books = {
-	// 	recommendType: "user",
-	// 	// 1: 남, 2: 여
-	// 	sex: 1,
-	// 	age: 20,
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
 	const uName = localStorage.getItem("userName");
 
 	const [userState] = useAsync(getUserBookRecom, uName, initBookRecom, []);
 	const { loading, data: recom, error } = userState;
-	// const { loading: userLoading, data: recom, error: userError } = userState;
-
-
-	// useEffect(() => {
-	// 	(async () => {
-	// 		await getUserBookRecom(uName)
-	// 			.then(initBookRecom)
-	// 			.then((res) => setRecom(res));
-	// 	})();
-	// }, []);
-
-	// useEffect(() => {
-	// 	console.log(loading);
-	// }, [loading]);
 
 	const bannerInfo = {
 		title: (

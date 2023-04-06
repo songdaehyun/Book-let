@@ -14,43 +14,6 @@ function AuthorBook(props) {
 	const { aId } = useParams();
 
 	const { data: books, isFetching } = useInfiniteScroll(aId, getAuthorBooks, 9, initAuthorBooks);
-	
-	// const books = {
-	// 	authorName: "정지음",
-	// 	authorId: "111",
-	// 	books: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
 
 	const bannerInfo = {
 		title: (

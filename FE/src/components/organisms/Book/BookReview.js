@@ -14,30 +14,6 @@ function BookReview({}) {
 	const uId = localStorage.getItem("userId");
 
 	const [reviews, setReviews] = useState();
-	// const reviews = [
-	// 	{
-	// 		nickname: "책 좋아하는 루피",
-	// 		reviewContent: "왕좌의게임 본사람 여기 모여라",
-	// 		reviewGrade: 2,
-	// 		createdDate: "2023.03.22T20:07:20",
-	// 	},
-	// 	{
-	// 		nickname: "책 좋아하는 루피",
-	// 		reviewContent: "왕좌의게임 본사람 여기 모여라",
-	// 		reviewGrade: 4,
-	// 		createdDate: "2023.01.29T20:07:20",
-	// 	},
-	// ];
-
-	// const getReviewApiCall = () => {
-	// 	(async () => {
-	// 		await getReview(bId, 5, 0)
-	// 			.then((res) => initReview(res))
-	// 			.then((res) => {
-	// 				setReviews(res);
-	// 			});
-	// 	})();
-	// };
 
 	const {
 		data,

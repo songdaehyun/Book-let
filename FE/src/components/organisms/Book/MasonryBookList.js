@@ -14,8 +14,6 @@ function MasonryBookList({ books }) {
 		navigate(`/book/${isbn}`);
 	};
 
-	console.log(books)
-
 	return (
 		<ListBookCoverMasonryBox>
 			{books.map((book) => {
@@ -26,11 +24,7 @@ function MasonryBookList({ books }) {
 							alt="book"
 							onClick={() => handleClick(book?.isbn)}
 						/>
-						<Text
-							weight="600"
-							marginBottom="4"
-							onClick={() => handleClick(book?.isbn)}
-						>
+						<Text weight="600" marginBottom="4" onClick={() => handleClick(book?.isbn)}>
 							{book?.title}
 						</Text>
 						<Text size="14" color="var(--gray-500)">

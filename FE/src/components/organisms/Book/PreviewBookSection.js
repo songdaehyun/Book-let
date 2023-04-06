@@ -10,10 +10,6 @@ import PreviewSwiperBook from "../../molecules/Book/PreviewSwiperBook";
 import Empty from "../../molecules/Empty";
 
 function PreviewBookSection({ title, type, errTitle, books, path, emptyInfo, loading, error }) {
-	const isArrEmpty = useArr();
-
-	console.log(books)
-
 	return (
 		<Container marginTop="40" marginBottom="48">
 			{loading && (

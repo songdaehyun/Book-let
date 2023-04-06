@@ -10,15 +10,4 @@ const api = axios.create({
 	},
 });
 
-// api.interceptors.request.use(function (config) {
-// 	const ACCESS_TOKEN = localStorage.getItem("AccessToken");
-// 	if (!ACCESS_TOKEN) {
-// 		window.location.href = "/login";
-// 	}
-
-// 	config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
-
-// 	return config;
-// });
-
 export default api;
