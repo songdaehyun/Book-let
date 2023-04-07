@@ -312,75 +312,75 @@ recommend-service
 <hr>
 
 ### 로그아웃/로그인
-<img src="./imgs/01.LogoutLogin.gif">
+<img src="./imgs/01.NewLogoutLogin.gif">
 
 ### 회원가입
-<img src="./imgs/02.SIgnup1.gif">
-<img src="./imgs/02.SIgnup2.gif">
-<img src="./imgs/02.SIgnup3.gif">
+<img src="./imgs/02.NewSIgnup1.gif">
+<img src="./imgs/02.NewSIgnup2.gif">
+<img src="./imgs/02.NewSIgnup3.gif">
 
 ### 피드 페이지
-<img src="./imgs/03.Feed04.gif">
+<img src="./imgs/03.NewFeed04.gif">
 
 - 문장쓰기
-<img src="./imgs/03.Feed02.gif">
+<img src="./imgs/03.NewFeed02.gif">
 
 - 내 문장
-<img src="./imgs/03.Feed01.gif">
+<img src="./imgs/03.NewFeed01.gif">
 
 - 댓글/대댓글
-<img src="./imgs/03.Feed03.gif">
+<img src="./imgs/03.NewFeed03.gif">
 
 - 도서 디테일
-<img src="./imgs/03.Feed05.gif">
+<img src="./imgs/03.NewFeed05.gif">
 
 - **탐색문장**
-<img src="./imgs/03.FeedRecomPage.gif">
+<img src="./imgs/03.NewFeedRecomPage.gif">
 
 - 문장추천
 <img src="./imgs/03.FeedSentenceRecom.gif">
 
 - 팔로우
-<img src="./imgs/03.Feedfollow.gif">
+<img src="./imgs/03.NewFeedfollow.gif">
 
 - 스크랩
-<img src="./imgs/03.FeedScrap.gif">
+<img src="./imgs/03.NewFeedScrap.gif">
 
 ### 도서 페이지
-<img src="./imgs/03.Book.gif">
+<img src="./imgs/03.NewBook.gif">
 
 - 유저 정보 기반 추천
 <img src="./imgs/03.FeedUser.gif">
 
 - 좋아요, 평점
-<img src="./imgs/03.FeedReview.gif">
+<img src="./imgs/03.NewFeedReview.gif">
 
-- 저자의 다른 책<img src="./imgs/03.FeedOtherBook.gif">
+- 저자의 다른 책<img src="./imgs/03.NewFeedOtherBook.gif">
 
 - 장르 추천
 <img src="./imgs/04.bookRecomGern.gif">
 
 - 좋아요 추천
-<img src="./imgs/04.bookRecomLike.gif">
+<img src="./imgs/04.NewbookRecomLike.gif">
 
 - 평점기반 추천
 <img src="./imgs/04.bookRecomScore.gif">
 
 - 표지기반 추천
-<img src="./imgs/04.BookIMGRECOM.gif">
+<img src="./imgs/04.NewBookIMGRECOM.gif">
 
 
 ### 마이 페이지
-<img src="./imgs/05.MyPage.gif">
+<img src="./imgs/05.NewMyPage.gif">
 
 - 팔로우
-<img src="./imgs/05.MyFollow.gif">
+<img src="./imgs/05.NewMyFollow.gif">
 
 - 내가쓴 리뷰
-<img src="./imgs/05.MyReview.gif">
+<img src="./imgs/05.NewMyReview.gif">
 
 - 좋아하는 도서
-<img src="./imgs/05.MyLike.gif">
+<img src="./imgs/05.NewMyLike.gif">
 
 - 회원 정보 수정
-<img src="./imgs/05.MyUpdateUser.gif">
+<img src="./imgs/05.NewMyUpdateUser.gif">
