@@ -312,7 +312,7 @@ recommend-service
 <hr>
 
 ### 로그아웃/로그인
-<img src="./imgs/01.NewLogoutLogin.gif"{: width="100" height="100"}>
+<img src="./imgs/01.NewLogoutLogin.gif">{: width="100" height="100"}
 
 ### 회원가입
 <img src="./imgs/02.NewSIgnup1.gif">
