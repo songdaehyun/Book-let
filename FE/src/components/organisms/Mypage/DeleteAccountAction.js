@@ -19,8 +19,6 @@ function DeleteAccountAction(props) {
 		if (isChecked) {
 			(async () => {
 				await deleteMyAccount().then((res) => {
-					console.log(res);
-
 					if (res.status === 201) {
 						// 로그인 토큰 삭제 후
 						navigate("/login");

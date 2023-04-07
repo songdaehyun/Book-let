@@ -25,6 +25,7 @@ export const SentenceTextareaBox = styled.div`
 		border: none;
 		resize: none;
 		outline: none;
+		line-height: 28px;
 
 		background-color: transparent;
 

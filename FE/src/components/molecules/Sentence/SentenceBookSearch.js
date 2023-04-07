@@ -38,17 +38,10 @@ function SentenceBookSearch({ selectedBook, setSelectedBook }) {
 				.then(initBookSearch)
 				.then((res) => setSearchBooks(res?.contents));
 		})();
-
-		// 더미
-		// setSearchBooks([
-		// 	{ bId: 1, title: "제목1", author: "나1" },
-		// 	{ bId: 2, title: "제목2", author: "나2" },
-		// ]);
 	};
 
 	const handleChangeSearchWord = (e) => {
 		setSearchWord(e.target.value);
-
 		searchApiCall(e.target.value);
 	};
 

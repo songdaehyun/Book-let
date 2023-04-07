@@ -119,10 +119,6 @@ const JoinBasicForm = forwardRef(({ type, curInfo }, ref) => {
 			})();
 		}
 
-		// if (true) {
-		// 	setNicknameDuplicationValid("success");
-		// }
-
 		return isValidConfirm;
 	};
 
@@ -152,10 +148,6 @@ const JoinBasicForm = forwardRef(({ type, curInfo }, ref) => {
 					});
 			})();
 		}
-
-		// if (true) {
-		// 	setEmailDuplicationValid("success");
-		// }
 
 		return isValidConfirm;
 	};

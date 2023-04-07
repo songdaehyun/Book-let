@@ -8,53 +8,7 @@ import BannerImg from "../../../assets/images/Banner/like-recom-book-banner.png"
 import useAsync from "../../../hooks/useAsync";
 
 function LikeRecomBook(props) {
-	// const books = {
-	// 	recommendType: "like",
-	// 	recommend: [
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117317122/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 		{
-	// 			bookImgPath: "http://image.yes24.com/goods/117327161/FRONT/XL",
-	// 			bookTitle: "별의 커비 디스커버리 2",
-	// 			authorName: "가리노 타우",
-	// 			bookIsbn: 9791164798957,
-	// 		},
-	// 	],
-	// };
-
 	const uName = localStorage.getItem("userName");
-
-	// const [recom, setRecom] = useState();
-
-	// useEffect(() => {
-	// 	(async () => {
-	// 		await getLikeBookRecom(uName)
-	// 			.then(initBookRecomOther)
-	// 			.then((res) => setRecom(res));
-	// 	})();
-	// }, []);
 
 	const [likeState] = useAsync(getLikeBookRecom, uName, initBookRecom, []);
 	const { loading, data: recom, error } = likeState;

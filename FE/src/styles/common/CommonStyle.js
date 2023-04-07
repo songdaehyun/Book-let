@@ -92,7 +92,7 @@ export const CommentBox = styled.div`
 	}
 
 	> div:nth-child(2) {
-		width: 100%;
+		flex: 1;
 	}
 `;
 

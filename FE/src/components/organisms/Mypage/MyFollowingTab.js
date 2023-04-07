@@ -6,24 +6,6 @@ import Empty from "../../molecules/Empty";
 import MyFollowList from "./MyFollowList";
 
 function MyFollowingTab(users) {
-	// const users = [
-	// {
-	// 	userId: 1,
-	// 	nickname: "지희",
-	// 	userImage: "https://avatars.githubusercontent.com/u/51085309?v=4",
-	// },
-	// {
-	// 	userId: 2,
-	// 	nickname: "지희",
-	// 	userImage: "https://avatars.githubusercontent.com/u/51085309?v=4",
-	// },
-	// {
-	// 	userId: 3,
-	// 	nickname: "지희",
-	// 	userImage: "https://avatars.githubusercontent.com/u/51085309?v=4",
-	// },
-	// ];
-
 	const isArrEmpty = useArr();
 
 	const emptyInfo = {
