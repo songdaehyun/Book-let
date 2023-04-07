@@ -312,75 +312,98 @@ recommend-service
 <hr>
 
 ### 로그아웃/로그인
-<img src="./imgs/01.NewLogoutLogin.gif">
+<img src="./imgs/01.NewLogoutLogin.gif" weight="432" height="768">
 
 ### 회원가입
-<img src="./imgs/02.NewSIgnup1.gif">
-<img src="./imgs/02.NewSIgnup2.gif">
-<img src="./imgs/02.NewSIgnup3.gif">
+<img src="./imgs/02.NewSIgnup1.gif" weight="432" height="768">
+<img src="./imgs/02.NewSIgnup2.gif" weight="432" height="768">
+<img src="./imgs/02.NewSIgnup3.gif" weight="432" height="768">
 
 ### 피드 페이지
-<img src="./imgs/03.NewFeed04.gif">
+
+<img src="./imgs/03.NewFeed04.gif" weight="432" height="768">
 
 - 문장쓰기
-<img src="./imgs/03.NewFeed02.gif">
+
+<img src="./imgs/03.NewFeed02.gif" weight="432" height="768">
 
 - 내 문장
-<img src="./imgs/03.NewFeed01.gif">
+
+<img src="./imgs/03.NewFeed01.gif" weight="432" height="768">
 
 - 댓글/대댓글
-<img src="./imgs/03.NewFeed03.gif">
+
+<img src="./imgs/03.NewFeed03.gif" weight="432" height="768">
 
 - 도서 디테일
-<img src="./imgs/03.NewFeed05.gif">
+
+<img src="./imgs/03.NewFeed05.gif" weight="432" height="768">
 
 - **탐색문장**
-<img src="./imgs/03.NewFeedRecomPage.gif">
+
+<img src="./imgs/03.NewFeedRecomPage.gif" weight="432" height="768">
 
 - 문장추천
-<img src="./imgs/03.FeedSentenceRecom.gif">
+
+<img src="./imgs/03.FeedSentenceRecom.gif" weight="432" height="768">
 
 - 팔로우
-<img src="./imgs/03.NewFeedfollow.gif">
+
+<img src="./imgs/03.NewFeedfollow.gif" weight="432" height="768">
 
 - 스크랩
-<img src="./imgs/03.NewFeedScrap.gif">
+
+<img src="./imgs/03.NewFeedScrap.gif"  weight="432" height="768">
 
 ### 도서 페이지
-<img src="./imgs/03.NewBook.gif">
+
+<img src="./imgs/03.NewBook.gif"  weight="432" height="768">
 
 - 유저 정보 기반 추천
-<img src="./imgs/03.FeedUser.gif">
+
+<img src="./imgs/03.FeedUser.gif"  weight="432" height="768">
 
 - 좋아요, 평점
-<img src="./imgs/03.NewFeedReview.gif">
 
-- 저자의 다른 책<img src="./imgs/03.NewFeedOtherBook.gif">
+<img src="./imgs/03.NewFeedReview.gif" weight="432" height="768">
+
+- 저자의 다른 책
+
+<img src="./imgs/03.NewFeedOtherBook.gif" weight="432" height="768">
 
 - 장르 추천
-<img src="./imgs/04.bookRecomGern.gif">
+
+<img src="./imgs/04.bookRecomGern.gif" weight="432" height="768">
 
 - 좋아요 추천
-<img src="./imgs/04.NewbookRecomLike.gif">
+
+<img src="./imgs/04.NewbookRecomLike.gif" weight="432" height="768">
 
 - 평점기반 추천
-<img src="./imgs/04.bookRecomScore.gif">
+
+<img src="./imgs/04.bookRecomScore.gif" weight="432" height="768">
 
 - 표지기반 추천
-<img src="./imgs/04.NewBookIMGRECOM.gif">
+
+<img src="./imgs/04.NewBookIMGRECOM.gif" weight="432" height="768">
 
 
 ### 마이 페이지
-<img src="./imgs/05.NewMyPage.gif">
+
+<img src="./imgs/05.NewMyPage.gif" weight="432" height="768">
 
 - 팔로우
-<img src="./imgs/05.NewMyFollow.gif">
+
+<img src="./imgs/05.NewMyFollow.gif" weight="432" height="768">
 
 - 내가쓴 리뷰
-<img src="./imgs/05.NewMyReview.gif">
+
+<img src="./imgs/05.NewMyReview.gif" weight="432" height="768">
 
 - 좋아하는 도서
-<img src="./imgs/05.NewMyLike.gif">
+
+<img src="./imgs/05.NewMyLike.gif" weight="432" height="768">
 
 - 회원 정보 수정
-<img src="./imgs/05.NewMyUpdateUser.gif">
+
+<img src="./imgs/05.NewMyUpdateUser.gif" weight="432" height="768">
