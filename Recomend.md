@@ -32,12 +32,12 @@ KNN 알고리즘은 데이터 간 거리를 기반으로 가장 가까운 이웃
 - 아래와 같은 모양의 데이터가 필요합니다.
 - 유저가 아이템에 몇점을 주었는지 알 수 있는 데이터 입니다.
 
-![예시데이터](readme_image/movielens-head.png)
+![예시데이터](imgs/movielens-head.png)
 
 - 위와 같은 데이터를 기반으로 다음과 같은 행렬을 만들 수 있습니다.
 - u는 유저, i는 아이템, 숫자는 유저가 아이템에 매긴 점수입니다.
 
-![예시행렬](readme_image/rating-matrix.png)
+![예시행렬](imgs/rating-matrix.png)
 
 - 행렬이 만들어지면 유저사이의 유사도를 계산할 수 있습니다.
 - u1의 점수 기록은 (5, 0, 4, 1, 0), u2의 점수기록은 (0, 3, 0, 3, 0)
@@ -50,7 +50,7 @@ KNN 알고리즘은 데이터 간 거리를 기반으로 가장 가까운 이웃
 
 ### 크롤링으로 수집한 데이터
 
-![평점데이터](readme_image/df_star.png)
+![평점데이터](imgs/df_star.png)
 
 - 수집한 데이터를 기반으로 새로운 유저가 들어와서 리뷰활동을 하면 추천을 하고 있습니다.
 - 구체적인 계산은 scikit-learn surprise라이브러리를 사용했습니다.
@@ -123,7 +123,7 @@ TF-IDF란 특정 문서에서 특정 단어의 중요도를 측정하는 방식�
 
 ### 도서의 description 데이터
 
-![줄거리데이터](readme_image/df_book.png)
+![줄거리데이터](imgs/df_book.png)
 
 - 위와 같은 데이터를 가지고 구체적인 계산은 scikit-learn 라이브러리를 사용했습니다.
 
@@ -132,17 +132,17 @@ TF-IDF란 특정 문서에서 특정 단어의 중요도를 측정하는 방식�
 - 알라딘 API
 - 책의 상세정보들
 
-![알라딘](readme_image/aladin.PNG)
+![알라딘](imgs/aladin.PNG)
 
 - 왓챠피디아 크롤링
 - 유저들이 평가한 별점 정보
 
-![왓챠](readme_image/watcha.PNG)
+![왓챠](imgs/watcha.PNG)
 
 - 도서관 정보나루
 - 나이,성별에 따른 인기대출 도서 정보
 
-![도서관정보나루](readme_image/library.png)
+![도서관정보나루](imgs/library.png)
 
 ## 콘텐츠 기반 추천 결과
 
@@ -152,7 +152,7 @@ TF-IDF란 특정 문서에서 특정 단어의 중요도를 측정하는 방식�
 content('데미안')
 ```
 
-![png](readme_image/output_40_0.png)
+![png](imgs/output_40_0.png)
 
 ### '돈의 심리학' 입력 결과
 
@@ -160,7 +160,7 @@ content('데미안')
 content('돈의 심리학')
 ```
 
-![png](readme_image/output_42_0.png)
+![png](imgs/output_42_0.png)
 
 ### '7년의 밤' 입력 결과
 
@@ -168,7 +168,7 @@ content('돈의 심리학')
 content('7년의 밤')
 ```
 
-![png](readme_image/output_44_0.png)
+![png](imgs/output_44_0.png)
 
 ### '사피엔스' 입력 결과
 
@@ -176,7 +176,7 @@ content('7년의 밤')
 content('사피엔스')
 ```
 
-![png](readme_image/output_46_0.png)
+![png](imgs/output_46_0.png)
 
 ## 협업 필터링 추천 결과물
 
@@ -189,7 +189,7 @@ KNN('흰둥이')
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
-![png](readme_image/output_49_1.png)
+![png](imgs/output_49_1.png)
 
 ### 유저 '희연희'
 
@@ -200,7 +200,7 @@ KNN('희연희')
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
-![png](readme_image/output_51_1.png)
+![png](imgs/output_51_1.png)
 
 ### 유저 '김승준'
 
@@ -211,7 +211,7 @@ KNN('김승준')
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
-![png](readme_image/output_53_1.png)
+![png](imgs/output_53_1.png)
 
 ### 유저 '똥멍청이'
 
@@ -222,7 +222,7 @@ KNN('똥멍청이')
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
-![png](readme_image/output_55_1.png)
+![png](imgs/output_55_1.png)
 
 ### 유저 '샌샌'
 
@@ -233,7 +233,7 @@ KNN('샌샌')
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
-![png](readme_image/output_57_1.png)
+![png](imgs/output_57_1.png)
 
 ### 유저 '레몬메론'
 
@@ -244,7 +244,7 @@ KNN('레몬메론')
     Computing the cosine similarity matrix...
     Done computing similarity matrix.
 
-![png](readme_image/output_59_1.png)
+![png](imgs/output_59_1.png)
 
 ```python
 
